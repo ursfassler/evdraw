@@ -1,0 +1,11 @@
+test/core/EndpointTest.hpp
+test/core/EndpointTest.cpp
+Makefile
+test/main.cpp
+core/Endpoint.hpp
+core/Endpoint.cpp
+core/types.hpp
+test/core/SegmentTest.hpp
+test/core/SegmentTest.cpp
+core/Segment.hpp
+core/Segment.cpp
