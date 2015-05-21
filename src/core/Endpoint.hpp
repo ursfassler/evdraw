@@ -2,6 +2,7 @@
 #define ENDPOINT_HPP
 
 #include <list>
+#include <ostream>
 
 #include "types.hpp"
 
@@ -34,6 +35,11 @@ class Endpoint
     void addListener(EndpointListener *listener);
     void removeListener(EndpointListener *listener);
 
+    bool operator==(const Endpoint &other) const
+    {
+      return (x == other.x) && (y == other.y);
+    }
+
   private:
     PaperUnit   x;
     PaperUnit   y;
@@ -43,6 +49,8 @@ class Endpoint
     void notifyYchange();
 
 };
+
+std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);
 
 class PortPoint : public Endpoint
 {
@@ -59,5 +67,6 @@ class IntermediatePoint : public Endpoint
     bool freeMovable() const;
 
 };
+
 
 #endif

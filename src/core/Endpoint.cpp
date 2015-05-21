@@ -66,6 +66,12 @@ void Endpoint::notifyYchange()
   }
 }
 
+std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint)
+{
+  stream << "(" << endpoint.getX() << "," << endpoint.getY() << ")";
+  return stream;
+}
+
 
 PortPoint::PortPoint(PaperUnit aX, PaperUnit aY) :
   Endpoint(aX, aY)

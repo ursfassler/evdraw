@@ -9,3 +9,13 @@ test/core/SegmentTest.hpp
 test/core/SegmentTest.cpp
 core/Segment.hpp
 core/Segment.cpp
+test/core/InstancePortTest.hpp
+test/core/InstancePortTest.cpp
+core/InstancePort.hpp
+core/InstancePort.cpp
+test/core/ConnectionTest.hpp
+test/core/ConnectionTest.cpp
+core/Connection.hpp
+core/Connection.cpp
+core/ConnectionFactory.hpp
+core/ConnectionFactory.cpp
