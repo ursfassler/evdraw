@@ -2,11 +2,24 @@
 
 #include <stdexcept>
 #include <iterator>
+#include <assert.h>
+
+Connection *ConnectionFactory::create(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY)
+{
+  std::vector<PaperUnit> path;
+  path.push_back(startX);
+  path.push_back(startY);
+  path.push_back((startX+endX) / 2);
+  path.push_back(endY);
+  path.push_back(endX);
+
+  return create(path);
+}
 
 Connection *ConnectionFactory::create(const std::vector<PaperUnit> &path)
 {
-  if( path.size() < 3 ) {
-    throw std::invalid_argument("need at least 3 elements in path");
+  if( path.size() < 5 ) {
+    throw std::invalid_argument("need at least 5 elements in path");
   }
   if( (path.size() % 2) != 1 ) {
     throw std::invalid_argument("need an uneven number of elements in path");
@@ -14,13 +27,13 @@ Connection *ConnectionFactory::create(const std::vector<PaperUnit> &path)
 
   Connection *con = new Connection();
 
-  std::vector<Endpoint *> endpoints = addPoints(con, path);
-  addSegments(con, endpoints);
+  addPoints(con, path);
+  addSegments(con);
 
   return con;
 }
 
-std::vector<Endpoint *> ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> &path)
+void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> &path)
 {
   const size_t LAST_IDX = path.size()-1;
 
@@ -29,45 +42,32 @@ std::vector<Endpoint *> ConnectionFactory::addPoints(Connection *con, const std:
   con->end.setX(path[LAST_IDX]);
   con->end.setY(path[LAST_IDX-1]);
 
-  for (size_t x = 2; x < path.size()-2; x += 2) {
-    const size_t y = x - 1;
-    const PaperUnit xPos = path[x];
-    const PaperUnit yPos = path[y];
-    con->intermediatePoints.emplace_back(xPos, yPos);
-  }
+  for (size_t i = 1; i < path.size()-2; i += 2) {
+    const PaperUnit x1 = path[i+1];
+    const PaperUnit y1 = path[i];
+    const PaperUnit x2 = x1;
+    const PaperUnit y2 = path[i+2];
 
-  return getAllEndpoints(con);
+    con->intermediatePoints.emplace_back(x1, y1);
+    con->intermediatePoints.emplace_back(x2, y2);
+  }
 }
 
-void ConnectionFactory::addSegments(Connection *con, const std::vector<Endpoint *> &endpoints)
+void ConnectionFactory::addSegments(Connection *con)
 {
-  std::vector<Endpoint *>::const_iterator start = endpoints.begin();
-  std::vector<Endpoint *>::const_iterator end = start+1;
+  assert(con->intermediatePoints.size() >= 2);
 
-  con->horizontalSegments.emplace_back(*start, *end);
+  con->horizontalSegments.emplace_back(con->start, con->intermediatePoints.front());
 
-  start++;
-  end++;
-
-  while (end != endpoints.end()) {
-    con->verticalSegments.emplace_back(*start, *end);
-    start++;
-    end++;
-    con->horizontalSegments.emplace_back(*start, *end);
-    start++;
-    end++;
+  con->verticalSegments.emplace_back(con->intermediatePoints[0], con->intermediatePoints[1]);
+  for (size_t i = 1; i < con->intermediatePoints.size()-1; i += 2) {
+    IntermediatePoint &start  = con->intermediatePoints[i];
+    IntermediatePoint &middle = con->intermediatePoints[i+1];
+    IntermediatePoint &end    = con->intermediatePoints[i+2];
+    con->horizontalSegments.emplace_back(start, middle);
+    con->verticalSegments.emplace_back(middle, end);
   }
+
+  con->horizontalSegments.emplace_back(con->intermediatePoints.back(), con->end);
 }
 
-std::vector<Endpoint *> ConnectionFactory::getAllEndpoints(Connection *con)
-{
-  std::vector<Endpoint *> result;
-
-  result.push_back(&con->start);
-  for (IntermediatePoint &itr : con->intermediatePoints) {
-    result.push_back(&itr);
-  }
-  result.push_back(&con->end);
-
-  return result;
-}

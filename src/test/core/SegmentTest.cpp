@@ -2,19 +2,21 @@
 
 void SegmentTest::createSegment()
 {
-  PortPoint start(0, 0);
-  PortPoint end(0, 0);
-  Segment segment(&start, &end);
+  PortPoint start(1, 2);
+  PortPoint end(3, 4);
+  Segment segment(start, end);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&start), segment.getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&end), segment.getEnd());
+  CPPUNIT_ASSERT_EQUAL(1, segment.getStart().getX());
+  CPPUNIT_ASSERT_EQUAL(2, segment.getStart().getY());
+  CPPUNIT_ASSERT_EQUAL(3, segment.getEnd().getX());
+  CPPUNIT_ASSERT_EQUAL(4, segment.getEnd().getY());
 }
 
 void SegmentTest::checkFixedFixed()
 {
   PortPoint start(0, 0);
   PortPoint end(0, 0);
-  Segment segment(&start, &end);
+  Segment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
 }
@@ -23,7 +25,7 @@ void SegmentTest::checkFixedMovable()
 {
   PortPoint start(0, 0);
   IntermediatePoint end(0, 0);
-  Segment segment(&start, &end);
+  Segment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
 }
@@ -32,7 +34,7 @@ void SegmentTest::checkMovableFixed()
 {
   IntermediatePoint start(0, 0);
   PortPoint end(0, 0);
-  Segment segment(&start, &end);
+  Segment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
 }
@@ -41,7 +43,7 @@ void SegmentTest::checkMovableMovable()
 {
   IntermediatePoint start(0, 0);
   IntermediatePoint end(0, 0);
-  Segment segment(&start, &end);
+  Segment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(true, segment.moveable());
 }
@@ -49,19 +51,21 @@ void SegmentTest::checkMovableMovable()
 
 void HorizontalSegmentTest::createSegment()
 {
-  PortPoint start(0, 0);
-  PortPoint end(0, 0);
-  HorizontalSegment segment(&start, &end);
+  PortPoint start(1, 2);
+  PortPoint end(3, 4);
+  HorizontalSegment segment(start, end);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&start), segment.getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&end), segment.getEnd());
+  CPPUNIT_ASSERT_EQUAL(1, segment.getStart().getX());
+  CPPUNIT_ASSERT_EQUAL(2, segment.getStart().getY());
+  CPPUNIT_ASSERT_EQUAL(3, segment.getEnd().getX());
+  CPPUNIT_ASSERT_EQUAL(4, segment.getEnd().getY());
 }
 
 void HorizontalSegmentTest::getY0()
 {
   IntermediatePoint start(0, 0);
   IntermediatePoint end(0, 0);
-  HorizontalSegment segment(&start, &end);
+  HorizontalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(0, segment.getY());
 }
@@ -71,7 +75,7 @@ void HorizontalSegmentTest::getY42()
   IntermediatePoint start(0, 42);
   IntermediatePoint end(0, 42);
 
-  HorizontalSegment segment(&start, &end);
+  HorizontalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(42, segment.getY());
 }
@@ -81,7 +85,7 @@ void HorizontalSegmentTest::getY_23_42()
   IntermediatePoint start(0, 23);
   IntermediatePoint end(0, 42);
 
-  HorizontalSegment segment(&start, &end);
+  HorizontalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(23, segment.getY());
 }
@@ -91,7 +95,7 @@ void HorizontalSegmentTest::moveZero()
   IntermediatePoint start(-10, 0);
   IntermediatePoint end(10, 0);
 
-  HorizontalSegment segment(&start, &end);
+  HorizontalSegment segment(start, end);
 
   segment.moveToY(0);
 
@@ -106,7 +110,7 @@ void HorizontalSegmentTest::move42()
   IntermediatePoint start(-10, 0);
   IntermediatePoint end(10, 0);
 
-  HorizontalSegment segment(&start, &end);
+  HorizontalSegment segment(start, end);
 
   segment.moveToY(42);
 
@@ -120,19 +124,21 @@ void HorizontalSegmentTest::move42()
 
 void VerticalSegmentTest::createSegment()
 {
-  PortPoint start(0, 0);
-  PortPoint end(0, 0);
-  VerticalSegment segment(&start, &end);
+  PortPoint start(1, 2);
+  PortPoint end(3, 4);
+  VerticalSegment segment(start, end);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&start), segment.getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&end), segment.getEnd());
+  CPPUNIT_ASSERT_EQUAL(1, segment.getStart().getX());
+  CPPUNIT_ASSERT_EQUAL(2, segment.getStart().getY());
+  CPPUNIT_ASSERT_EQUAL(3, segment.getEnd().getX());
+  CPPUNIT_ASSERT_EQUAL(4, segment.getEnd().getY());
 }
 
 void VerticalSegmentTest::getX0()
 {
   IntermediatePoint start(0, 0);
   IntermediatePoint end(0, 0);
-  VerticalSegment segment(&start, &end);
+  VerticalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(0, segment.getX());
 }
@@ -142,7 +148,7 @@ void VerticalSegmentTest::getX42()
   IntermediatePoint start(42, 0);
   IntermediatePoint end(42, 0);
 
-  VerticalSegment segment(&start, &end);
+  VerticalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(42, segment.getX());
 }
@@ -152,7 +158,7 @@ void VerticalSegmentTest::getX_23_42()
   IntermediatePoint start(23, 0);
   IntermediatePoint end(42, 0);
 
-  VerticalSegment segment(&start, &end);
+  VerticalSegment segment(start, end);
 
   CPPUNIT_ASSERT_EQUAL(23, segment.getX());
 }
@@ -162,7 +168,7 @@ void VerticalSegmentTest::moveZero()
   IntermediatePoint start(0, -10);
   IntermediatePoint end(0, 10);
 
-  VerticalSegment segment(&start, &end);
+  VerticalSegment segment(start, end);
 
   segment.moveToX(0);
 
@@ -177,7 +183,7 @@ void VerticalSegmentTest::move42()
   IntermediatePoint start(0, -10);
   IntermediatePoint end(0, 10);
 
-  VerticalSegment segment(&start, &end);
+  VerticalSegment segment(start, end);
 
   segment.moveToX(42);
 
@@ -291,8 +297,8 @@ MultiSegment::MultiSegment(PaperUnit x0, PaperUnit y0, PaperUnit xm, PaperUnit y
   m1(xm, y0),
   m2(xm, y1),
   m3(x1, y1),
-  s0(&m0, &m1),
-  s1(&m1, &m2),
-  s2(&m2, &m3)
+  s0(m0, m1),
+  s1(m1, m2),
+  s2(m2, m3)
 {
 }

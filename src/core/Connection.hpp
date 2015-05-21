@@ -11,6 +11,7 @@ class Connection final
 {
   public:
     Connection();
+    ~Connection();
 
     const PortPoint &getStart() const;
     const PortPoint &getEnd() const;
@@ -22,10 +23,10 @@ class Connection final
   private:
     PortPoint  start;
     PortPoint  end;
+    std::vector<IntermediatePoint> intermediatePoints;
 
     std::vector<HorizontalSegment> horizontalSegments;
     std::vector<VerticalSegment>   verticalSegments;
-    std::vector<IntermediatePoint> intermediatePoints;
 
     friend ConnectionFactory;
 };

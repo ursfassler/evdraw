@@ -6,24 +6,24 @@
 class Segment : private EndpointListener
 {
   public:
-    Segment(Endpoint *aStart, Endpoint *aEnd);
+    Segment(Endpoint &aStart, Endpoint &aEnd);
     virtual ~Segment();
 
-    Endpoint *getStart() const;
-    Endpoint *getEnd() const;
+    const Endpoint &getStart() const;
+    const Endpoint &getEnd() const;
 
     bool moveable() const;
 
-  private:
-    Endpoint  * const start;
-    Endpoint  * const end;
+  protected:
+    Endpoint  &start;
+    Endpoint  &end;
 
 };
 
 class HorizontalSegment : public Segment
 {
   public:
-    HorizontalSegment(Endpoint *aStart, Endpoint *aEnd);
+    HorizontalSegment(Endpoint &aStart, Endpoint &aEnd);
 
     PaperUnit getY() const;
     void moveToY(PaperUnit value);
@@ -35,7 +35,7 @@ class HorizontalSegment : public Segment
 class VerticalSegment : public Segment
 {
   public:
-    VerticalSegment(Endpoint *aStart, Endpoint *aEnd);
+    VerticalSegment(Endpoint &aStart, Endpoint &aEnd);
 
     PaperUnit getX() const;
     void moveToX(PaperUnit value);

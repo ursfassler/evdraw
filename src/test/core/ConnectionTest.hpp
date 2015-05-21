@@ -10,9 +10,10 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( ConnectionTest );
 
     CPPUNIT_TEST(createEmptyConnection);
-    CPPUNIT_TEST(createConnection);
     CPPUNIT_TEST(createInvalidConnection);
-    CPPUNIT_TEST(segmentsForSimpleConnection);
+    CPPUNIT_TEST(createConnection);
+    CPPUNIT_TEST(createDiagonalConnection);
+    CPPUNIT_TEST(createPathConnection);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -20,7 +21,8 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     void createEmptyConnection();
     void createInvalidConnection();
     void createConnection();
-    void segmentsForSimpleConnection();
+    void createDiagonalConnection();
+    void createPathConnection();
 
 };
 

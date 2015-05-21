@@ -6,6 +6,13 @@ Connection::Connection() :
 {
 }
 
+Connection::~Connection()
+{
+  horizontalSegments.clear();
+  verticalSegments.clear();
+  intermediatePoints.clear();
+}
+
 const PortPoint &Connection::getStart() const
 {
     return start;
