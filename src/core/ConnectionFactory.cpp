@@ -4,7 +4,7 @@
 #include <iterator>
 #include <assert.h>
 
-Connection *ConnectionFactory::create(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY)
+Connection *ConnectionFactory::produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY)
 {
   std::vector<PaperUnit> path;
   path.push_back(startX);
@@ -13,10 +13,10 @@ Connection *ConnectionFactory::create(PaperUnit startX, PaperUnit startY, PaperU
   path.push_back(endY);
   path.push_back(endX);
 
-  return create(path);
+  return produce(path);
 }
 
-Connection *ConnectionFactory::create(const std::vector<PaperUnit> &path)
+Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
 {
   if( path.size() < 5 ) {
     throw std::invalid_argument("need at least 5 elements in path");
@@ -30,7 +30,29 @@ Connection *ConnectionFactory::create(const std::vector<PaperUnit> &path)
   addPoints(con, path);
   addSegments(con);
 
+  con->checkInvariants();
+
   return con;
+}
+
+void ConnectionFactory::dispose(Connection *con)
+{
+  for (HorizontalSegment *seg : con->horizontalSegments) {
+    delete seg;
+  }
+  con->horizontalSegments.clear();
+
+  for (VerticalSegment *seg : con->verticalSegments) {
+    delete seg;
+  }
+  con->verticalSegments.clear();
+
+  for (IntermediatePoint *seg : con->intermediatePoints) {
+    delete seg;
+  }
+  con->intermediatePoints.clear();
+
+  delete con;
 }
 
 void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> &path)
@@ -48,8 +70,8 @@ void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> 
     const PaperUnit x2 = x1;
     const PaperUnit y2 = path[i+2];
 
-    con->intermediatePoints.emplace_back(x1, y1);
-    con->intermediatePoints.emplace_back(x2, y2);
+    con->intermediatePoints.push_back(new IntermediatePoint(x1, y1));
+    con->intermediatePoints.push_back(new IntermediatePoint(x2, y2));
   }
 }
 
@@ -57,17 +79,17 @@ void ConnectionFactory::addSegments(Connection *con)
 {
   assert(con->intermediatePoints.size() >= 2);
 
-  con->horizontalSegments.emplace_back(con->start, con->intermediatePoints.front());
+  con->horizontalSegments.push_back(new HorizontalSegment(&con->start, con->intermediatePoints.front()));
 
-  con->verticalSegments.emplace_back(con->intermediatePoints[0], con->intermediatePoints[1]);
+  con->verticalSegments.push_back(new VerticalSegment(con->intermediatePoints[0], con->intermediatePoints[1]));
   for (size_t i = 1; i < con->intermediatePoints.size()-1; i += 2) {
-    IntermediatePoint &start  = con->intermediatePoints[i];
-    IntermediatePoint &middle = con->intermediatePoints[i+1];
-    IntermediatePoint &end    = con->intermediatePoints[i+2];
-    con->horizontalSegments.emplace_back(start, middle);
-    con->verticalSegments.emplace_back(middle, end);
+    IntermediatePoint *start  = con->intermediatePoints[i];
+    IntermediatePoint *middle = con->intermediatePoints[i+1];
+    IntermediatePoint *end    = con->intermediatePoints[i+2];
+    con->horizontalSegments.push_back(new HorizontalSegment(start, middle));
+    con->verticalSegments.push_back(new VerticalSegment(middle, end));
   }
 
-  con->horizontalSegments.emplace_back(con->intermediatePoints.back(), con->end);
+  con->horizontalSegments.push_back(new HorizontalSegment(con->intermediatePoints.back(), &con->end));
 }
 

@@ -55,14 +55,14 @@ void Endpoint::removeListener(EndpointListener *listener)
 void Endpoint::notifyXchange()
 {
   for (EndpointListener *itr : listeners) {
-    itr->changeX(this, x);
+    itr->changeX(this);
   }
 }
 
 void Endpoint::notifyYchange()
 {
   for (EndpointListener *itr : listeners) {
-    itr->changeY(this, y);
+    itr->changeY(this);
   }
 }
 
@@ -99,10 +99,10 @@ EndpointListener::~EndpointListener()
 {
 }
 
-void EndpointListener::changeX(Endpoint *sender, PaperUnit value)
+void EndpointListener::changeX(Endpoint *)
 {
 }
 
-void EndpointListener::changeY(Endpoint *sender, PaperUnit value)
+void EndpointListener::changeY(Endpoint *)
 {
 }

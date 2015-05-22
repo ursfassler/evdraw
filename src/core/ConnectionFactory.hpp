@@ -6,8 +6,9 @@
 class ConnectionFactory
 {
   public:
-    static Connection *create(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY);
-    static Connection *create(const std::vector<PaperUnit> &path);
+    static Connection *produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY);
+    static Connection *produce(const std::vector<PaperUnit> &path);
+    static void dispose(Connection *connection);
 
   private:
     static void addPoints(Connection *con, const std::vector<PaperUnit> &path);

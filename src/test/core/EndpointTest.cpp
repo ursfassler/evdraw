@@ -50,21 +50,18 @@ void EndpointTest::setYpos()
 class Listener : public EndpointListener
 {
   public:
-    void changeX(Endpoint *sender, PaperUnit value)
+    void changeX(Endpoint *sender)
     {
-      ep = sender;
-      x = value;
+      lastChangeXSender = sender;
     }
 
-    void changeY(Endpoint *sender, PaperUnit value)
+    void changeY(Endpoint *sender)
     {
-      ep = sender;
-      y = value;
+      lastChangeYSender = sender;
     }
 
-    Endpoint *ep = nullptr;
-    PaperUnit x = 0;
-    PaperUnit y = 0;
+    Endpoint *lastChangeXSender = nullptr;
+    Endpoint *lastChangeYSender = nullptr;
 };
 
 void EndpointTest::addRemoveListener()
@@ -75,14 +72,30 @@ void EndpointTest::addRemoveListener()
   CPPUNIT_ASSERT_EQUAL(false, ep.hasListener());
   ep.addListener(&listener);
   CPPUNIT_ASSERT_EQUAL(true, ep.hasListener());
-  ep.setX(42);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&ep), listener.ep);
-  CPPUNIT_ASSERT_EQUAL(42, listener.x);
-  CPPUNIT_ASSERT_EQUAL(0, listener.y);
-  ep.setY(23);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&ep), listener.ep);
-  CPPUNIT_ASSERT_EQUAL(42, listener.x);
-  CPPUNIT_ASSERT_EQUAL(23, listener.y);
   ep.removeListener(&listener);
   CPPUNIT_ASSERT_EQUAL(false, ep.hasListener());
+}
+
+void EndpointTest::notifyListenerX()
+{
+  IntermediatePoint ep(0, 0);
+  Listener listener;
+
+  ep.addListener(&listener);
+
+  ep.setX(42);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&ep), listener.lastChangeXSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(nullptr), listener.lastChangeYSender);
+}
+
+void EndpointTest::notifyListenerY()
+{
+  IntermediatePoint ep(0, 0);
+  Listener listener;
+
+  ep.addListener(&listener);
+
+  ep.setY(42);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(nullptr), listener.lastChangeXSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&ep), listener.lastChangeYSender);
 }

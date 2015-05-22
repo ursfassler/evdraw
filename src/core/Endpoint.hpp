@@ -12,8 +12,8 @@ class EndpointListener
 {
   public:
     virtual ~EndpointListener();
-    virtual void changeX(Endpoint *sender, PaperUnit value);
-    virtual void changeY(Endpoint *sender, PaperUnit value);
+    virtual void changeX(Endpoint *sender);
+    virtual void changeY(Endpoint *sender);
 
 };
 

@@ -13,20 +13,22 @@ class Connection final
     Connection();
     ~Connection();
 
-    const PortPoint &getStart() const;
-    const PortPoint &getEnd() const;
+    PortPoint &getStart();
+    PortPoint &getEnd();
 
-    const std::vector<HorizontalSegment> getHorizontalSegment() const;
-    const std::vector<VerticalSegment> getVerticalSegment() const;
-    const std::vector<IntermediatePoint> &getIntermediatePoints() const;
+    const std::vector<HorizontalSegment *> getHorizontalSegment() const;
+    const std::vector<VerticalSegment *> getVerticalSegment() const;
+    const std::vector<IntermediatePoint *> &getIntermediatePoints() const;
 
   private:
     PortPoint  start;
     PortPoint  end;
-    std::vector<IntermediatePoint> intermediatePoints;
+    std::vector<IntermediatePoint *> intermediatePoints;
 
-    std::vector<HorizontalSegment> horizontalSegments;
-    std::vector<VerticalSegment>   verticalSegments;
+    std::vector<HorizontalSegment *> horizontalSegments;
+    std::vector<VerticalSegment *>   verticalSegments;
+
+    void checkInvariants() const;
 
     friend ConnectionFactory;
 };
