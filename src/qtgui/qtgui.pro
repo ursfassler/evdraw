@@ -25,7 +25,13 @@ SOURCES += main.cpp\
     ../core/Segment.cpp \
     graphicItems/GiSegment.cpp \
     graphicItems/convert.cpp \
-    graphicItems/GiInstancePort.cpp
+    graphicItems/GiInstancePort.cpp \
+    ../core/types.cpp \
+    ../core/Component.cpp \
+    ../core/ComponentPort.cpp \
+    ../core/Instance.cpp \
+    ../core/InstanceAppearance.cpp \
+    graphicItems/GiInstance.cpp
 
 HEADERS  += MainWindow.hpp \
     ../core/Connection.hpp \
@@ -36,4 +42,9 @@ HEADERS  += MainWindow.hpp \
     ../core/types.hpp \
     graphicItems/GiSegment.hpp \
     graphicItems/convert.hpp \
-    graphicItems/GiInstancePort.hpp
+    graphicItems/GiInstancePort.hpp \
+    ../core/Component.hpp \
+    ../core/ComponentPort.hpp \
+    ../core/Instance.hpp \
+    ../core/InstanceAppearance.hpp \
+    graphicItems/GiInstance.hpp

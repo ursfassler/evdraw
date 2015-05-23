@@ -27,5 +27,4 @@ class InstanceAppearance final
     PaperUnit portOffset(unsigned index) const;
 };
 
-
 #endif // INSTANCEAPPEARANCE_HPP

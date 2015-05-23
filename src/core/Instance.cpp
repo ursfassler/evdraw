@@ -1,6 +1,8 @@
 #include "Instance.hpp"
 
-Instance::Instance(Component *aComponent) :
+Instance::Instance(PaperUnit aX, PaperUnit aY, Component *aComponent) :
+  x(aX),
+  y(aY),
   component(aComponent)
 {
 }
@@ -8,5 +10,15 @@ Instance::Instance(Component *aComponent) :
 Component *Instance::getComponent() const
 {
   return component;
+}
+
+PaperUnit Instance::getX() const
+{
+    return x;
+}
+
+PaperUnit Instance::getY() const
+{
+  return y;
 }
 

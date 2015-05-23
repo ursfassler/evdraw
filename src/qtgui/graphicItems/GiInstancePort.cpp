@@ -6,7 +6,7 @@ GiInstancePort::GiInstancePort(InstancePort *model, QGraphicsItem *parent) :
   QGraphicsRectItem(parent)
 {
   PaperUnit xofs;
-  if (model->getConnectorSide() == InstancePort::ConnectorSide::Right) {
+  if (model->getConnectorSide() == ConnectorSide::Right) {
     xofs = - 2*model->getHeight();
   } else {
     xofs = 0;

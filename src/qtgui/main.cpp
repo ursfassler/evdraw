@@ -1,11 +1,15 @@
 #include "MainWindow.hpp"
 #include "graphicItems/GiSegment.hpp"
 #include "graphicItems/GiInstancePort.hpp"
+#include "graphicItems/GiInstance.hpp"
 #include "graphicItems/convert.hpp"
 
 #include <core/Connection.hpp>
 #include <core/ConnectionFactory.hpp>
 #include <core/InstancePort.hpp>
+#include <core/Component.hpp>
+#include <core/Instance.hpp>
+#include <core/InstanceAppearance.hpp>
 
 #include <QApplication>
 
@@ -41,9 +45,9 @@ int main(int argc, char *argv[])
 
   MainWindow w;
 
-  InstancePort *portA = new InstancePort(sceneToPu(-50), sceneToPu(0), InstancePort::ConnectorSide::Right);
-  InstancePort *portB = new InstancePort(sceneToPu(50), sceneToPu(0), InstancePort::ConnectorSide::Left);
-  InstancePort *portC = new InstancePort(sceneToPu(50), sceneToPu(-30), InstancePort::ConnectorSide::Left);
+  InstancePort *portA = new InstancePort(sceneToPu(-50), sceneToPu(0), ConnectorSide::Right);
+  InstancePort *portB = new InstancePort(sceneToPu(50), sceneToPu(0), ConnectorSide::Left);
+  InstancePort *portC = new InstancePort(sceneToPu(50), sceneToPu(-30), ConnectorSide::Left);
 
   const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con1 = ConnectionFactory::produce(line);
@@ -55,6 +59,12 @@ int main(int argc, char *argv[])
   portA->addConnection(con2);
   portC->addConnection(con2);
 
+  Component *compA = new Component();
+  Instance  *instA = new Instance(0, 0, compA);
+  InstanceAppearance *appA = new InstanceAppearance(compA);
+
+  GiInstance *giinstA = new GiInstance(instA, appA, 0);
+
   QGraphicsScene &scene = w.getScene();
 
   addConnectionToScene(con1, scene);
@@ -62,6 +72,7 @@ int main(int argc, char *argv[])
   addPortToScene(portA, scene);
   addPortToScene(portB, scene);
   addPortToScene(portC, scene);
+  scene.addItem(giinstA);
 
   w.show();
 
