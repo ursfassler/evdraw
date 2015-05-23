@@ -1,8 +1,8 @@
 #include "ConnectionTest.hpp"
 
-#include <core/Connection.hpp>
-#include <core/ConnectionFactory.hpp>
-#include <core/Segment.hpp>
+#include "Connection.hpp"
+#include "ConnectionFactory.hpp"
+#include "Segment.hpp"
 
 void ConnectionTest::createEmptyConnection()
 {

@@ -3,6 +3,7 @@
 
 #include <list>
 #include <functional>
+#include <cassert>
 
 template<typename Sender, typename Listener>
 class Observed
@@ -19,6 +20,7 @@ class Observed
 
     virtual ~Observed()
     {
+      assert(listeners.empty());
     }
 
     bool hasListener() const
@@ -28,15 +30,21 @@ class Observed
 
     void addListener(Listener *listener)
     {
+      assert(listener != nullptr);
+//      assert(listeners.find(listener) == listeners.end());
+
       listeners.push_back(listener);
     }
 
     void removeListener(Listener *listener)
     {
+      assert(listener != nullptr);
+//      assert(listeners.find(listener) != listeners.end());
+
       listeners.remove(listener);
     }
 
-  protected:
+  public:
 
     typedef void (Listener::*Notifier) (const Sender*);
 

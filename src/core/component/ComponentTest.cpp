@@ -1,7 +1,7 @@
 #include "ComponentTest.hpp"
 
-#include <core/Component.hpp>
-#include <core/ComponentPort.hpp>
+#include "Component.hpp"
+#include "ComponentPort.hpp"
 
 void ComponentTest::produce()
 {

@@ -4,8 +4,8 @@
 #include <list>
 #include <ostream>
 
-#include "types.hpp"
-#include "Observed.hpp"
+#include "../util/Observed.hpp"
+#include "../types.hpp"
 
 class Endpoint;
 
@@ -18,7 +18,7 @@ class EndpointListener
 
 };
 
-class Endpoint : public Observed<Endpoint, EndpointListener>
+class Endpoint
 {
   public:
     Endpoint(PaperUnit aX, PaperUnit aY);
@@ -37,7 +37,10 @@ class Endpoint : public Observed<Endpoint, EndpointListener>
       return (x == other.x) && (y == other.y);
     }
 
+    Observed<Endpoint, EndpointListener> listener;
+
   private:
+
     PaperUnit   x;
     PaperUnit   y;
 };

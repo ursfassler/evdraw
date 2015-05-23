@@ -1,8 +1,8 @@
 #include "InstanceTest.hpp"
 
-#include <core/Component.hpp>
-#include <core/Instance.hpp>
-#include <core/types.hpp>
+#include "../component/Component.hpp"
+#include "../types.hpp"
+#include "Instance.hpp"
 
 void InstanceTest::produce()
 {
@@ -23,7 +23,7 @@ void InstanceTest::setPosition()
   CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getPosition());
 }
 
-class Listener : public InstanceListener
+class EpListener : public InstanceListener
 {
   public:
     Instance const *lastSender = nullptr;
@@ -40,11 +40,12 @@ void InstanceTest::positionChanged()
   Component component;
   Instance  instance(Point(0, 0), &component);
 
-  Listener listener;
+  EpListener listener;
   instance.addListener(&listener);
 
   CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(nullptr), listener.lastSender);
   instance.setPosition(Point(57, 42));
   CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(&instance), listener.lastSender);
-}
 
+  instance.removeListener(&listener);
+}

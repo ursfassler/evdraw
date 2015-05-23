@@ -1,9 +1,8 @@
 #ifndef SEGMENTTEST_HPP
 #define SEGMENTTEST_HPP
 
-#include <core/Endpoint.hpp>
-#include <core/Endpoint.hpp>
-#include <core/Segment.hpp>
+#include "Endpoint.hpp"
+#include "Segment.hpp"
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

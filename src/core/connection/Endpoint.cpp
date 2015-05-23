@@ -1,7 +1,7 @@
 #include "Endpoint.hpp"
 
 Endpoint::Endpoint(PaperUnit aX, PaperUnit aY) :
-  Observed(this),
+  listener(this),
   x(aX),
   y(aY)
 {
@@ -20,7 +20,7 @@ void Endpoint::setX(PaperUnit value)
 {
   if (value != x) {
     x = value;
-    notifyListeners<&EndpointListener::changeX>();
+    listener.notifyListeners<&EndpointListener::changeX>();
   }
 }
 
@@ -33,7 +33,7 @@ void Endpoint::setY(PaperUnit value)
 {
   if (value != y) {
     y = value;
-    notifyListeners<&EndpointListener::changeY>();
+    listener.notifyListeners<&EndpointListener::changeY>();
   }
 }
 

@@ -2,3 +2,7 @@ core
 .
 test
 test/core
+core/util
+core/connection
+core/component
+core/instance

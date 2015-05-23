@@ -1,9 +1,9 @@
 #ifndef INSTANCE_HPP
 #define INSTANCE_HPP
 
-#include "Component.hpp"
-#include "types.hpp"
-#include "Observed.hpp"
+#include "../component/Component.hpp"
+#include "../util/Observed.hpp"
+#include "../types.hpp"
 
 class Instance;
 

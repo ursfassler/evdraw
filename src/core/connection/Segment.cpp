@@ -7,14 +7,14 @@ Segment::Segment(Endpoint *aStart, Endpoint *aEnd) :
   start(aStart),
   end(aEnd)
 {
-  start->addListener(this);
-  end->addListener(this);
+  start->listener.addListener(this);
+  end->listener.addListener(this);
 }
 
 Segment::~Segment()
 {
-  start->removeListener(this);
-  end->removeListener(this);
+  start->listener.removeListener(this);
+  end->listener.removeListener(this);
 }
 
 Endpoint *Segment::getStart() const

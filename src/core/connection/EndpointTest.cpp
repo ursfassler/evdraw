@@ -47,7 +47,7 @@ void EndpointTest::setYpos()
   CPPUNIT_ASSERT_EQUAL(42, point.getY());
 }
 
-class Listener : public EndpointListener
+class EpListener : public EndpointListener
 {
   public:
     void changeX(const Endpoint *sender)
@@ -67,35 +67,39 @@ class Listener : public EndpointListener
 void EndpointTest::addRemoveListener()
 {
   IntermediatePoint ep(0, 0);
-  Listener listener;
+  EpListener listener;
 
-  CPPUNIT_ASSERT_EQUAL(false, ep.hasListener());
-  ep.addListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(true, ep.hasListener());
-  ep.removeListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(false, ep.hasListener());
+  CPPUNIT_ASSERT_EQUAL(false, ep.listener.hasListener());
+  ep.listener.addListener(&listener);
+  CPPUNIT_ASSERT_EQUAL(true, ep.listener.hasListener());
+  ep.listener.removeListener(&listener);
+  CPPUNIT_ASSERT_EQUAL(false, ep.listener.hasListener());
 }
 
 void EndpointTest::notifyListenerX()
 {
   IntermediatePoint ep(0, 0);
-  Listener listener;
+  EpListener listener;
 
-  ep.addListener(&listener);
+  ep.listener.addListener(&listener);
 
   ep.setX(42);
   CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), listener.lastChangeXSender);
   CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(nullptr), listener.lastChangeYSender);
+
+  ep.listener.removeListener(&listener);
 }
 
 void EndpointTest::notifyListenerY()
 {
   IntermediatePoint ep(0, 0);
-  Listener listener;
+  EpListener listener;
 
-  ep.addListener(&listener);
+  ep.listener.addListener(&listener);
 
   ep.setY(42);
   CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(nullptr), listener.lastChangeXSender);
   CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), listener.lastChangeYSender);
+
+  ep.listener.removeListener(&listener);
 }

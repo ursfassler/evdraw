@@ -1,8 +1,8 @@
 #ifndef SEGMENT_HPP
 #define SEGMENT_HPP
 
+#include "../util/Observed.hpp"
 #include "Endpoint.hpp"
-#include "Observed.hpp"
 
 class Segment;
 

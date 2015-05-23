@@ -4,22 +4,17 @@ all: testapp
 CPPFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
 INCLUDE_DIR = .
 
-APP_SRC=$(wildcard core/*.cpp)
-APP_OBJ=$(APP_SRC:.cpp=.o)
-
-TEST_SRC=$(wildcard test/*.cpp test/core/*.cpp)
-TEST_OBJ=$(TEST_SRC:.cpp=.o)
-
-TEST_OBJ += $(APP_OBJ)
+SRC=$(wildcard core/*.cpp core/util/*.cpp core/component/*.cpp core/instance/*.cpp core/connection/*.cpp)
+OBJ=$(SRC:.cpp=.o)
 
 MAKEDEPEND = gcc -M $(CPPFLAGS) -o $*.d $<
 
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(CPPFLAGS) -I $(INCLUDE_DIR)
 
-testapp: $(TEST_OBJ)
+testapp: test/main.o $(OBJ)
 	gcc -lstdc++ -lcppunit -ldl $^ -o $@
 
 clean:
-	rm -f testapp $(APP_OBJ) $(TEST_OBJ)
+	rm -f testapp test/main.o $(OBJ)
 
