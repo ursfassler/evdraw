@@ -3,19 +3,13 @@
 
 #include "Connection.hpp"
 #include "Endpoint.hpp"
+#include "types.hpp"
 
 #include <vector>
-#include <ostream>
 
 class InstancePort
 {
   public:
-    enum class ConnectorSide
-    {
-        Right,
-        Left
-    };
-
     InstancePort(PaperUnit aX, PaperUnit aY, ConnectorSide aConnectorSide);
     virtual ~InstancePort();
 
@@ -37,10 +31,5 @@ class InstancePort
     PaperUnit calcLocalConnectorY(size_t idx) const;
 
 };
-
-std::ostream &operator<<(std::ostream &stream, const InstancePort::ConnectorSide &connectorSide);
-
-
-
 
 #endif // INSTANCEPORT_HPP

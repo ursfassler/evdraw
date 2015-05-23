@@ -15,7 +15,7 @@ TEST_OBJ += $(APP_OBJ)
 MAKEDEPEND = gcc -M $(CPPFLAGS) -o $*.d $<
 
 %.o: %.cpp
-	$(CC) -MD -c -o $@ $< $(CPPFLAGS) -I $(INCLUDE_DIR)
+	$(CC) -c -o $@ $< $(CPPFLAGS) -I $(INCLUDE_DIR)
 
 testapp: $(TEST_OBJ)
 	gcc -lstdc++ -lcppunit -ldl $^ -o $@

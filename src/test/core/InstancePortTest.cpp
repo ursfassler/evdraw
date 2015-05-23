@@ -6,12 +6,12 @@
 
 void InstancePortTest::createPort()
 {
-  InstancePort port(0, 0, InstancePort::ConnectorSide::Left);
+  InstancePort port(0, 0, ConnectorSide::Left);
 }
 
 void InstancePortTest::position()
 {
-  InstancePort port(42, 57, InstancePort::ConnectorSide::Left);
+  InstancePort port(42, 57, ConnectorSide::Left);
 
   CPPUNIT_ASSERT_EQUAL(42, port.getX());
   CPPUNIT_ASSERT_EQUAL(57, port.getY());
@@ -19,15 +19,15 @@ void InstancePortTest::position()
 
 void InstancePortTest::size()
 {
-  InstancePort port(0, 0, InstancePort::ConnectorSide::Left);
+  InstancePort port(0, 0, ConnectorSide::Left);
 
   CPPUNIT_ASSERT(port.getHeight() > 0);
 }
 
 void InstancePortTest::addConnection()
 {
-  InstancePort a(-20, 0, InstancePort::ConnectorSide::Right);
-  InstancePort b( 20, 0, InstancePort::ConnectorSide::Left);
+  InstancePort a(-20, 0, ConnectorSide::Right);
+  InstancePort b( 20, 0, ConnectorSide::Left);
 
   Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
 
@@ -45,12 +45,12 @@ void InstancePortTest::addConnection()
 
 void InstancePortTest::connectionPosRight()
 {
-  InstancePort port(-20, -10, InstancePort::ConnectorSide::Right);
+  InstancePort port(-20, -10, ConnectorSide::Right);
 
   Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
   port.addConnection(con);
 
-  CPPUNIT_ASSERT_EQUAL(InstancePort::ConnectorSide::Right, port.getConnectorSide());
+  CPPUNIT_ASSERT_EQUAL(ConnectorSide::Right, port.getConnectorSide());
   CPPUNIT_ASSERT_EQUAL(-20, con->getStart().getX());
   CPPUNIT_ASSERT_EQUAL(-10, con->getStart().getY());
   CPPUNIT_ASSERT_EQUAL(  0, con->getEnd().getX());
@@ -59,12 +59,12 @@ void InstancePortTest::connectionPosRight()
 
 void InstancePortTest::connectionPosLeft()
 {
-  InstancePort port(-25, -15, InstancePort::ConnectorSide::Left);
+  InstancePort port(-25, -15, ConnectorSide::Left);
 
   Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
   port.addConnection(con);
 
-  CPPUNIT_ASSERT_EQUAL(InstancePort::ConnectorSide::Left, port.getConnectorSide());
+  CPPUNIT_ASSERT_EQUAL(ConnectorSide::Left, port.getConnectorSide());
   CPPUNIT_ASSERT_EQUAL(-25, con->getEnd().getX());
   CPPUNIT_ASSERT_EQUAL(-15, con->getEnd().getY());
   CPPUNIT_ASSERT_EQUAL(  0, con->getStart().getX());

@@ -35,3 +35,4 @@ test/core/InstanceAppearanceTest.hpp
 test/core/InstanceAppearanceTest.cpp
 core/InstanceAppearance.hpp
 core/InstanceAppearance.cpp
+core/types.cpp

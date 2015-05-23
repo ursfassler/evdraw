@@ -40,7 +40,7 @@ PaperUnit InstancePort::getHeight() const
   return height;
 }
 
-InstancePort::ConnectorSide InstancePort::getConnectorSide() const
+ConnectorSide InstancePort::getConnectorSide() const
 {
   return connectorSide;
 }
@@ -74,20 +74,4 @@ PaperUnit InstancePort::calcLocalConnectorY(size_t idx) const
   PaperUnit offset = (idx+1) * getHeight() / (connections.size()+1);
   PaperUnit pos = offset - getHeight() / 2;
   return pos;
-}
-
-
-std::ostream &operator<<(std::ostream &stream, const InstancePort::ConnectorSide &connectorSide)
-{
-  switch (connectorSide) {
-    case InstancePort::ConnectorSide::Right: {
-      stream << "right";
-      break;
-    }
-    case InstancePort::ConnectorSide::Left: {
-      stream << "left";
-      break;
-    }
-  }
-  return stream;
 }
