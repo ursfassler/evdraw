@@ -34,7 +34,7 @@ void GiSegment::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   event->accept();
 }
 
-void GiSegment::positionChange(Segment *)
+void GiSegment::positionChange(const Segment *)
 {
   updatePosition(getModel());
 }

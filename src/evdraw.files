@@ -38,3 +38,4 @@ core/InstanceAppearance.cpp
 core/types.cpp
 test/core/TypesTest.hpp
 test/core/TypesTest.cpp
+core/Observed.hpp

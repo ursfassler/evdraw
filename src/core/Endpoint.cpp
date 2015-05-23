@@ -1,9 +1,9 @@
 #include "Endpoint.hpp"
 
 Endpoint::Endpoint(PaperUnit aX, PaperUnit aY) :
+  Observed(this),
   x(aX),
-  y(aY),
-  listeners()
+  y(aY)
 {
 }
 
@@ -20,7 +20,7 @@ void Endpoint::setX(PaperUnit value)
 {
   if (value != x) {
     x = value;
-    notifyXchange();
+    notifyListeners<&EndpointListener::changeX>();
   }
 }
 
@@ -33,36 +33,7 @@ void Endpoint::setY(PaperUnit value)
 {
   if (value != y) {
     y = value;
-    notifyYchange();
-  }
-}
-
-bool Endpoint::hasListener() const
-{
-  return !listeners.empty();
-}
-
-void Endpoint::addListener(EndpointListener *listener)
-{
-  listeners.push_back(listener);
-}
-
-void Endpoint::removeListener(EndpointListener *listener)
-{
-  listeners.remove(listener);
-}
-
-void Endpoint::notifyXchange()
-{
-  for (EndpointListener *itr : listeners) {
-    itr->changeX(this);
-  }
-}
-
-void Endpoint::notifyYchange()
-{
-  for (EndpointListener *itr : listeners) {
-    itr->changeY(this);
+    notifyListeners<&EndpointListener::changeY>();
   }
 }
 
@@ -99,10 +70,10 @@ EndpointListener::~EndpointListener()
 {
 }
 
-void EndpointListener::changeX(Endpoint *)
+void EndpointListener::changeX(const Endpoint *)
 {
 }
 
-void EndpointListener::changeY(Endpoint *)
+void EndpointListener::changeY(const Endpoint *)
 {
 }

@@ -3,12 +3,12 @@
 class SegListener : public SegmentListener
 {
   public:
-    void positionChange(Segment *sender)
+    void positionChange(const Segment *sender)
     {
       lastSender = sender;
     }
 
-    Segment *lastSender = nullptr;
+    Segment const *lastSender = nullptr;
 };
 
 void SegmentTest::createSegment()
@@ -151,9 +151,9 @@ void HorizontalSegmentTest::notifyListenerOnY()
   SegListener listener;
   segment.addListener(&listener);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
   start.setY(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
 }
 
 void HorizontalSegmentTest::notifyListenerOnX()
@@ -165,9 +165,9 @@ void HorizontalSegmentTest::notifyListenerOnX()
   SegListener listener;
   segment.addListener(&listener);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
   start.setX(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
 }
 
 
@@ -249,9 +249,9 @@ void VerticalSegmentTest::notifyListenerOnX()
   SegListener listener;
   segment.addListener(&listener);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
   start.setX(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
 }
 
 void VerticalSegmentTest::notifyListenerOnY()
@@ -263,9 +263,9 @@ void VerticalSegmentTest::notifyListenerOnY()
   SegListener listener;
   segment.addListener(&listener);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
   start.setY(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
 }
 
 

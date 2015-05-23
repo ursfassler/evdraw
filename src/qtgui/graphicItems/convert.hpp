@@ -2,9 +2,12 @@
 #define CONVERT_HPP
 
 #include <core/types.hpp>
-#include <QObject>
+#include <QPointF>
 
 qreal puToScene(PaperUnit value);
 PaperUnit sceneToPu(qreal value);
+
+QPointF puToScene(const Point &value);
+Point sceneToPu(const QPointF &value);
 
 #endif // CONVERT_HPP

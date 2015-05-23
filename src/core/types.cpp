@@ -7,6 +7,16 @@ Point::Point(PaperUnit aX, PaperUnit aY) :
 {
 }
 
+bool operator!=(const Point &left, const Point &right)
+{
+  return !(left == right);
+}
+
+bool operator==(const Point &left, const Point &right)
+{
+  return (left.x == right.x) && (left.y == right.y);
+}
+
 std::ostream &operator<<(std::ostream &stream, const Point &point)
 {
   stream << "(" << point.x << "," << point.y << ")";
@@ -28,5 +38,3 @@ std::ostream &operator<<(std::ostream &stream, const ConnectorSide &connectorSid
   }
   return stream;
 }
-
-

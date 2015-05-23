@@ -9,6 +9,7 @@ GiInstance::GiInstance(Instance *aModel, InstanceAppearance *aAppearance, QGraph
   model(aModel),
   appearance(aAppearance)
 {
+  model->addListener(this);
   setBrush(QBrush(QColor::fromRgb(0xf2, 0xf2, 0xff)));
 
   qreal x = puToScene(-appearance->width() / 2);
@@ -17,12 +18,22 @@ GiInstance::GiInstance(Instance *aModel, InstanceAppearance *aAppearance, QGraph
   qreal h = puToScene(appearance->height());
 
   setRect(x, y, w, h);
-  setPos(puToScene(model->getX()), puToScene(model->getY()));
+  setPos(puToScene(model->getPosition()));
+}
+
+GiInstance::~GiInstance()
+{
+  model->removeListener(this);
+}
+
+void GiInstance::positionChange(const Instance *)
+{
+  setPos(puToScene(model->getPosition()));
 }
 
 void GiInstance::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  setPos(event->scenePos());
+  model->setPosition(sceneToPu(event->scenePos()));
   event->accept();
 }
 

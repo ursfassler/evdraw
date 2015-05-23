@@ -5,6 +5,7 @@
 #include <ostream>
 
 #include "types.hpp"
+#include "Observed.hpp"
 
 class Endpoint;
 
@@ -12,12 +13,12 @@ class EndpointListener
 {
   public:
     virtual ~EndpointListener();
-    virtual void changeX(Endpoint *sender);
-    virtual void changeY(Endpoint *sender);
+    virtual void changeX(const Endpoint *sender);
+    virtual void changeY(const Endpoint *sender);
 
 };
 
-class Endpoint
+class Endpoint : public Observed<Endpoint, EndpointListener>
 {
   public:
     Endpoint(PaperUnit aX, PaperUnit aY);
@@ -31,10 +32,6 @@ class Endpoint
 
     virtual bool freeMovable() const = 0;
 
-    bool hasListener() const;
-    void addListener(EndpointListener *listener);
-    void removeListener(EndpointListener *listener);
-
     bool operator==(const Endpoint &other) const
     {
       return (x == other.x) && (y == other.y);
@@ -43,11 +40,6 @@ class Endpoint
   private:
     PaperUnit   x;
     PaperUnit   y;
-
-    std::list<EndpointListener*> listeners;
-    void notifyXchange();
-    void notifyYchange();
-
 };
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);

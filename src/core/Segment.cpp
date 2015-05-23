@@ -3,9 +3,9 @@
 #include <cassert>
 
 Segment::Segment(Endpoint *aStart, Endpoint *aEnd) :
+  Observed(this),
   start(aStart),
-  end(aEnd),
-  listeners()
+  end(aEnd)
 {
   start->addListener(this);
   end->addListener(this);
@@ -32,36 +32,14 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-bool Segment::hasListener() const
+void Segment::changeX(const Endpoint *)
 {
-  return !listeners.empty();
+  notifyListeners<&SegmentListener::positionChange>();
 }
 
-void Segment::addListener(SegmentListener *listener)
+void Segment::changeY(const Endpoint *)
 {
-  listeners.push_back(listener);
-}
-
-void Segment::removeListener(SegmentListener *listener)
-{
-  listeners.remove(listener);
-}
-
-void Segment::notifyPositionChange()
-{
-  for (SegmentListener *itr : listeners) {
-    itr->positionChange(this);
-  }
-}
-
-void Segment::changeX(Endpoint *)
-{
-  notifyPositionChange();
-}
-
-void Segment::changeY(Endpoint *)
-{
-  notifyPositionChange();
+  notifyListeners<&SegmentListener::positionChange>();
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -80,7 +58,7 @@ void HorizontalSegment::moveToY(PaperUnit value)
   end->setY(value);
 }
 
-void HorizontalSegment::changeY(Endpoint *sender)
+void HorizontalSegment::changeY(const Endpoint *sender)
 {
   if (sender == start) {
     end->setY(start->getY());
@@ -108,7 +86,7 @@ void VerticalSegment::moveToX(PaperUnit value)
   end->setX(value);
 }
 
-void VerticalSegment::changeX(Endpoint *sender)
+void VerticalSegment::changeX(const Endpoint *sender)
 {
   if (sender == start) {
     end->setX(start->getX());
@@ -124,6 +102,6 @@ SegmentListener::~SegmentListener()
 {
 }
 
-void SegmentListener::positionChange(Segment *)
+void SegmentListener::positionChange(const Segment *)
 {
 }

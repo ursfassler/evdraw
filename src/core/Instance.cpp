@@ -1,8 +1,17 @@
 #include "Instance.hpp"
 
-Instance::Instance(PaperUnit aX, PaperUnit aY, Component *aComponent) :
-  x(aX),
-  y(aY),
+
+InstanceListener::~InstanceListener()
+{
+}
+
+void InstanceListener::positionChange(const Instance *)
+{
+}
+
+Instance::Instance(const Point &aPosition, Component *aComponent) :
+  Observed(this),
+  position(aPosition),
   component(aComponent)
 {
 }
@@ -12,13 +21,17 @@ Component *Instance::getComponent() const
   return component;
 }
 
-PaperUnit Instance::getX() const
+Point Instance::getPosition() const
 {
-    return x;
+  return position;
 }
 
-PaperUnit Instance::getY() const
+void Instance::setPosition(const Point &value)
 {
-  return y;
+  if (position != value) {
+    position = value;
+    notifyListeners<&InstanceListener::positionChange>();
+  }
 }
+
 

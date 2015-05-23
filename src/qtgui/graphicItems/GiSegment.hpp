@@ -17,7 +17,7 @@ class GiSegment : public QGraphicsLineItem, public SegmentListener
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void positionChange(Segment *sender);
+    virtual void positionChange(const Segment *sender);
     virtual Segment *getModel() = 0;
 
   private:

@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
   portC->addConnection(con2);
 
   Component *compA = new Component();
-  Instance  *instA = new Instance(0, 0, compA);
+  Instance  *instA = new Instance(Point(0, 0), compA);
   InstanceAppearance *appA = new InstanceAppearance(compA);
 
   GiInstance *giinstA = new GiInstance(instA, appA, 0);

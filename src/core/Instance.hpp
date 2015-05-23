@@ -3,21 +3,34 @@
 
 #include "Component.hpp"
 #include "types.hpp"
+#include "Observed.hpp"
 
-class Instance final
+class Instance;
+
+class InstanceListener
 {
   public:
-    Instance(PaperUnit aX, PaperUnit aY, Component *aComponent);
+    virtual ~InstanceListener();
+    virtual void positionChange(const Instance *sender);
+};
+
+class Instance final : public Observed<Instance, InstanceListener>
+{
+  public:
+    Instance(const Point &aPosition, Component *aComponent);
+    Instance(const Instance &copy) = delete;
+    Instance & operator=(const Instance &L) = delete;
 
     Component *getComponent() const;
 
-    PaperUnit getX() const;
-    PaperUnit getY() const;
+    Point getPosition() const;
+    void setPosition(const Point &value);
 
   private:
-    PaperUnit x;
-    PaperUnit y;
+    Point position;
     Component * const component;
+
+
 };
 
 #endif // INSTANCE_HPP
