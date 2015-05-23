@@ -4,7 +4,7 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-int main (int argc, char* argv[])
+int main()
 {
     // Informiert Test-Listener ueber Testresultate
     CPPUNIT_NS :: TestResult testresult;
