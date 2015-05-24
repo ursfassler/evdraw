@@ -24,7 +24,7 @@ core/instance/InstancePortFactory.cpp
 core/instance/InstancePortFactory.hpp
 core/util/list.cpp
 core/util/list.hpp
-core/util/Observed.hpp
+core/util/Observer.hpp
 core/util/types.cpp
 core/util/types.hpp
 core/component/Component.cpp
@@ -119,3 +119,9 @@ core/types.cpp
 core/types.hpp
 core/TypesTest.cpp
 core/TypesTest.hpp
+core/util/listTest.hpp
+core/util/listTest.cpp
+core/util/ObserverTest.hpp
+core/util/ObserverTest.cpp
+core/util/contract.hpp
+core/util/contract.cpp

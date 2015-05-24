@@ -1,5 +1,6 @@
 #include "Connection.hpp"
 
+#include "../util/contract.hpp"
 #include <cassert>
 
 Connection::Connection() :
@@ -45,11 +46,11 @@ const std::vector<IntermediatePoint *> &Connection::getIntermediatePoints() cons
 
 void Connection::checkInvariants() const
 {
-  assert(intermediatePoints.size() >= 2);
-  assert(intermediatePoints.size() % 2 == 0);
-  assert(horizontalSegments.size() >= 2);
-  assert(verticalSegments.size() >= 1);
-  assert(horizontalSegments.size() == verticalSegments.size()+1);
-  assert(intermediatePoints.size() == verticalSegments.size()*2);
+  invariant(intermediatePoints.size() >= 2);
+  invariant(intermediatePoints.size() % 2 == 0);
+  invariant(horizontalSegments.size() >= 2);
+  invariant(verticalSegments.size() >= 1);
+  invariant(horizontalSegments.size() == verticalSegments.size()+1);
+  invariant(intermediatePoints.size() == verticalSegments.size()*2);
 }
 

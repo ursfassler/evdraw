@@ -4,14 +4,16 @@
 #include "ConnectionFactory.hpp"
 #include "Segment.hpp"
 
+#include "../util/contract.hpp"
+
 void ConnectionTest::createEmptyConnection()
 {
-  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce({}), std::invalid_argument);
+  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce({}), PreconditionError);
 }
 
 void ConnectionTest::createInvalidConnection()
 {
-  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce({1, 2, 3, 4, 5, 6}), std::invalid_argument);
+  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce({1, 2, 3, 4, 5, 6}), PreconditionError);
 }
 
 void ConnectionTest::createConnection()

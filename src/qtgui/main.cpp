@@ -4,12 +4,12 @@
 #include "graphicItems/GiInstance.hpp"
 #include "graphicItems/convert.hpp"
 
-#include <core/Connection.hpp>
-#include <core/ConnectionFactory.hpp>
-#include <core/InstancePort.hpp>
-#include <core/Component.hpp>
-#include <core/Instance.hpp>
-#include <core/InstanceAppearance.hpp>
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
+#include <core/component/Component.hpp>
+#include <core/component/InstanceAppearance.hpp>
+#include <core/instance/InstancePort.hpp>
+#include <core/instance/Instance.hpp>
 
 #include <QApplication>
 

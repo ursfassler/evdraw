@@ -8,9 +8,9 @@ InstancePort *InstancePortFactory::produce(ComponentPort &compPort, Instance &in
 {
   Component *comp = instance.getComponent();
   ConnectorSide side;
-  if (contains(&compPort, comp->getPortLeft())) {
+  if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), &compPort)) {
     side = ConnectorSide::Left;
-  } else if (contains(&compPort, comp->getPortRight())) {
+  } else if (contains(comp->getPortRight().begin(), comp->getPortRight().end(), &compPort)) {
     side = ConnectorSide::Right;
   } else {
     throw std::invalid_argument("port not part of component");

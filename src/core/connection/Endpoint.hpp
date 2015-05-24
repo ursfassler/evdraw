@@ -4,21 +4,10 @@
 #include <list>
 #include <ostream>
 
-#include "../util/Observed.hpp"
+#include "../util/Observer.hpp"
 #include "../types.hpp"
 
-class Endpoint;
-
-class EndpointListener
-{
-  public:
-    virtual ~EndpointListener();
-    virtual void changeX(const Endpoint *sender);
-    virtual void changeY(const Endpoint *sender);
-
-};
-
-class Endpoint
+class Endpoint : public ObserverCollection<Endpoint>
 {
   public:
     Endpoint(PaperUnit aX, PaperUnit aY);
@@ -36,8 +25,6 @@ class Endpoint
     {
       return (x == other.x) && (y == other.y);
     }
-
-    Observed<Endpoint, EndpointListener> listener;
 
   private:
 

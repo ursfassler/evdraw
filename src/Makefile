@@ -1,4 +1,6 @@
 
+CC=clang
+
 all: testapp
 
 CPPFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
@@ -13,7 +15,7 @@ MAKEDEPEND = gcc -M $(CPPFLAGS) -o $*.d $<
 	$(CC) -c -o $@ $< $(CPPFLAGS) -I $(INCLUDE_DIR)
 
 testapp: test/main.o $(OBJ)
-	gcc -lstdc++ -lcppunit -ldl $^ -o $@
+	$(CC) -lstdc++ -lcppunit -ldl $^ -o $@
 
 clean:
 	rm -f testapp test/main.o $(OBJ)

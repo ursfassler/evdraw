@@ -1,7 +1,7 @@
 #ifndef GIINSTANCEPORT_HPP
 #define GIINSTANCEPORT_HPP
 
-#include <core/InstancePort.hpp>
+#include <core/instance/InstancePort.hpp>
 
 #include <QGraphicsRectItem>
 

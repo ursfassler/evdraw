@@ -1,13 +1,13 @@
 #ifndef GIINSTANCE_HPP
 #define GIINSTANCE_HPP
 
-#include <core/Instance.hpp>
-#include <core/InstanceAppearance.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/component/InstanceAppearance.hpp>
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 
-class GiInstance : public QGraphicsRectItem, public InstanceListener
+class GiInstance : public QGraphicsRectItem, public Observer<Instance>
 {
   public:
     GiInstance(Instance *aModel, InstanceAppearance *aAppearance, QGraphicsItem *parent);

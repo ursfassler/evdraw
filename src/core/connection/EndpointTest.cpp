@@ -47,59 +47,39 @@ void EndpointTest::setYpos()
   CPPUNIT_ASSERT_EQUAL(42, point.getY());
 }
 
-class EpListener : public EndpointListener
+class EpObserver : public Observer<Endpoint>
 {
   public:
-    void changeX(const Endpoint *sender)
+    void notify(const Endpoint *sender)
     {
-      lastChangeXSender = sender;
+      lastSender = sender;
     }
 
-    void changeY(const Endpoint *sender)
-    {
-      lastChangeYSender = sender;
-    }
-
-    Endpoint const *lastChangeXSender = nullptr;
-    Endpoint const *lastChangeYSender = nullptr;
+    Endpoint const *lastSender = nullptr;
 };
-
-void EndpointTest::addRemoveListener()
-{
-  IntermediatePoint ep(0, 0);
-  EpListener listener;
-
-  CPPUNIT_ASSERT_EQUAL(false, ep.listener.hasListener());
-  ep.listener.addListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(true, ep.listener.hasListener());
-  ep.listener.removeListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(false, ep.listener.hasListener());
-}
 
 void EndpointTest::notifyListenerX()
 {
   IntermediatePoint ep(0, 0);
-  EpListener listener;
+  EpObserver observer;
 
-  ep.listener.addListener(&listener);
+  ep.registerObserver(&observer);
 
   ep.setX(42);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), listener.lastChangeXSender);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(nullptr), listener.lastChangeYSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), observer.lastSender);
 
-  ep.listener.removeListener(&listener);
+  ep.unregisterObserver(&observer);
 }
 
 void EndpointTest::notifyListenerY()
 {
   IntermediatePoint ep(0, 0);
-  EpListener listener;
+  EpObserver observer;
 
-  ep.listener.addListener(&listener);
+  ep.registerObserver(&observer);
 
   ep.setY(42);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(nullptr), listener.lastChangeXSender);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), listener.lastChangeYSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), observer.lastSender);
 
-  ep.listener.removeListener(&listener);
+  ep.unregisterObserver(&observer);
 }

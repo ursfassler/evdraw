@@ -19,7 +19,6 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(setXpos);
     CPPUNIT_TEST(setYpos);
 
-    CPPUNIT_TEST(addRemoveListener);
     CPPUNIT_TEST(notifyListenerX);
     CPPUNIT_TEST(notifyListenerY);
 
@@ -35,7 +34,6 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
     void setXpos();
     void setYpos();
 
-    void addRemoveListener();
     void notifyListenerX();
     void notifyListenerY();
 

@@ -1,7 +1,7 @@
 #include "Endpoint.hpp"
 
 Endpoint::Endpoint(PaperUnit aX, PaperUnit aY) :
-  listener(this),
+  ObserverCollection(),
   x(aX),
   y(aY)
 {
@@ -20,7 +20,7 @@ void Endpoint::setX(PaperUnit value)
 {
   if (value != x) {
     x = value;
-    listener.notifyListeners<&EndpointListener::changeX>();
+    notifyObservers(this);
   }
 }
 
@@ -33,7 +33,7 @@ void Endpoint::setY(PaperUnit value)
 {
   if (value != y) {
     y = value;
-    listener.notifyListeners<&EndpointListener::changeY>();
+    notifyObservers(this);
   }
 }
 
@@ -65,15 +65,3 @@ bool IntermediatePoint::freeMovable() const
   return true;
 }
 
-
-EndpointListener::~EndpointListener()
-{
-}
-
-void EndpointListener::changeX(const Endpoint *)
-{
-}
-
-void EndpointListener::changeY(const Endpoint *)
-{
-}

@@ -1,19 +1,10 @@
 #ifndef SEGMENT_HPP
 #define SEGMENT_HPP
 
-#include "../util/Observed.hpp"
+#include "../util/Observer.hpp"
 #include "Endpoint.hpp"
 
-class Segment;
-
-class SegmentListener
-{
-  public:
-    virtual ~SegmentListener();
-    virtual void positionChange(const Segment *sender);
-};
-
-class Segment : protected EndpointListener, public Observed<Segment, SegmentListener>
+class Segment : protected Observer<Endpoint>, public ObserverCollection<Segment>
 {
   public:
     Segment(Endpoint *aStart, Endpoint *aEnd);
@@ -30,8 +21,7 @@ class Segment : protected EndpointListener, public Observed<Segment, SegmentList
     Endpoint  * const start;
     Endpoint  * const end;
 
-    void changeX(const Endpoint *sender);
-    void changeY(const Endpoint *sender);
+    void notify(const Endpoint *subject);
 };
 
 class HorizontalSegment : public Segment
@@ -43,7 +33,7 @@ class HorizontalSegment : public Segment
     void moveToY(PaperUnit value);
 
   private:
-    void changeY(const Endpoint *sender);
+    void notify(const Endpoint *sender);
 };
 
 class VerticalSegment : public Segment
@@ -55,7 +45,7 @@ class VerticalSegment : public Segment
     void moveToX(PaperUnit value);
 
   private:
-    void changeX(const Endpoint *sender);
+    void notify(const Endpoint *sender);
 };
 
 #endif // SEGMENT_HPP

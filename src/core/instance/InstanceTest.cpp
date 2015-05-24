@@ -23,13 +23,13 @@ void InstanceTest::setPosition()
   CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getPosition());
 }
 
-class EpListener : public InstanceListener
+class EpObserver : public Observer<Instance>
 {
   public:
     Instance const *lastSender = nullptr;
 
   public:
-    void positionChange(const Instance *sender)
+    void notify(const Instance *sender)
     {
       lastSender = sender;
     }
@@ -40,12 +40,12 @@ void InstanceTest::positionChanged()
   Component component;
   Instance  instance(Point(0, 0), &component);
 
-  EpListener listener;
-  instance.addListener(&listener);
+  EpObserver observer;
+  instance.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(nullptr), observer.lastSender);
   instance.setPosition(Point(57, 42));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(&instance), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(&instance), observer.lastSender);
 
-  instance.removeListener(&listener);
+  instance.unregisterObserver(&observer);
 }

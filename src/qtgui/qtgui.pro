@@ -18,33 +18,38 @@ INCLUDEPATH += ../
 
 SOURCES += main.cpp\
         MainWindow.cpp \
-    ../core/Connection.cpp \
-    ../core/ConnectionFactory.cpp \
-    ../core/Endpoint.cpp \
-    ../core/InstancePort.cpp \
-    ../core/Segment.cpp \
     graphicItems/GiSegment.cpp \
     graphicItems/convert.cpp \
     graphicItems/GiInstancePort.cpp \
-    ../core/types.cpp \
-    ../core/Component.cpp \
-    ../core/ComponentPort.cpp \
-    ../core/Instance.cpp \
-    ../core/InstanceAppearance.cpp \
-    graphicItems/GiInstance.cpp
+    graphicItems/GiInstance.cpp \
+    ../core/component/Component.cpp \
+    ../core/component/ComponentPort.cpp \
+    ../core/component/InstanceAppearance.cpp \
+    ../core/connection/Connection.cpp \
+    ../core/connection/ConnectionFactory.cpp \
+    ../core/connection/Endpoint.cpp \
+    ../core/connection/Segment.cpp \
+    ../core/instance/Instance.cpp \
+    ../core/instance/InstancePort.cpp \
+    ../core/instance/InstancePortFactory.cpp \
+    ../core/util/list.cpp \
+    ../core/types.cpp
 
 HEADERS  += MainWindow.hpp \
-    ../core/Connection.hpp \
-    ../core/ConnectionFactory.hpp \
-    ../core/Endpoint.hpp \
-    ../core/InstancePort.hpp \
-    ../core/Segment.hpp \
-    ../core/types.hpp \
     graphicItems/GiSegment.hpp \
     graphicItems/convert.hpp \
     graphicItems/GiInstancePort.hpp \
-    ../core/Component.hpp \
-    ../core/ComponentPort.hpp \
-    ../core/Instance.hpp \
-    ../core/InstanceAppearance.hpp \
-    graphicItems/GiInstance.hpp
+    graphicItems/GiInstance.hpp \
+    ../core/component/Component.hpp \
+    ../core/component/ComponentPort.hpp \
+    ../core/component/InstanceAppearance.hpp \
+    ../core/connection/Connection.hpp \
+    ../core/connection/ConnectionFactory.hpp \
+    ../core/connection/Endpoint.hpp \
+    ../core/connection/Segment.hpp \
+    ../core/instance/Instance.hpp \
+    ../core/instance/InstancePort.hpp \
+    ../core/instance/InstancePortFactory.hpp \
+    ../core/util/list.hpp \
+    ../core/util/Observed.hpp \
+    ../core/types.hpp

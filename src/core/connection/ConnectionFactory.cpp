@@ -1,8 +1,7 @@
 #include "ConnectionFactory.hpp"
 
-#include <stdexcept>
+#include "../util/contract.hpp"
 #include <iterator>
-#include <assert.h>
 
 Connection *ConnectionFactory::produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY)
 {
@@ -18,12 +17,8 @@ Connection *ConnectionFactory::produce(PaperUnit startX, PaperUnit startY, Paper
 
 Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
 {
-  if( path.size() < 5 ) {
-    throw std::invalid_argument("need at least 5 elements in path");
-  }
-  if( (path.size() % 2) != 1 ) {
-    throw std::invalid_argument("need an uneven number of elements in path");
-  }
+  precondition(path.size() >= 5);
+  precondition((path.size() % 2) == 1);
 
   Connection *con = new Connection();
 
@@ -77,7 +72,7 @@ void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> 
 
 void ConnectionFactory::addSegments(Connection *con)
 {
-  assert(con->intermediatePoints.size() >= 2);
+  precondition(con->intermediatePoints.size() >= 2);
 
   con->horizontalSegments.push_back(new HorizontalSegment(&con->start, con->intermediatePoints.front()));
 

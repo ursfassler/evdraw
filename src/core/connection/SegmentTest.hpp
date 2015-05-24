@@ -18,8 +18,6 @@ class SegmentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(checkMovableFixed);
     CPPUNIT_TEST(checkMovableMovable);
 
-    CPPUNIT_TEST(addRemoveListener);
-
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -29,8 +27,6 @@ class SegmentTest : public CPPUNIT_NS::TestFixture
     void checkFixedMovable();
     void checkMovableFixed();
     void checkMovableMovable();
-
-    void addRemoveListener();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SegmentTest );

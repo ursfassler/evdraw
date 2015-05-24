@@ -1,20 +1,20 @@
 #include "Segment.hpp"
 
-#include <cassert>
+#include "../util/contract.hpp"
 
 Segment::Segment(Endpoint *aStart, Endpoint *aEnd) :
-  Observed(this),
+  ObserverCollection(),
   start(aStart),
   end(aEnd)
 {
-  start->listener.addListener(this);
-  end->listener.addListener(this);
+  start->registerObserver(this);
+  end->registerObserver(this);
 }
 
 Segment::~Segment()
 {
-  start->listener.removeListener(this);
-  end->listener.removeListener(this);
+  start->unregisterObserver(this);
+  end->unregisterObserver(this);
 }
 
 Endpoint *Segment::getStart() const
@@ -32,14 +32,9 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-void Segment::changeX(const Endpoint *)
+void Segment::notify(const Endpoint *)
 {
-  notifyListeners<&SegmentListener::positionChange>();
-}
-
-void Segment::changeY(const Endpoint *)
-{
-  notifyListeners<&SegmentListener::positionChange>();
+  notifyObservers(this);
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -58,15 +53,16 @@ void HorizontalSegment::moveToY(PaperUnit value)
   end->setY(value);
 }
 
-void HorizontalSegment::changeY(const Endpoint *sender)
+void HorizontalSegment::notify(const Endpoint *sender)
 {
+  precondition((sender == start) || (sender == end));
+
   if (sender == start) {
     end->setY(start->getY());
   } else {
-    assert(sender == end);
     start->setY(end->getY());
   }
-  Segment::changeY(sender);
+  Segment::notify(sender);
 }
 
 
@@ -86,22 +82,14 @@ void VerticalSegment::moveToX(PaperUnit value)
   end->setX(value);
 }
 
-void VerticalSegment::changeX(const Endpoint *sender)
+void VerticalSegment::notify(const Endpoint *sender)
 {
+  precondition((sender == start) || (sender == end));
+
   if (sender == start) {
     end->setX(start->getX());
   } else {
-    assert(sender == end);
     start->setX(end->getX());
   }
-  Segment::changeX(sender);
-}
-
-
-SegmentListener::~SegmentListener()
-{
-}
-
-void SegmentListener::positionChange(const Segment *)
-{
+  Segment::notify(sender);
 }

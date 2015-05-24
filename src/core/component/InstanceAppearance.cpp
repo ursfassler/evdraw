@@ -30,7 +30,7 @@ PaperUnit InstanceAppearance::leftPortXOffset()
 
 PaperUnit InstanceAppearance::leftPortYOffset(const Component &component, const ComponentPort *port)
 {
-  unsigned index = indexOf(port, component.getPortLeft());
+  unsigned index = indexOf(component.getPortLeft().begin(), component.getPortLeft().end(), port);
   return portOffset(index);
 }
 
@@ -41,7 +41,7 @@ PaperUnit InstanceAppearance::rightPortXOffset()
 
 PaperUnit InstanceAppearance::rightPortYOffset(const Component &component, const ComponentPort *port)
 {
-  unsigned index = indexOf(port, component.getPortRight());
+  unsigned index = indexOf(component.getPortRight().begin(), component.getPortRight().end(), port);
   return portOffset(index);
 }
 

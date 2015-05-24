@@ -1,16 +1,8 @@
 #include "Instance.hpp"
 
 
-InstanceListener::~InstanceListener()
-{
-}
-
-void InstanceListener::positionChange(const Instance *)
-{
-}
-
 Instance::Instance(const Point &aPosition, Component *aComponent) :
-  Observed(this),
+  ObserverCollection(),
   position(aPosition),
   component(aComponent)
 {
@@ -30,7 +22,7 @@ void Instance::setPosition(const Point &value)
 {
   if (position != value) {
     position = value;
-    notifyListeners<&InstanceListener::positionChange>();
+    notifyObservers(this);
   }
 }
 

@@ -1,13 +1,13 @@
 #ifndef GISEGMENT_HPP
 #define GISEGMENT_HPP
 
-#include <core/Segment.hpp>
+#include <core/connection/Segment.hpp>
 
 #include <QGraphicsLineItem>
 #include <QGraphicsSceneMouseEvent>
 
 
-class GiSegment : public QGraphicsLineItem, public SegmentListener
+class GiSegment : public QGraphicsLineItem, public Observer<Segment>
 {
   public:
     explicit GiSegment(Segment *model, QGraphicsItem *parent);

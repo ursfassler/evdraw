@@ -1,9 +1,9 @@
 #include "SegmentTest.hpp"
 
-class SegListener : public SegmentListener
+class SegObserver : public Observer<Segment>
 {
   public:
-    void positionChange(const Segment *sender)
+    void notify(const Segment *sender)
     {
       lastSender = sender;
     }
@@ -55,21 +55,6 @@ void SegmentTest::checkMovableMovable()
   Segment segment(&start, &end);
 
   CPPUNIT_ASSERT_EQUAL(true, segment.moveable());
-}
-
-void SegmentTest::addRemoveListener()
-{
-  PortPoint start(1, 2);
-  PortPoint end(3, 4);
-  Segment segment(&start, &end);
-
-  SegListener listener;
-
-  CPPUNIT_ASSERT_EQUAL(false, segment.hasListener());
-  segment.addListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(true, segment.hasListener());
-  segment.removeListener(&listener);
-  CPPUNIT_ASSERT_EQUAL(false, segment.hasListener());
 }
 
 
@@ -148,12 +133,14 @@ void HorizontalSegmentTest::notifyListenerOnY()
   PortPoint end(3, 4);
   HorizontalSegment segment(&start, &end);
 
-  SegListener listener;
-  segment.addListener(&listener);
+  SegObserver observer;
+  segment.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), observer.lastSender);
   start.setY(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), observer.lastSender);
+
+  segment.unregisterObserver(&observer);
 }
 
 void HorizontalSegmentTest::notifyListenerOnX()
@@ -162,12 +149,14 @@ void HorizontalSegmentTest::notifyListenerOnX()
   PortPoint end(3, 4);
   HorizontalSegment segment(&start, &end);
 
-  SegListener listener;
-  segment.addListener(&listener);
+  SegObserver observer;
+  segment.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), observer.lastSender);
   start.setX(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), observer.lastSender);
+
+  segment.unregisterObserver(&observer);
 }
 
 
@@ -246,12 +235,14 @@ void VerticalSegmentTest::notifyListenerOnX()
   PortPoint end(3, 4);
   VerticalSegment segment(&start, &end);
 
-  SegListener listener;
-  segment.addListener(&listener);
+  SegObserver observer;
+  segment.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), observer.lastSender);
   start.setX(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), observer.lastSender);
+
+  segment.unregisterObserver(&observer);
 }
 
 void VerticalSegmentTest::notifyListenerOnY()
@@ -260,12 +251,14 @@ void VerticalSegmentTest::notifyListenerOnY()
   PortPoint end(3, 4);
   VerticalSegment segment(&start, &end);
 
-  SegListener listener;
-  segment.addListener(&listener);
+  SegObserver observer;
+  segment.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(nullptr), observer.lastSender);
   start.setY(10);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), listener.lastSender);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Segment *>(&segment), observer.lastSender);
+
+  segment.unregisterObserver(&observer);
 }
 
 

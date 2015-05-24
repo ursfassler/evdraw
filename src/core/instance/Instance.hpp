@@ -2,19 +2,10 @@
 #define INSTANCE_HPP
 
 #include "../component/Component.hpp"
-#include "../util/Observed.hpp"
+#include "../util/Observer.hpp"
 #include "../types.hpp"
 
-class Instance;
-
-class InstanceListener
-{
-  public:
-    virtual ~InstanceListener();
-    virtual void positionChange(const Instance *sender);
-};
-
-class Instance final : public Observed<Instance, InstanceListener>
+class Instance final : public ObserverCollection<Instance>
 {
   public:
     Instance(const Point &aPosition, Component *aComponent);
@@ -29,8 +20,6 @@ class Instance final : public Observed<Instance, InstanceListener>
   private:
     Point position;
     Component * const component;
-
-
 };
 
 #endif // INSTANCE_HPP
