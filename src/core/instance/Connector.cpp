@@ -39,8 +39,7 @@ void Connector::updateConnectionPosition() const
   for (size_t i = 0; i < points.size(); i++) {
     PaperUnit y = calcLocalConnectorY(i);
     PortPoint *pp = points[i];
-    pp->setY(offset.y + y);
-    pp->setX(offset.x);
+    pp->setPosition(Point(offset.x, offset.y + y));
   }
 }
 

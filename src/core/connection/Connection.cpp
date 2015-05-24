@@ -4,8 +4,8 @@
 #include <cassert>
 
 Connection::Connection() :
-  start(0,0), //TODO use factory
-  end(0,0),
+  start(Point(0,0)), //TODO use factory
+  end(Point(0,0)),
   intermediatePoints(),
   horizontalSegments(),
   verticalSegments()

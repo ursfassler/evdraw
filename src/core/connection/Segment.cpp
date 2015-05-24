@@ -44,13 +44,13 @@ HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
 
 PaperUnit HorizontalSegment::getY() const
 {
-  return start->getY();
+  return start->getPosition().y;
 }
 
 void HorizontalSegment::moveToY(PaperUnit value)
 {
-  start->setY(value);
-  end->setY(value);
+  start->setPosition(Point(start->getPosition().x, value));
+  end->setPosition(Point(end->getPosition().x, value));
 }
 
 void HorizontalSegment::notify(const Endpoint *sender)
@@ -58,9 +58,9 @@ void HorizontalSegment::notify(const Endpoint *sender)
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setY(start->getY());
+    end->setPosition(Point(end->getPosition().x, start->getPosition().y));
   } else {
-    start->setY(end->getY());
+    start->setPosition(Point(start->getPosition().x, end->getPosition().y));
   }
   Segment::notify(sender);
 }
@@ -73,13 +73,13 @@ VerticalSegment::VerticalSegment(Endpoint *aStart, Endpoint *aEnd) :
 
 PaperUnit VerticalSegment::getX() const
 {
-  return start->getX();
+  return start->getPosition().x;
 }
 
 void VerticalSegment::moveToX(PaperUnit value)
 {
-  start->setX(value);
-  end->setX(value);
+  start->setPosition(Point(value, start->getPosition().y));
+  end->setPosition(Point(value, end->getPosition().y));
 }
 
 void VerticalSegment::notify(const Endpoint *sender)
@@ -87,9 +87,9 @@ void VerticalSegment::notify(const Endpoint *sender)
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setX(start->getX());
+    end->setPosition(Point(start->getPosition().x, end->getPosition().y));
   } else {
-    start->setX(end->getX());
+    start->setPosition(Point(end->getPosition().x, start->getPosition().y));
   }
   Segment::notify(sender);
 }

@@ -54,10 +54,8 @@ void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> 
 {
   const size_t LAST_IDX = path.size()-1;
 
-  con->start.setX(path[0]);
-  con->start.setY(path[1]);
-  con->end.setX(path[LAST_IDX]);
-  con->end.setY(path[LAST_IDX-1]);
+  con->start.setPosition(Point(path[0], path[1]));
+  con->end.setPosition(Point(path[LAST_IDX],path[LAST_IDX-1]));
 
   for (size_t i = 1; i < path.size()-2; i += 2) {
     const PaperUnit x1 = path[i+1];
@@ -65,8 +63,8 @@ void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> 
     const PaperUnit x2 = x1;
     const PaperUnit y2 = path[i+2];
 
-    con->intermediatePoints.push_back(new IntermediatePoint(x1, y1));
-    con->intermediatePoints.push_back(new IntermediatePoint(x2, y2));
+    con->intermediatePoints.push_back(new IntermediatePoint(Point(x1, y1)));
+    con->intermediatePoints.push_back(new IntermediatePoint(Point(x2, y2)));
   }
 }
 

@@ -10,26 +10,21 @@
 class Endpoint : public ObserverCollection<Endpoint>
 {
   public:
-    Endpoint(PaperUnit aX, PaperUnit aY);
+    Endpoint(const Point &position);
     virtual ~Endpoint();
 
-    PaperUnit getX() const;
-    void setX(PaperUnit value);
-
-    PaperUnit getY() const;
-    void setY(PaperUnit value);
+    const Point &getPosition() const;
+    void setPosition(const Point &value);
 
     virtual bool freeMovable() const = 0;
 
     bool operator==(const Endpoint &other) const
     {
-      return (x == other.x) && (y == other.y);
+      return position == other.position;
     }
 
   private:
-
-    PaperUnit   x;
-    PaperUnit   y;
+    Point position;
 };
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);
@@ -37,7 +32,7 @@ std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);
 class PortPoint : public Endpoint
 {
   public:
-    PortPoint(PaperUnit aX, PaperUnit aY);
+    PortPoint(const Point &position);
     bool freeMovable() const;
 
 };
@@ -45,7 +40,7 @@ class PortPoint : public Endpoint
 class IntermediatePoint : public Endpoint
 {
   public:
-    IntermediatePoint(PaperUnit aX, PaperUnit aY);
+    IntermediatePoint(const Point &position);
     bool freeMovable() const;
 
 };

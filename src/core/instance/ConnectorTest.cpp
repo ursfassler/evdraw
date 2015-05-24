@@ -13,7 +13,7 @@ void ConnectorTest::create()
 void ConnectorTest::addPortPoint()
 {
   Connector connector(Point(42, 57));
-  PortPoint pp(0, 0);
+  PortPoint pp(Point(0, 0));
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), connector.getPoints().size());
 
@@ -25,11 +25,10 @@ void ConnectorTest::addPortPoint()
 void ConnectorTest::addPortPointUpdatesPosition()
 {
   Connector connector(Point(-10,-20));
-  PortPoint pp(20, 30);
+  PortPoint pp(Point(20, 30));
   connector.addPoint(&pp);
 
-  CPPUNIT_ASSERT_EQUAL(-10, pp.getX());
-  CPPUNIT_ASSERT_EQUAL(-20, pp.getY());
+  CPPUNIT_ASSERT_EQUAL(Point(-10,-20), pp.getPosition());
 }
 
 void ConnectorTest::positionOfPortIsWithinHeight()
@@ -38,34 +37,34 @@ void ConnectorTest::positionOfPortIsWithinHeight()
   const PaperUnit bottom = InstanceAppearance::portHeight()/2;
 
   Connector connector(Point(0,0));
-  PortPoint pp1(0,0);
-  PortPoint pp2(0,0);
-  PortPoint pp3(0,0);
-  PortPoint pp4(0,0);
+  PortPoint pp1(Point(0,0));
+  PortPoint pp2(Point(0,0));
+  PortPoint pp3(Point(0,0));
+  PortPoint pp4(Point(0,0));
 
   connector.addPoint(&pp1);
-  CPPUNIT_ASSERT_EQUAL(0, pp1.getY());
+  CPPUNIT_ASSERT_EQUAL(0, pp1.getPosition().y);
 
   connector.addPoint(&pp2);
-  CPPUNIT_ASSERT(pp1.getY() < 0);
-  CPPUNIT_ASSERT(pp1.getY() >= top);
-  CPPUNIT_ASSERT(pp2.getY() > 0);
-  CPPUNIT_ASSERT(pp2.getY() < bottom);
+  CPPUNIT_ASSERT(pp1.getPosition().y < 0);
+  CPPUNIT_ASSERT(pp1.getPosition().y >= top);
+  CPPUNIT_ASSERT(pp2.getPosition().y > 0);
+  CPPUNIT_ASSERT(pp2.getPosition().y < bottom);
 
   connector.addPoint(&pp3);
-  CPPUNIT_ASSERT(pp1.getY() < 0);
-  CPPUNIT_ASSERT(pp1.getY() >= top);
-  CPPUNIT_ASSERT_EQUAL(0, pp2.getY());
-  CPPUNIT_ASSERT(pp3.getY() > 0);
-  CPPUNIT_ASSERT(pp3.getY() < bottom);
+  CPPUNIT_ASSERT(pp1.getPosition().y < 0);
+  CPPUNIT_ASSERT(pp1.getPosition().y >= top);
+  CPPUNIT_ASSERT_EQUAL(0, pp2.getPosition().y);
+  CPPUNIT_ASSERT(pp3.getPosition().y > 0);
+  CPPUNIT_ASSERT(pp3.getPosition().y < bottom);
 
   connector.addPoint(&pp4);
-  CPPUNIT_ASSERT(pp1.getY() >= top);
-  CPPUNIT_ASSERT(pp1.getY() < pp2.getY());
-  CPPUNIT_ASSERT(pp2.getY() < 0);
-  CPPUNIT_ASSERT(pp3.getY() > 0);
-  CPPUNIT_ASSERT(pp4.getY() > pp3.getY());
-  CPPUNIT_ASSERT(pp4.getY() < bottom);
+  CPPUNIT_ASSERT(pp1.getPosition().y >= top);
+  CPPUNIT_ASSERT(pp1.getPosition().y < pp2.getPosition().y);
+  CPPUNIT_ASSERT(pp2.getPosition().y < 0);
+  CPPUNIT_ASSERT(pp3.getPosition().y > 0);
+  CPPUNIT_ASSERT(pp4.getPosition().y > pp3.getPosition().y);
+  CPPUNIT_ASSERT(pp4.getPosition().y < bottom);
 
 }
 
@@ -81,13 +80,11 @@ void ConnectorTest::setNewOffset()
 void ConnectorTest::setOffsetUpdatesPortPoint()
 {
   Connector connector(Point(0,0));
-  PortPoint pp(0,0);
+  PortPoint pp(Point(0,0));
   connector.addPoint(&pp);
-  CPPUNIT_ASSERT_EQUAL(0, pp.getX());
-  CPPUNIT_ASSERT_EQUAL(0, pp.getY());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), pp.getPosition());
 
   connector.setOffset(Point(-4,15));
-  CPPUNIT_ASSERT_EQUAL(-4, pp.getX());
-  CPPUNIT_ASSERT_EQUAL(15, pp.getY());
+  CPPUNIT_ASSERT_EQUAL(Point(-4,15), pp.getPosition());
 }
 

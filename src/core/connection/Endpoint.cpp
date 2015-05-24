@@ -1,9 +1,8 @@
 #include "Endpoint.hpp"
 
-Endpoint::Endpoint(PaperUnit aX, PaperUnit aY) :
+Endpoint::Endpoint(const Point &aPosition) :
   ObserverCollection(),
-  x(aX),
-  y(aY)
+  position(aPosition)
 {
 }
 
@@ -11,41 +10,28 @@ Endpoint::~Endpoint()
 {
 }
 
-PaperUnit Endpoint::getX() const
+const Point &Endpoint::getPosition() const
 {
-  return x;
+  return position;
 }
 
-void Endpoint::setX(PaperUnit value)
+void Endpoint::setPosition(const Point &value)
 {
-  if (value != x) {
-    x = value;
-    notifyObservers(this);
-  }
-}
-
-PaperUnit Endpoint::getY() const
-{
-  return y;
-}
-
-void Endpoint::setY(PaperUnit value)
-{
-  if (value != y) {
-    y = value;
+  if (position != value) {
+    position = value;
     notifyObservers(this);
   }
 }
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint)
 {
-  stream << "(" << endpoint.getX() << "," << endpoint.getY() << ")";
+  stream << endpoint.getPosition();
   return stream;
 }
 
 
-PortPoint::PortPoint(PaperUnit aX, PaperUnit aY) :
-  Endpoint(aX, aY)
+PortPoint::PortPoint(const Point &position) :
+  Endpoint(position)
 {
 }
 
@@ -55,8 +41,8 @@ bool PortPoint::freeMovable() const
 }
 
 
-IntermediatePoint::IntermediatePoint(PaperUnit aX, PaperUnit aY) :
-  Endpoint(aX, aY)
+IntermediatePoint::IntermediatePoint(const Point &position) :
+  Endpoint(position)
 {
 }
 

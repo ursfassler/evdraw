@@ -16,11 +16,9 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(initialIntermediatePointPosition);
     CPPUNIT_TEST(intermediatePointIsMovable);
 
-    CPPUNIT_TEST(setXpos);
-    CPPUNIT_TEST(setYpos);
+    CPPUNIT_TEST(setPosition);
 
-    CPPUNIT_TEST(notifyListenerX);
-    CPPUNIT_TEST(notifyListenerY);
+    CPPUNIT_TEST(notifyListenerOnPosChange);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -31,11 +29,9 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
     void initialIntermediatePointPosition();
     void intermediatePointIsMovable();
 
-    void setXpos();
-    void setYpos();
+    void setPosition();
 
-    void notifyListenerX();
-    void notifyListenerY();
+    void notifyListenerOnPosChange();
 
 };
 
