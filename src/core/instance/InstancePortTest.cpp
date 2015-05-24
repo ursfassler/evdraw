@@ -17,6 +17,7 @@ void InstancePortTest::createPort()
   InstancePort *port = InstancePortFactory::produce(cport, inst);
 
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort().getName());
+  CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
 
   InstancePortFactory::dispose(port);
 }
@@ -24,66 +25,22 @@ void InstancePortTest::createPort()
 void InstancePortTest::position()
 {
   Component comp;
-  ComponentPort cport("");
-  comp.addPortLeft(&cport);
+
+  ComponentPort cport1("1");
+  comp.addPortLeft(&cport1);
+  ComponentPort cport2("2");
+  comp.addPortLeft(&cport2);
 
   Instance inst(Point(0, 0), &comp);
-  InstancePort *port = InstancePortFactory::produce(cport, inst);
+  InstancePort *port1 = InstancePortFactory::produce(cport1, inst);
+  InstancePort *port2 = InstancePortFactory::produce(cport2, inst);
 
-  CPPUNIT_ASSERT(port->getOffset().x < 0);
-  CPPUNIT_ASSERT(port->getOffset().y > 0);
+  CPPUNIT_ASSERT(port1->getOffset().x < 0);
+  CPPUNIT_ASSERT(port1->getOffset().y > 0);
 
-  InstancePortFactory::dispose(port);
+  CPPUNIT_ASSERT_EQUAL(port2->getOffset().x, port1->getOffset().x);
+  CPPUNIT_ASSERT(port2->getOffset().y > port1->getOffset().y);
+
+  InstancePortFactory::dispose(port2);
+  InstancePortFactory::dispose(port1);
 }
-
-//void InstancePortTest::addConnection()
-//{
-//  ComponentPort cportA("");
-//  ComponentPort cportB("");
-//  InstancePort a(cportA, Point(-20, 0), ConnectorSide::Right);
-//  InstancePort b(cportB, Point( 20, 0), ConnectorSide::Left);
-
-//  Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
-
-//  CPPUNIT_ASSERT_EQUAL(size_t(0), a.getConnections().size());
-//  CPPUNIT_ASSERT_EQUAL(size_t(0), b.getConnections().size());
-
-//  a.addConnection(con);
-//  CPPUNIT_ASSERT_EQUAL(size_t(1), a.getConnections().size());
-//  CPPUNIT_ASSERT_EQUAL(con, a.getConnections()[0]);
-
-//  b.addConnection(con);
-//  CPPUNIT_ASSERT_EQUAL(size_t(1), b.getConnections().size());
-//  CPPUNIT_ASSERT_EQUAL(con, b.getConnections()[0]);
-//}
-
-//void InstancePortTest::connectionPosRight()
-//{
-//  ComponentPort cport("");
-//  InstancePort port(cport, ConnectorSide::Right);
-
-//  Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
-//  port.addConnection(con);
-
-//  CPPUNIT_ASSERT_EQUAL(ConnectorSide::Right, port.getConnectorSide());
-//  CPPUNIT_ASSERT_EQUAL(-20, con->getStart().getX());
-//  CPPUNIT_ASSERT_EQUAL(-10, con->getStart().getY());
-//  CPPUNIT_ASSERT_EQUAL(  0, con->getEnd().getX());
-//  CPPUNIT_ASSERT_EQUAL(  0, con->getEnd().getY());
-//}
-
-//void InstancePortTest::connectionPosLeft()
-//{
-//  ComponentPort cport("");
-//  InstancePort port(cport, Point(-25, -15), ConnectorSide::Left);
-
-//  Connection *con = ConnectionFactory::produce(0, 0, 0, 0);
-//  port.addConnection(con);
-
-//  CPPUNIT_ASSERT_EQUAL(ConnectorSide::Left, port.getConnectorSide());
-//  CPPUNIT_ASSERT_EQUAL(-25, con->getEnd().getX());
-//  CPPUNIT_ASSERT_EQUAL(-15, con->getEnd().getY());
-//  CPPUNIT_ASSERT_EQUAL(  0, con->getStart().getX());
-//  CPPUNIT_ASSERT_EQUAL(  0, con->getStart().getY());
-//}
-

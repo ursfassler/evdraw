@@ -1,36 +1,26 @@
 #ifndef INSTANCEPORT_HPP
 #define INSTANCEPORT_HPP
 
-#include "../component/ComponentPort.hpp"
-#include "../connection/Connection.hpp"
-#include "../connection/Endpoint.hpp"
-#include "../types.hpp"
+#include "Connector.hpp"
 
-#include "Instance.hpp"
+#include "../component/ComponentPort.hpp"
+#include "../types.hpp"
 
 #include <vector>
 
-class InstancePort
+class InstancePort final
 {
   public:
-    InstancePort(ComponentPort &compPort, Instance &instance, ConnectorSide aConnectorSide);
-    virtual ~InstancePort();
+    InstancePort(ComponentPort &compPort, const Point &offset, const Connector &connector);
 
-    void addConnection(Connection *connection);
-    const std::vector<Connection *> &getConnections() const;
-    ConnectorSide getConnectorSide() const;
+    const Point &getOffset() const;
     ComponentPort &getCompPort() const;
-    Point getOffset() const;
+    const Connector &getConnector() const;
 
   private:
     ComponentPort &compPort;
-    Instance &instance;
-    const ConnectorSide connectorSide;
-    std::vector<Connection*> connections;
-
-    PortPoint &getConnectedPoint(Connection *connection) const;
-    void updateConnectionPosition() const;
-    PaperUnit calcLocalConnectorY(size_t idx) const;
+    Point offset;
+    Connector connector;
 
 };
 

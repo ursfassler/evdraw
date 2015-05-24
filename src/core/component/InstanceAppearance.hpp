@@ -13,13 +13,11 @@ class InstanceAppearance final
     static PaperUnit portWidth();
     static PaperUnit portHeight();
     static PaperUnit leftPortXOffset();
-    static PaperUnit leftPortYOffset(const Component &component, const ComponentPort *port);
     static PaperUnit rightPortXOffset();
-    static PaperUnit rightPortYOffset(const Component &component, const ComponentPort *port);
+    static PaperUnit portYOffset(unsigned index);
 
   private:
     static PaperUnit scale(int value);
-    static PaperUnit portOffset(unsigned index);
 };
 
 #endif // INSTANCEAPPEARANCE_HPP

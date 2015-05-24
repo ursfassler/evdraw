@@ -13,10 +13,10 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(portDimensionIsNotZero);
 
+    CPPUNIT_TEST(portYOffset);
+
     CPPUNIT_TEST(leftPortXOffsetIsLeft);
-    CPPUNIT_TEST(leftPortYOffset);
     CPPUNIT_TEST(rightPortXOffsetIsRight);
-    CPPUNIT_TEST(rightPortYOffset);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,10 +26,10 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
 
     void portDimensionIsNotZero();
 
+    void portYOffset();
+
     void leftPortXOffsetIsLeft();
-    void leftPortYOffset();
     void rightPortXOffsetIsRight();
-    void rightPortYOffset();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( InstanceAppearanceTest );

@@ -44,30 +44,19 @@ void InstanceAppearanceTest::portDimensionIsNotZero()
   CPPUNIT_ASSERT(InstanceAppearance::portHeight() > 0);
 }
 
+void InstanceAppearanceTest::portYOffset()
+{
+  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(0) > 0);
+  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(1) > InstanceAppearance::portYOffset(0));
+  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(3) - InstanceAppearance::portYOffset(2) == InstanceAppearance::portYOffset(1) - InstanceAppearance::portYOffset(0));
+}
+
 void InstanceAppearanceTest::leftPortXOffsetIsLeft()
 {
   CPPUNIT_ASSERT(InstanceAppearance::leftPortXOffset() < 0);
 }
 
-void InstanceAppearanceTest::leftPortYOffset()
-{
-  Component component;
-  ComponentPort *port = new ComponentPort("");
-  component.addPortLeft(port);
-
-  CPPUNIT_ASSERT(InstanceAppearance::leftPortYOffset(component, port) > 0);
-}
-
 void InstanceAppearanceTest::rightPortXOffsetIsRight()
 {
   CPPUNIT_ASSERT(InstanceAppearance::rightPortXOffset() > 0);
-}
-
-void InstanceAppearanceTest::rightPortYOffset()
-{
-  Component component;
-  ComponentPort *port = new ComponentPort("");
-  component.addPortRight(port);
-
-  CPPUNIT_ASSERT(InstanceAppearance::rightPortYOffset(component, port) > 0);
 }

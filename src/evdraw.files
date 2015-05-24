@@ -125,3 +125,7 @@ core/util/ObserverTest.hpp
 core/util/ObserverTest.cpp
 core/util/contract.hpp
 core/util/contract.cpp
+core/instance/ConnectorTest.hpp
+core/instance/ConnectorTest.cpp
+core/instance/Connector.hpp
+core/instance/Connector.cpp

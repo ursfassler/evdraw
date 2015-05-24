@@ -9,6 +9,7 @@ Component::Component() :
 void Component::addPortLeft(ComponentPort *port)
 {
   portLeft.push_back(port);
+  port->setTopIndex(portLeft.size()-1);
 }
 
 const std::vector<ComponentPort *> &Component::getPortLeft() const
@@ -19,6 +20,7 @@ const std::vector<ComponentPort *> &Component::getPortLeft() const
 void Component::addPortRight(ComponentPort *port)
 {
   portRight.push_back(port);
+  port->setTopIndex(portRight.size()-1);
 }
 
 const std::vector<ComponentPort *> &Component::getPortRight() const

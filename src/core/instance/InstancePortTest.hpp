@@ -11,21 +11,11 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createPort);
     CPPUNIT_TEST(position);
 
-//    CPPUNIT_TEST(addConnection);
-//    CPPUNIT_TEST(connectionPosRight);
-//    CPPUNIT_TEST(connectionPosLeft);
-
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void createPort();
     void position();
-
-    void addConnection();
-    void connectionPosRight();
-    void connectionPosLeft();
-
-    void positionChangeByInstance();
 
 };
 
