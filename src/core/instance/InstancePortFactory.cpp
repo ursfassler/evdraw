@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-InstancePort *InstancePortFactory::produce(ComponentPort &compPort, Instance &instance)
+InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort &compPort, Instance &instance)
 {
   Component *comp = instance.getComponent();
   ConnectorSide side;
@@ -20,10 +20,13 @@ InstancePort *InstancePortFactory::produce(ComponentPort &compPort, Instance &in
   }
 
   const Point portOffset = getOffset(side, compPort);
-  const Point conOfs = connectorOffset(portOffset, side);
-  Connector connector(conOfs);
 
-  return new InstancePort(compPort, portOffset, connector);
+  InstancePort *port = new InstancePort(parent, compPort, portOffset);
+
+  const Point conOfs = connectorOffset(side);
+  port->getConnector().setOffset(conOfs);
+
+  return port;
 }
 
 Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort &compPort)
@@ -44,11 +47,11 @@ Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort &co
   throw std::runtime_error("reached unreachable position");
 }
 
-Point InstancePortFactory::connectorOffset(const Point &portOffset, ConnectorSide side)
+Point InstancePortFactory::connectorOffset(ConnectorSide side)
 {
   const int sideMul = side == ConnectorSide::Left ? -1 : 1;
   const PaperUnit offset = sideMul * InstanceAppearance::portWidth() / 2;
-  return Point(portOffset.x + offset, portOffset.y);
+  return Point(offset, 0);
 }
 
 

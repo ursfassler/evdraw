@@ -2,8 +2,8 @@
 
 #include "../component/InstanceAppearance.hpp"
 
-Connector::Connector(const Point &aOffset) :
-  offset(aOffset),
+Connector::Connector(Base *parent, const Point &aOffset) :
+  Base(parent, aOffset),
   points()
 {
 }
@@ -19,15 +19,11 @@ const std::vector<PortPoint *> &Connector::getPoints() const
   return points;
 }
 
-const Point &Connector::getOffset() const
-{
-  return offset;
-}
-
 void Connector::setOffset(const Point &value)
 {
-  if (offset != value) {
-    offset = value;
+  //TODO necessary?
+  if (getOffset() != value) {
+    Base::setOffset(value);
     updateConnectionPosition();
   }
 }
@@ -39,7 +35,7 @@ void Connector::updateConnectionPosition() const
   for (size_t i = 0; i < points.size(); i++) {
     PaperUnit y = calcLocalConnectorY(i);
     PortPoint *pp = points[i];
-    pp->setPosition(Point(offset.x, offset.y + y));
+    pp->setPosition(Point(getOffset().x, getOffset().y + y));
   }
 }
 

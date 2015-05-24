@@ -10,14 +10,14 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(produce);
     CPPUNIT_TEST(setPosition);
-    CPPUNIT_TEST(positionChanged);
+    CPPUNIT_TEST(inheritsBase);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void produce();
     void setPosition();
-    void positionChanged();
+    void inheritsBase();
 
 };
 

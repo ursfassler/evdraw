@@ -1,7 +1,8 @@
 #include "InstanceTest.hpp"
 
 #include "../component/Component.hpp"
-#include "../types.hpp"
+#include "../base/Base.hpp"
+#include "../Point.hpp"
 #include "Instance.hpp"
 
 void InstanceTest::produce()
@@ -9,7 +10,7 @@ void InstanceTest::produce()
   Component component;
   Instance  instance(Point(3, 7), &component);
 
-  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance.getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance.getOffset());
   CPPUNIT_ASSERT_EQUAL(&component, instance.getComponent());
 }
 
@@ -18,9 +19,9 @@ void InstanceTest::setPosition()
   Component component;
   Instance  instance(Point(0, 0), &component);
 
-  CPPUNIT_ASSERT_EQUAL(Point( 0,  0), instance.getPosition());
-  instance.setPosition(Point(57, 42));
-  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 0,  0), instance.getOffset());
+  instance.setOffset(Point(57, 42));
+  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getOffset());
 }
 
 class EpObserver : public Observer<Instance>
@@ -35,17 +36,9 @@ class EpObserver : public Observer<Instance>
     }
 };
 
-void InstanceTest::positionChanged()
+void InstanceTest::inheritsBase()
 {
   Component component;
   Instance  instance(Point(0, 0), &component);
-
-  EpObserver observer;
-  instance.registerObserver(&observer);
-
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(nullptr), observer.lastSender);
-  instance.setPosition(Point(57, 42));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(&instance), observer.lastSender);
-
-  instance.unregisterObserver(&observer);
+  CPPUNIT_ASSERT(dynamic_cast<Base*>(&instance) != nullptr);
 }

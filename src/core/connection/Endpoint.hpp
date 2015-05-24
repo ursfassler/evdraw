@@ -5,7 +5,7 @@
 #include <ostream>
 
 #include "../util/Observer.hpp"
-#include "../types.hpp"
+#include "../Point.hpp"
 
 class Endpoint : public ObserverCollection<Endpoint>
 {

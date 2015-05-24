@@ -11,17 +11,11 @@ class TypesTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(printConnectorSideLeft);
     CPPUNIT_TEST(printConnectorSideRight);
 
-    CPPUNIT_TEST(pointCreateArguments);
-    CPPUNIT_TEST(pointPrint);
-
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void printConnectorSideLeft();
     void printConnectorSideRight();
-
-    void pointCreateArguments();
-    void pointPrint();
 
 };
 

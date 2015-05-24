@@ -3,9 +3,10 @@
 
 #include "../component/Component.hpp"
 #include "../util/Observer.hpp"
-#include "../types.hpp"
+#include "../Point.hpp"
+#include "../base/Base.hpp"
 
-class Instance final : public ObserverCollection<Instance>
+class Instance final : public Base
 {
   public:
     Instance(const Point &aPosition, Component *aComponent);
@@ -14,11 +15,7 @@ class Instance final : public ObserverCollection<Instance>
 
     Component *getComponent() const;
 
-    Point getPosition() const;
-    void setPosition(const Point &value);
-
   private:
-    Point position;
     Component * const component;
 };
 

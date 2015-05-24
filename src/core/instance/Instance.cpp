@@ -2,8 +2,7 @@
 
 
 Instance::Instance(const Point &aPosition, Component *aComponent) :
-  ObserverCollection(),
-  position(aPosition),
+  Base(nullptr, aPosition),
   component(aComponent)
 {
 }
@@ -12,18 +11,4 @@ Component *Instance::getComponent() const
 {
   return component;
 }
-
-Point Instance::getPosition() const
-{
-  return position;
-}
-
-void Instance::setPosition(const Point &value)
-{
-  if (position != value) {
-    position = value;
-    notifyObservers(this);
-  }
-}
-
 

@@ -5,24 +5,22 @@
 
 #include "../component/ComponentPort.hpp"
 #include "../types.hpp"
+#include "../base/Base.hpp"
 
 #include <vector>
 
-class InstancePort final
+class InstancePort final : public Base
 {
   public:
-    InstancePort(ComponentPort &compPort, const Point &offset, const Connector &connector);
+    InstancePort(Base *parent, ComponentPort &compPort, const Point &offset);
 
-    const Point &getOffset() const;
     ComponentPort &getCompPort() const;
-    const Connector &getConnector() const;
+    Connector &getConnector();
 
   private:
     ComponentPort &compPort;
-    Point offset;
     Connector connector;
 
 };
-
 
 #endif // INSTANCEPORT_HPP

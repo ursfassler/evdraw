@@ -4,14 +4,14 @@
 
 #include <stdexcept>
 
-InstancePort::InstancePort(ComponentPort &aCompPort, const Point &aOffset, const Connector &aConnector) :
+InstancePort::InstancePort(Base *parent, ComponentPort &aCompPort, const Point &aOffset) :
+  Base(parent, aOffset),
   compPort(aCompPort),
-  offset(aOffset),
-  connector(aConnector)
+  connector(this, Point(0,0))
 {
 }
 
-const Connector &InstancePort::getConnector() const
+Connector &InstancePort::getConnector()
 {
     return connector;
 }
@@ -19,9 +19,4 @@ const Connector &InstancePort::getConnector() const
 ComponentPort &InstancePort::getCompPort() const
 {
   return compPort;
-}
-
-const Point &InstancePort::getOffset() const
-{
-  return offset;
 }

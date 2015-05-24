@@ -129,3 +129,11 @@ core/instance/ConnectorTest.hpp
 core/instance/ConnectorTest.cpp
 core/instance/Connector.hpp
 core/instance/Connector.cpp
+core/base/BaseTest.hpp
+core/base/BaseTest.cpp
+core/base/Base.hpp
+core/base/Base.cpp
+core/PointTest.hpp
+core/PointTest.cpp
+core/Point.hpp
+core/Point.cpp

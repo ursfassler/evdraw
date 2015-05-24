@@ -4,21 +4,21 @@
 #include "../connection/Connection.hpp"
 #include "../connection/Endpoint.hpp"
 
+#include "../base/Base.hpp"
+
 #include "../types.hpp"
 
-class Connector
+class Connector final : public Base
 {
   public:
-    Connector(const Point &offset);
+    Connector(Base *parent, const Point &offset);
 
     void addPoint(PortPoint *point);
     const std::vector<PortPoint *> &getPoints() const;
 
-    const Point &getOffset() const;
     void setOffset(const Point &value);
 
   private:
-    Point offset;
     std::vector<PortPoint*> points;
 
     void updateConnectionPosition() const;

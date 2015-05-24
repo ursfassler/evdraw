@@ -14,15 +14,16 @@ void InstancePortTest::createPort()
   comp.addPortLeft(&cport);
 
   Instance inst(Point(0, 0), &comp);
-  InstancePort *port = InstancePortFactory::produce(cport, inst);
+  InstancePort *port = InstancePortFactory::produce(nullptr, cport, inst);
 
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort().getName());
   CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
+  CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getOffset().y);
 
   InstancePortFactory::dispose(port);
 }
 
-void InstancePortTest::position()
+void InstancePortTest::offset()
 {
   Component comp;
 
@@ -32,8 +33,8 @@ void InstancePortTest::position()
   comp.addPortLeft(&cport2);
 
   Instance inst(Point(0, 0), &comp);
-  InstancePort *port1 = InstancePortFactory::produce(cport1, inst);
-  InstancePort *port2 = InstancePortFactory::produce(cport2, inst);
+  InstancePort *port1 = InstancePortFactory::produce(nullptr, cport1, inst);
+  InstancePort *port2 = InstancePortFactory::produce(nullptr, cport2, inst);
 
   CPPUNIT_ASSERT(port1->getOffset().x < 0);
   CPPUNIT_ASSERT(port1->getOffset().y > 0);
@@ -43,4 +44,19 @@ void InstancePortTest::position()
 
   InstancePortFactory::dispose(port2);
   InstancePortFactory::dispose(port1);
+}
+
+void InstancePortTest::absolutePosition()
+{
+  Component comp;
+  ComponentPort cport("bla");
+  comp.addPortLeft(&cport);
+
+  Instance inst(Point(0, 0), &comp);
+  InstancePort *port = InstancePortFactory::produce(nullptr, cport, inst);
+
+  CPPUNIT_ASSERT(port->getAbsolutePosition().x < 0);
+  CPPUNIT_ASSERT(port->getAbsolutePosition().y > 0);
+
+  InstancePortFactory::dispose(port);
 }

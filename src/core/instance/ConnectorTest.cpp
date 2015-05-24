@@ -5,14 +5,14 @@
 
 void ConnectorTest::create()
 {
-  Connector connector(Point(42, 57));
+  Connector connector(nullptr, Point(42, 57));
   CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getOffset());
   CPPUNIT_ASSERT(connector.getPoints().empty());
 }
 
 void ConnectorTest::addPortPoint()
 {
-  Connector connector(Point(42, 57));
+  Connector connector(nullptr, Point(42, 57));
   PortPoint pp(Point(0, 0));
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), connector.getPoints().size());
@@ -24,7 +24,7 @@ void ConnectorTest::addPortPoint()
 
 void ConnectorTest::addPortPointUpdatesPosition()
 {
-  Connector connector(Point(-10,-20));
+  Connector connector(nullptr, Point(-10,-20));
   PortPoint pp(Point(20, 30));
   connector.addPoint(&pp);
 
@@ -36,7 +36,7 @@ void ConnectorTest::positionOfPortIsWithinHeight()
   const PaperUnit top = -InstanceAppearance::portHeight()/2;
   const PaperUnit bottom = InstanceAppearance::portHeight()/2;
 
-  Connector connector(Point(0,0));
+  Connector connector(nullptr, Point(0,0));
   PortPoint pp1(Point(0,0));
   PortPoint pp2(Point(0,0));
   PortPoint pp3(Point(0,0));
@@ -70,7 +70,7 @@ void ConnectorTest::positionOfPortIsWithinHeight()
 
 void ConnectorTest::setNewOffset()
 {
-  Connector connector(Point(23, 13));
+  Connector connector(nullptr, Point(23, 13));
   CPPUNIT_ASSERT_EQUAL(Point(23, 13), connector.getOffset());
 
   connector.setOffset(Point(42, 57));
@@ -79,7 +79,7 @@ void ConnectorTest::setNewOffset()
 
 void ConnectorTest::setOffsetUpdatesPortPoint()
 {
-  Connector connector(Point(0,0));
+  Connector connector(nullptr, Point(0,0));
   PortPoint pp(Point(0,0));
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(Point(0,0), pp.getPosition());
@@ -87,4 +87,3 @@ void ConnectorTest::setOffsetUpdatesPortPoint()
   connector.setOffset(Point(-4,15));
   CPPUNIT_ASSERT_EQUAL(Point(-4,15), pp.getPosition());
 }
-

@@ -6,3 +6,4 @@ core/util
 core/connection
 core/component
 core/instance
+core/base

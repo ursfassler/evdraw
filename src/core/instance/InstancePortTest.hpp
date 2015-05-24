@@ -9,13 +9,15 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( InstancePortTest );
 
     CPPUNIT_TEST(createPort);
-    CPPUNIT_TEST(position);
+    CPPUNIT_TEST(offset);
+    CPPUNIT_TEST(absolutePosition);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void createPort();
-    void position();
+    void offset();
+    void absolutePosition();
 
 };
 
