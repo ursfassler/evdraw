@@ -13,13 +13,15 @@ class Segment : protected Observer<Endpoint>, public ObserverCollection<Segment>
     Segment & operator=(const Segment &L) = delete;
 
     Endpoint *getStart() const;
+    void setStart(Endpoint *point);
     Endpoint *getEnd() const;
+    void setEnd(Endpoint *point);
 
     bool moveable() const;
 
   protected:
-    Endpoint  * const start;
-    Endpoint  * const end;
+    Endpoint  *start;
+    Endpoint  *end;
 
     void notify(const Endpoint *subject);
 };

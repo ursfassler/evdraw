@@ -29,7 +29,7 @@ PortPoint &Connection::getEnd()
   return end;
 }
 
-const std::vector<HorizontalSegment*> Connection::getHorizontalSegment() const
+const std::vector<HorizontalSegment *> &Connection::getHorizontalSegment() const
 {
   return horizontalSegments;
 }
@@ -39,7 +39,7 @@ void Connection::addHorizontalSegment(HorizontalSegment *segment)
   horizontalSegments.push_back(segment);
 }
 
-const std::vector<VerticalSegment *> Connection::getVerticalSegment() const
+const std::vector<VerticalSegment *> &Connection::getVerticalSegment() const
 {
   return verticalSegments;
 }
@@ -61,6 +61,8 @@ void Connection::addIntermediatePoint(IntermediatePoint *point)
 
 void Connection::checkInvariants() const
 {
+  //TODO when constructing a connection interactively, some of those invariants are violated
+  //TODO remove those
   invariant(intermediatePoints.size() >= 2);
   invariant(intermediatePoints.size() % 2 == 0);
   invariant(horizontalSegments.size() >= 2);

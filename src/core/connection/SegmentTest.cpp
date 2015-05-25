@@ -21,6 +21,36 @@ void SegmentTest::createSegment()
   CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&end), segment.getEnd());
 }
 
+void SegmentTest::setStart()
+{
+  PortPoint start(Point(1, 2));
+  PortPoint start2(Point(5, 6));
+  PortPoint end(Point(3, 4));
+
+  Segment segment(&start, &end);
+
+  segment.setStart(&start2);
+
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&start2), segment.getStart());
+  CPPUNIT_ASSERT(!start.hasObserver());
+  CPPUNIT_ASSERT(start2.hasObserver());
+}
+
+void SegmentTest::setEnd()
+{
+  PortPoint start(Point(1, 2));
+  PortPoint end(Point(3, 4));
+  PortPoint end2(Point(5, 6));
+
+  Segment segment(&start, &end);
+
+  segment.setEnd(&end2);
+
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&end2), segment.getEnd());
+  CPPUNIT_ASSERT(!end.hasObserver());
+  CPPUNIT_ASSERT(end2.hasObserver());
+}
+
 void SegmentTest::checkFixedFixed()
 {
   PortPoint start(Point(0, 0));

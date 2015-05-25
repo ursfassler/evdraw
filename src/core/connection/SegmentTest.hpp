@@ -12,6 +12,8 @@ class SegmentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( SegmentTest );
 
     CPPUNIT_TEST(createSegment);
+    CPPUNIT_TEST(setStart);
+    CPPUNIT_TEST(setEnd);
 
     CPPUNIT_TEST(checkFixedFixed);
     CPPUNIT_TEST(checkFixedMovable);
@@ -22,6 +24,8 @@ class SegmentTest : public CPPUNIT_NS::TestFixture
 
   public:
     void createSegment();
+    void setStart();
+    void setEnd();
 
     void checkFixedFixed();
     void checkFixedMovable();

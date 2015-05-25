@@ -16,10 +16,10 @@ class Connection final
     PortPoint &getStart();
     PortPoint &getEnd();
 
-    const std::vector<HorizontalSegment *> getHorizontalSegment() const;
+    const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     void addHorizontalSegment(HorizontalSegment *segment);
 
-    const std::vector<VerticalSegment *> getVerticalSegment() const;
+    const std::vector<VerticalSegment *> &getVerticalSegment() const;
     void addVerticalSegment(VerticalSegment *segment);
 
     const std::vector<IntermediatePoint *> &getIntermediatePoints() const;

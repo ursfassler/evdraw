@@ -22,9 +22,23 @@ Endpoint *Segment::getStart() const
   return start;
 }
 
+void Segment::setStart(Endpoint *point)
+{
+  start->unregisterObserver(this);
+  start = point;
+  start->registerObserver(this);
+}
+
 Endpoint *Segment::getEnd() const
 {
   return end;
+}
+
+void Segment::setEnd(Endpoint *point)
+{
+  end->unregisterObserver(this);
+  end = point;
+  end->registerObserver(this);
 }
 
 bool Segment::moveable() const
