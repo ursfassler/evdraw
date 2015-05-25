@@ -1,9 +1,18 @@
 #include "Component.hpp"
 
-Component::Component() :
+#include <cassert>
+
+Component::Component(const std::string &aName) :
+  name(aName),
   portLeft(),
   portRight()
 {
+}
+
+Component::~Component()
+{
+  assert(portLeft.empty());
+  assert(portRight.empty());
 }
 
 void Component::addPortLeft(ComponentPort *port)
@@ -26,4 +35,9 @@ void Component::addPortRight(ComponentPort *port)
 const std::vector<ComponentPort *> &Component::getPortRight() const
 {
   return portRight;
+}
+
+const std::string &Component::getName() const
+{
+  return name;
 }

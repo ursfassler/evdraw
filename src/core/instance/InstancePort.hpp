@@ -12,13 +12,13 @@
 class InstancePort final : public Base
 {
   public:
-    InstancePort(Base *parent, ComponentPort &compPort, const Point &offset);
+    InstancePort(Base *parent, ComponentPort *compPort, const Point &offset);
 
-    ComponentPort &getCompPort() const;
+    ComponentPort *getCompPort() const;
     Connector &getConnector();
 
   private:
-    ComponentPort &compPort;
+    ComponentPort * const compPort;
     Connector connector;
 
 };

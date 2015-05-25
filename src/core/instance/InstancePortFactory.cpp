@@ -7,13 +7,13 @@
 
 #include <stdexcept>
 
-InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort &compPort, Instance &instance)
+InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort *compPort, Instance &instance)
 {
   Component *comp = instance.getComponent();
   ConnectorSide side;
-  if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), &compPort)) {
+  if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), compPort)) {
     side = ConnectorSide::Left;
-  } else if (contains(comp->getPortRight().begin(), comp->getPortRight().end(), &compPort)) {
+  } else if (contains(comp->getPortRight().begin(), comp->getPortRight().end(), compPort)) {
     side = ConnectorSide::Right;
   } else {
     throw std::invalid_argument("port not part of component");
@@ -29,17 +29,17 @@ InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort &compPort
   return port;
 }
 
-Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort &compPort)
+Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort *compPort)
 {
   switch (side) {
     case ConnectorSide::Left: {
         const PaperUnit x = InstanceAppearance::leftPortXOffset();
-        const PaperUnit y = InstanceAppearance::portYOffset(compPort.getTopIndex());
+        const PaperUnit y = InstanceAppearance::portYOffset(compPort->getTopIndex());
         return Point(x, y);
       }
     case ConnectorSide::Right: {
         const PaperUnit x = InstanceAppearance::rightPortXOffset();
-        const PaperUnit y = InstanceAppearance::portYOffset(compPort.getTopIndex());
+        const PaperUnit y = InstanceAppearance::portYOffset(compPort->getTopIndex());
         return Point(x, y);
       }
   }

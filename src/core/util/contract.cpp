@@ -7,16 +7,35 @@ ContractError::ContractError(const std::string &aContract, const std::string &aF
 {
 }
 
+const char *ContractError::what() const _GLIBCXX_USE_NOEXCEPT
+{
+  return (contractName() + " does not hold: " + contract + " (" + function + ")").c_str();
+}
+
+
+
+PostconditionError::PostconditionError(const std::string &aContract, const std::string &aFunction) :
+  ContractError(aContract, aFunction)
+{
+}
+
+const std::string PostconditionError::contractName() const
+{
+  return "postcondition";
+}
+
+
 
 PreconditionError::PreconditionError(const std::string &aContract, const std::string &aFunction) :
   ContractError(aContract, aFunction)
 {
 }
 
-const char *PreconditionError::what() const _GLIBCXX_USE_NOEXCEPT
+const std::string PreconditionError::contractName() const
 {
-  return ("precondition does not hold: " + contract + " (" + function + ")").c_str();
+  return "precondition";
 }
+
 
 
 InvariantError::InvariantError(const std::string &aContract, const std::string &aFunction) :
@@ -24,7 +43,8 @@ InvariantError::InvariantError(const std::string &aContract, const std::string &
 {
 }
 
-const char *InvariantError::what() const _GLIBCXX_USE_NOEXCEPT
+const std::string InvariantError::contractName() const
 {
-  return ("invariant does not hold: " + contract + " (" + function + ")").c_str();
+  return "invariant";
 }
+

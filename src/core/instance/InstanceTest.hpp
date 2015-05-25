@@ -12,6 +12,9 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(setPosition);
     CPPUNIT_TEST(inheritsBase);
 
+    CPPUNIT_TEST(addInputPort);
+    CPPUNIT_TEST(addOutputPort);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -19,6 +22,8 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     void setPosition();
     void inheritsBase();
 
+    void addInputPort();
+    void addOutputPort();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( InstanceTest );

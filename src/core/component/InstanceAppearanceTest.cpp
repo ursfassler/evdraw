@@ -2,17 +2,18 @@
 
 #include "Component.hpp"
 #include "InstanceAppearance.hpp"
+#include "ComponentFactory.hpp"
 
 void InstanceAppearanceTest::dimensionIsNotZero()
 {
-  Component component;
+  Component component("");
   CPPUNIT_ASSERT(InstanceAppearance::width() > 0);
   CPPUNIT_ASSERT(InstanceAppearance::height(component) > 0);
 }
 
 void InstanceAppearanceTest::heightDependsOnPorts()
 {
-  Component component;
+  Component component("");
 
   PaperUnit height0 = InstanceAppearance::height(component);
 
@@ -36,6 +37,8 @@ void InstanceAppearanceTest::heightDependsOnPorts()
   CPPUNIT_ASSERT_EQUAL(height2, height2a);
   CPPUNIT_ASSERT_EQUAL(height2, height2b);
   CPPUNIT_ASSERT(height3 > height2);
+
+  ComponentFactory::cleanup(component);
 }
 
 void InstanceAppearanceTest::portDimensionIsNotZero()

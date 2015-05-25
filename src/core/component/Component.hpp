@@ -4,11 +4,15 @@
 #include "ComponentPort.hpp"
 
 #include <vector>
+#include <string>
 
-class Component
+class ComponentFactory;
+
+class Component final
 {
   public:
-    Component();
+    Component(const std::string &name);
+    ~Component();
 
     void addPortLeft(ComponentPort *port);
     void addPortRight(ComponentPort *port);
@@ -16,9 +20,14 @@ class Component
     const std::vector<ComponentPort *> &getPortLeft() const;
     const std::vector<ComponentPort *> &getPortRight() const;
 
+    const std::string &getName() const;
+
   private:
+    std::string name;
     std::vector<ComponentPort *> portLeft;
     std::vector<ComponentPort *> portRight;
+
+    friend ComponentFactory;
 
 };
 

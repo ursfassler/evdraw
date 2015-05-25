@@ -137,3 +137,13 @@ core/PointTest.hpp
 core/PointTest.cpp
 core/Point.hpp
 core/Point.cpp
+core/component/ComponentFactoryTest.hpp
+core/component/ComponentFactoryTest.cpp
+core/instance/InstanceFactoryTest.hpp
+core/instance/InstanceFactoryTest.cpp
+core/component/ComponentFactory.hpp
+core/component/ComponentFactory.cpp
+core/util/contractTest.hpp
+core/util/contractTest.cpp
+core/instance/InstanceFactory.hpp
+core/instance/InstanceFactory.cpp
