@@ -147,3 +147,7 @@ core/util/contractTest.hpp
 core/util/contractTest.cpp
 core/instance/InstanceFactory.hpp
 core/instance/InstanceFactory.cpp
+core/sheet/SheetTest.hpp
+core/sheet/SheetTest.cpp
+core/sheet/Sheet.hpp
+core/sheet/Sheet.cpp

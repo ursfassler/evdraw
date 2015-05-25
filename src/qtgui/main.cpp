@@ -12,6 +12,7 @@
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
 #include <core/instance/InstanceFactory.hpp>
+#include <core/sheet/Sheet.hpp>
 
 #include <QApplication>
 
@@ -49,13 +50,23 @@ static void addInstanceToScene(Instance *instance, QGraphicsScene &scene)
   scene.addItem(giinstA);
 }
 
-int main(int argc, char *argv[])
+static void fillSceneFromSheet(QGraphicsScene &scene, const Sheet *sheet)
 {
-  QApplication a(argc, argv);
+  for (Instance *instance : sheet->getInstances()) {
+    addInstanceToScene(instance, scene);
+  }
+  for (Connection *connection : sheet->getConnections()) {
+    addConnectionToScene(connection, scene);
+  }
+}
 
-  Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
+static Sheet* createSheet(Component *comp)
+{
+  Sheet *sheet = new Sheet();
   Instance *inst1 = InstanceFactory::produce(comp, "instance1", sceneToPu(QPointF(-150,0)));
+  sheet->addInstance(inst1);
   Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 150,0)));
+  sheet->addInstance(inst2);
 
   InstancePort *portA = inst1->getOutput()[0];
   InstancePort *portB = inst2->getInput()[0];
@@ -65,24 +76,36 @@ int main(int argc, char *argv[])
   Connection *con1 = ConnectionFactory::produce(line);
   portA->getConnector().addPoint(&con1->getStart());
   portB->getConnector().addPoint(&con1->getEnd());
+  sheet->addConnection(con1);
 
   const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con2 = ConnectionFactory::produce(line2);
   portA->getConnector().addPoint(&con2->getStart());
   portC->getConnector().addPoint(&con2->getEnd());
+  sheet->addConnection(con2);
 
-  QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
+  return sheet;
+}
+
+int main(int argc, char *argv[])
+{
+  QApplication a(argc, argv);
+
+  Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
+  Sheet *sheet = createSheet(comp);
 
   MainWindow w;
   QGraphicsScene &scene = w.getScene();
+  QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
-  addInstanceToScene(inst1, scene);
-  addInstanceToScene(inst2, scene);
-  addConnectionToScene(con1, scene);
-  addConnectionToScene(con2, scene);
-
+  fillSceneFromSheet(scene, sheet);
   w.setMinimumSize(640, 480);
   w.show();
 
-  return a.exec();
+  int ret = a.exec();
+
+  delete sheet;
+  delete comp;
+
+  return ret;
 }

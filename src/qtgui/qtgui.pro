@@ -39,7 +39,8 @@ SOURCES += main.cpp\
     ../core/util/contract.cpp \
     ../core/util/list.cpp \
     ../core/Point.cpp \
-    ../core/types.cpp
+    ../core/types.cpp \
+    ../core/sheet/Sheet.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -64,4 +65,5 @@ HEADERS  += MainWindow.hpp \
     ../core/util/list.hpp \
     ../core/util/Observer.hpp \
     ../core/Point.hpp \
-    ../core/types.hpp
+    ../core/types.hpp \
+    ../core/sheet/Sheet.hpp
