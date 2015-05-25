@@ -8,6 +8,7 @@ class ConnectionFactory
   public:
     static Connection *produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY);
     static Connection *produce(const std::vector<PaperUnit> &path);
+    static void cleanup(Connection &connection);
     static void dispose(Connection *connection);
 
   private:

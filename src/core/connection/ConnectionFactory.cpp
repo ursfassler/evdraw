@@ -30,24 +30,34 @@ Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
   return con;
 }
 
-void ConnectionFactory::dispose(Connection *con)
+void ConnectionFactory::cleanup(Connection &connection)
 {
-  for (HorizontalSegment *seg : con->horizontalSegments) {
+  for (HorizontalSegment *seg : connection.horizontalSegments) {
     delete seg;
   }
-  con->horizontalSegments.clear();
+  connection.horizontalSegments.clear();
 
-  for (VerticalSegment *seg : con->verticalSegments) {
+  for (VerticalSegment *seg : connection.verticalSegments) {
     delete seg;
   }
-  con->verticalSegments.clear();
+  connection.verticalSegments.clear();
 
-  for (IntermediatePoint *seg : con->intermediatePoints) {
+  for (IntermediatePoint *seg : connection.intermediatePoints) {
     delete seg;
   }
-  con->intermediatePoints.clear();
+  connection.intermediatePoints.clear();
 
-  delete con;
+  postcondition(connection.horizontalSegments.empty());
+  postcondition(connection.verticalSegments.empty());
+  postcondition(connection.intermediatePoints.empty());
+}
+
+void ConnectionFactory::dispose(Connection *connection)
+{
+  precondition(connection != nullptr);
+
+  cleanup(*connection);
+  delete connection;
 }
 
 void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> &path)

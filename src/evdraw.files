@@ -39,8 +39,8 @@ core/connection/Connection.cpp
 core/connection/Connection.hpp
 core/connection/ConnectionFactory.cpp
 core/connection/ConnectionFactory.hpp
-core/connection/ConnectionTest.cpp
-core/connection/ConnectionTest.hpp
+core/connection/ConnectionFactoryTest.cpp
+core/connection/ConnectionFactoryTest.hpp
 core/connection/Endpoint.cpp
 core/connection/Endpoint.hpp
 core/connection/EndpointTest.cpp
@@ -151,3 +151,7 @@ core/sheet/SheetTest.hpp
 core/sheet/SheetTest.cpp
 core/sheet/Sheet.hpp
 core/sheet/Sheet.cpp
+core/connection/ConnectionFactory.hpp
+core/connection/ConnectionFactory.cpp
+core/connection/ConnectionTest.cpp
+core/connection/ConnectionTest.hpp

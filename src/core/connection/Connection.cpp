@@ -34,14 +34,29 @@ const std::vector<HorizontalSegment*> Connection::getHorizontalSegment() const
   return horizontalSegments;
 }
 
+void Connection::addHorizontalSegment(HorizontalSegment *segment)
+{
+  horizontalSegments.push_back(segment);
+}
+
 const std::vector<VerticalSegment *> Connection::getVerticalSegment() const
 {
   return verticalSegments;
 }
 
+void Connection::addVerticalSegment(VerticalSegment *segment)
+{
+  verticalSegments.push_back(segment);
+}
+
 const std::vector<IntermediatePoint *> &Connection::getIntermediatePoints() const
 {
   return intermediatePoints;
+}
+
+void Connection::addIntermediatePoint(IntermediatePoint *point)
+{
+  intermediatePoints.push_back(point);
 }
 
 void Connection::checkInvariants() const
