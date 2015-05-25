@@ -33,8 +33,8 @@ void ConnectorTest::addPortPointUpdatesPosition()
 
 void ConnectorTest::positionOfPortIsWithinHeight()
 {
-  const PaperUnit top = -InstanceAppearance::portHeight()/2;
-  const PaperUnit bottom = InstanceAppearance::portHeight()/2;
+  const PaperUnit top = -InstanceAppearance::portDimension().y/2;
+  const PaperUnit bottom = InstanceAppearance::portDimension().y/2;
 
   Connector connector(nullptr, Point(0,0));
   PortPoint pp1(Point(0,0));
@@ -86,4 +86,17 @@ void ConnectorTest::setOffsetUpdatesPortPoint()
 
   connector.setOffset(Point(-4,15));
   CPPUNIT_ASSERT_EQUAL(Point(-4,15), pp.getPosition());
+}
+
+void ConnectorTest::notificationUpdatesPortPoint()
+{
+  Base base(nullptr, Point(0,0));
+  Connector connector(&base, Point(0,0));
+  PortPoint pp(Point(0,0));
+  connector.addPoint(&pp);
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), pp.getPosition());
+
+  base.setOffset(Point(10,20));
+
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), pp.getPosition());
 }

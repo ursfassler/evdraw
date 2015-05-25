@@ -5,6 +5,8 @@
 #include "convert.hpp"
 
 #include <QBrush>
+#include <QFont>
+#include <QRectF>
 
 GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
@@ -24,9 +26,9 @@ GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
   setPos(puToScene(model->getOffset()));
 
   instanceText.setText(QString::fromStdString(model->getName()));
-  instanceText.setPos(-instanceText.boundingRect().width()/2, 0);
   componentText.setText(QString::fromStdString(model->getComponent()->getName()));
-  componentText.setPos(-componentText.boundingRect().width()/2, instanceText.boundingRect().height());
+  instanceText.setPos(calcTextPos(0, instanceText.boundingRect()));
+  componentText.setPos(calcTextPos(1, componentText.boundingRect()));
 }
 
 GiInstance::~GiInstance()
@@ -39,9 +41,17 @@ void GiInstance::notify(const Base *)
   setPos(puToScene(model->getOffset()));
 }
 
+QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) const
+{
+  const qreal x = -boundingRect.width()/2;
+  const qreal offset = (0.5 + index) * puToScene(InstanceAppearance::textHeight());
+  const qreal y = offset - boundingRect.height()/2;
+  return QPointF(x,y);
+}
+
 void GiInstance::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  model->setOffset(sceneToPu(event->scenePos()));
+  model->setOffset(sceneToPu(event->scenePos() - event->lastPos()));
   event->accept();
 }
 

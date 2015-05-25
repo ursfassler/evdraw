@@ -4,6 +4,7 @@
 #include <core/instance/InstancePort.hpp>
 
 #include <QGraphicsRectItem>
+#include <QGraphicsSimpleTextItem>
 
 class GiInstancePort : public QGraphicsRectItem
 {
@@ -13,6 +14,9 @@ class GiInstancePort : public QGraphicsRectItem
   signals:
 
   public slots:
+
+  private:
+    QGraphicsSimpleTextItem label;
 
 };
 

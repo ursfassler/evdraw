@@ -41,6 +41,11 @@ void InstanceAppearanceTest::heightDependsOnPorts()
   ComponentFactory::cleanup(component);
 }
 
+void InstanceAppearanceTest::textHeightIsGreaterZero()
+{
+  CPPUNIT_ASSERT(InstanceAppearance::textHeight() > 0);
+}
+
 void InstanceAppearanceTest::portDimensionIsNotZero()
 {
   CPPUNIT_ASSERT(InstanceAppearance::portWidth() > 0);
@@ -53,11 +58,28 @@ void InstanceAppearanceTest::portDimensionAsPoint()
   CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portHeight(), InstanceAppearance::portDimension().y);
 }
 
+void InstanceAppearanceTest::leftPortPositionMakesSense()
+{
+  CPPUNIT_ASSERT(InstanceAppearance::leftPortPosition(0).x < 0);
+  CPPUNIT_ASSERT(InstanceAppearance::leftPortPosition(0).y > 0);
+}
+
+void InstanceAppearanceTest::rightPortPositionMakesSense()
+{
+  CPPUNIT_ASSERT(InstanceAppearance::rightPortPosition(0).x > 0);
+  CPPUNIT_ASSERT(InstanceAppearance::rightPortPosition(0).y > 0);
+}
+
+void InstanceAppearanceTest::connectorOffsetMakesSense()
+{
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::rightPortXOffset() + InstanceAppearance::portWidth()/2, InstanceAppearance::connectorOffset());
+}
+
 void InstanceAppearanceTest::portYOffset()
 {
-  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(0) > 0);
-  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(1) > InstanceAppearance::portYOffset(0));
-  CPPUNIT_ASSERT(InstanceAppearance::portYOffset(3) - InstanceAppearance::portYOffset(2) == InstanceAppearance::portYOffset(1) - InstanceAppearance::portYOffset(0));
+  CPPUNIT_ASSERT(InstanceAppearance::portVerticalOffset(0) > 0);
+  CPPUNIT_ASSERT(InstanceAppearance::portVerticalOffset(1) > InstanceAppearance::portVerticalOffset(0));
+  CPPUNIT_ASSERT(InstanceAppearance::portVerticalOffset(3) - InstanceAppearance::portVerticalOffset(2) == InstanceAppearance::portVerticalOffset(1) - InstanceAppearance::portVerticalOffset(0));
 }
 
 void InstanceAppearanceTest::leftPortXOffsetIsLeft()

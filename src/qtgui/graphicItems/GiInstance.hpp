@@ -23,6 +23,7 @@ class GiInstance final : public QGraphicsRectItem, public Observer<Base>
     Instance * const model;
     QGraphicsSimpleTextItem instanceText;
     QGraphicsSimpleTextItem componentText;
+    QPointF calcTextPos(unsigned index, const QRectF &boundingRect) const;
 };
 
 #endif // GIINSTANCE_HPP

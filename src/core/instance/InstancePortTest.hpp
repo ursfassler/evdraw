@@ -11,6 +11,7 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createPort);
     CPPUNIT_TEST(offset);
     CPPUNIT_TEST(absolutePosition);
+    CPPUNIT_TEST(positionChangeNotificationNotifiesConnector);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -18,6 +19,7 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     void createPort();
     void offset();
     void absolutePosition();
+    void positionChangeNotificationNotifiesConnector();
 
 };
 

@@ -33,14 +33,10 @@ Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort *co
 {
   switch (side) {
     case ConnectorSide::Left: {
-        const PaperUnit x = InstanceAppearance::leftPortXOffset();
-        const PaperUnit y = InstanceAppearance::portYOffset(compPort->getTopIndex());
-        return Point(x, y);
+        return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
       }
     case ConnectorSide::Right: {
-        const PaperUnit x = InstanceAppearance::rightPortXOffset();
-        const PaperUnit y = InstanceAppearance::portYOffset(compPort->getTopIndex());
-        return Point(x, y);
+        return InstanceAppearance::rightPortPosition(compPort->getTopIndex());
       }
   }
 

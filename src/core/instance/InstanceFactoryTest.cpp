@@ -4,6 +4,7 @@
 #include "Instance.hpp"
 #include "../component/Component.hpp"
 #include "../component/ComponentFactory.hpp"
+#include "../component/InstanceAppearance.hpp"
 
 
 void InstanceFactoryTest::componentCanNotBeNullptr()
@@ -58,6 +59,30 @@ void InstanceFactoryTest::produceWithPorts()
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getOutput().size());
   CPPUNIT_ASSERT_EQUAL(component->getPortRight()[0], instance->getOutput()[0]->getCompPort());
   CPPUNIT_ASSERT_EQUAL(component->getPortRight()[1], instance->getOutput()[1]->getCompPort());
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
+void InstanceFactoryTest::rightConnectorIsAtCorrectPosition()
+{
+  Component *component = ComponentFactory::produce("", {}, {""});
+  Instance *instance = InstanceFactory::produce(component, "", Point(0,0));
+
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::connectorOffset(), instance->getOutput()[0]->getConnector().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), instance->getOutput()[0]->getConnector().getAbsolutePosition().y);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
+void InstanceFactoryTest::leftConnectorIsAtCorrectPosition()
+{
+  Component *component = ComponentFactory::produce("", {""}, {});
+  Instance *instance = InstanceFactory::produce(component, "", Point(0,0));
+
+  CPPUNIT_ASSERT_EQUAL(-InstanceAppearance::connectorOffset(), instance->getInput()[0]->getConnector().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), instance->getInput()[0]->getConnector().getAbsolutePosition().y);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);

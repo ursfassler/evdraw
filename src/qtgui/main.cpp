@@ -53,11 +53,9 @@ int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
 
-  MainWindow w;
-
   Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
-  Instance *inst1 = InstanceFactory::produce(comp, "instance1", sceneToPu(QPointF(-100,0)));
-  Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 100,0)));
+  Instance *inst1 = InstanceFactory::produce(comp, "instance1", sceneToPu(QPointF(-150,0)));
+  Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 150,0)));
 
   InstancePort *portA = inst1->getOutput()[0];
   InstancePort *portB = inst2->getInput()[0];
@@ -73,8 +71,11 @@ int main(int argc, char *argv[])
   portA->getConnector().addPoint(&con2->getStart());
   portC->getConnector().addPoint(&con2->getEnd());
 
-  QGraphicsScene &scene = w.getScene();
+  QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
 
+  MainWindow w;
+  QGraphicsScene &scene = w.getScene();
+  scene.setFont(font);
   addInstanceToScene(inst1, scene);
   addInstanceToScene(inst2, scene);
   addConnectionToScene(con1, scene);

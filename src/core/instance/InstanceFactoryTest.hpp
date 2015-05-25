@@ -14,6 +14,8 @@ class InstanceFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(cleanupRemovesOutput);
     CPPUNIT_TEST(produceSimple);
     CPPUNIT_TEST(produceWithPorts);
+    CPPUNIT_TEST(rightConnectorIsAtCorrectPosition);
+    CPPUNIT_TEST(leftConnectorIsAtCorrectPosition);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -24,6 +26,8 @@ class InstanceFactoryTest : public CPPUNIT_NS::TestFixture
     void cleanupRemovesOutput();
     void produceSimple();
     void produceWithPorts();
+    void rightConnectorIsAtCorrectPosition();
+    void leftConnectorIsAtCorrectPosition();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( InstanceFactoryTest );

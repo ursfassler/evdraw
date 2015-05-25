@@ -3,6 +3,7 @@
 #include "convert.hpp"
 
 #include <QPen>
+#include <QCursor>
 #include <QDebug>
 
 GiSegment::GiSegment(Segment *model, QGraphicsItem *parent) :
@@ -52,6 +53,7 @@ GiHorizontalSegment::GiHorizontalSegment(HorizontalSegment *aModel, QGraphicsIte
   GiSegment(aModel, parent),
   model(aModel)
 {
+  setCursor(QCursor(Qt::SizeVerCursor));
 }
 
 void GiHorizontalSegment::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -72,6 +74,7 @@ GiVerticalSegment::GiVerticalSegment(VerticalSegment *aModel, QGraphicsItem *par
   GiSegment(aModel, parent),
   model(aModel)
 {
+  setCursor(QCursor(Qt::SizeHorCursor));
 }
 
 void GiVerticalSegment::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

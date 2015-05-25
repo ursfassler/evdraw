@@ -59,3 +59,13 @@ void InstancePortTest::absolutePosition()
   InstancePortFactory::dispose(port);
   ComponentFactory::dispose(comp);
 }
+
+void InstancePortTest::positionChangeNotificationNotifiesConnector()
+{
+  Base base(nullptr, Point(0,0));
+  InstancePort port(&base, nullptr, Point(0,0));
+
+  base.setOffset(Point(10,20));
+
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), port.getConnector().getAbsolutePosition());
+}

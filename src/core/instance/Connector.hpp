@@ -18,11 +18,14 @@ class Connector final : public Base
 
     void setOffset(const Point &value);
 
+  protected:
+    void notify(const Base *subject);
+
   private:
     std::vector<PortPoint*> points;
 
     void updateConnectionPosition() const;
-    PaperUnit calcLocalConnectorY(size_t idx) const;
+    Point calcLocalConnectorOffset(size_t idx) const;
 };
 
 #endif // CONNECTOR_HPP

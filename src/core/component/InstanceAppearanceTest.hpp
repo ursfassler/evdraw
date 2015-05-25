@@ -11,8 +11,13 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(dimensionIsNotZero);
     CPPUNIT_TEST(heightDependsOnPorts);
 
+    CPPUNIT_TEST(textHeightIsGreaterZero);
+
     CPPUNIT_TEST(portDimensionIsNotZero);
     CPPUNIT_TEST(portDimensionAsPoint);
+    CPPUNIT_TEST(leftPortPositionMakesSense);
+    CPPUNIT_TEST(rightPortPositionMakesSense);
+    CPPUNIT_TEST(connectorOffsetMakesSense);
 
     CPPUNIT_TEST(portYOffset);
 
@@ -25,8 +30,13 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
     void dimensionIsNotZero();
     void heightDependsOnPorts();
 
+    void textHeightIsGreaterZero();
+
     void portDimensionIsNotZero();
     void portDimensionAsPoint();
+    void leftPortPositionMakesSense();
+    void rightPortPositionMakesSense();
+    void connectorOffsetMakesSense();
 
     void portYOffset();
 

@@ -28,22 +28,26 @@ void Connector::setOffset(const Point &value)
   }
 }
 
-
+void Connector::notify(const Base *subject)
+{
+  Base::notify(subject);
+  updateConnectionPosition();
+}
 
 void Connector::updateConnectionPosition() const
 {
   for (size_t i = 0; i < points.size(); i++) {
-    PaperUnit y = calcLocalConnectorY(i);
+    Point offset = calcLocalConnectorOffset(i);
     PortPoint *pp = points[i];
-    pp->setPosition(Point(getOffset().x, getOffset().y + y));
+    pp->setPosition(getAbsolutePosition() + offset);
   }
 }
 
-PaperUnit Connector::calcLocalConnectorY(size_t idx) const
+Point Connector::calcLocalConnectorOffset(size_t idx) const
 {
-  const PaperUnit height = InstanceAppearance::portHeight();
+  const PaperUnit height = InstanceAppearance::portDimension().y;
   const PaperUnit offset = (idx+1) * height / (points.size()+1);
   const PaperUnit pos = offset - height / 2;
-  return pos;
+  return Point(0, pos);
 }
 

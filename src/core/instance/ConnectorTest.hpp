@@ -15,6 +15,7 @@ class ConnectorTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(setNewOffset);
     CPPUNIT_TEST(setOffsetUpdatesPortPoint);
+    CPPUNIT_TEST(notificationUpdatesPortPoint);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,6 +27,7 @@ class ConnectorTest : public CPPUNIT_NS::TestFixture
 
     void setNewOffset();
     void setOffsetUpdatesPortPoint();
+    void notificationUpdatesPortPoint();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConnectorTest );
