@@ -2,6 +2,7 @@
 #define CONVERT_HPP
 
 #include <core/types.hpp>
+#include <core/Point.hpp>
 #include <QPointF>
 
 qreal puToScene(PaperUnit value);

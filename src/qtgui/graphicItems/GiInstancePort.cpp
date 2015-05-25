@@ -1,20 +1,14 @@
 #include "GiInstancePort.hpp"
 
+#include <core/component/InstanceAppearance.hpp>
 #include "convert.hpp"
 
 GiInstancePort::GiInstancePort(InstancePort *model, QGraphicsItem *parent) :
   QGraphicsRectItem(parent)
 {
-  PaperUnit xofs;
-  if (model->getConnectorSide() == ConnectorSide::Right) {
-    xofs = - 2*model->getHeight();
-  } else {
-    xofs = 0;
-  }
-  qreal x = puToScene(model->getPosition().x + xofs);
-  qreal w = puToScene(2*model->getHeight());
-  qreal y = puToScene(model->getPosition().y - model->getHeight()/2);
-  qreal h = puToScene(model->getHeight());
+  Point topLeft     = -InstanceAppearance::portDimension() / 2;
+  Point bottomRight =  InstanceAppearance::portDimension() / 2;
 
-  setRect(x, y, w, h);
+  setRect(QRectF(puToScene(topLeft), puToScene(bottomRight)));
+  setPos(puToScene(model->getOffset()));
 }

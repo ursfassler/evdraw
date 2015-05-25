@@ -2,26 +2,27 @@
 #define GIINSTANCE_HPP
 
 #include <core/instance/Instance.hpp>
-#include <core/component/InstanceAppearance.hpp>
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsSimpleTextItem>
 
-class GiInstance : public QGraphicsRectItem, public Observer<Instance>
+class GiInstance final : public QGraphicsRectItem, public Observer<Base>
 {
   public:
-    GiInstance(Instance *aModel, InstanceAppearance *aAppearance, QGraphicsItem *parent);
+    GiInstance(Instance *aModel, QGraphicsItem *parent);
     ~GiInstance();
 
   protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void positionChange(const Instance *sender);
+    virtual void notify(const Base *sender);
 
   private:
     Instance * const model;
-    InstanceAppearance const * appearance;
+    QGraphicsSimpleTextItem instanceText;
+    QGraphicsSimpleTextItem componentText;
 };
 
 #endif // GIINSTANCE_HPP

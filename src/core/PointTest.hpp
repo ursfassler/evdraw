@@ -12,7 +12,10 @@ class PointTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(print);
     CPPUNIT_TEST(equal);
     CPPUNIT_TEST(notEqual);
-    CPPUNIT_TEST(add);
+    CPPUNIT_TEST(plus);
+    CPPUNIT_TEST(minus);
+    CPPUNIT_TEST(unaryMinus);
+    CPPUNIT_TEST(divisionByScalar);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -21,7 +24,10 @@ class PointTest : public CPPUNIT_NS::TestFixture
     void print();
     void equal();
     void notEqual();
-    void add();
+    void plus();
+    void minus();
+    void unaryMinus();
+    void divisionByScalar();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PointTest );

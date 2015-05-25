@@ -47,6 +47,12 @@ void InstanceAppearanceTest::portDimensionIsNotZero()
   CPPUNIT_ASSERT(InstanceAppearance::portHeight() > 0);
 }
 
+void InstanceAppearanceTest::portDimensionAsPoint()
+{
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portWidth(), InstanceAppearance::portDimension().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portHeight(), InstanceAppearance::portDimension().y);
+}
+
 void InstanceAppearanceTest::portYOffset()
 {
   CPPUNIT_ASSERT(InstanceAppearance::portYOffset(0) > 0);

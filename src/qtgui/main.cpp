@@ -8,8 +8,10 @@
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/component/Component.hpp>
 #include <core/component/InstanceAppearance.hpp>
+#include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
+#include <core/instance/InstanceFactory.hpp>
 
 #include <QApplication>
 
@@ -33,17 +35,16 @@ static void addConnectionToScene(Connection *con, QGraphicsScene &scene)
   }
 }
 
-static void addPortToScene(InstancePort *port, QGraphicsScene &scene)
+static void addInstanceToScene(Instance *instance, QGraphicsScene &scene)
 {
-  GiInstancePort *giPort = new GiInstancePort(port, nullptr);
-  scene.addItem(giPort);
-}
+  GiInstance *giinstA = new GiInstance(instance, 0);
 
-static void addInstanceToScene(Instance *instance, InstanceAppearance *appearance, QGraphicsScene &scene)
-{
-  GiInstance *giinstA = new GiInstance(instance, appearance, 0);
-
-//  for (InstancePort *port : instance->)
+  for (InstancePort *port : instance->getInput()) {
+    new GiInstancePort(port, giinstA);
+  }
+  for (InstancePort *port : instance->getOutput()) {
+    new GiInstancePort(port, giinstA);
+  }
 
   scene.addItem(giinstA);
 }
@@ -54,34 +55,32 @@ int main(int argc, char *argv[])
 
   MainWindow w;
 
-  InstancePort *portA = new InstancePort(Point(sceneToPu(-50), sceneToPu(0)), ConnectorSide::Right);
-  InstancePort *portB = new InstancePort(Point(sceneToPu(50), sceneToPu(0)), ConnectorSide::Left);
-  InstancePort *portC = new InstancePort(Point(sceneToPu(50), sceneToPu(-30)), ConnectorSide::Left);
+  Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
+  Instance *inst1 = InstanceFactory::produce(comp, "instance1", sceneToPu(QPointF(-100,0)));
+  Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 100,0)));
+
+  InstancePort *portA = inst1->getOutput()[0];
+  InstancePort *portB = inst2->getInput()[0];
+  InstancePort *portC = inst2->getInput()[1];
 
   const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con1 = ConnectionFactory::produce(line);
-  portA->addConnection(con1);
-  portB->addConnection(con1);
+  portA->getConnector().addPoint(&con1->getStart());
+  portB->getConnector().addPoint(&con1->getEnd());
 
   const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con2 = ConnectionFactory::produce(line2);
-  portA->addConnection(con2);
-  portC->addConnection(con2);
-
-  Component *compA = new Component();
-  compA->addPortRight(new ComponentPort("out1"));
-  Instance  *instA = new Instance(Point(0, 0), compA);
-  InstanceAppearance *appA = new InstanceAppearance(compA);
+  portA->getConnector().addPoint(&con2->getStart());
+  portC->getConnector().addPoint(&con2->getEnd());
 
   QGraphicsScene &scene = w.getScene();
 
+  addInstanceToScene(inst1, scene);
+  addInstanceToScene(inst2, scene);
   addConnectionToScene(con1, scene);
   addConnectionToScene(con2, scene);
-  addPortToScene(portA, scene);
-  addPortToScene(portB, scene);
-  addPortToScene(portC, scene);
-  addInstanceToScene(instA, appA, scene);
 
+  w.setMinimumSize(640, 480);
   w.show();
 
   return a.exec();

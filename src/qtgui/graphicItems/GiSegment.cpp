@@ -9,7 +9,7 @@ GiSegment::GiSegment(Segment *model, QGraphicsItem *parent) :
   QGraphicsLineItem(parent)
 {
   setPen(QPen(QBrush(Qt::SolidPattern), 2));
-  model->addListener(this);
+  model->registerObserver(this);
   updatePosition(model);
 }
 
@@ -34,19 +34,17 @@ void GiSegment::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   event->accept();
 }
 
-void GiSegment::positionChange(const Segment *)
+void GiSegment::notify(const Segment *)
 {
   updatePosition(getModel());
 }
 
 void GiSegment::updatePosition(Segment *model)
 {
-  qreal x1 = puToScene(model->getStart()->getX());
-  qreal y1 = puToScene(model->getStart()->getY());
-  qreal x2 = puToScene(model->getEnd()->getX());
-  qreal y2 = puToScene(model->getEnd()->getY());
+  QPointF start = puToScene(model->getStart()->getPosition());
+  QPointF end = puToScene(model->getEnd()->getPosition());
 
-  setLine(x1, y1, x2, y2);
+  setLine(QLineF(start, end));
 }
 
 

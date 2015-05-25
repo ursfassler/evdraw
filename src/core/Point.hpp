@@ -16,6 +16,9 @@ class Point final
 bool operator==(const Point &left, const Point &right);
 bool operator!=(const Point &left, const Point &right);
 Point operator+(const Point &left, const Point &right);
+Point operator-(const Point &left, const Point &right);
+Point operator-(const Point &point);
+Point operator/(const Point &point, PaperUnit divisor);
 std::ostream &operator<<(std::ostream &stream, const Point &point);
 
 

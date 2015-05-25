@@ -23,6 +23,11 @@ PaperUnit InstanceAppearance::portHeight()
   return scale(10);
 }
 
+Point InstanceAppearance::portDimension()
+{
+  return Point(portWidth(), portHeight());
+}
+
 PaperUnit InstanceAppearance::leftPortXOffset()
 {
   return (-width() + portWidth()) / 2;

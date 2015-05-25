@@ -12,6 +12,7 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(heightDependsOnPorts);
 
     CPPUNIT_TEST(portDimensionIsNotZero);
+    CPPUNIT_TEST(portDimensionAsPoint);
 
     CPPUNIT_TEST(portYOffset);
 
@@ -25,6 +26,7 @@ class InstanceAppearanceTest : public CPPUNIT_NS::TestFixture
     void heightDependsOnPorts();
 
     void portDimensionIsNotZero();
+    void portDimensionAsPoint();
 
     void portYOffset();
 

@@ -22,17 +22,23 @@ SOURCES += main.cpp\
     graphicItems/convert.cpp \
     graphicItems/GiInstancePort.cpp \
     graphicItems/GiInstance.cpp \
+    ../core/base/Base.cpp \
     ../core/component/Component.cpp \
+    ../core/component/ComponentFactory.cpp \
     ../core/component/ComponentPort.cpp \
     ../core/component/InstanceAppearance.cpp \
     ../core/connection/Connection.cpp \
     ../core/connection/ConnectionFactory.cpp \
     ../core/connection/Endpoint.cpp \
     ../core/connection/Segment.cpp \
+    ../core/instance/Connector.cpp \
     ../core/instance/Instance.cpp \
+    ../core/instance/InstanceFactory.cpp \
     ../core/instance/InstancePort.cpp \
     ../core/instance/InstancePortFactory.cpp \
+    ../core/util/contract.cpp \
     ../core/util/list.cpp \
+    ../core/Point.cpp \
     ../core/types.cpp
 
 HEADERS  += MainWindow.hpp \
@@ -40,16 +46,22 @@ HEADERS  += MainWindow.hpp \
     graphicItems/convert.hpp \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiInstance.hpp \
+    ../core/base/Base.hpp \
     ../core/component/Component.hpp \
+    ../core/component/ComponentFactory.hpp \
     ../core/component/ComponentPort.hpp \
     ../core/component/InstanceAppearance.hpp \
     ../core/connection/Connection.hpp \
     ../core/connection/ConnectionFactory.hpp \
     ../core/connection/Endpoint.hpp \
     ../core/connection/Segment.hpp \
+    ../core/instance/Connector.hpp \
     ../core/instance/Instance.hpp \
+    ../core/instance/InstanceFactory.hpp \
     ../core/instance/InstancePort.hpp \
     ../core/instance/InstancePortFactory.hpp \
+    ../core/util/contract.hpp \
     ../core/util/list.hpp \
-    ../core/util/Observed.hpp \
+    ../core/util/Observer.hpp \
+    ../core/Point.hpp \
     ../core/types.hpp

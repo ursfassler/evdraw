@@ -26,3 +26,18 @@ Point operator+(const Point &left, const Point &right)
 {
   return Point(left.x + right.x, left.y + right.y);
 }
+
+Point operator-(const Point &point)
+{
+  return Point(0,0) - point;
+}
+
+Point operator-(const Point &left, const Point &right)
+{
+  return Point(left.x - right.x, left.y - right.y);
+}
+
+Point operator/(const Point &point, PaperUnit divisor)
+{
+  return Point(point.x / divisor, point.y / divisor);
+}
