@@ -13,8 +13,8 @@ Segment::Segment(Endpoint *aStart, Endpoint *aEnd) :
 
 Segment::~Segment()
 {
-  start->unregisterObserver(this);
   end->unregisterObserver(this);
+  start->unregisterObserver(this);
 }
 
 Endpoint *Segment::getStart() const

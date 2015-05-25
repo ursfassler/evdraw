@@ -28,6 +28,7 @@ class GiUnmoveableSegment : public GiSegment
 {
   public:
     GiUnmoveableSegment(Segment *aModel, QGraphicsItem *parent);
+    virtual ~GiUnmoveableSegment();
 
   protected:
     Segment *getModel();
@@ -40,6 +41,7 @@ class GiHorizontalSegment : public GiSegment
 {
   public:
     GiHorizontalSegment(HorizontalSegment *aModel, QGraphicsItem *parent);
+    virtual ~GiHorizontalSegment();
 
   protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -53,6 +55,7 @@ class GiVerticalSegment : public GiSegment
 {
   public:
     GiVerticalSegment(VerticalSegment *aModel, QGraphicsItem *parent);
+    virtual ~GiVerticalSegment();
 
   protected:
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);

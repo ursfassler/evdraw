@@ -94,18 +94,20 @@ int main(int argc, char *argv[])
   Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
   Sheet *sheet = createSheet(comp);
 
-  MainWindow w;
-  QGraphicsScene &scene = w.getScene();
+  MainWindow *w = new MainWindow();
+  QGraphicsScene &scene = w->getScene();
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
   fillSceneFromSheet(scene, sheet);
-  w.setMinimumSize(640, 480);
-  w.show();
+  w->setMinimumSize(640, 480);
+  w->show();
 
   int ret = a.exec();
 
+  delete w;
+
   delete sheet;
-  delete comp;
+  ComponentFactory::dispose(comp);
 
   return ret;
 }

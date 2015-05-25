@@ -1,6 +1,7 @@
 #include "Sheet.hpp"
 
 #include "../connection/ConnectionFactory.hpp"
+#include "../instance/InstanceFactory.hpp"
 
 #include <cassert>
 
@@ -10,15 +11,15 @@ Sheet::Sheet()
 
 Sheet::~Sheet()
 {
-  for (Instance *instance : instances) {
-    delete instance;
-  }
-  instances.clear();
-
   for (Connection *connection : connections) {
     ConnectionFactory::dispose(connection);
   }
   connections.clear();
+
+  for (Instance *instance : instances) {
+    InstanceFactory::dispose(instance);
+  }
+  instances.clear();
 
   assert(instances.empty());
   assert(connections.empty());
