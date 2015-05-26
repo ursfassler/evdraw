@@ -20,11 +20,12 @@ Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
   precondition(path.size() >= 5);
   precondition((path.size() % 2) == 1);
 
-  Connection *con = new Connection();
+  Connection *con = new Connection(Connection::Mode::Build);
 
   addPoints(con, path);
   addSegments(con);
 
+  con->buildFinished();
   con->checkInvariants();
 
   return con;

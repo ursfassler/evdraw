@@ -5,8 +5,11 @@
 
 #include <QBrush>
 
-GiInstancePort::GiInstancePort(InstancePort *model, QGraphicsItem *parent) :
+#include <QDebug>
+
+GiInstancePort::GiInstancePort(InstancePort *model, Sheet *aSheet, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
+  sheet(aSheet),
   label(this)
 {
   setBrush(QBrush(QColor::fromRgb(0xff, 0xfa, 0x99)));
@@ -19,4 +22,22 @@ GiInstancePort::GiInstancePort(InstancePort *model, QGraphicsItem *parent) :
 
   label.setText(QString::fromStdString(model->getCompPort()->getName()));
   label.setPos(-label.boundingRect().width()/2, -label.boundingRect().height()/2);
+}
+
+void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
+{
+}
+
+void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+  if (connection == nullptr) {
+    event->accept();
+    grabMouse();
+    qDebug() << "click";
+
+    connection = new Connection(Connection::Mode::BuildToEnd);
+    sheet->addConnection(connection);
+    xxx
+  } else {
+  }
 }

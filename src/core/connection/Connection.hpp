@@ -4,14 +4,26 @@
 #include "Endpoint.hpp"
 #include "Segment.hpp"
 #include <vector>
+#include <ostream>
 
 class ConnectionFactory;
 
 class Connection final
 {
   public:
-    Connection();
+    enum class Mode {
+      Build,
+      BuildToEnd,
+      Finished,
+    };
+
+    Connection(Mode mode);
     ~Connection();
+
+    Mode getMode() const;
+    void buildFinished();
+
+    void addSegment();
 
     PortPoint &getStart();
     PortPoint &getEnd();
@@ -26,6 +38,8 @@ class Connection final
     void addIntermediatePoint(IntermediatePoint *point);
 
   private:
+    Mode        mode;
+
     PortPoint  start;
     PortPoint  end;
     std::vector<IntermediatePoint *> intermediatePoints;
@@ -33,9 +47,17 @@ class Connection final
     std::vector<HorizontalSegment *> horizontalSegments;
     std::vector<VerticalSegment *>   verticalSegments;
 
+    void addHorizontalSegment();
+    void addVerticalSegment();
+
+    void initBuildToEnd();
+    void finishBuildToEnd();
+
     void checkInvariants() const;
 
     friend ConnectionFactory;
 };
+
+std::ostream &operator<<(std::ostream &stream, Connection::Mode mode);
 
 #endif // CONNECTION_HPP

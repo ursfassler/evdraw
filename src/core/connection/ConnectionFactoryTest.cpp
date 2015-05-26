@@ -8,7 +8,7 @@
 
 void ConnectionFactoryTest::cleanup()
 {
-  Connection connection;
+  Connection connection(Connection::Mode::Build);
   ConnectionFactory::cleanup(connection);
 }
 
@@ -31,6 +31,7 @@ void ConnectionFactoryTest::createConnection()
 {
   Connection *connection = ConnectionFactory::produce(-10, 0, 10, 0);
 
+  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Finished, connection->getMode());
   CPPUNIT_ASSERT_EQUAL(PortPoint(Point(-10,0)), connection->getStart());
   CPPUNIT_ASSERT_EQUAL(PortPoint(Point( 10,0)), connection->getEnd());
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());

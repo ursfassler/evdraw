@@ -36,24 +36,24 @@ static void addConnectionToScene(Connection *con, QGraphicsScene &scene)
   }
 }
 
-static void addInstanceToScene(Instance *instance, QGraphicsScene &scene)
+static void addInstanceToScene(Instance *instance, Sheet *sheet, QGraphicsScene &scene)
 {
   GiInstance *giinstA = new GiInstance(instance, 0);
 
   for (InstancePort *port : instance->getInput()) {
-    new GiInstancePort(port, giinstA);
+    new GiInstancePort(port, sheet, giinstA);
   }
   for (InstancePort *port : instance->getOutput()) {
-    new GiInstancePort(port, giinstA);
+    new GiInstancePort(port, sheet, giinstA);
   }
 
   scene.addItem(giinstA);
 }
 
-static void fillSceneFromSheet(QGraphicsScene &scene, const Sheet *sheet)
+static void fillSceneFromSheet(QGraphicsScene &scene, Sheet *sheet)
 {
   for (Instance *instance : sheet->getInstances()) {
-    addInstanceToScene(instance, scene);
+    addInstanceToScene(instance, sheet, scene);
   }
   for (Connection *connection : sheet->getConnections()) {
     addConnectionToScene(connection, scene);
