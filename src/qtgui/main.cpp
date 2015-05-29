@@ -3,6 +3,7 @@
 #include "graphicItems/GiInstancePort.hpp"
 #include "graphicItems/GiInstance.hpp"
 #include "graphicItems/convert.hpp"
+#include "SheetToGuiUpdater.hpp"
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
@@ -17,58 +18,6 @@
 #include <QApplication>
 
 #include <cassert>
-
-class SheetHandler : public SheetObserver
-{
-  public:
-    SheetHandler(QGraphicsScene &aScene, Sheet &aSheet) :
-      scene(aScene),
-      sheet(aSheet)
-    {
-    }
-
-    virtual void instanceAdded(Instance *instance)
-    {
-      GiInstance *giinstA = new GiInstance(instance, 0);
-
-      for (InstancePort *port : instance->getInput()) {
-        new GiInstancePort(port, &sheet, giinstA);
-      }
-      for (InstancePort *port : instance->getOutput()) {
-        new GiInstancePort(port, &sheet, giinstA);
-      }
-
-      scene.addItem(giinstA);
-    }
-
-    virtual void connectionAdded(Connection *connection)
-    {
-      for (HorizontalSegment *hs : connection->getHorizontalSegment()) {
-        GiSegment *ghs;
-        if (hs->moveable()) {
-          ghs = new GiHorizontalSegment(hs, nullptr);
-        } else {
-          ghs = new GiUnmoveableSegment(hs, nullptr);
-        }
-        scene.addItem(ghs);
-      }
-      for (VerticalSegment *hs : connection->getVerticalSegment()) {
-        assert(hs->moveable());
-        GiVerticalSegment *ghs = new GiVerticalSegment(hs, nullptr);
-        scene.addItem(ghs);
-      }
-    }
-
-
-    virtual void addConnectionUnderConnstruction(PartialConnectionFromStart *connection){ (void)(connection); }
-    virtual void abortConnectionUnderConnstruction(PartialConnectionFromStart *connection){ (void)(connection); }
-
-  private:
-    QGraphicsScene &scene;
-    Sheet &sheet;
-
-
-};
 
 static void loadSheet(Sheet &sheet, Component *comp)
 {
@@ -104,7 +53,7 @@ int main(int argc, char *argv[])
   MainWindow *w = new MainWindow();
   QGraphicsScene &scene = w->getScene();
 
-  SheetHandler sheetHandler(scene, sheet);
+  SheetToGuiUpdater sheetHandler(scene, sheet);
   sheet.registerObserver(&sheetHandler);
 
   loadSheet(sheet, comp);

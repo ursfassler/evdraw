@@ -42,6 +42,7 @@ const std::vector<HorizontalSegment *> &ConnectionBase::getHorizontalSegment() c
 void ConnectionBase::addHorizontalSegment(HorizontalSegment *segment)
 {
   horizontalSegments.push_back(segment);
+  notify(&ConnectionObserver::addHorizontalSegment, static_cast<const ConnectionBase *>(this), segment);
 }
 
 const std::vector<VerticalSegment *> &ConnectionBase::getVerticalSegment() const
@@ -52,6 +53,7 @@ const std::vector<VerticalSegment *> &ConnectionBase::getVerticalSegment() const
 void ConnectionBase::addVerticalSegment(VerticalSegment *segment)
 {
   verticalSegments.push_back(segment);
+  notify(&ConnectionObserver::addVerticalSegment, static_cast<const ConnectionBase *>(this), segment);
 }
 
 const std::vector<IntermediatePoint *> &ConnectionBase::getIntermediatePoints() const

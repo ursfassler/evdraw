@@ -3,13 +3,36 @@
 
 #include "Endpoint.hpp"
 #include "Segment.hpp"
+#include "../util/Observer.hpp"
 #include <vector>
 #include <ostream>
 
 class ConnectionFactory;
 class ConnectionTest;
 
-class ConnectionBase
+class ConnectionBase;
+
+class ConnectionObserver
+{
+  public:
+    virtual ~ConnectionObserver()
+    {
+    }
+
+    virtual void addVerticalSegment(const ConnectionBase *parent, VerticalSegment *segment)
+    {
+      (void)(parent);
+      (void)(segment);
+    }
+
+    virtual void addHorizontalSegment(const ConnectionBase *parent, HorizontalSegment *segment)
+    {
+      (void)(parent);
+      (void)(segment);
+    }
+};
+
+class ConnectionBase : public ObserverCollection<ConnectionObserver>
 {
   public:
     ConnectionBase();

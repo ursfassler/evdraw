@@ -73,9 +73,6 @@ void ObserverTest::needToBeRegisteredToUnregister()
   CPPUNIT_ASSERT_THROW(observed.unregisterObserver(&observer), PreconditionError);
 }
 
-#include <iostream>
-#include <array>
-
 class Test
 {
   public:
@@ -83,51 +80,59 @@ class Test
     {
     }
 
-    virtual void test()
+    virtual void foo()
     {
-      std::cout << "Test::test" << std::endl;
+      lastFoo = "Test::foo";
     }
 
-    virtual void foo(const std::string msg)
+    virtual void bar()
     {
-      std::cout << "Test::foo: " << msg << std::endl;
+      lastBar = "Test::bar";
     }
+
+    std::string lastFoo = "";
+    std::string lastBar = "";
 };
 
 class TestA : public Test
 {
   public:
-    void test()
+    void bar()
     {
-      std::cout << "TestA::test" << std::endl;
+      lastBar = "TestA::bar";
     }
-
-    std::array<int,10> array;
 };
 
 class TestB : public Test
 {
   public:
-    void foo(const std::string msg)
+    void foo()
     {
-      std::cout << "TestB::foo: " << msg << std::endl;
+      lastFoo = "TestB::foo";
     }
-
-    int num = 42;
 };
 
-void ObserverTest::functr()
+void ObserverTest::virtualFunctionDispatch()
 {
   ObserverCollection<Test> obscol;
+
   Test observer;
   TestA obsA;
   TestB obsB;
+
   obscol.registerObserver(&observer);
   obscol.registerObserver(&obsA);
   obscol.registerObserver(&obsB);
 
-  obscol.notify(&Test::test);
-  obscol.notify(&Test::foo, std::string("Hallo"));
+  obscol.notify(&Test::foo);
+  obscol.notify(&Test::bar);
+
+  CPPUNIT_ASSERT_EQUAL(std::string("Test::foo"), observer.lastFoo);
+  CPPUNIT_ASSERT_EQUAL(std::string("Test::bar"), observer.lastBar);
+  CPPUNIT_ASSERT_EQUAL(std::string("Test::foo"), obsA.lastFoo);
+  CPPUNIT_ASSERT_EQUAL(std::string("TestA::bar"), obsA.lastBar);
+  CPPUNIT_ASSERT_EQUAL(std::string("TestB::foo"), obsB.lastFoo);
+  CPPUNIT_ASSERT_EQUAL(std::string("Test::bar"), obsB.lastBar);
 
   obscol.unregisterObserver(&obsB);
   obscol.unregisterObserver(&obsA);

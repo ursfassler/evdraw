@@ -20,6 +20,9 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(buildToEndAndFinish);
     CPPUNIT_TEST(buildToEndAddAndFinish);
 
+    CPPUNIT_TEST(notifyWhenAddVerticalSegment);
+    CPPUNIT_TEST(notifyWhenAddHorizontalSegment);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -33,6 +36,9 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     void buildToEndAndAddSegment();
     void buildToEndAndFinish();
     void buildToEndAddAndFinish();
+
+    void notifyWhenAddVerticalSegment();
+    void notifyWhenAddHorizontalSegment();
 
 };
 

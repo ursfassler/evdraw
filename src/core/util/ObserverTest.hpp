@@ -14,7 +14,7 @@ class ObserverTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(canNotRegisterTwice);
     CPPUNIT_TEST(needToBeRegisteredToUnregister);
 
-    CPPUNIT_TEST(functr);
+    CPPUNIT_TEST(virtualFunctionDispatch);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -25,7 +25,7 @@ class ObserverTest : public CPPUNIT_NS::TestFixture
     void canNotRegisterTwice();
     void needToBeRegisteredToUnregister();
 
-    void functr();
+    void virtualFunctionDispatch();
 
 };
 

@@ -40,7 +40,9 @@ SOURCES += main.cpp\
     ../core/util/list.cpp \
     ../core/Point.cpp \
     ../core/types.cpp \
-    ../core/sheet/Sheet.cpp
+    ../core/sheet/Sheet.cpp \
+    SheetToGuiUpdater.cpp \
+    graphicItems/GiConnectionCreation.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -66,4 +68,6 @@ HEADERS  += MainWindow.hpp \
     ../core/util/Observer.hpp \
     ../core/Point.hpp \
     ../core/types.hpp \
-    ../core/sheet/Sheet.hpp
+    ../core/sheet/Sheet.hpp \
+    SheetToGuiUpdater.hpp \
+    graphicItems/GiConnectionCreation.hpp

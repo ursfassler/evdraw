@@ -108,3 +108,53 @@ void ConnectionTest::buildToEndAddAndFinish()
   ConnectionFactory::dispose(connection);
 }
 
+class ConnectionObserverTest : public ConnectionObserver
+{
+  public:
+    virtual void addVerticalSegment(const ConnectionBase *parent, VerticalSegment *segment)
+    {
+      lastParent = parent;
+      lastAddVerticalSegment = segment;
+    }
+
+    virtual void addHorizontalSegment(const ConnectionBase *parent, HorizontalSegment *segment)
+    {
+      lastParent = parent;
+      lastAddHorizontalSegment = segment;
+    }
+
+    ConnectionBase const * lastParent = nullptr;
+    VerticalSegment *lastAddVerticalSegment = nullptr;
+    HorizontalSegment *lastAddHorizontalSegment = nullptr;
+};
+
+void ConnectionTest::notifyWhenAddVerticalSegment()
+{
+  ConnectionBase connection;
+  ConnectionObserverTest observer;
+  connection.registerObserver(&observer);
+  VerticalSegment *segment = new VerticalSegment(&connection.getStart(), &connection.getEnd());
+
+  connection.addVerticalSegment(segment);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const ConnectionBase*>(&connection), observer.lastParent);
+  CPPUNIT_ASSERT_EQUAL(segment, observer.lastAddVerticalSegment);
+
+  connection.unregisterObserver(&observer);
+  ConnectionFactory::cleanup(connection);
+}
+
+void ConnectionTest::notifyWhenAddHorizontalSegment()
+{
+  ConnectionBase connection;
+  ConnectionObserverTest observer;
+  connection.registerObserver(&observer);
+  HorizontalSegment *segment = new HorizontalSegment(&connection.getStart(), &connection.getEnd());
+
+  connection.addHorizontalSegment(segment);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const ConnectionBase*>(&connection), observer.lastParent);
+  CPPUNIT_ASSERT_EQUAL(segment, observer.lastAddHorizontalSegment);
+
+  connection.unregisterObserver(&observer);
+  ConnectionFactory::cleanup(connection);
+}
+
