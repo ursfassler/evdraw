@@ -34,10 +34,10 @@ void EndpointTest::setPosition()
   CPPUNIT_ASSERT_EQUAL(Point(42,57), point.getPosition());
 }
 
-class EpObserver : public Observer<Endpoint>
+class EpObserver : public EndpointObserver
 {
   public:
-    void notify(const Endpoint *sender)
+    void positionChanged(const Endpoint *sender)
     {
       lastSender = sender;
     }

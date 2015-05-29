@@ -22,9 +22,9 @@ class GiInstancePort : public QGraphicsRectItem
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
 
   private:
-    QGraphicsSimpleTextItem label;
+    InstancePort *model;
     Sheet *sheet;
-    Connection *connection = nullptr;
+    QGraphicsSimpleTextItem label;
 
 };
 

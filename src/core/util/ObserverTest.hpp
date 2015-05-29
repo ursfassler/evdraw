@@ -14,6 +14,8 @@ class ObserverTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(canNotRegisterTwice);
     CPPUNIT_TEST(needToBeRegisteredToUnregister);
 
+    CPPUNIT_TEST(functr);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -22,6 +24,8 @@ class ObserverTest : public CPPUNIT_NS::TestFixture
     void canNotUnregisterNullptr();
     void canNotRegisterTwice();
     void needToBeRegisteredToUnregister();
+
+    void functr();
 
 };
 

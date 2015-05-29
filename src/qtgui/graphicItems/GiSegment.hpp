@@ -7,7 +7,7 @@
 #include <QGraphicsSceneMouseEvent>
 
 
-class GiSegment : public QGraphicsLineItem, public Observer<Segment>
+class GiSegment : public QGraphicsLineItem, public SegmentObserver
 {
   public:
     explicit GiSegment(Segment *model, QGraphicsItem *parent);
@@ -17,7 +17,7 @@ class GiSegment : public QGraphicsLineItem, public Observer<Segment>
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void notify(const Segment *sender);
+    virtual void positionChanged(const Segment *sender);
     virtual Segment *getModel() = 0;
 
   private:

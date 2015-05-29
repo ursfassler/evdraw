@@ -7,7 +7,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSimpleTextItem>
 
-class GiInstance final : public QGraphicsRectItem, public Observer<Base>
+class GiInstance final : public QGraphicsRectItem, public BaseObserver
 {
   public:
     GiInstance(Instance *aModel, QGraphicsItem *parent);

@@ -24,7 +24,7 @@ void BaseTest::setOffset()
   CPPUNIT_ASSERT_EQUAL(Point(10,20), base.getOffset());
 }
 
-class BaseObserver : public Observer<Base>
+class TestBaseObserver : public BaseObserver
 {
   public:
     virtual void notify(const Base *subject)
@@ -38,7 +38,7 @@ class BaseObserver : public Observer<Base>
 void BaseTest::notifyOnChange()
 {
   Base base(nullptr, Point(0,0));
-  BaseObserver observer;
+  TestBaseObserver observer;
   base.registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(static_cast<const Base*>(nullptr), observer.lastSubject);
@@ -53,7 +53,7 @@ void BaseTest::notifyChildOnChange()
   Base base(nullptr, Point(0,0));
   Base baseChild(&base, Point(0,0));
 
-  BaseObserver observer;
+  TestBaseObserver observer;
   baseChild.registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(static_cast<const Base*>(nullptr), observer.lastSubject);
@@ -69,7 +69,7 @@ void BaseTest::notifyGrandchildOnChange()
   Base baseChild(&base, Point(0,0));
   Base baseGrandchild(&baseChild, Point(0,0));
 
-  BaseObserver observer;
+  TestBaseObserver observer;
   baseGrandchild.registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(static_cast<const Base*>(nullptr), observer.lastSubject);

@@ -11,7 +11,7 @@ Sheet::Sheet()
 
 Sheet::~Sheet()
 {
-  for (Connection *connection : connections) {
+  for (ConnectionBase *connection : connections) {
     ConnectionFactory::dispose(connection);
   }
   connections.clear();
@@ -33,6 +33,7 @@ const std::vector<Instance *> &Sheet::getInstances() const
 void Sheet::addInstance(Instance *instance)
 {
   instances.push_back(instance);
+  notify(&SheetObserver::instanceAdded, instance);
 }
 
 const std::vector<Connection *> &Sheet::getConnections() const
@@ -43,4 +44,25 @@ const std::vector<Connection *> &Sheet::getConnections() const
 void Sheet::addConnection(Connection *connection)
 {
   connections.push_back(connection);
+  notify(&SheetObserver::connectionAdded, connection);
+}
+
+PartialConnectionFromStart *Sheet::getConnectionUnderConstruction() const
+{
+  return connectionUnderConstruction;
+}
+
+void Sheet::setConnectionUnderConstruction(PartialConnectionFromStart *value)
+{
+  precondition(value != nullptr);
+
+  if (connectionUnderConstruction != nullptr) {
+    PartialConnectionFromStart  *old = connectionUnderConstruction;
+    connectionUnderConstruction = nullptr;
+    notify(&SheetObserver::abortConnectionUnderConnstruction, old);
+    ConnectionFactory::dispose(old);
+  }
+
+  connectionUnderConstruction = value;
+  notify(&SheetObserver::addConnectionUnderConnstruction, value);
 }

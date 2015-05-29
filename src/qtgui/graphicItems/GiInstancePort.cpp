@@ -1,14 +1,16 @@
 #include "GiInstancePort.hpp"
 
 #include <core/component/InstanceAppearance.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 #include "convert.hpp"
 
 #include <QBrush>
 
 #include <QDebug>
 
-GiInstancePort::GiInstancePort(InstancePort *model, Sheet *aSheet, QGraphicsItem *parent) :
+GiInstancePort::GiInstancePort(InstancePort *aModel, Sheet *aSheet, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
+  model(aModel),
   sheet(aSheet),
   label(this)
 {
@@ -30,14 +32,10 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-  if (connection == nullptr) {
-    event->accept();
-    grabMouse();
-    qDebug() << "click";
+  event->accept();
+  qDebug() << "click";
 
-    connection = new Connection(Connection::Mode::BuildToEnd);
-    sheet->addConnection(connection);
-    xxx
-  } else {
-  }
+  PartialConnectionFromStart *con = ConnectionFactory::producePartialFromStart();
+  model->getConnector().addPoint(&con->getStart());
+  sheet->setConnectionUnderConstruction(con);
 }

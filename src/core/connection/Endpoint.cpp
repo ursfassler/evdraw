@@ -19,7 +19,7 @@ void Endpoint::setPosition(const Point &value)
 {
   if (position != value) {
     position = value;
-    notifyObservers(this);
+    notify(&EndpointObserver::positionChanged, static_cast<const Endpoint *>(this));
   }
 }
 

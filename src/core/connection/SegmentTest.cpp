@@ -1,9 +1,9 @@
 #include "SegmentTest.hpp"
 
-class SegObserver : public Observer<Segment>
+class SegObserver : public SegmentObserver
 {
   public:
-    void notify(const Segment *sender)
+    void positionChanged(const Segment *sender)
     {
       lastSender = sender;
     }

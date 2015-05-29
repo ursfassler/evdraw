@@ -4,7 +4,15 @@
 #include "../Point.hpp"
 #include "../util/Observer.hpp"
 
-class Base : public ObserverCollection<Base>, protected Observer<Base>
+class Base;
+
+class BaseObserver
+{
+  public:
+    virtual void notify(const Base *sender) = 0;
+};
+
+class Base : public ObserverCollection<BaseObserver>, public BaseObserver
 {
   public:
     Base(Base *parent, const Point &offset);

@@ -8,8 +8,7 @@
 
 void ConnectionTest::createFinished()
 {
-  Connection connection(Connection::Mode::Finished);
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Finished, connection.getMode());
+  ConnectionBase connection;
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getIntermediatePoints().size());
@@ -19,8 +18,7 @@ void ConnectionTest::createFinished()
 
 void ConnectionTest::createBuild()
 {
-  Connection connection(Connection::Mode::Build);
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Build, connection.getMode());
+  ConnectionBase connection;
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getIntermediatePoints().size());
@@ -28,30 +26,10 @@ void ConnectionTest::createBuild()
   CPPUNIT_ASSERT_EQUAL(Point(0,0), connection.getEnd().getPosition());
 }
 
-void ConnectionTest::createBuildToEnd()
-{
-  Connection connection(Connection::Mode::BuildToEnd);
-
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::BuildToEnd, connection.getMode());
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getIntermediatePoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection.getStart().getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection.getEnd().getPosition());
-
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection.getStart()), connection.getHorizontalSegment()[0]->getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection.getIntermediatePoints()[0]), connection.getHorizontalSegment()[0]->getEnd());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection.getIntermediatePoints()[0]), connection.getVerticalSegment()[0]->getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection.getEnd()), connection.getVerticalSegment()[0]->getEnd());
-
-  ConnectionFactory::cleanup(connection);
-}
-
 
 void ConnectionTest::addHorizontalSegment()
 {
-  Connection connection(Connection::Mode::Build);
+  ConnectionBase connection;
   HorizontalSegment *segment = new HorizontalSegment(&connection.getStart(), &connection.getEnd());
 
   connection.addHorizontalSegment(segment);
@@ -62,7 +40,7 @@ void ConnectionTest::addHorizontalSegment()
 
 void ConnectionTest::addVerticalSegment()
 {
-  Connection connection(Connection::Mode::Build);
+  ConnectionBase connection;
   VerticalSegment *segment = new VerticalSegment(&connection.getStart(), &connection.getEnd());
 
   connection.addVerticalSegment(segment);
@@ -73,7 +51,7 @@ void ConnectionTest::addVerticalSegment()
 
 void ConnectionTest::addIntermediatePoint()
 {
-  Connection connection(Connection::Mode::Build);
+  ConnectionBase connection;
   IntermediatePoint *ip = new IntermediatePoint(Point(0,0));
 
   connection.addIntermediatePoint(ip);
@@ -84,53 +62,49 @@ void ConnectionTest::addIntermediatePoint()
 
 void ConnectionTest::buildToEndAndAddSegment()
 {
-  Connection connection(Connection::Mode::BuildToEnd);
+  PartialConnectionFromStart *connection = ConnectionFactory::producePartialFromStart();
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getIntermediatePoints().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getIntermediatePoints().size());
 
-  connection.addSegment();
+  connection->addSegment();
 
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getIntermediatePoints().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
 
-  connection.addSegment();
+  connection->addSegment();
 
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(3), connection.getIntermediatePoints().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getIntermediatePoints().size());
 
-  ConnectionFactory::cleanup(connection);
+  ConnectionFactory::dispose(connection);
 }
 
 void ConnectionTest::buildToEndAndFinish()
 {
-  Connection connection(Connection::Mode::BuildToEnd);
-  connection.buildFinished();
+  PartialConnectionFromStart *connection = ConnectionFactory::producePartialFromStart();
+  connection->buildFinished();
 
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Finished, connection.getMode());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
 
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getIntermediatePoints().size());
-
-  ConnectionFactory::cleanup(connection);
+  ConnectionFactory::dispose(connection);
 }
 
 void ConnectionTest::buildToEndAddAndFinish()
 {
-  Connection connection(Connection::Mode::BuildToEnd);
-  connection.addSegment();
-  connection.buildFinished();
+  PartialConnectionFromStart *connection = ConnectionFactory::producePartialFromStart();
+  connection->addSegment();
+  connection->buildFinished();
 
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Finished, connection.getMode());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
 
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getHorizontalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection.getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection.getIntermediatePoints().size());
-
-  ConnectionFactory::cleanup(connection);
+  ConnectionFactory::dispose(connection);
 }
 

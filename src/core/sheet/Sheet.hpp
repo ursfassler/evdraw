@@ -3,10 +3,21 @@
 
 #include "../instance/Instance.hpp"
 #include "../connection/Connection.hpp"
+#include "../util/Observer.hpp"
 
 #include <vector>
 
-class Sheet final
+class SheetObserver
+{
+  public:
+    virtual ~SheetObserver(){}
+    virtual void instanceAdded(Instance *instance){ (void)(instance); }
+    virtual void connectionAdded(Connection *connection){ (void)(connection); }
+    virtual void addConnectionUnderConnstruction(PartialConnectionFromStart *connection){ (void)(connection); }
+    virtual void abortConnectionUnderConnstruction(PartialConnectionFromStart *connection){ (void)(connection); }
+};
+
+class Sheet final : public ObserverCollection<SheetObserver>
 {
   public:
     Sheet();
@@ -18,7 +29,11 @@ class Sheet final
     const std::vector<Connection *> &getConnections() const;
     void addConnection(Connection *connection);
 
+    PartialConnectionFromStart *getConnectionUnderConstruction() const;
+    void setConnectionUnderConstruction(PartialConnectionFromStart *value);
+
   private:
+    PartialConnectionFromStart  *connectionUnderConstruction = nullptr;
     std::vector<Instance *> instances;
     std::vector<Connection *> connections;
 };

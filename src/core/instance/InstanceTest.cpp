@@ -28,7 +28,7 @@ void InstanceTest::setPosition()
   CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getOffset());
 }
 
-class EpObserver : public Observer<Instance>
+class EpObserver
 {
   public:
     Instance const *lastSender = nullptr;

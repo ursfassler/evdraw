@@ -46,9 +46,9 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-void Segment::notify(const Endpoint *)
+void Segment::positionChanged(const Endpoint *)
 {
-  notifyObservers(this);
+  notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -67,7 +67,7 @@ void HorizontalSegment::moveToY(PaperUnit value)
   end->setPosition(Point(end->getPosition().x, value));
 }
 
-void HorizontalSegment::notify(const Endpoint *sender)
+void HorizontalSegment::positionChanged(const Endpoint *sender)
 {
   precondition((sender == start) || (sender == end));
 
@@ -76,7 +76,7 @@ void HorizontalSegment::notify(const Endpoint *sender)
   } else {
     start->setPosition(Point(start->getPosition().x, end->getPosition().y));
   }
-  Segment::notify(sender);
+  Segment::positionChanged(sender);
 }
 
 
@@ -96,7 +96,7 @@ void VerticalSegment::moveToX(PaperUnit value)
   end->setPosition(Point(value, end->getPosition().y));
 }
 
-void VerticalSegment::notify(const Endpoint *sender)
+void VerticalSegment::positionChanged(const Endpoint *sender)
 {
   precondition((sender == start) || (sender == end));
 
@@ -105,5 +105,5 @@ void VerticalSegment::notify(const Endpoint *sender)
   } else {
     start->setPosition(Point(end->getPosition().x, start->getPosition().y));
   }
-  Segment::notify(sender);
+  Segment::positionChanged(sender);
 }

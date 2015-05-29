@@ -7,7 +7,15 @@
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
 
-class Endpoint : public ObserverCollection<Endpoint>
+class Endpoint;
+
+class EndpointObserver
+{
+  public:
+    virtual void positionChanged(const Endpoint *sender) = 0;
+};
+
+class Endpoint : public ObserverCollection<EndpointObserver>
 {
   public:
     Endpoint(const Point &position);

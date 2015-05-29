@@ -8,12 +8,13 @@ class ConnectionFactory
   public:
     static Connection *produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY);
     static Connection *produce(const std::vector<PaperUnit> &path);
-    static void cleanup(Connection &connection);
-    static void dispose(Connection *connection);
+    static PartialConnectionFromStart *producePartialFromStart();
+    static void cleanup(ConnectionBase &connection);
+    static void dispose(ConnectionBase *connection);
 
   private:
-    static void addPoints(Connection *con, const std::vector<PaperUnit> &path);
-    static void addSegments(Connection *con);
+    static void addPoints(ConnectionBase *con, const std::vector<PaperUnit> &path);
+    static void addSegments(ConnectionBase *con);
 };
 
 #endif // CONNECTIONFACTORY_HPP

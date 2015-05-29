@@ -11,7 +11,6 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(createFinished);
     CPPUNIT_TEST(createBuild);
-    CPPUNIT_TEST(createBuildToEnd);
 
     CPPUNIT_TEST(addHorizontalSegment);
     CPPUNIT_TEST(addVerticalSegment);
@@ -26,7 +25,6 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
   public:
     void createFinished();
     void createBuild();
-    void createBuildToEnd();
 
     void addHorizontalSegment();
     void addVerticalSegment();

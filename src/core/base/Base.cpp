@@ -26,7 +26,7 @@ void Base::setOffset(const Point &value)
 {
   if (offset != value) {
     offset = value;
-    notifyObservers(this);
+    notify(this);
   }
 }
 
@@ -38,5 +38,5 @@ Point Base::getAbsolutePosition() const
 
 void Base::notify(const Base *)
 {
-  notifyObservers(this);
+  ObserverCollection<BaseObserver>::notify(&BaseObserver::notify, static_cast<const Base*>(this));
 }

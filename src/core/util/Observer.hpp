@@ -8,19 +8,9 @@
 #include <functional>
 #include <cassert>
 
-template<typename Subject>
-class Observer
-{
-  public:
-    virtual ~Observer()
-    {
-    }
+class ObserverTest;
 
-    virtual void notify(const Subject *subject) = 0;
-};
-
-
-template<typename Subject>
+template<class Observer>
 class ObserverCollection
 {
   public:
@@ -31,7 +21,7 @@ class ObserverCollection
 
     virtual ~ObserverCollection()
     {
-      assert(observers.empty());
+//      assert(observers.empty());
     }
 
     bool hasObserver() const
@@ -39,12 +29,12 @@ class ObserverCollection
       return !observers.empty();
     }
 
-    bool containsObserver(const Observer<Subject> *observer) const
+    bool containsObserver(const Observer *observer) const
     {
       return contains(observers.begin(), observers.end(), observer);
     }
 
-    void registerObserver(Observer<Subject> *observer)
+    void registerObserver(Observer *observer)
     {
       precondition(observer != nullptr);
       precondition(!containsObserver(observer));
@@ -52,7 +42,7 @@ class ObserverCollection
       observers.push_back(observer);
     }
 
-    void unregisterObserver(Observer<Subject> *observer)
+    void unregisterObserver(Observer *observer)
     {
       precondition(observer != nullptr);
       precondition(containsObserver(observer));
@@ -61,15 +51,19 @@ class ObserverCollection
     }
 
   protected:
-    void notifyObservers(const Subject *subject) const
+    template<class... Args >
+    void notify(void (Observer::*method)(Args...), Args... args)
     {
-      for (Observer<Subject> *itr : observers) {
-        itr->notify(subject);
+      auto f = std::mem_fn(method);
+      for (Observer* itr : observers) {
+        f(itr, args...);
       }
     }
 
   private:
-    std::list<Observer<Subject>*> observers;
+    std::list<Observer*> observers;
+
+    friend ObserverTest;
 };
 
 #endif // OBSERVED_HPP

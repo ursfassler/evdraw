@@ -4,7 +4,15 @@
 #include "../util/Observer.hpp"
 #include "Endpoint.hpp"
 
-class Segment : protected Observer<Endpoint>, public ObserverCollection<Segment>
+class Segment;
+
+class SegmentObserver
+{
+  public:
+    virtual void positionChanged(const Segment *sender) = 0;
+};
+
+class Segment : public ObserverCollection<SegmentObserver>, public EndpointObserver
 {
   public:
     Segment(Endpoint *aStart, Endpoint *aEnd);
@@ -23,7 +31,7 @@ class Segment : protected Observer<Endpoint>, public ObserverCollection<Segment>
     Endpoint  *start;
     Endpoint  *end;
 
-    void notify(const Endpoint *subject);
+    void positionChanged(const Endpoint *subject);
 };
 
 class HorizontalSegment : public Segment
@@ -35,7 +43,7 @@ class HorizontalSegment : public Segment
     void moveToY(PaperUnit value);
 
   private:
-    void notify(const Endpoint *sender);
+    void positionChanged(const Endpoint *sender);
 };
 
 class VerticalSegment : public Segment
@@ -47,7 +55,7 @@ class VerticalSegment : public Segment
     void moveToX(PaperUnit value);
 
   private:
-    void notify(const Endpoint *sender);
+    void positionChanged(const Endpoint *sender);
 };
 
 #endif // SEGMENT_HPP

@@ -8,7 +8,7 @@
 
 void ConnectionFactoryTest::cleanup()
 {
-  Connection connection(Connection::Mode::Build);
+  Connection connection;
   ConnectionFactory::cleanup(connection);
 }
 
@@ -31,7 +31,6 @@ void ConnectionFactoryTest::createConnection()
 {
   Connection *connection = ConnectionFactory::produce(-10, 0, 10, 0);
 
-  CPPUNIT_ASSERT_EQUAL(Connection::Mode::Finished, connection->getMode());
   CPPUNIT_ASSERT_EQUAL(PortPoint(Point(-10,0)), connection->getStart());
   CPPUNIT_ASSERT_EQUAL(PortPoint(Point( 10,0)), connection->getEnd());
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
@@ -86,3 +85,22 @@ void ConnectionFactoryTest::createPathConnection()
 
   ConnectionFactory::dispose(connection);
 }
+
+void ConnectionFactoryTest::createBuildToEnd()
+{
+  PartialConnectionFromStart *connection = ConnectionFactory::producePartialFromStart();
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getIntermediatePoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getStart().getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getEnd().getPosition());
+
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection->getStart()), connection->getHorizontalSegment()[0]->getStart());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getIntermediatePoints()[0]), connection->getHorizontalSegment()[0]->getEnd());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getIntermediatePoints()[0]), connection->getVerticalSegment()[0]->getStart());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection->getEnd()), connection->getVerticalSegment()[0]->getEnd());
+
+  ConnectionFactory::dispose(connection);
+}
+

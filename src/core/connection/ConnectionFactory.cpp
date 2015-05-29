@@ -20,18 +20,34 @@ Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
   precondition(path.size() >= 5);
   precondition((path.size() % 2) == 1);
 
-  Connection *con = new Connection(Connection::Mode::Build);
+  Connection *con = new Connection();
 
   addPoints(con, path);
   addSegments(con);
 
-  con->buildFinished();
   con->checkInvariants();
 
   return con;
 }
 
-void ConnectionFactory::cleanup(Connection &connection)
+PartialConnectionFromStart *ConnectionFactory::producePartialFromStart()
+{
+  PartialConnectionFromStart *con = new PartialConnectionFromStart();
+
+  IntermediatePoint *ip = new IntermediatePoint(Point(0,0));
+  HorizontalSegment *hs = new HorizontalSegment(&con->start, ip);
+  VerticalSegment *vs = new VerticalSegment(ip, &con->end);
+
+  con->addIntermediatePoint(ip);
+  con->addHorizontalSegment(hs);
+  con->addVerticalSegment(vs);
+
+  con->checkInvariants();
+
+  return con;
+}
+
+void ConnectionFactory::cleanup(ConnectionBase &connection)
 {
   for (HorizontalSegment *seg : connection.horizontalSegments) {
     delete seg;
@@ -53,7 +69,7 @@ void ConnectionFactory::cleanup(Connection &connection)
   postcondition(connection.intermediatePoints.empty());
 }
 
-void ConnectionFactory::dispose(Connection *connection)
+void ConnectionFactory::dispose(ConnectionBase *connection)
 {
   precondition(connection != nullptr);
 
@@ -61,7 +77,7 @@ void ConnectionFactory::dispose(Connection *connection)
   delete connection;
 }
 
-void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> &path)
+void ConnectionFactory::addPoints(ConnectionBase *con, const std::vector<PaperUnit> &path)
 {
   const size_t LAST_IDX = path.size()-1;
 
@@ -79,7 +95,7 @@ void ConnectionFactory::addPoints(Connection *con, const std::vector<PaperUnit> 
   }
 }
 
-void ConnectionFactory::addSegments(Connection *con)
+void ConnectionFactory::addSegments(ConnectionBase *con)
 {
   precondition(con->intermediatePoints.size() >= 2);
 

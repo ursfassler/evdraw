@@ -7,39 +7,28 @@
 #include <ostream>
 
 class ConnectionFactory;
+class ConnectionTest;
 
-class Connection final
+class ConnectionBase
 {
   public:
-    enum class Mode {
-      Build,
-      BuildToEnd,
-      Finished,
-    };
-
-    Connection(Mode mode);
-    ~Connection();
-
-    Mode getMode() const;
-    void buildFinished();
-
-    void addSegment();
+    ConnectionBase();
+    virtual ~ConnectionBase();
 
     PortPoint &getStart();
     PortPoint &getEnd();
 
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
-    void addHorizontalSegment(HorizontalSegment *segment);
-
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
+    const std::vector<IntermediatePoint *> &getIntermediatePoints() const;
+
+  protected:
+    virtual void checkInvariants() const;
+    void addIntermediatePoint(IntermediatePoint *point);
+    void addHorizontalSegment(HorizontalSegment *segment);
     void addVerticalSegment(VerticalSegment *segment);
 
-    const std::vector<IntermediatePoint *> &getIntermediatePoints() const;
-    void addIntermediatePoint(IntermediatePoint *point);
-
   private:
-    Mode        mode;
-
     PortPoint  start;
     PortPoint  end;
     std::vector<IntermediatePoint *> intermediatePoints;
@@ -47,17 +36,30 @@ class Connection final
     std::vector<HorizontalSegment *> horizontalSegments;
     std::vector<VerticalSegment *>   verticalSegments;
 
-    void addHorizontalSegment();
-    void addVerticalSegment();
+    friend ConnectionFactory;
+    friend ConnectionTest;
 
-    void initBuildToEnd();
-    void finishBuildToEnd();
+};
 
-    void checkInvariants() const;
+class Connection final : public ConnectionBase
+{
+  protected:
+    virtual void checkInvariants() const;
 
+  private:
     friend ConnectionFactory;
 };
 
-std::ostream &operator<<(std::ostream &stream, Connection::Mode mode);
+class PartialConnectionFromStart final : public ConnectionBase
+{
+  public:
+    void addSegment();
+    void buildFinished();
+
+  private:
+    void insertHorizontalSegment();
+    void insertVerticalSegment();
+
+};
 
 #endif // CONNECTION_HPP
