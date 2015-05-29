@@ -63,8 +63,10 @@ PaperUnit HorizontalSegment::getY() const
 
 void HorizontalSegment::moveToY(PaperUnit value)
 {
-  start->setPosition(Point(start->getPosition().x, value));
-  end->setPosition(Point(end->getPosition().x, value));
+  if (moveable()) {
+    start->setPosition(Point(start->getPosition().x, value));
+    end->setPosition(Point(end->getPosition().x, value));
+  }
 }
 
 void HorizontalSegment::positionChanged(const Endpoint *sender)
@@ -92,8 +94,10 @@ PaperUnit VerticalSegment::getX() const
 
 void VerticalSegment::moveToX(PaperUnit value)
 {
-  start->setPosition(Point(value, start->getPosition().y));
-  end->setPosition(Point(value, end->getPosition().y));
+  if (moveable()) {
+    start->setPosition(Point(value, start->getPosition().y));
+    end->setPosition(Point(value, end->getPosition().y));
+  }
 }
 
 void VerticalSegment::positionChanged(const Endpoint *sender)

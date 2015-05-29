@@ -47,6 +47,7 @@ class HorizontalSegmentTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(moveZero);
     CPPUNIT_TEST(move42);
+    CPPUNIT_TEST(moveUnmoveable);
 
     CPPUNIT_TEST(notifyListenerOnPositionChange);
 
@@ -61,6 +62,7 @@ class HorizontalSegmentTest : public CPPUNIT_NS::TestFixture
 
     void moveZero();
     void move42();
+    void moveUnmoveable();
 
     void notifyListenerOnPositionChange();
 };
@@ -79,6 +81,7 @@ class VerticalSegmentTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(moveZero);
     CPPUNIT_TEST(move42);
+    CPPUNIT_TEST(moveUnmoveable);
 
     CPPUNIT_TEST(notifyListenerOnPositionChange);
 
@@ -93,6 +96,7 @@ class VerticalSegmentTest : public CPPUNIT_NS::TestFixture
 
     void moveZero();
     void move42();
+    void moveUnmoveable();
 
     void notifyListenerOnPositionChange();
 };

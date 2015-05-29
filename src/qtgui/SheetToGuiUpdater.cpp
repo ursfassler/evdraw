@@ -48,12 +48,7 @@ void SheetToGuiUpdater::addVerticalSegment(const ConnectionBase *, VerticalSegme
 
 void SheetToGuiUpdater::addHorizontalSegment(const ConnectionBase *, HorizontalSegment *segment)
 {
-  GiSegment *ghs;
-  if (segment->moveable()) {
-    ghs = new GiHorizontalSegment(segment, nullptr);
-  } else {
-    ghs = new GiUnmoveableSegment(segment, nullptr);
-  }
+  GiSegment *ghs = new GiHorizontalSegment(segment, nullptr);
   scene.addItem(ghs);
 }
 

@@ -153,6 +153,19 @@ void HorizontalSegmentTest::move42()
   CPPUNIT_ASSERT_EQUAL(Point( 10,42), end.getPosition());
 }
 
+void HorizontalSegmentTest::moveUnmoveable()
+{
+  PortPoint start(Point(-10, 0));
+  PortPoint end(Point(10, 0));
+
+  HorizontalSegment segment(&start, &end);
+
+  segment.moveToY(42);
+
+  CPPUNIT_ASSERT_EQUAL(Point(-10,0), start.getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 10,0), end.getPosition());
+}
+
 void HorizontalSegmentTest::notifyListenerOnPositionChange()
 {
   PortPoint start(Point(1, 2));
@@ -233,6 +246,19 @@ void VerticalSegmentTest::move42()
 
   CPPUNIT_ASSERT_EQUAL(Point(42,-10), start.getPosition());
   CPPUNIT_ASSERT_EQUAL(Point(42, 10), end.getPosition());
+}
+
+void VerticalSegmentTest::moveUnmoveable()
+{
+  PortPoint start(Point(0, -10));
+  PortPoint end(Point(0, 10));
+
+  VerticalSegment segment(&start, &end);
+
+  segment.moveToX(42);
+
+  CPPUNIT_ASSERT_EQUAL(Point(0,-10), start.getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0, 10), end.getPosition());
 }
 
 void VerticalSegmentTest::notifyListenerOnPositionChange()
