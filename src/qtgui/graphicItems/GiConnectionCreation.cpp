@@ -2,8 +2,15 @@
 
 #include "convert.hpp"
 
-GiConnectionCreation::GiConnectionCreation(PartialConnectionFromStart *aConnection) :
-  connection(aConnection)
+#include <core/connection/ConnectionFactory.hpp>
+
+#include <QGraphicsScene>
+
+#include <QDebug>
+
+GiConnectionCreation::GiConnectionCreation(PartialConnectionFromStart *aConnection, Sheet *aSheet) :
+  connection(aConnection),
+  sheet(aSheet)
 {
   setRect(-5,-5,10,10);
   setPos(puToScene(connection->getEnd().getPosition()));
@@ -29,6 +36,27 @@ void GiConnectionCreation::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GiConnectionCreation::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
-  connection->addSegment();
+  QList<QGraphicsItem *> items = scene()->items(event->scenePos());
+  GiInstancePort *port = filterPort(items);
+  if (port == nullptr) {
+    connection->addSegment();
+  } else {
+    port->getModel()->getConnector().addPoint(&connection->getEnd());
+    sheet->addConnection(ConnectionFactory::produce(connection));
+    sheet->removeConnectionUnderConstruction();
+    qDebug() << "port";
+  }
   event->accept();
+}
+
+GiInstancePort *GiConnectionCreation::filterPort(const QList<QGraphicsItem *> &list) const
+{
+  for (QGraphicsItem *item : list) {
+    GiInstancePort *port = dynamic_cast<GiInstancePort*>(item);
+    if (port != nullptr) {
+      return port;
+    }
+  }
+
+  return nullptr;
 }

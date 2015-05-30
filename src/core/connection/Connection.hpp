@@ -64,6 +64,7 @@ class ConnectionBase : public ObserverCollection<ConnectionObserver>
 
 };
 
+//TODO optimize to "finished" connection
 class Connection final : public ConnectionBase
 {
   protected:
@@ -73,6 +74,7 @@ class Connection final : public ConnectionBase
     friend ConnectionFactory;
 };
 
+//TODO optimise for "connection under construction"
 class PartialConnectionFromStart final : public ConnectionBase
 {
   public:

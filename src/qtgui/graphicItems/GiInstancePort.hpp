@@ -13,6 +13,8 @@ class GiInstancePort : public QGraphicsRectItem
   public:
     explicit GiInstancePort(InstancePort *model, Sheet *sheet, QGraphicsItem *parent);
 
+    InstancePort *getModel() const;
+
   signals:
 
   public slots:

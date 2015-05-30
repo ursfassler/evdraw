@@ -1,7 +1,10 @@
 #ifndef GICONNECTIONCREATION_HPP
 #define GICONNECTIONCREATION_HPP
 
+#include "GiInstancePort.hpp"
+
 #include <core/connection/Connection.hpp>
+#include <core/sheet/Sheet.hpp>
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
@@ -9,7 +12,7 @@
 class GiConnectionCreation : public QGraphicsRectItem
 {
   public:
-    GiConnectionCreation(PartialConnectionFromStart *connection);
+    GiConnectionCreation(PartialConnectionFromStart *connection, Sheet *sheet);
     ~GiConnectionCreation();
 
   protected:
@@ -19,6 +22,9 @@ class GiConnectionCreation : public QGraphicsRectItem
 
   private:
     PartialConnectionFromStart * const connection;
+    Sheet * const sheet;
+
+    GiInstancePort *filterPort(const QList<QGraphicsItem *> &list) const;
 };
 
 #endif // GICONNECTIONCREATION_HPP

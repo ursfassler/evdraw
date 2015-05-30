@@ -26,6 +26,11 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, Sheet *aSheet, QGraphicsIte
   label.setPos(-label.boundingRect().width()/2, -label.boundingRect().height()/2);
 }
 
+InstancePort *GiInstancePort::getModel() const
+{
+  return model;
+}
+
 void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 {
 }
