@@ -8,12 +8,12 @@
 
 #include <QDebug>
 
-GiConnectionCreation::GiConnectionCreation(PartialConnectionFromStart *aConnection, Sheet *aSheet) :
+GiConnectionCreation::GiConnectionCreation(ConstructionConnection *aConnection, Sheet *aSheet) :
   connection(aConnection),
   sheet(aSheet)
 {
   setRect(-5,-5,10,10);
-  setPos(puToScene(connection->getEnd().getPosition()));
+  setPos(puToScene(connection->getLeaf()->getPosition()));
   grabMouse();
 }
 
@@ -24,7 +24,7 @@ GiConnectionCreation::~GiConnectionCreation()
 
 void GiConnectionCreation::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  connection->getEnd().setPosition(sceneToPu(event->scenePos()));
+  connection->getLeaf()->setPosition(sceneToPu(event->scenePos()));
   setPos(event->scenePos());
   event->accept();
 }
@@ -41,10 +41,15 @@ void GiConnectionCreation::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   if (port == nullptr) {
     connection->addSegment();
   } else {
-    port->getModel()->getConnector().addPoint(&connection->getEnd());
-    sheet->addConnection(ConnectionFactory::produce(connection));
+    Connection *fincon = ConnectionFactory::produce(*connection);
+    sheet->getRootPort()->getConnector().addPoint(fincon->getStart());
+    port->getModel()->getConnector().addPoint(fincon->getEnd());
+    sheet->addConnection(fincon);
+
+#error When a connection is removed, notify connector about removed points
+
     sheet->removeConnectionUnderConstruction();
-    qDebug() << "port";
+    ConnectionFactory::dispose(connection);
   }
   event->accept();
 }

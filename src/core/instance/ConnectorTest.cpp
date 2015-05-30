@@ -2,6 +2,8 @@
 
 #include "Connector.hpp"
 #include "../component/InstanceAppearance.hpp"
+#include "../connection/Connection.hpp"
+#include "../connection/ConnectionFactory.hpp"
 
 void ConnectorTest::create()
 {
@@ -19,7 +21,7 @@ void ConnectorTest::addPortPoint()
 
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(size_t(1), connector.getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(&pp, connector.getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&pp), connector.getPoints()[0]);
 }
 
 void ConnectorTest::addPortPointUpdatesPosition()
@@ -99,4 +101,26 @@ void ConnectorTest::notificationUpdatesPortPoint()
   base.setOffset(Point(10,20));
 
   CPPUNIT_ASSERT_EQUAL(Point(10,20), pp.getPosition());
+}
+
+void ConnectorTest::addConnectionStart()
+{
+  Connector connector(nullptr, Point(42, 57));
+  Connection *con = ConnectionFactory::produce(-10,-10,10,10);
+
+  connector.addPoint(con->getStart());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connector.getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(con->getStart(), connector.getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(Point(42, 57), con->getStart()->getPosition());
+}
+
+void ConnectorTest::addConnectionEnd()
+{
+  Connector connector(nullptr, Point(42, 57));
+  Connection *con = ConnectionFactory::produce(-10,-10,10,10);
+
+  connector.addPoint(con->getEnd());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), connector.getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(con->getEnd(), connector.getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(Point(42, 57), con->getEnd()->getPosition());
 }

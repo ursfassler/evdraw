@@ -19,7 +19,8 @@ void ConnectionFactoryTest::canNotDisposeNullptr()
 
 void ConnectionFactoryTest::createEmptyConnection()
 {
-  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce({}), PreconditionError);
+  std::vector<PaperUnit> empty;
+  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce(empty), PreconditionError);
 }
 
 void ConnectionFactoryTest::createInvalidConnection()
@@ -31,9 +32,11 @@ void ConnectionFactoryTest::createConnection()
 {
   Connection *connection = ConnectionFactory::produce(-10, 0, 10, 0);
 
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point(-10,0)), connection->getStart());
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point( 10,0)), connection->getEnd());
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(-10,0), connection->getStart()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 10,0), connection->getEnd()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(connection->getStart(), connection->getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(connection->getEnd(), connection->getPoints()[3]);
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
 
@@ -44,12 +47,11 @@ void ConnectionFactoryTest::createDiagonalConnection()
 {
   Connection *connection = ConnectionFactory::produce(-10, -5, 10, 5);
 
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point(-10,-5)), connection->getStart());
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point( 10, 5)), connection->getEnd());
-
-  CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getIntermediatePoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point( 0,-5), connection->getIntermediatePoints()[0]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point( 0, 5), connection->getIntermediatePoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(-10,-5), connection->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 0,-5), connection->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 5), connection->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( 10, 5), connection->getPoints()[3]->getPosition());
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(0, connection->getVerticalSegment()[0]->getX());
@@ -65,14 +67,13 @@ void ConnectionFactoryTest::createPathConnection()
 {
   Connection *connection = ConnectionFactory::produce({-10, 3, -5, 4, 1, -2, 7});
 
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point(-10,  3)), connection->getStart());
-  CPPUNIT_ASSERT_EQUAL(PortPoint(Point(  7, -2)), connection->getEnd());
-
-  CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getIntermediatePoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(-5, 3), connection->getIntermediatePoints()[0]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(-5, 4), connection->getIntermediatePoints()[1]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point( 1, 4), connection->getIntermediatePoints()[2]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point( 1,-2), connection->getIntermediatePoints()[3]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(size_t(6), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 3), connection->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 4), connection->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(  1, 4), connection->getPoints()[3]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(  1,-2), connection->getPoints()[4]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(  7,-2), connection->getPoints()[5]->getPosition());
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(-5, connection->getVerticalSegment()[0]->getX());
@@ -86,21 +87,65 @@ void ConnectionFactoryTest::createPathConnection()
   ConnectionFactory::dispose(connection);
 }
 
-void ConnectionFactoryTest::createBuildToEnd()
+void ConnectionFactoryTest::createConstructionConnection()
 {
-  PartialConnectionFromStart *connection = ConnectionFactory::producePartialFromStart();
+  ConstructionConnection *connection = ConnectionFactory::produceConstructionConnection();
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getIntermediatePoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getStart().getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getEnd().getPosition());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getRoot()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getLeaf()->getPosition());
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection->getStart()), connection->getHorizontalSegment()[0]->getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getIntermediatePoints()[0]), connection->getHorizontalSegment()[0]->getEnd());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getIntermediatePoints()[0]), connection->getVerticalSegment()[0]->getStart());
-  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(&connection->getEnd()), connection->getVerticalSegment()[0]->getEnd());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[0]), connection->getHorizontalSegment()[0]->getStart());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[1]), connection->getHorizontalSegment()[0]->getEnd());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[1]), connection->getVerticalSegment()[0]->getStart());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[2]), connection->getVerticalSegment()[0]->getEnd());
 
   ConnectionFactory::dispose(connection);
 }
 
+void ConnectionFactoryTest::createConnectionFromConstruction()
+{
+  ConstructionConnection *cc = ConnectionFactory::produceConstructionConnection();
+  cc->getLeaf()->setPosition(Point(10,20));
+
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 0), cc->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 0), cc->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), cc->getPoints()[2]->getPosition());
+
+  Connection *con = ConnectionFactory::produce(*cc);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(4),    con->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 0), con->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 0), con->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), con->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), con->getPoints()[3]->getPosition());
+
+  ConnectionFactory::dispose(cc);
+  ConnectionFactory::dispose(con);
+}
+
+void ConnectionFactoryTest::createLongerConnectionFromConstruction()
+{
+  ConstructionConnection *cc = ConnectionFactory::produceConstructionConnection();
+  cc->getLeaf()->setPosition(Point(10,20));
+  cc->addSegment();
+  cc->getLeaf()->setPosition(Point(15,20));
+
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 0), cc->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 0), cc->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), cc->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(15,20), cc->getPoints()[3]->getPosition());
+
+  Connection *con = ConnectionFactory::produce(*cc);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(4),    con->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 0), con->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 0), con->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), con->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(15,20), con->getPoints()[3]->getPosition());
+
+  ConnectionFactory::dispose(cc);
+  ConnectionFactory::dispose(con);
+}

@@ -32,14 +32,14 @@ static void loadSheet(Sheet &sheet, Component *comp)
 
   const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con1 = ConnectionFactory::produce(line);
-  portA->getConnector().addPoint(&con1->getStart());
-  portB->getConnector().addPoint(&con1->getEnd());
+  portA->getConnector().addPoint(con1->getStart());
+  portB->getConnector().addPoint(con1->getEnd());
   sheet.addConnection(con1);
 
   const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con2 = ConnectionFactory::produce(line2);
-  portA->getConnector().addPoint(&con2->getStart());
-  portC->getConnector().addPoint(&con2->getEnd());
+  portA->getConnector().addPoint(con2->getStart());
+  portC->getConnector().addPoint(con2->getEnd());
   sheet.addConnection(con2);
 }
 

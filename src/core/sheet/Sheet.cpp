@@ -5,7 +5,9 @@
 
 #include <cassert>
 
-Sheet::Sheet()
+Sheet::Sheet() :
+  instances(),
+  connections()
 {
 }
 
@@ -47,22 +49,46 @@ void Sheet::addConnection(Connection *connection)
   notify(&SheetObserver::connectionAdded, connection);
 }
 
-PartialConnectionFromStart *Sheet::getConnectionUnderConstruction() const
+bool Sheet::hasConnectionUnderConstruction() const
+{
+  return connectionUnderConstruction != nullptr;
+}
+
+void Sheet::removeConnectionUnderConstruction()
+{
+  ConstructionConnection  *old = connectionUnderConstruction;
+  connectionUnderConstruction = nullptr;
+  rootPort = nullptr;
+  notify(&SheetObserver::removeConnectionUnderConnstruction, old);
+
+  checkInvariant();
+}
+
+ConstructionConnection *Sheet::getConnectionUnderConstruction() const
 {
   return connectionUnderConstruction;
 }
 
-void Sheet::setConnectionUnderConstruction(PartialConnectionFromStart *value)
+InstancePort *Sheet::getRootPort() const
 {
-  precondition(value != nullptr);
+  return rootPort;
+}
 
-  if (connectionUnderConstruction != nullptr) {
-    PartialConnectionFromStart  *old = connectionUnderConstruction;
-    connectionUnderConstruction = nullptr;
-    notify(&SheetObserver::abortConnectionUnderConnstruction, old);
-    ConnectionFactory::dispose(old);
-  }
+void Sheet::setConnectionUnderConstruction(ConstructionConnection *value, InstancePort *rootPort)
+{
+  precondition(!hasConnectionUnderConstruction());
+  precondition(value != nullptr);
+  precondition(rootPort != nullptr);
 
   connectionUnderConstruction = value;
+  this->rootPort = rootPort;
   notify(&SheetObserver::addConnectionUnderConnstruction, value);
+
+  checkInvariant();
 }
+
+void Sheet::checkInvariant()
+{
+  invariant((rootPort == nullptr) == (connectionUnderConstruction == nullptr));
+}
+

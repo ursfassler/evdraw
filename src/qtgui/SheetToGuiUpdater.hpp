@@ -17,8 +17,8 @@ class SheetToGuiUpdater : public SheetObserver, public ConnectionObserver
 
     virtual void instanceAdded(Instance *instance);
     virtual void connectionAdded(Connection *connection);
-    virtual void addConnectionUnderConnstruction(PartialConnectionFromStart *connection);
-    virtual void abortConnectionUnderConnstruction(PartialConnectionFromStart *connection);
+    virtual void addConnectionUnderConnstruction(ConstructionConnection *connection);
+    virtual void abortConnectionUnderConnstruction(ConstructionConnection *connection);
 
     virtual void addVerticalSegment(const ConnectionBase *parent, VerticalSegment *segment);
     virtual void addHorizontalSegment(const ConnectionBase *parent, HorizontalSegment *segment);

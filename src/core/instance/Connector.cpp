@@ -8,13 +8,13 @@ Connector::Connector(Base *parent, const Point &aOffset) :
 {
 }
 
-void Connector::addPoint(PortPoint *point)
+void Connector::addPoint(Endpoint *point)
 {
   points.push_back(point);
   updateConnectionPosition();
 }
 
-const std::vector<PortPoint *> &Connector::getPoints() const
+const std::vector<Endpoint *> &Connector::getPoints() const
 {
   return points;
 }
@@ -38,7 +38,7 @@ void Connector::updateConnectionPosition() const
 {
   for (size_t i = 0; i < points.size(); i++) {
     Point offset = calcLocalConnectorOffset(i);
-    PortPoint *pp = points[i];
+    Endpoint *pp = points[i];
     pp->setPosition(getAbsolutePosition() + offset);
   }
 }

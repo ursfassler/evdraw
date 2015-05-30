@@ -9,6 +9,9 @@ class Base;
 class BaseObserver
 {
   public:
+    virtual ~BaseObserver()
+    {
+    }
     virtual void notify(const Base *sender) = 0;
 };
 
@@ -17,6 +20,9 @@ class Base : public ObserverCollection<BaseObserver>, public BaseObserver
   public:
     Base(Base *parent, const Point &offset);
     virtual ~Base();
+
+    Base(const Base &) = delete;
+    bool operator=(const Base &) = delete;
 
     virtual const Point &getOffset() const;
     virtual void setOffset(const Point &value);

@@ -4,7 +4,9 @@
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
   Base(nullptr, aPosition),
   name(aName),
-  component(aComponent)
+  component(aComponent),
+  input(),
+  output()
 {
 }
 

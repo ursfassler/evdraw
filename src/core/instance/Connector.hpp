@@ -13,8 +13,8 @@ class Connector final : public Base
   public:
     Connector(Base *parent, const Point &offset);
 
-    void addPoint(PortPoint *point);
-    const std::vector<PortPoint *> &getPoints() const;
+    void addPoint(Endpoint *point);
+    const std::vector<Endpoint *> &getPoints() const;
 
     void setOffset(const Point &value);
 
@@ -22,7 +22,7 @@ class Connector final : public Base
     void notify(const Base *subject);
 
   private:
-    std::vector<PortPoint*> points;
+    std::vector<Endpoint*> points;
 
     void updateConnectionPosition() const;
     Point calcLocalConnectorOffset(size_t idx) const;

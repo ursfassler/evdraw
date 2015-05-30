@@ -4,9 +4,7 @@
 #include <cassert>
 
 ConnectionBase::ConnectionBase() :
-  start(Point(0,0)), //TODO use factory
-  end(Point(0,0)),
-  intermediatePoints(),
+  points(),
   horizontalSegments(),
   verticalSegments()
 {
@@ -16,22 +14,13 @@ ConnectionBase::~ConnectionBase()
 {
   assert(horizontalSegments.empty());
   assert(verticalSegments.empty());
-  assert(intermediatePoints.empty());
+  assert(points.empty());
 }
 
 void ConnectionBase::checkInvariants() const
 {
   //TODO check order of point and segment
-}
-
-PortPoint &ConnectionBase::getStart()
-{
-    return start;
-}
-
-PortPoint &ConnectionBase::getEnd()
-{
-  return end;
+  invariant(points.size() == 1+horizontalSegments.size()+verticalSegments.size());
 }
 
 const std::vector<HorizontalSegment *> &ConnectionBase::getHorizontalSegment() const
@@ -56,70 +45,104 @@ void ConnectionBase::addVerticalSegment(VerticalSegment *segment)
   notify(&ConnectionObserver::addVerticalSegment, static_cast<const ConnectionBase *>(this), segment);
 }
 
-const std::vector<IntermediatePoint *> &ConnectionBase::getIntermediatePoints() const
+const std::vector<Endpoint *> &ConnectionBase::getPoints() const
 {
-  return intermediatePoints;
+  return points;
 }
 
-void ConnectionBase::addIntermediatePoint(IntermediatePoint *point)
+void ConnectionBase::addPoint(Endpoint *point)
 {
-  intermediatePoints.push_back(point);
+  points.push_back(point);
 }
 
 
 
 
+
+Endpoint *Connection::getStart()
+{
+  return points.front();
+}
+
+Endpoint *Connection::getEnd()
+{
+  return points.back();
+}
 
 void Connection::checkInvariants() const
 {
   ConnectionBase::checkInvariants();
-  invariant(getIntermediatePoints().size() >= 2);
-  invariant(getIntermediatePoints().size() % 2 == 0);
+  invariant(getPoints().size() >= 4);
+  invariant(getPoints().size() % 2 == 0);
   invariant(getHorizontalSegment().size() >= 2);
   invariant(getVerticalSegment().size() >= 1);
   invariant(getHorizontalSegment().size() == getVerticalSegment().size()+1);
-  invariant(getIntermediatePoints().size() == getVerticalSegment().size()*2);
+  invariant(getPoints().size() == getHorizontalSegment().size()*2);
 }
 
 
 
-void PartialConnectionFromStart::addSegment()
+Endpoint *ConstructionConnection::getRoot()
 {
-  if (getIntermediatePoints().size() % 2 == 0) {
+  precondition(!points.empty());
+  return points.front();
+}
+
+Endpoint *ConstructionConnection::getLeaf()
+{
+  precondition(!points.empty());
+  return points.back();
+}
+
+const Endpoint *ConstructionConnection::getRoot() const
+{
+  precondition(!points.empty());
+  return points.front();
+}
+
+const Endpoint *ConstructionConnection::getLeaf() const
+{
+  precondition(!points.empty());
+  return points.back();
+}
+
+void ConstructionConnection::addSegment()
+{
+  if (getPoints().size() % 2 == 0) {
     insertVerticalSegment();
   } else {
     insertHorizontalSegment();
   }
 }
 
-void PartialConnectionFromStart::buildFinished()
+void ConstructionConnection::checkInvariants() const
 {
-  if (getIntermediatePoints().size() % 2 != 0) {
-    insertHorizontalSegment();
-  }
+  ConnectionBase::checkInvariants();
+  invariant(getPoints().size() >= 3);
+  invariant(getHorizontalSegment().size() >= 1);
+  invariant(getVerticalSegment().size() >= 1);
+  invariant(getHorizontalSegment().size() >= getVerticalSegment().size());
 }
 
-void PartialConnectionFromStart::insertHorizontalSegment()
+void ConstructionConnection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
 
-  IntermediatePoint *ip = new IntermediatePoint(getEnd().getPosition());
-  addIntermediatePoint(ip);
-  getVerticalSegment().back()->setEnd(ip);
-  HorizontalSegment *hs = new HorizontalSegment(ip, &getEnd());
+  IntermediatePoint *ip = new IntermediatePoint(getLeaf()->getPosition());
+  HorizontalSegment *hs = new HorizontalSegment(getLeaf(), ip);
+  addPoint(ip);
   ConnectionBase::addHorizontalSegment(hs);
 
   postcondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 }
 
-void PartialConnectionFromStart::insertVerticalSegment()
+void ConstructionConnection::insertVerticalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 
-  IntermediatePoint *ip = new IntermediatePoint(getEnd().getPosition());
-  addIntermediatePoint(ip);
-  getHorizontalSegment().back()->setEnd(ip);
-  VerticalSegment *vs = new VerticalSegment(ip, &getEnd());
+  IntermediatePoint *ip = new IntermediatePoint(getLeaf()->getPosition());
+  VerticalSegment *vs = new VerticalSegment(getLeaf(), ip);
+  addPoint(ip);
   ConnectionBase::addVerticalSegment(vs);
 
   postcondition(getHorizontalSegment().size() == getVerticalSegment().size());

@@ -26,16 +26,16 @@ void SheetToGuiUpdater::connectionAdded(Connection *connection)
   addConnection(connection);
 }
 
-void SheetToGuiUpdater::addConnectionUnderConnstruction(PartialConnectionFromStart *connection)
+void SheetToGuiUpdater::addConnectionUnderConnstruction(ConstructionConnection *connection)
 {
-  connCreate = new GiConnectionCreation(connection);
+  connCreate = new GiConnectionCreation(connection, &sheet);
   scene.addItem(connCreate);
   connCreate->grabMouse();
   addConnection(connection);
   connection->registerObserver(this);
 }
 
-void SheetToGuiUpdater::abortConnectionUnderConnstruction(PartialConnectionFromStart *connection)
+void SheetToGuiUpdater::abortConnectionUnderConnstruction(ConstructionConnection *connection)
 {
   (void)(connection);
 }

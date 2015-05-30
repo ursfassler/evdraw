@@ -38,24 +38,17 @@ class ConnectionBase : public ObserverCollection<ConnectionObserver>
     ConnectionBase();
     virtual ~ConnectionBase();
 
-    PortPoint &getStart();
-    PortPoint &getEnd();
-
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
-    const std::vector<IntermediatePoint *> &getIntermediatePoints() const;
+    const std::vector<Endpoint *> &getPoints() const;
 
   protected:
     virtual void checkInvariants() const;
-    void addIntermediatePoint(IntermediatePoint *point);
+    void addPoint(Endpoint *point);
     void addHorizontalSegment(HorizontalSegment *segment);
     void addVerticalSegment(VerticalSegment *segment);
 
-  private:
-    PortPoint  start;
-    PortPoint  end;
-    std::vector<IntermediatePoint *> intermediatePoints;
-
+    std::vector<Endpoint *> points;
     std::vector<HorizontalSegment *> horizontalSegments;
     std::vector<VerticalSegment *>   verticalSegments;
 
@@ -64,9 +57,12 @@ class ConnectionBase : public ObserverCollection<ConnectionObserver>
 
 };
 
-//TODO optimize to "finished" connection
 class Connection final : public ConnectionBase
 {
+  public:
+    Endpoint *getStart();
+    Endpoint *getEnd();
+
   protected:
     virtual void checkInvariants() const;
 
@@ -74,17 +70,24 @@ class Connection final : public ConnectionBase
     friend ConnectionFactory;
 };
 
-//TODO optimise for "connection under construction"
-class PartialConnectionFromStart final : public ConnectionBase
+class ConstructionConnection final : public ConnectionBase
 {
   public:
+    Endpoint *getRoot();
+    Endpoint *getLeaf();
+    const Endpoint *getRoot() const;
+    const Endpoint *getLeaf() const;
+
     void addSegment();
-    void buildFinished();
+
+  protected:
+    virtual void checkInvariants() const;
 
   private:
     void insertHorizontalSegment();
     void insertVerticalSegment();
 
+    friend ConnectionFactory;
 };
 
 #endif // CONNECTION_HPP

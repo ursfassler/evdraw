@@ -9,6 +9,7 @@ class Segment;
 class SegmentObserver
 {
   public:
+    virtual ~SegmentObserver(){}
     virtual void positionChanged(const Segment *sender) = 0;
 };
 

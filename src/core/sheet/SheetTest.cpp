@@ -51,20 +51,20 @@ class SheetObserverTest : public SheetObserver
       lastConnectionAdded = connection;
     }
 
-    virtual void abortConnectionUnderConnstruction(PartialConnectionFromStart *connection)
+    virtual void removeConnectionUnderConnstruction(ConstructionConnection *connection)
     {
-      lastAbortConnectionUnderConnstruction = connection;
+      lastRemoveConnectionUnderConnstruction = connection;
     }
 
-    virtual void addConnectionUnderConnstruction(PartialConnectionFromStart *connection)
+    virtual void addConnectionUnderConnstruction(ConstructionConnection *connection)
     {
       lastAddConnectionUnderConnstruction = connection;
     }
 
     Instance *lastInstanceAdded = nullptr;
     Connection *lastConnectionAdded = nullptr;
-    PartialConnectionFromStart *lastAbortConnectionUnderConnstruction = nullptr;
-    PartialConnectionFromStart *lastAddConnectionUnderConnstruction = nullptr;
+    ConstructionConnection *lastRemoveConnectionUnderConnstruction = nullptr;
+    ConstructionConnection *lastAddConnectionUnderConnstruction = nullptr;
 };
 
 void SheetTest::notifyWhenAddInstance()
@@ -101,10 +101,12 @@ void SheetTest::connectionUnderConstruction()
 {
   Sheet sheet;
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<PartialConnectionFromStart*>(nullptr), sheet.getConnectionUnderConstruction());
-  PartialConnectionFromStart *connection = new PartialConnectionFromStart();
-  sheet.setConnectionUnderConstruction(connection);
+  CPPUNIT_ASSERT_EQUAL(static_cast<ConstructionConnection*>(nullptr), sheet.getConnectionUnderConstruction());
+  ConstructionConnection *connection = new ConstructionConnection();
+  InstancePort rootPort(nullptr, nullptr, Point(0,0));
+  sheet.setConnectionUnderConstruction(connection, &rootPort);
   CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnectionUnderConstruction());
+  CPPUNIT_ASSERT_EQUAL(&rootPort, sheet.getRootPort());
 }
 
 void SheetTest::addConnectionUnderConstructionNotifiesObserver()
@@ -112,25 +114,38 @@ void SheetTest::addConnectionUnderConstructionNotifiesObserver()
   Sheet sheet;
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
-  PartialConnectionFromStart *connection = new PartialConnectionFromStart();
+  InstancePort rootPort(nullptr, nullptr, Point(0,0));
+  ConstructionConnection *connection = new ConstructionConnection();
 
-  sheet.setConnectionUnderConstruction(connection);
+  sheet.setConnectionUnderConstruction(connection, &rootPort);
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastAddConnectionUnderConnstruction);
 
   sheet.unregisterObserver(&observer);
 }
 
-void SheetTest::overwriteConnectionUnderConstructionNotifiesObserver()
+void SheetTest::canNotOverwriteConnectionUnderConstructio()
 {
   Sheet sheet;
+  ConstructionConnection *connection = new ConstructionConnection();
+  InstancePort rootPort(nullptr, nullptr, Point(0,0));
+  sheet.setConnectionUnderConstruction(connection, &rootPort);
+
+  CPPUNIT_ASSERT_THROW(sheet.setConnectionUnderConstruction(new ConstructionConnection(), &rootPort), PreconditionError);
+}
+
+void SheetTest::finishConnectionCreation()
+{
+  Sheet sheet;
+  ConstructionConnection *connection = new ConstructionConnection();
+  InstancePort rootPort(nullptr, nullptr, Point(0,0));
+  sheet.setConnectionUnderConstruction(connection, &rootPort);
+
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
-  PartialConnectionFromStart *connection = new PartialConnectionFromStart();
-  sheet.setConnectionUnderConstruction(connection);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<PartialConnectionFromStart*>(nullptr), observer.lastAbortConnectionUnderConnstruction);
-  sheet.setConnectionUnderConstruction(new PartialConnectionFromStart());
-  CPPUNIT_ASSERT_EQUAL(connection, observer.lastAbortConnectionUnderConnstruction);
+  CPPUNIT_ASSERT_EQUAL(static_cast<ConstructionConnection*>(nullptr), observer.lastRemoveConnectionUnderConnstruction);
+  sheet.removeConnectionUnderConstruction();
+  CPPUNIT_ASSERT_EQUAL(connection, observer.lastRemoveConnectionUnderConnstruction);
 
   sheet.unregisterObserver(&observer);
 }

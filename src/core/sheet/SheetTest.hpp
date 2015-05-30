@@ -16,7 +16,9 @@ class SheetTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(notifyWhenAddConnection);
     CPPUNIT_TEST(connectionUnderConstruction);
     CPPUNIT_TEST(addConnectionUnderConstructionNotifiesObserver);
-    CPPUNIT_TEST(overwriteConnectionUnderConstructionNotifiesObserver);
+    CPPUNIT_TEST(canNotOverwriteConnectionUnderConstructio);
+
+    CPPUNIT_TEST(finishConnectionCreation);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -29,7 +31,9 @@ class SheetTest: public CPPUNIT_NS::TestFixture
     void notifyWhenAddConnection();
     void connectionUnderConstruction();
     void addConnectionUnderConstructionNotifiesObserver();
-    void overwriteConnectionUnderConstructionNotifiesObserver();
+    void canNotOverwriteConnectionUnderConstructio();
+
+    void finishConnectionCreation();
 
 };
 

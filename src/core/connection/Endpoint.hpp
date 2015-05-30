@@ -12,6 +12,7 @@ class Endpoint;
 class EndpointObserver
 {
   public:
+    virtual ~EndpointObserver(){}
     virtual void positionChanged(const Endpoint *sender) = 0;
 };
 
