@@ -41,37 +41,13 @@ Connection *ConnectionFactory::produce(const std::vector<Endpoint *> &points)
 }
 
 
-Connection *ConnectionFactory::produce(const ConstructionConnection &prototype)
+Connection *ConnectionFactory::produceConstructionConnection()
 {
-  return produce(createPointList(prototype));
-}
+  Connection *con = new Connection();
 
-std::vector<Endpoint *> ConnectionFactory::createPointList(const ConstructionConnection &prototype)
-{
-  std::vector<Endpoint *> list;
-
-  list.push_back(new PortPoint(prototype.getStart()->getPosition()));
-  for (size_t i = 1; i < prototype.getPoints().size()-1; i++) {
-    Endpoint *pp = prototype.getPoints()[i];
-    list.push_back(new IntermediatePoint(pp->getPosition()));
-  }
-  if (prototype.getPoints().size() % 2 != 0) {
-    list.push_back(new IntermediatePoint(prototype.getEnd()->getPosition()));
-  }
-  list.push_back(new PortPoint(prototype.getEnd()->getPosition()));
-
-  return list;
-}
-
-
-
-ConstructionConnection *ConnectionFactory::produceConstructionConnection()
-{
-  ConstructionConnection *con = new ConstructionConnection();
-
-  IntermediatePoint *start = new IntermediatePoint(Point(0,0));
-  IntermediatePoint *middle = new IntermediatePoint(Point(0,0));
-  IntermediatePoint *end = new IntermediatePoint(Point(0,0));
+  Endpoint *start = new PortPoint(Point(0,0));
+  Endpoint *middle = new IntermediatePoint(Point(0,0));
+  Endpoint *end = new PortPoint(Point(0,0));
   HorizontalSegment *hs = new HorizontalSegment(start, middle);
   VerticalSegment *vs = new VerticalSegment(middle, end);
 
@@ -86,7 +62,7 @@ ConstructionConnection *ConnectionFactory::produceConstructionConnection()
   return con;
 }
 
-void ConnectionFactory::cleanup(ConnectionBase &connection)
+void ConnectionFactory::cleanup(Connection &connection)
 {
   for (HorizontalSegment *seg : connection.horizontalSegments) {
     delete seg;
@@ -108,7 +84,7 @@ void ConnectionFactory::cleanup(ConnectionBase &connection)
   postcondition(connection.points.empty());
 }
 
-void ConnectionFactory::dispose(ConnectionBase *connection)
+void ConnectionFactory::dispose(Connection *connection)
 {
   precondition(connection != nullptr);
 
@@ -139,7 +115,7 @@ std::vector<Endpoint *> ConnectionFactory::createPointList(const std::vector<Pap
   return list;
 }
 
-void ConnectionFactory::addSegments(ConnectionBase *con)
+void ConnectionFactory::addSegments(Connection *con)
 {
   precondition(con->points.size() >= 2);
 

@@ -12,7 +12,7 @@
 class GiConnectionCreation : public QGraphicsRectItem
 {
   public:
-    GiConnectionCreation(ConstructionConnection *connection, Sheet *sheet);
+    GiConnectionCreation(Connection *connection, Sheet *sheet);
     ~GiConnectionCreation();
 
   protected:
@@ -21,7 +21,7 @@ class GiConnectionCreation : public QGraphicsRectItem
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
 
   private:
-    ConstructionConnection * const connection;
+    Connection * const connection;
     Sheet * const sheet;
 
     GiInstancePort *filterPort(const QList<QGraphicsItem *> &list) const;

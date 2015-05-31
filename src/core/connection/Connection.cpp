@@ -3,78 +3,19 @@
 #include "../util/contract.hpp"
 #include <cassert>
 
-ConnectionBase::ConnectionBase() :
+Connection::Connection() :
   points(),
   horizontalSegments(),
   verticalSegments()
 {
 }
 
-ConnectionBase::~ConnectionBase()
+Connection::~Connection()
 {
   assert(horizontalSegments.empty());
   assert(verticalSegments.empty());
   assert(points.empty());
 }
-
-void ConnectionBase::checkInvariants() const
-{
-  invariant(points.size() == 1+horizontalSegments.size()+verticalSegments.size());
-
-  for (size_t i = 0; i < points.size()-1; i++) {
-    Segment *seg = getSegment(i);
-    invariant(points[i] == seg->getStart());
-    invariant(points[i+1] == seg->getEnd());
-  }
-}
-
-Segment *ConnectionBase::getSegment(size_t index) const
-{
-  const bool isHorizontal = (index % 2) == 0;
-  const size_t segIndex = index / 2;
-
-  if (isHorizontal) {
-    return horizontalSegments[segIndex];
-  } else {
-    return verticalSegments[segIndex];
-  }
-}
-
-const std::vector<HorizontalSegment *> &ConnectionBase::getHorizontalSegment() const
-{
-  return horizontalSegments;
-}
-
-void ConnectionBase::addHorizontalSegment(HorizontalSegment *segment)
-{
-  horizontalSegments.push_back(segment);
-  notify(&ConnectionObserver::addHorizontalSegment, static_cast<const ConnectionBase *>(this), segment);
-}
-
-const std::vector<VerticalSegment *> &ConnectionBase::getVerticalSegment() const
-{
-  return verticalSegments;
-}
-
-void ConnectionBase::addVerticalSegment(VerticalSegment *segment)
-{
-  verticalSegments.push_back(segment);
-  notify(&ConnectionObserver::addVerticalSegment, static_cast<const ConnectionBase *>(this), segment);
-}
-
-const std::vector<Endpoint *> &ConnectionBase::getPoints() const
-{
-  return points;
-}
-
-void ConnectionBase::addPoint(Endpoint *point)
-{
-  points.push_back(point);
-}
-
-
-
-
 
 Endpoint *Connection::getStart()
 {
@@ -86,44 +27,79 @@ Endpoint *Connection::getEnd()
   return points.back();
 }
 
+const Endpoint *Connection::getStart() const
+{
+  precondition(!points.empty());
+  return points.front();
+}
+
+const Endpoint *Connection::getEnd() const
+{
+  precondition(!points.empty());
+  return points.back();
+}
+
 void Connection::checkInvariants() const
 {
-  ConnectionBase::checkInvariants();
-  invariant(getPoints().size() >= 4);
-  invariant(getPoints().size() % 2 == 0);
-  invariant(getHorizontalSegment().size() >= 2);
+  invariant(getPoints().size() >= 3);
+  invariant(getHorizontalSegment().size() >= 1);
   invariant(getVerticalSegment().size() >= 1);
-  invariant(getHorizontalSegment().size() == getVerticalSegment().size()+1);
-  invariant(getPoints().size() == getHorizontalSegment().size()*2);
+  invariant(points.size() == 1+horizontalSegments.size()+verticalSegments.size());
+  invariant(dynamic_cast<const PortPoint*>(getStart()) != nullptr);
+  invariant(dynamic_cast<const PortPoint*>(getEnd()) != nullptr);
+
+  for (size_t i = 0; i < points.size()-1; i++) {
+    Segment *seg = getSegment(i);
+    invariant(points[i] == seg->getStart());
+    invariant(points[i+1] == seg->getEnd());
+  }
 }
 
-
-
-Endpoint *ConstructionConnection::getStart()
+Segment *Connection::getSegment(size_t index) const
 {
-  precondition(!points.empty());
-  return points.front();
+  const bool isHorizontal = (index % 2) == 0;
+  const size_t segIndex = index / 2;
+
+  if (isHorizontal) {
+    return horizontalSegments[segIndex];
+  } else {
+    return verticalSegments[segIndex];
+  }
 }
 
-Endpoint *ConstructionConnection::getEnd()
+const std::vector<HorizontalSegment *> &Connection::getHorizontalSegment() const
 {
-  precondition(!points.empty());
-  return points.back();
+  return horizontalSegments;
 }
 
-const Endpoint *ConstructionConnection::getStart() const
+void Connection::addHorizontalSegment(HorizontalSegment *segment)
 {
-  precondition(!points.empty());
-  return points.front();
+  horizontalSegments.push_back(segment);
+  notify(&ConnectionObserver::addHorizontalSegment, static_cast<const Connection *>(this), segment);
 }
 
-const Endpoint *ConstructionConnection::getEnd() const
+const std::vector<VerticalSegment *> &Connection::getVerticalSegment() const
 {
-  precondition(!points.empty());
-  return points.back();
+  return verticalSegments;
 }
 
-void ConstructionConnection::insertSegmentAtEnd()
+void Connection::addVerticalSegment(VerticalSegment *segment)
+{
+  verticalSegments.push_back(segment);
+  notify(&ConnectionObserver::addVerticalSegment, static_cast<const Connection *>(this), segment);
+}
+
+const std::vector<Endpoint *> &Connection::getPoints() const
+{
+  return points;
+}
+
+void Connection::addPoint(Endpoint *point)
+{
+  points.push_back(point);
+}
+
+void Connection::insertSegmentAtEnd()
 {
   if (getPoints().size() % 2 == 0) {
     insertVerticalSegment();
@@ -132,16 +108,7 @@ void ConstructionConnection::insertSegmentAtEnd()
   }
 }
 
-void ConstructionConnection::checkInvariants() const
-{
-  ConnectionBase::checkInvariants();
-  invariant(getPoints().size() >= 3);
-  invariant(getHorizontalSegment().size() >= 1);
-  invariant(getVerticalSegment().size() >= 1);
-  invariant(getHorizontalSegment().size() >= getVerticalSegment().size());
-}
-
-void ConstructionConnection::insertHorizontalSegment()
+void Connection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
 
@@ -149,13 +116,13 @@ void ConstructionConnection::insertHorizontalSegment()
   HorizontalSegment *hs = new HorizontalSegment(ip, getEnd());
   points.insert(points.end()-1, ip);
   getVerticalSegment().back()->setEnd(ip);
-  ConnectionBase::addHorizontalSegment(hs);
+  Connection::addHorizontalSegment(hs);
 
   postcondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
   checkInvariants();
 }
 
-void ConstructionConnection::insertVerticalSegment()
+void Connection::insertVerticalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 
@@ -163,7 +130,7 @@ void ConstructionConnection::insertVerticalSegment()
   VerticalSegment *vs = new VerticalSegment(ip, getEnd());
   points.insert(points.end()-1, ip);
   getHorizontalSegment().back()->setEnd(ip);
-  ConnectionBase::addVerticalSegment(vs);
+  Connection::addVerticalSegment(vs);
 
   postcondition(getHorizontalSegment().size() == getVerticalSegment().size());
   checkInvariants();

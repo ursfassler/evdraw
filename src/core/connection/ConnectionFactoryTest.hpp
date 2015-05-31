@@ -18,8 +18,6 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createPathConnection);
 
     CPPUNIT_TEST(createConstructionConnection);
-    CPPUNIT_TEST(createConnectionFromConstruction);
-    CPPUNIT_TEST(createLongerConnectionFromConstruction);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,8 +31,6 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     void createPathConnection();
 
     void createConstructionConnection();
-    void createConnectionFromConstruction();
-    void createLongerConnectionFromConstruction();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConnectionFactoryTest );

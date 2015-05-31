@@ -8,7 +8,7 @@
 
 #include <QDebug>
 
-GiConnectionCreation::GiConnectionCreation(ConstructionConnection *aConnection, Sheet *aSheet) :
+GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Sheet *aSheet) :
   connection(aConnection),
   sheet(aSheet)
 {
@@ -41,15 +41,11 @@ void GiConnectionCreation::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   if (port == nullptr) {
     connection->insertSegmentAtEnd();
   } else {
-    Connection *fincon = ConnectionFactory::produce(*connection);
-    sheet->getRootPort()->getConnector().addPoint(fincon->getStart());
-    port->getModel()->getConnector().addPoint(fincon->getEnd());
-    sheet->addConnection(fincon);
-
-#error When a connection is removed, notify connector about removed points
-
+#warning use something like finishConnectionConstruction
+    port->getModel()->getConnector().addPoint(connection->getEnd());
+    sheet->addConnection(connection);
     sheet->removeConnectionUnderConstruction();
-    ConnectionFactory::dispose(connection);
+    ungrabMouse();
   }
   event->accept();
 }

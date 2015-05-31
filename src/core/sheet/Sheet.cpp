@@ -13,7 +13,7 @@ Sheet::Sheet() :
 
 Sheet::~Sheet()
 {
-  for (ConnectionBase *connection : connections) {
+  for (Connection *connection : connections) {
     ConnectionFactory::dispose(connection);
   }
   connections.clear();
@@ -56,7 +56,7 @@ bool Sheet::hasConnectionUnderConstruction() const
 
 void Sheet::removeConnectionUnderConstruction()
 {
-  ConstructionConnection  *old = connectionUnderConstruction;
+  Connection  *old = connectionUnderConstruction;
   connectionUnderConstruction = nullptr;
   rootPort = nullptr;
   notify(&SheetObserver::removeConnectionUnderConnstruction, old);
@@ -64,7 +64,7 @@ void Sheet::removeConnectionUnderConstruction()
   checkInvariant();
 }
 
-ConstructionConnection *Sheet::getConnectionUnderConstruction() const
+Connection *Sheet::getConnectionUnderConstruction() const
 {
   return connectionUnderConstruction;
 }
@@ -74,7 +74,7 @@ InstancePort *Sheet::getRootPort() const
   return rootPort;
 }
 
-void Sheet::setConnectionUnderConstruction(ConstructionConnection *value, InstancePort *rootPort)
+void Sheet::setConnectionUnderConstruction(Connection *value, InstancePort *rootPort)
 {
   precondition(!hasConnectionUnderConstruction());
   precondition(value != nullptr);

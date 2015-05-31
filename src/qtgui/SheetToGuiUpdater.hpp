@@ -17,18 +17,18 @@ class SheetToGuiUpdater : public SheetObserver, public ConnectionObserver
 
     virtual void instanceAdded(Instance *instance);
     virtual void connectionAdded(Connection *connection);
-    virtual void addConnectionUnderConnstruction(ConstructionConnection *connection);
-    virtual void abortConnectionUnderConnstruction(ConstructionConnection *connection);
+    virtual void addConnectionUnderConnstruction(Connection *connection);
+    virtual void abortConnectionUnderConnstruction(Connection *connection);
 
-    virtual void addVerticalSegment(const ConnectionBase *parent, VerticalSegment *segment);
-    virtual void addHorizontalSegment(const ConnectionBase *parent, HorizontalSegment *segment);
+    virtual void addVerticalSegment(const Connection *parent, VerticalSegment *segment);
+    virtual void addHorizontalSegment(const Connection *parent, HorizontalSegment *segment);
 
   private:
     QGraphicsScene &scene;
     Sheet &sheet;
     GiConnectionCreation *connCreate = nullptr;
 
-    void addConnection(ConnectionBase *connection);
+    void addConnection(Connection *connection);
 
 
 };

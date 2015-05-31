@@ -13,8 +13,8 @@ class SheetObserver
     virtual ~SheetObserver(){}
     virtual void instanceAdded(Instance *instance){ (void)(instance); }
     virtual void connectionAdded(Connection *connection){ (void)(connection); }
-    virtual void addConnectionUnderConnstruction(ConstructionConnection *connection){ (void)(connection); }
-    virtual void removeConnectionUnderConnstruction(ConstructionConnection *connection){ (void)(connection); }
+    virtual void addConnectionUnderConnstruction(Connection *connection){ (void)(connection); }
+    virtual void removeConnectionUnderConnstruction(Connection *connection){ (void)(connection); }
 };
 
 class Sheet final : public ObserverCollection<SheetObserver>
@@ -33,13 +33,13 @@ class Sheet final : public ObserverCollection<SheetObserver>
     void addConnection(Connection *connection);
 
     bool hasConnectionUnderConstruction() const;
-    ConstructionConnection *getConnectionUnderConstruction() const;
+    Connection *getConnectionUnderConstruction() const;
     InstancePort *getRootPort() const;
-    void setConnectionUnderConstruction(ConstructionConnection *value, InstancePort *rootPort);
+    void setConnectionUnderConstruction(Connection *value, InstancePort *rootPort);
     void removeConnectionUnderConstruction();
 
   private:
-    ConstructionConnection  *connectionUnderConstruction = nullptr;
+    Connection  *connectionUnderConstruction = nullptr;
     InstancePort *rootPort = nullptr;
     std::vector<Instance *> instances;
     std::vector<Connection *> connections;

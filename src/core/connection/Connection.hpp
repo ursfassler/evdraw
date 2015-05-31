@@ -10,7 +10,7 @@
 class ConnectionFactory;
 class ConnectionTest;
 
-class ConnectionBase;
+class Connection;
 
 class ConnectionObserver
 {
@@ -19,28 +19,35 @@ class ConnectionObserver
     {
     }
 
-    virtual void addVerticalSegment(const ConnectionBase *parent, VerticalSegment *segment)
+    virtual void addVerticalSegment(const Connection *parent, VerticalSegment *segment)
     {
       (void)(parent);
       (void)(segment);
     }
 
-    virtual void addHorizontalSegment(const ConnectionBase *parent, HorizontalSegment *segment)
+    virtual void addHorizontalSegment(const Connection *parent, HorizontalSegment *segment)
     {
       (void)(parent);
       (void)(segment);
     }
 };
 
-class ConnectionBase : public ObserverCollection<ConnectionObserver>
+class Connection : public ObserverCollection<ConnectionObserver>
 {
   public:
-    ConnectionBase();
-    virtual ~ConnectionBase();
+    Connection();
+    virtual ~Connection();
+
+    Endpoint *getStart();
+    Endpoint *getEnd();
+    const Endpoint *getStart() const;
+    const Endpoint *getEnd() const;
 
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
     const std::vector<Endpoint *> &getPoints() const;
+
+    void insertSegmentAtEnd();
 
   protected:
     virtual void checkInvariants() const;
@@ -56,40 +63,9 @@ class ConnectionBase : public ObserverCollection<ConnectionObserver>
     friend ConnectionTest;
 
   private:
-    Segment *getSegment(size_t index) const;
-};
-
-class Connection final : public ConnectionBase
-{
-  public:
-    Endpoint *getStart();
-    Endpoint *getEnd();
-
-  protected:
-    virtual void checkInvariants() const;
-
-  private:
-    friend ConnectionFactory;
-};
-
-class ConstructionConnection final : public ConnectionBase
-{
-  public:
-    Endpoint *getStart();
-    Endpoint *getEnd();
-    const Endpoint *getStart() const;
-    const Endpoint *getEnd() const;
-
-    void insertSegmentAtEnd();
-
-  protected:
-    virtual void checkInvariants() const;
-
-  private:
     void insertHorizontalSegment();
     void insertVerticalSegment();
-
-    friend ConnectionFactory;
+    Segment *getSegment(size_t index) const;
 };
 
 #endif // CONNECTION_HPP

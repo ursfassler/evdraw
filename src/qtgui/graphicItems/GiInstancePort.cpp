@@ -40,7 +40,7 @@ void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   event->accept();
   qDebug() << "click";
 
-  ConstructionConnection *con = ConnectionFactory::produceConstructionConnection();
+  Connection *con = ConnectionFactory::produceConstructionConnection();
   model->getConnector().addPoint(con->getStart());
   con->getEnd()->setPosition(sceneToPu(event->scenePos()));
   sheet->setConnectionUnderConstruction(con, model);
