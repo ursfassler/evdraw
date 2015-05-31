@@ -49,19 +49,37 @@ void Sheet::addConnection(Connection *connection)
   notify(&SheetObserver::connectionAdded, connection);
 }
 
+void Sheet::startConnectionConstruction(InstancePort *start)
+{
+  precondition(!hasConnectionUnderConstruction());
+  precondition(start != nullptr);
+
+  Connector &connector = start->getConnector();
+
+  connectionUnderConstruction = ConnectionFactory::produceConstructionConnection(connector.getAbsolutePosition());
+  connector.addPoint(connectionUnderConstruction->getStart());
+
+  checkInvariant();
+  notify(&SheetObserver::addConnectionUnderConstruction, connectionUnderConstruction);
+}
+
+void Sheet::finishConnectionConstruction(InstancePort *end)
+{
+  precondition(hasConnectionUnderConstruction());
+  precondition(end != nullptr);
+
+  end->getConnector().addPoint(connectionUnderConstruction->getEnd());
+  Connection *connection = connectionUnderConstruction;
+  connectionUnderConstruction = nullptr;
+
+  notify(&SheetObserver::finishConnectionUnderConstruction, connection);
+
+  addConnection(connection);
+}
+
 bool Sheet::hasConnectionUnderConstruction() const
 {
   return connectionUnderConstruction != nullptr;
-}
-
-void Sheet::removeConnectionUnderConstruction()
-{
-  Connection  *old = connectionUnderConstruction;
-  connectionUnderConstruction = nullptr;
-  rootPort = nullptr;
-  notify(&SheetObserver::removeConnectionUnderConnstruction, old);
-
-  checkInvariant();
 }
 
 Connection *Sheet::getConnectionUnderConstruction() const
@@ -69,26 +87,7 @@ Connection *Sheet::getConnectionUnderConstruction() const
   return connectionUnderConstruction;
 }
 
-InstancePort *Sheet::getRootPort() const
-{
-  return rootPort;
-}
-
-void Sheet::setConnectionUnderConstruction(Connection *value, InstancePort *rootPort)
-{
-  precondition(!hasConnectionUnderConstruction());
-  precondition(value != nullptr);
-  precondition(rootPort != nullptr);
-
-  connectionUnderConstruction = value;
-  this->rootPort = rootPort;
-  notify(&SheetObserver::addConnectionUnderConnstruction, value);
-
-  checkInvariant();
-}
-
 void Sheet::checkInvariant()
 {
-  invariant((rootPort == nullptr) == (connectionUnderConstruction == nullptr));
 }
 

@@ -24,19 +24,6 @@ class GiSegment : public QGraphicsLineItem, public SegmentObserver
     void updatePosition(Segment *model);
 };
 
-class GiUnmoveableSegment : public GiSegment
-{
-  public:
-    GiUnmoveableSegment(Segment *aModel, QGraphicsItem *parent);
-    virtual ~GiUnmoveableSegment();
-
-  protected:
-    Segment *getModel();
-
-  private:
-    Segment * const model;
-};
-
 class GiHorizontalSegment : public GiSegment
 {
   public:

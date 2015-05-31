@@ -53,7 +53,7 @@ void ConnectionTest::addPoint()
 
 void ConnectionTest::constructAndInsertSegment()
 {
-  Connection *connection = ConnectionFactory::produceConstructionConnection();
+  Connection *connection = ConnectionFactory::produceConstructionConnection(Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());

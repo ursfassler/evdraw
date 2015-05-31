@@ -2,13 +2,14 @@
 #define CONNECTIONFACTORY_HPP
 
 #include "Connection.hpp"
+#include "../types.hpp"
 
 class ConnectionFactory
 {
   public:
     static Connection *produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY);
     static Connection *produce(const std::vector<PaperUnit> &path);
-    static Connection *produceConstructionConnection();
+    static Connection *produceConstructionConnection(const Point &position);
     static void cleanup(Connection &connection);
     static void dispose(Connection *connection);
 

@@ -6,8 +6,6 @@
 
 #include <QBrush>
 
-#include <QDebug>
-
 GiInstancePort::GiInstancePort(InstancePort *aModel, Sheet *aSheet, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
@@ -38,10 +36,5 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   event->accept();
-  qDebug() << "click";
-
-  Connection *con = ConnectionFactory::produceConstructionConnection();
-  model->getConnector().addPoint(con->getStart());
-  con->getEnd()->setPosition(sceneToPu(event->scenePos()));
-  sheet->setConnectionUnderConstruction(con, model);
+  sheet->startConnectionConstruction(model);
 }

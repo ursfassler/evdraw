@@ -51,20 +51,20 @@ class SheetObserverTest : public SheetObserver
       lastConnectionAdded = connection;
     }
 
-    virtual void removeConnectionUnderConnstruction(Connection *connection)
+    virtual void finishConnectionUnderConstruction(Connection *connection)
     {
-      lastRemoveConnectionUnderConnstruction = connection;
+      lastFinishConnectionUnderConstruction = connection;
     }
 
-    virtual void addConnectionUnderConnstruction(Connection *connection)
+    virtual void addConnectionUnderConstruction(Connection *connection)
     {
-      lastAddConnectionUnderConnstruction = connection;
+      lastAddConnectionUnderConstruction = connection;
     }
 
     Instance *lastInstanceAdded = nullptr;
     Connection *lastConnectionAdded = nullptr;
-    Connection *lastRemoveConnectionUnderConnstruction = nullptr;
-    Connection *lastAddConnectionUnderConnstruction = nullptr;
+    Connection *lastFinishConnectionUnderConstruction = nullptr;
+    Connection *lastAddConnectionUnderConstruction = nullptr;
 };
 
 void SheetTest::notifyWhenAddInstance()
@@ -102,11 +102,10 @@ void SheetTest::connectionUnderConstruction()
   Sheet sheet;
 
   CPPUNIT_ASSERT_EQUAL(static_cast<Connection*>(nullptr), sheet.getConnectionUnderConstruction());
-  Connection *connection = new Connection();
   InstancePort rootPort(nullptr, nullptr, Point(0,0));
-  sheet.setConnectionUnderConstruction(connection, &rootPort);
-  CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnectionUnderConstruction());
-  CPPUNIT_ASSERT_EQUAL(&rootPort, sheet.getRootPort());
+  sheet.startConnectionConstruction(&rootPort);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), rootPort.getConnector().getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(rootPort.getConnector().getPoints()[0], sheet.getConnectionUnderConstruction()->getStart());
 }
 
 void SheetTest::addConnectionUnderConstructionNotifiesObserver()
@@ -115,10 +114,9 @@ void SheetTest::addConnectionUnderConstructionNotifiesObserver()
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
   InstancePort rootPort(nullptr, nullptr, Point(0,0));
-  Connection *connection = new Connection();
 
-  sheet.setConnectionUnderConstruction(connection, &rootPort);
-  CPPUNIT_ASSERT_EQUAL(connection, observer.lastAddConnectionUnderConnstruction);
+  sheet.startConnectionConstruction(&rootPort);
+  CPPUNIT_ASSERT_EQUAL(sheet.getConnectionUnderConstruction(), observer.lastAddConnectionUnderConstruction);
 
   sheet.unregisterObserver(&observer);
 }
@@ -126,26 +124,31 @@ void SheetTest::addConnectionUnderConstructionNotifiesObserver()
 void SheetTest::canNotOverwriteConnectionUnderConstructio()
 {
   Sheet sheet;
-  Connection *connection = new Connection();
   InstancePort rootPort(nullptr, nullptr, Point(0,0));
-  sheet.setConnectionUnderConstruction(connection, &rootPort);
+  sheet.startConnectionConstruction(&rootPort);
 
-  CPPUNIT_ASSERT_THROW(sheet.setConnectionUnderConstruction(new Connection(), &rootPort), PreconditionError);
+  CPPUNIT_ASSERT_THROW(sheet.startConnectionConstruction(&rootPort), PreconditionError);
 }
 
 void SheetTest::finishConnectionCreation()
 {
   Sheet sheet;
-  Connection *connection = new Connection();
-  InstancePort rootPort(nullptr, nullptr, Point(0,0));
-  sheet.setConnectionUnderConstruction(connection, &rootPort);
+  InstancePort startPort(nullptr, nullptr, Point(0,0));
+  InstancePort endPort(nullptr, nullptr, Point(0,0));
+  sheet.startConnectionConstruction(&startPort);
+  Connection *connection = sheet.getConnectionUnderConstruction();
 
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Connection*>(nullptr), observer.lastRemoveConnectionUnderConnstruction);
-  sheet.removeConnectionUnderConstruction();
-  CPPUNIT_ASSERT_EQUAL(connection, observer.lastRemoveConnectionUnderConnstruction);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Connection*>(nullptr), observer.lastFinishConnectionUnderConstruction);
+  sheet.finishConnectionConstruction(&endPort);
+  CPPUNIT_ASSERT_EQUAL(connection, observer.lastFinishConnectionUnderConstruction);
+  CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionAdded);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
+  CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections()[0]);
+  CPPUNIT_ASSERT(!sheet.hasConnectionUnderConstruction());
 
   sheet.unregisterObserver(&observer);
 }

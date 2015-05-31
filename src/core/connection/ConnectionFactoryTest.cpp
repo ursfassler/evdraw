@@ -89,13 +89,13 @@ void ConnectionFactoryTest::createPathConnection()
 
 void ConnectionFactoryTest::createConstructionConnection()
 {
-  Connection *connection = ConnectionFactory::produceConstructionConnection();
+  Connection *connection = ConnectionFactory::produceConstructionConnection(Point(10,20));
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getStart()->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getEnd()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getStart()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getEnd()->getPosition());
 
   CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[0]), connection->getHorizontalSegment()[0]->getStart());
   CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[1]), connection->getHorizontalSegment()[0]->getEnd());

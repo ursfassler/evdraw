@@ -41,13 +41,13 @@ Connection *ConnectionFactory::produce(const std::vector<Endpoint *> &points)
 }
 
 
-Connection *ConnectionFactory::produceConstructionConnection()
+Connection *ConnectionFactory::produceConstructionConnection(const Point &position)
 {
   Connection *con = new Connection();
 
-  Endpoint *start = new PortPoint(Point(0,0));
-  Endpoint *middle = new IntermediatePoint(Point(0,0));
-  Endpoint *end = new PortPoint(Point(0,0));
+  Endpoint *start = new PortPoint(position);
+  Endpoint *middle = new IntermediatePoint(position);
+  Endpoint *end = new PortPoint(position);
   HorizontalSegment *hs = new HorizontalSegment(start, middle);
   VerticalSegment *vs = new VerticalSegment(middle, end);
 

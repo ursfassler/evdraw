@@ -52,7 +52,9 @@ GiHorizontalSegment::GiHorizontalSegment(HorizontalSegment *aModel, QGraphicsIte
   GiSegment(aModel, parent),
   model(aModel)
 {
-  setCursor(QCursor(Qt::SizeVerCursor));
+  if (model->moveable()) {
+    setCursor(QCursor(Qt::SizeVerCursor));
+  }
   model->registerObserver(this);
 }
 
@@ -79,7 +81,9 @@ GiVerticalSegment::GiVerticalSegment(VerticalSegment *aModel, QGraphicsItem *par
   GiSegment(aModel, parent),
   model(aModel)
 {
-  setCursor(QCursor(Qt::SizeHorCursor));
+  if (model->moveable()) {
+    setCursor(QCursor(Qt::SizeHorCursor));
+  }
   model->registerObserver(this);
 }
 
@@ -96,24 +100,6 @@ void GiVerticalSegment::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 }
 
 Segment *GiVerticalSegment::getModel()
-{
-  return model;
-}
-
-
-GiUnmoveableSegment::GiUnmoveableSegment(Segment *aModel, QGraphicsItem *parent) :
-  GiSegment(aModel, parent),
-  model(aModel)
-{
-  model->registerObserver(this);
-}
-
-GiUnmoveableSegment::~GiUnmoveableSegment()
-{
-  model->unregisterObserver(this);
-}
-
-Segment *GiUnmoveableSegment::getModel()
 {
   return model;
 }

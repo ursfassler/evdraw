@@ -26,7 +26,7 @@ void SheetToGuiUpdater::connectionAdded(Connection *connection)
   addConnection(connection);
 }
 
-void SheetToGuiUpdater::addConnectionUnderConnstruction(Connection *connection)
+void SheetToGuiUpdater::addConnectionUnderConstruction(Connection *connection)
 {
   connCreate = new GiConnectionCreation(connection, &sheet);
   scene.addItem(connCreate);
@@ -35,9 +35,10 @@ void SheetToGuiUpdater::addConnectionUnderConnstruction(Connection *connection)
   connection->registerObserver(this);
 }
 
-void SheetToGuiUpdater::abortConnectionUnderConnstruction(Connection *connection)
+void SheetToGuiUpdater::finishConnectionUnderConstruction(Connection *)
 {
-  (void)(connection);
+  assert(connCreate != nullptr);
+  delete connCreate;
 }
 
 void SheetToGuiUpdater::addVerticalSegment(const Connection *, VerticalSegment *segment)
@@ -58,7 +59,6 @@ void SheetToGuiUpdater::addConnection(Connection *connection)
     addHorizontalSegment(connection, hs);
   }
   for (VerticalSegment *hs : connection->getVerticalSegment()) {
-    //    assert(hs->moveable());
     addVerticalSegment(connection, hs);
   }
 }
