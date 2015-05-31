@@ -6,7 +6,7 @@ all: testapp
 CPPFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
 INCLUDE_DIR = .
 
-SRC=$(wildcard core/*.cpp core/util/*.cpp core/component/*.cpp core/instance/*.cpp core/connection/*.cpp core/base/*.cpp core/sheet/*.cpp)
+SRC=$(wildcard core/*.cpp core/util/*.cpp core/component/*.cpp core/instance/*.cpp core/connection/*.cpp core/base/*.cpp core/sheet/*.cpp file/*.cpp)
 OBJ=$(SRC:.cpp=.o)
 
 MAKEDEPEND = gcc -M $(CPPFLAGS) -o $*.d $<

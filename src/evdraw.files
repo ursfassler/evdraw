@@ -155,3 +155,7 @@ core/connection/ConnectionFactory.hpp
 core/connection/ConnectionFactory.cpp
 core/connection/ConnectionTest.cpp
 core/connection/ConnectionTest.hpp
+file/RizzlyPrint.hpp
+file/RizzlyPrint.cpp
+file/RizzlyPrintTest.hpp
+file/RizzlyPrintTest.cpp
