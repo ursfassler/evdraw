@@ -58,18 +58,31 @@ void ConnectionTest::buildToEndAndAddSegment()
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
+  Endpoint *firstPoint = connection->getPoints()[0];
+  Endpoint *secondPoint = connection->getPoints()[1];
+  Endpoint *lastPoint = connection->getPoints().back();
 
-  connection->addSegment();
+  connection->insertSegmentAtEnd();
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(firstPoint, connection->getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(secondPoint, connection->getPoints()[1]);
+  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getPoints().back());
+  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getEnd());
+  Endpoint *thirdPoint = connection->getPoints()[2];
 
-  connection->addSegment();
+  connection->insertSegmentAtEnd();
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(5), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(firstPoint, connection->getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(secondPoint, connection->getPoints()[1]);
+  CPPUNIT_ASSERT_EQUAL(thirdPoint, connection->getPoints()[2]);
+  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getPoints().back());
+  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getEnd());
 
   ConnectionFactory::dispose(connection);
 }

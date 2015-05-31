@@ -50,15 +50,15 @@ std::vector<Endpoint *> ConnectionFactory::createPointList(const ConstructionCon
 {
   std::vector<Endpoint *> list;
 
-  list.push_back(new PortPoint(prototype.getRoot()->getPosition()));
+  list.push_back(new PortPoint(prototype.getStart()->getPosition()));
   for (size_t i = 1; i < prototype.getPoints().size()-1; i++) {
     Endpoint *pp = prototype.getPoints()[i];
     list.push_back(new IntermediatePoint(pp->getPosition()));
   }
   if (prototype.getPoints().size() % 2 != 0) {
-    list.push_back(new IntermediatePoint(prototype.getLeaf()->getPosition()));
+    list.push_back(new IntermediatePoint(prototype.getEnd()->getPosition()));
   }
-  list.push_back(new PortPoint(prototype.getLeaf()->getPosition()));
+  list.push_back(new PortPoint(prototype.getEnd()->getPosition()));
 
   return list;
 }

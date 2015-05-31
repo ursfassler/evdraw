@@ -13,7 +13,7 @@ GiConnectionCreation::GiConnectionCreation(ConstructionConnection *aConnection, 
   sheet(aSheet)
 {
   setRect(-5,-5,10,10);
-  setPos(puToScene(connection->getLeaf()->getPosition()));
+  setPos(puToScene(connection->getEnd()->getPosition()));
   grabMouse();
 }
 
@@ -24,7 +24,7 @@ GiConnectionCreation::~GiConnectionCreation()
 
 void GiConnectionCreation::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  connection->getLeaf()->setPosition(sceneToPu(event->scenePos()));
+  connection->getEnd()->setPosition(sceneToPu(event->scenePos()));
   setPos(event->scenePos());
   event->accept();
 }
@@ -39,7 +39,7 @@ void GiConnectionCreation::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   QList<QGraphicsItem *> items = scene()->items(event->scenePos());
   GiInstancePort *port = filterPort(items);
   if (port == nullptr) {
-    connection->addSegment();
+    connection->insertSegmentAtEnd();
   } else {
     Connection *fincon = ConnectionFactory::produce(*connection);
     sheet->getRootPort()->getConnector().addPoint(fincon->getStart());

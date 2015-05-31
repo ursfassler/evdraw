@@ -94,8 +94,8 @@ void ConnectionFactoryTest::createConstructionConnection()
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getRoot()->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getLeaf()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getStart()->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), connection->getEnd()->getPosition());
 
   CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[0]), connection->getHorizontalSegment()[0]->getStart());
   CPPUNIT_ASSERT_EQUAL(static_cast<Endpoint*>(connection->getPoints()[1]), connection->getHorizontalSegment()[0]->getEnd());
@@ -108,7 +108,7 @@ void ConnectionFactoryTest::createConstructionConnection()
 void ConnectionFactoryTest::createConnectionFromConstruction()
 {
   ConstructionConnection *cc = ConnectionFactory::produceConstructionConnection();
-  cc->getLeaf()->setPosition(Point(10,20));
+  cc->getEnd()->setPosition(Point(10,20));
 
   CPPUNIT_ASSERT_EQUAL(Point( 0, 0), cc->getPoints()[0]->getPosition());
   CPPUNIT_ASSERT_EQUAL(Point(10, 0), cc->getPoints()[1]->getPosition());
@@ -129,9 +129,13 @@ void ConnectionFactoryTest::createConnectionFromConstruction()
 void ConnectionFactoryTest::createLongerConnectionFromConstruction()
 {
   ConstructionConnection *cc = ConnectionFactory::produceConstructionConnection();
-  cc->getLeaf()->setPosition(Point(10,20));
-  cc->addSegment();
-  cc->getLeaf()->setPosition(Point(15,20));
+  cc->getEnd()->setPosition(Point(10,20));
+  cc->insertSegmentAtEnd();
+  CPPUNIT_ASSERT_EQUAL(Point( 0, 0), cc->getPoints()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 0), cc->getPoints()[1]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), cc->getPoints()[2]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), cc->getPoints()[3]->getPosition());
+  cc->getEnd()->setPosition(Point(15,20));
 
   CPPUNIT_ASSERT_EQUAL(Point( 0, 0), cc->getPoints()[0]->getPosition());
   CPPUNIT_ASSERT_EQUAL(Point(10, 0), cc->getPoints()[1]->getPosition());

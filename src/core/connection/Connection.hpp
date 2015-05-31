@@ -55,6 +55,8 @@ class ConnectionBase : public ObserverCollection<ConnectionObserver>
     friend ConnectionFactory;
     friend ConnectionTest;
 
+  private:
+    Segment *getSegment(size_t index) const;
 };
 
 class Connection final : public ConnectionBase
@@ -73,12 +75,12 @@ class Connection final : public ConnectionBase
 class ConstructionConnection final : public ConnectionBase
 {
   public:
-    Endpoint *getRoot();
-    Endpoint *getLeaf();
-    const Endpoint *getRoot() const;
-    const Endpoint *getLeaf() const;
+    Endpoint *getStart();
+    Endpoint *getEnd();
+    const Endpoint *getStart() const;
+    const Endpoint *getEnd() const;
 
-    void addSegment();
+    void insertSegmentAtEnd();
 
   protected:
     virtual void checkInvariants() const;
