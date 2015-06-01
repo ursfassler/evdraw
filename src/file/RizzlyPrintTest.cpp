@@ -28,7 +28,7 @@ void RizzlyPrintTest::onlyInstance()
 
   printer.print(sheet);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("instance: Component;"), ss.str());
+  CPPUNIT_ASSERT_EQUAL(std::string("instance: Component;\n"), ss.str());
 
   ComponentFactory::dispose(component);
 }

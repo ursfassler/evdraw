@@ -11,6 +11,8 @@ class RizzlyPrint
     RizzlyPrint(std::ostream &stream);
 
     void print(const Sheet &sheet);
+    void print(const Instance *instance);
+    void print(const Connection *connection);
 
   private:
     std::ostream &stream;
