@@ -2,10 +2,12 @@
 
 #include "InstanceFactory.hpp"
 #include "Instance.hpp"
+#include "InstancePort.hpp"
 #include "../component/Component.hpp"
 #include "../component/ComponentFactory.hpp"
 #include "../component/InstanceAppearance.hpp"
 
+#include <functional>
 
 void InstanceFactoryTest::componentCanNotBeNullptr()
 {
@@ -20,17 +22,9 @@ void InstanceFactoryTest::canNotDisposeNullptr()
 void InstanceFactoryTest::cleanupRemovesInput()
 {
   Instance instance("", Point(0,0), nullptr);
-  instance.addInput(new InstancePort(nullptr, nullptr, Point(0,0)));
+  instance.addPort(new InstancePort(nullptr, nullptr, Point(0,0)));
   InstanceFactory::cleanup(instance);
-  CPPUNIT_ASSERT(instance.getInput().empty());
-}
-
-void InstanceFactoryTest::cleanupRemovesOutput()
-{
-  Instance instance("", Point(0,0), nullptr);
-  instance.addOutput(new InstancePort(nullptr, nullptr, Point(0,0)));
-  InstanceFactory::cleanup(instance);
-  CPPUNIT_ASSERT(instance.getOutput().empty());
+  CPPUNIT_ASSERT(instance.getPorts().empty());
 }
 
 void InstanceFactoryTest::produceSimple()
@@ -51,14 +45,30 @@ void InstanceFactoryTest::produceWithPorts()
   Component *component = ComponentFactory::produce("Component", {"in1", "in2", "in3"}, {"out1", "out2"});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getInput().size());
-  CPPUNIT_ASSERT_EQUAL(component->getPortLeft()[0], instance->getInput()[0]->getCompPort());
-  CPPUNIT_ASSERT_EQUAL(component->getPortLeft()[1], instance->getInput()[1]->getCompPort());
-  CPPUNIT_ASSERT_EQUAL(component->getPortLeft()[2], instance->getInput()[2]->getCompPort());
+  CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
+  CPPUNIT_ASSERT_EQUAL(size_t(5), instance->getPorts().size());
+  CPPUNIT_ASSERT( dynamic_cast<InstancePort*>(instance->getPorts()[0]) != nullptr);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getOutput().size());
-  CPPUNIT_ASSERT_EQUAL(component->getPortRight()[0], instance->getOutput()[0]->getCompPort());
-  CPPUNIT_ASSERT_EQUAL(component->getPortRight()[1], instance->getOutput()[1]->getCompPort());
+  auto ip = [instance](int i)
+  {
+    return dynamic_cast<InstancePort*>(instance->getPorts()[i]);
+  };
+
+  CPPUNIT_ASSERT_EQUAL(instance, ip(0)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(instance, ip(1)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(instance, ip(2)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(instance, ip(3)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(instance, ip(4)->getInstance());
+
+  std::set<std::string> names;
+  for (auto i = 0; i < 5; i++ ) {
+    names.insert(ip(i)->getName());
+  }
+  CPPUNIT_ASSERT(names.find("in1") != names.end());
+  CPPUNIT_ASSERT(names.find("in2") != names.end());
+  CPPUNIT_ASSERT(names.find("in3") != names.end());
+  CPPUNIT_ASSERT(names.find("out1") != names.end());
+  CPPUNIT_ASSERT(names.find("out2") != names.end());
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -69,8 +79,10 @@ void InstanceFactoryTest::rightConnectorIsAtCorrectPosition()
   Component *component = ComponentFactory::produce("", {}, {""});
   Instance *instance = InstanceFactory::produce(component, "", Point(0,0));
 
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::connectorOffset(), instance->getOutput()[0]->getConnector().getAbsolutePosition().x);
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), instance->getOutput()[0]->getConnector().getAbsolutePosition().y);
+  InstancePort *port = dynamic_cast<InstancePort*>(instance->getPorts()[0]);
+  CPPUNIT_ASSERT(port != nullptr);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::connectorOffset(), port->getConnector().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getAbsolutePosition().y);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -81,8 +93,10 @@ void InstanceFactoryTest::leftConnectorIsAtCorrectPosition()
   Component *component = ComponentFactory::produce("", {""}, {});
   Instance *instance = InstanceFactory::produce(component, "", Point(0,0));
 
-  CPPUNIT_ASSERT_EQUAL(-InstanceAppearance::connectorOffset(), instance->getInput()[0]->getConnector().getAbsolutePosition().x);
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), instance->getInput()[0]->getConnector().getAbsolutePosition().y);
+  InstancePort *port = dynamic_cast<InstancePort*>(instance->getPorts()[0]);
+  CPPUNIT_ASSERT(port != nullptr);
+  CPPUNIT_ASSERT_EQUAL(-InstanceAppearance::connectorOffset(), port->getConnector().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getAbsolutePosition().y);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);

@@ -7,7 +7,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSimpleTextItem>
 
-class GiInstance final : public QGraphicsRectItem, public BaseObserver
+class GiInstance final : public QGraphicsRectItem, public PositionableObserver
 {
   public:
     GiInstance(Instance *aModel, QGraphicsItem *parent);
@@ -17,7 +17,7 @@ class GiInstance final : public QGraphicsRectItem, public BaseObserver
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void notify(const Base *sender);
+    virtual void notify(const Positionable *sender);
 
   private:
     Instance * const model;

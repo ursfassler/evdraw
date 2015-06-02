@@ -3,6 +3,7 @@
 
 #include "Endpoint.hpp"
 #include "Segment.hpp"
+#include "AbstractPort.hpp"
 #include "../util/Observer.hpp"
 #include <vector>
 #include <ostream>
@@ -35,13 +36,11 @@ class ConnectionObserver
 class Connection : public ObserverCollection<ConnectionObserver>
 {
   public:
-    Connection();
+    Connection(AbstractPort *startPort, AbstractPort *endPort);
     virtual ~Connection();
 
-    Endpoint *getStart();
-    Endpoint *getEnd();
-    const Endpoint *getStart() const;
-    const Endpoint *getEnd() const;
+    AbstractPort *getStartPort() const;
+    AbstractPort *getEndPort() const;
 
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
@@ -59,13 +58,15 @@ class Connection : public ObserverCollection<ConnectionObserver>
     std::vector<HorizontalSegment *> horizontalSegments;
     std::vector<VerticalSegment *>   verticalSegments;
 
-    friend ConnectionFactory;
-    friend ConnectionTest;
-
   private:
+    AbstractPort *startPort;
+    AbstractPort *endPort;
     void insertHorizontalSegment();
     void insertVerticalSegment();
     Segment *getSegment(size_t index) const;
+
+    friend ConnectionFactory;
+    friend ConnectionTest;
 };
 
 #endif // CONNECTION_HPP

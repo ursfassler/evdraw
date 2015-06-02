@@ -6,6 +6,7 @@
 
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
+#include "../base/Base.hpp"
 
 class Endpoint;
 
@@ -16,6 +17,7 @@ class EndpointObserver
     virtual void positionChanged(const Endpoint *sender) = 0;
 };
 
+//TODO inherit from Positionable
 class Endpoint : public ObserverCollection<EndpointObserver>
 {
   public:

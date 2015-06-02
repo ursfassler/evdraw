@@ -3,10 +3,12 @@
 #include "../util/contract.hpp"
 #include <cassert>
 
-Connection::Connection() :
+Connection::Connection(AbstractPort *aStartPort, AbstractPort *aEndPort) :
   points(),
   horizontalSegments(),
-  verticalSegments()
+  verticalSegments(),
+  startPort(aStartPort),
+  endPort(aEndPort)
 {
 }
 
@@ -17,26 +19,14 @@ Connection::~Connection()
   assert(points.empty());
 }
 
-Endpoint *Connection::getStart()
+AbstractPort *Connection::getStartPort() const
 {
-  return points.front();
+  return startPort;
 }
 
-Endpoint *Connection::getEnd()
+AbstractPort *Connection::getEndPort() const
 {
-  return points.back();
-}
-
-const Endpoint *Connection::getStart() const
-{
-  precondition(!points.empty());
-  return points.front();
-}
-
-const Endpoint *Connection::getEnd() const
-{
-  precondition(!points.empty());
-  return points.back();
+  return endPort;
 }
 
 void Connection::checkInvariants() const
@@ -45,8 +35,6 @@ void Connection::checkInvariants() const
   invariant(getHorizontalSegment().size() >= 1);
   invariant(getVerticalSegment().size() >= 1);
   invariant(points.size() == 1+horizontalSegments.size()+verticalSegments.size());
-  invariant(dynamic_cast<const PortPoint*>(getStart()) != nullptr);
-  invariant(dynamic_cast<const PortPoint*>(getEnd()) != nullptr);
 
   for (size_t i = 0; i < points.size()-1; i++) {
     Segment *seg = getSegment(i);
@@ -112,8 +100,8 @@ void Connection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
 
-  IntermediatePoint *ip = new IntermediatePoint(getEnd()->getPosition());
-  HorizontalSegment *hs = new HorizontalSegment(ip, getEnd());
+  IntermediatePoint *ip = new IntermediatePoint(points.back()->getPosition());
+  HorizontalSegment *hs = new HorizontalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getVerticalSegment().back()->setEnd(ip);
   Connection::addHorizontalSegment(hs);
@@ -126,8 +114,8 @@ void Connection::insertVerticalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 
-  IntermediatePoint *ip = new IntermediatePoint(getEnd()->getPosition());
-  VerticalSegment *vs = new VerticalSegment(ip, getEnd());
+  IntermediatePoint *ip = new IntermediatePoint(points.back()->getPosition());
+  VerticalSegment *vs = new VerticalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getHorizontalSegment().back()->setEnd(ip);
   Connection::addVerticalSegment(vs);

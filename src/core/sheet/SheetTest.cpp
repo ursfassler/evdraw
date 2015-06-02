@@ -6,6 +6,7 @@
 #include "../instance/Instance.hpp"
 #include "../instance/InstanceFactory.hpp"
 #include "../connection/ConnectionFactory.hpp"
+#include "../connection/SimplePort.hpp"
 
 void SheetTest::create()
 {
@@ -30,9 +31,11 @@ void SheetTest::addInstance()
 
 void SheetTest::addConnection()
 {
-  Sheet sheet;
-  Connection *connection = ConnectionFactory::produce({10, 20, 30, 40, 50});
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
+  Sheet sheet;
   sheet.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections()[0]);
@@ -89,7 +92,9 @@ void SheetTest::notifyWhenAddConnection()
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
 
-  Connection *connection = ConnectionFactory::produce({10, 20, 30, 40, 50});
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
   sheet.addConnection(connection);
 
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionAdded);
@@ -99,13 +104,14 @@ void SheetTest::notifyWhenAddConnection()
 
 void SheetTest::connectionUnderConstruction()
 {
-  Sheet sheet;
+  CPPUNIT_ASSERT(false);
+//  Sheet sheet;
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<Connection*>(nullptr), sheet.getConnectionUnderConstruction());
-  InstancePort rootPort(nullptr, nullptr, Point(0,0));
-  sheet.startConnectionConstruction(&rootPort);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), rootPort.getConnector().getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(rootPort.getConnector().getPoints()[0], sheet.getConnectionUnderConstruction()->getStart());
+//  CPPUNIT_ASSERT_EQUAL(static_cast<Connection*>(nullptr), sheet.getConnectionUnderConstruction());
+//  InstancePort rootPort(nullptr, nullptr, Point(0,0));
+//  sheet.startConnectionConstruction(&rootPort);
+//  CPPUNIT_ASSERT_EQUAL(size_t(1), rootPort.getConnector().getPoints().size());
+//  CPPUNIT_ASSERT_EQUAL(rootPort.getConnector().getPoints()[0], sheet.getConnectionUnderConstruction()->getStart());
 }
 
 void SheetTest::addConnectionUnderConstructionNotifiesObserver()

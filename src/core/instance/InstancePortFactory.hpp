@@ -9,8 +9,8 @@
 class InstancePortFactory
 {
   public:
-    static InstancePort *produce(Base *parent, ComponentPort *compPort, Instance &instance);
-    static void dispose(InstancePort *port);
+    static InstancePort *produce(Instance *instance, ComponentPort *compPort);
+    static void dispose(AbstractPort *port);
 
   private:
     static Point getOffset(ConnectorSide side, const ComponentPort *compPort);

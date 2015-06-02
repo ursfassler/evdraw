@@ -26,20 +26,20 @@ static void loadSheet(Sheet &sheet, Component *comp)
   Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 150,0)));
   sheet.addInstance(inst2);
 
-  InstancePort *portA = inst1->getOutput()[0];
-  InstancePort *portB = inst2->getInput()[0];
-  InstancePort *portC = inst2->getInput()[1];
+  AbstractPort *portA = inst1->getPorts()[2];
+  AbstractPort *portB = inst2->getPorts()[0];
+  AbstractPort *portC = inst2->getPorts()[1];
 
   const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con1 = ConnectionFactory::produce(line);
-  portA->getConnector().addPoint(con1->getStart());
-  portB->getConnector().addPoint(con1->getEnd());
+  portA->addConnectionPoint(con1->getPoints().front());
+  portB->addConnectionPoint(con1->getPoints().back());
   sheet.addConnection(con1);
 
   const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
   Connection *con2 = ConnectionFactory::produce(line2);
-  portA->getConnector().addPoint(con2->getStart());
-  portC->getConnector().addPoint(con2->getEnd());
+  portA->addConnectionPoint(con2->getPoints().front());
+  portC->addConnectionPoint(con2->getPoints().back());
   sheet.addConnection(con2);
 }
 

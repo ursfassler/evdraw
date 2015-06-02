@@ -4,35 +4,38 @@
 #include "../Point.hpp"
 #include "../util/Observer.hpp"
 
-class Base;
+class Positionable;
 
-class BaseObserver
+class PositionableObserver
 {
   public:
-    virtual ~BaseObserver()
+    virtual ~PositionableObserver()
     {
     }
-    virtual void notify(const Base *sender) = 0;
+    virtual void notify(const Positionable *sender) = 0;
 };
 
-class Base : public ObserverCollection<BaseObserver>, public BaseObserver
+class Positionable : public ObserverCollection<PositionableObserver>, public PositionableObserver
 {
   public:
-    Base(Base *parent, const Point &offset);
-    virtual ~Base();
+    Positionable(Positionable *anchor, const Point &offset);
+    virtual ~Positionable();
 
-    Base(const Base &) = delete;
-    bool operator=(const Base &) = delete;
+    Positionable(const Positionable &) = delete;
+    bool operator=(const Positionable &) = delete;
+
+    void setAnchor(Positionable *value);
+    Positionable *getAnchor() const;
 
     virtual const Point &getOffset() const;
     virtual void setOffset(const Point &value);
     virtual Point getAbsolutePosition() const;
 
   protected:
-    virtual void notify(const Base *subject);
+    virtual void notify(const Positionable *subject);
 
   private:
-    Base  * const parent;
+    Positionable  *anchor;
     Point offset;
 };
 

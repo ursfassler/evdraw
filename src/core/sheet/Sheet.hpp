@@ -2,6 +2,7 @@
 #define SHEET_HPP
 
 #include "../instance/Instance.hpp"
+#include "../instance/InstancePort.hpp"
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
 

@@ -12,13 +12,13 @@ Instance *InstanceFactory::produce(Component *component, const std::string &name
 
   for (ComponentPort *compPort : component->getPortLeft()) {
     //TODO use better suited produce
-    InstancePort *instPort = InstancePortFactory::produce(instance, compPort, *instance);
-    instance->addInput(instPort);
+    InstancePort *instPort = InstancePortFactory::produce(instance, compPort);
+    instance->addPort(instPort);
   }
   for (ComponentPort *compPort : component->getPortRight()) {
     //TODO use better suited produce
-    InstancePort *instPort = InstancePortFactory::produce(instance, compPort, *instance);
-    instance->addOutput(instPort);
+    InstancePort *instPort = InstancePortFactory::produce(instance, compPort);
+    instance->addPort(instPort);
   }
 
   return instance;
@@ -26,11 +26,8 @@ Instance *InstanceFactory::produce(Component *component, const std::string &name
 
 void InstanceFactory::cleanup(Instance &instance)
 {
-  cleanupPort(instance.input);
-  cleanupPort(instance.output);
-
-  postcondition(instance.input.empty());
-  postcondition(instance.output.empty());
+  cleanupPort(instance.ports);
+  postcondition(instance.ports.empty());
 }
 
 void InstanceFactory::dispose(Instance *instance)
@@ -41,9 +38,9 @@ void InstanceFactory::dispose(Instance *instance)
   delete instance;
 }
 
-void InstanceFactory::cleanupPort(std::vector<InstancePort *> &ports)
+void InstanceFactory::cleanupPort(std::vector<AbstractPort *> &ports)
 {
-  for (InstancePort *port : ports) {
+  for (AbstractPort *port : ports) {
     InstancePortFactory::dispose(port);
   }
   ports.clear();

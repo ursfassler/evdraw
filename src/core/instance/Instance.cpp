@@ -2,11 +2,10 @@
 
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
-  Base(nullptr, aPosition),
+  Positionable(nullptr, aPosition),
   name(aName),
   component(aComponent),
-  input(),
-  output()
+  ports()
 {
 }
 
@@ -20,23 +19,12 @@ Component *Instance::getComponent() const
   return component;
 }
 
-void Instance::addInput(InstancePort *port)
+void Instance::addPort(AbstractPort *port)
 {
-  input.push_back(port);
+  ports.push_back(port);
 }
 
-const std::vector<InstancePort *> &Instance::getInput() const
+const std::vector<AbstractPort *> &Instance::getPorts() const
 {
-  return input;
+  return ports;
 }
-
-void Instance::addOutput(InstancePort *port)
-{
-  output.push_back(port);
-}
-
-const std::vector<InstancePort *> &Instance::getOutput() const
-{
-  return output;
-}
-

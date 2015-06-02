@@ -5,57 +5,44 @@
 #include <iterator>
 #include <map>
 
-Connection *ConnectionFactory::produce(PaperUnit startX, PaperUnit startY, PaperUnit endX, PaperUnit endY)
+Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort)
 {
   std::vector<PaperUnit> path;
-  path.push_back(startX);
-  path.push_back(startY);
-  path.push_back((startX+endX) / 2);
-  path.push_back(endY);
-  path.push_back(endX);
+  path.push_back(0);
+  path.push_back(0);
+  path.push_back(0);
+  path.push_back(0);
+  path.push_back(0);
 
-  return produce(path);
+  return produce(startPort, endPort, path);
 }
 
-Connection *ConnectionFactory::produce(const std::vector<PaperUnit> &path)
+Connection *ConnectionFactory::produceConstruction(AbstractPort *startPort, AbstractPort *endPort)
 {
-  precondition(path.size() >= 5);
-  precondition((path.size() % 2) == 1);
+  std::vector<PaperUnit> path;
+  path.push_back(0);
+  path.push_back(0);
+  path.push_back(0);
+  path.push_back(0);
 
-  return produce(createPointList(path));
+  return produce(startPort, endPort, path);
 }
 
-Connection *ConnectionFactory::produce(const std::vector<Endpoint *> &points)
+Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<PaperUnit> &path)
 {
-  precondition(points.size() >= 4);
-  precondition((points.size() % 2) == 0);
+  precondition(path.size() >= 4);
 
-  Connection *con = new Connection();
+  return produce(startPort, endPort, createPointList(path));
+}
+
+Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<Endpoint *> &points)
+{
+  precondition(points.size() >= 3);
+
+  Connection *con = new Connection(startPort, endPort);
 
   con->points.assign(points.begin(), points.end());
   addSegments(con);
-
-  con->checkInvariants();
-
-  return con;
-}
-
-
-Connection *ConnectionFactory::produceConstructionConnection(const Point &position)
-{
-  Connection *con = new Connection();
-
-  Endpoint *start = new PortPoint(position);
-  Endpoint *middle = new IntermediatePoint(position);
-  Endpoint *end = new PortPoint(position);
-  HorizontalSegment *hs = new HorizontalSegment(start, middle);
-  VerticalSegment *vs = new VerticalSegment(middle, end);
-
-  con->addPoint(start);
-  con->addPoint(middle);
-  con->addPoint(end);
-  con->addHorizontalSegment(hs);
-  con->addVerticalSegment(vs);
 
   con->checkInvariants();
 
@@ -94,23 +81,16 @@ void ConnectionFactory::dispose(Connection *connection)
 
 std::vector<Endpoint *> ConnectionFactory::createPointList(const std::vector<PaperUnit> &path)
 {
+  precondition(path.size() >= 2);
+
   std::vector<Endpoint *> list;
 
-  const size_t LAST_IDX = path.size()-1;
-
-  list.push_back(new PortPoint(Point(path[0], path[1])));
-
-  for (size_t i = 1; i < path.size()-2; i += 2) {
-    const PaperUnit x1 = path[i+1];
-    const PaperUnit y1 = path[i];
-    const PaperUnit x2 = x1;
-    const PaperUnit y2 = path[i+2];
-
-    list.push_back(new IntermediatePoint(Point(x1, y1)));
-    list.push_back(new IntermediatePoint(Point(x2, y2)));
+  for (size_t i = 1; i < path.size(); i++) {
+    const bool swap = (i % 2) == 1;
+    const PaperUnit x = swap ? path[i-1] : path[i];
+    const PaperUnit y = swap ? path[i] : path[i-1];
+    list.push_back(new IntermediatePoint(Point(x, y)));
   }
-
-  list.push_back(new PortPoint(Point(path[LAST_IDX],path[LAST_IDX-1])));
 
   return list;
 }

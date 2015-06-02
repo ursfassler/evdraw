@@ -3,12 +3,52 @@
 #include "Connection.hpp"
 #include "ConnectionFactory.hpp"
 #include "Segment.hpp"
+#include "SimplePort.hpp"
 
+#include "../instance/AbstractInstance.hpp"
 #include "../util/contract.hpp"
+
+class Instance : public AbstractInstance
+{
+  public:
+    Instance(const std::string &aName) :
+      name(aName)
+    {
+    }
+
+    const std::string &getName() const
+    {
+      return name;
+    }
+
+    const AbstractPort *findPort(const std::string &) const
+    {
+      return nullptr;
+    }
+
+  private:
+    std::string name;
+};
 
 void ConnectionTest::create()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&startPort), connection.getStartPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&endPort), connection.getEndPort());
+}
+
+void ConnectionTest::instanceStart()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
+
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getPoints().size());
@@ -16,7 +56,9 @@ void ConnectionTest::create()
 
 void ConnectionTest::addHorizontalSegment()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
   PortPoint a(Point(0,0));
   PortPoint b(Point(0,0));
   HorizontalSegment *segment = new HorizontalSegment(&a, &b);
@@ -29,7 +71,9 @@ void ConnectionTest::addHorizontalSegment()
 
 void ConnectionTest::addVerticalSegment()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
   PortPoint a(Point(0,0));
   PortPoint b(Point(0,0));
   VerticalSegment *segment = new VerticalSegment(&a, &b);
@@ -42,7 +86,9 @@ void ConnectionTest::addVerticalSegment()
 
 void ConnectionTest::addPoint()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
   Endpoint *ip = new IntermediatePoint(Point(0,0));
 
   connection.addPoint(ip);
@@ -53,7 +99,9 @@ void ConnectionTest::addPoint()
 
 void ConnectionTest::constructAndInsertSegment()
 {
-  Connection *connection = ConnectionFactory::produceConstructionConnection(Point(0,0));
+  SimplePort a;
+  SimplePort b;
+  Connection *connection = ConnectionFactory::produceConstruction(&a, &b);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
@@ -70,7 +118,6 @@ void ConnectionTest::constructAndInsertSegment()
   CPPUNIT_ASSERT_EQUAL(firstPoint, connection->getPoints()[0]);
   CPPUNIT_ASSERT_EQUAL(secondPoint, connection->getPoints()[1]);
   CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getPoints().back());
-  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getEnd());
   Endpoint *thirdPoint = connection->getPoints()[2];
 
   connection->insertSegmentAtEnd();
@@ -82,7 +129,6 @@ void ConnectionTest::constructAndInsertSegment()
   CPPUNIT_ASSERT_EQUAL(secondPoint, connection->getPoints()[1]);
   CPPUNIT_ASSERT_EQUAL(thirdPoint, connection->getPoints()[2]);
   CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getPoints().back());
-  CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getEnd());
 
   ConnectionFactory::dispose(connection);
 }
@@ -109,7 +155,9 @@ class ConnectionObserverTest : public ConnectionObserver
 
 void ConnectionTest::notifyWhenAddVerticalSegment()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
   PortPoint a(Point(0,0));
@@ -126,7 +174,9 @@ void ConnectionTest::notifyWhenAddVerticalSegment()
 
 void ConnectionTest::notifyWhenAddHorizontalSegment()
 {
-  Connection connection;
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
   PortPoint a(Point(0,0));

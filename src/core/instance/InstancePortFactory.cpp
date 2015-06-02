@@ -7,9 +7,9 @@
 
 #include <stdexcept>
 
-InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort *compPort, Instance &instance)
+InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *compPort)
 {
-  Component *comp = instance.getComponent();
+  Component *comp = instance->getComponent();
   ConnectorSide side;
   if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), compPort)) {
     side = ConnectorSide::Left;
@@ -21,7 +21,7 @@ InstancePort *InstancePortFactory::produce(Base *parent, ComponentPort *compPort
 
   const Point portOffset = getOffset(side, compPort);
 
-  InstancePort *port = new InstancePort(parent, compPort, portOffset);
+  InstancePort *port = new InstancePort(instance, compPort, portOffset);
 
   const Point conOfs = connectorOffset(side);
   port->getConnector().setOffset(conOfs);
@@ -51,7 +51,7 @@ Point InstancePortFactory::connectorOffset(ConnectorSide side)
 }
 
 
-void InstancePortFactory::dispose(InstancePort *port)
+void InstancePortFactory::dispose(AbstractPort *port)
 {
   delete port;
 }

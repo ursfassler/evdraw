@@ -51,30 +51,32 @@ void Sheet::addConnection(Connection *connection)
 
 void Sheet::startConnectionConstruction(InstancePort *start)
 {
-  precondition(!hasConnectionUnderConstruction());
-  precondition(start != nullptr);
+  (void)(start);
+//  precondition(!hasConnectionUnderConstruction());
+//  precondition(start != nullptr);
 
-  Connector &connector = start->getConnector();
+//  Connector &connector = start->getConnector();
 
-  connectionUnderConstruction = ConnectionFactory::produceConstructionConnection(connector.getAbsolutePosition());
-  connector.addPoint(connectionUnderConstruction->getStart());
+//  connectionUnderConstruction = ConnectionFactory::produceConstructionConnection(connector.getAbsolutePosition());
+//  connector.addPoint(connectionUnderConstruction->getStart());
 
-  checkInvariant();
-  notify(&SheetObserver::addConnectionUnderConstruction, connectionUnderConstruction);
+//  checkInvariant();
+//  notify(&SheetObserver::addConnectionUnderConstruction, connectionUnderConstruction);
 }
 
 void Sheet::finishConnectionConstruction(InstancePort *end)
 {
-  precondition(hasConnectionUnderConstruction());
-  precondition(end != nullptr);
+  (void)(end);
+//  precondition(hasConnectionUnderConstruction());
+//  precondition(end != nullptr);
 
-  end->getConnector().addPoint(connectionUnderConstruction->getEnd());
-  Connection *connection = connectionUnderConstruction;
-  connectionUnderConstruction = nullptr;
+//  end->getConnector().addPoint(connectionUnderConstruction->getEnd());
+//  Connection *connection = connectionUnderConstruction;
+//  connectionUnderConstruction = nullptr;
 
-  notify(&SheetObserver::finishConnectionUnderConstruction, connection);
+//  notify(&SheetObserver::finishConnectionUnderConstruction, connection);
 
-  addConnection(connection);
+//  addConnection(connection);
 }
 
 bool Sheet::hasConnectionUnderConstruction() const

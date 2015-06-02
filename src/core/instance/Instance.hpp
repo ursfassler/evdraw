@@ -6,14 +6,15 @@
 #include "../Point.hpp"
 #include "../base/Base.hpp"
 
-#include "InstancePort.hpp"
+#include "AbstractInstance.hpp"
+#include "../connection/AbstractPort.hpp"
 
 #include <string>
 #include <vector>
 
 class InstanceFactory;
 
-class Instance final : public Base
+class Instance final : public AbstractInstance, public Positionable
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -23,17 +24,13 @@ class Instance final : public Base
     const std::string &getName() const;
     Component *getComponent() const;
 
-    void addInput(InstancePort *port);
-    const std::vector<InstancePort *> &getInput() const;
-
-    void addOutput(InstancePort *port);
-    const std::vector<InstancePort *> &getOutput() const;
+    void addPort(AbstractPort *port);
+    const std::vector<AbstractPort *> &getPorts() const;
 
   private:
     std::string name;
     Component * const component;
-    std::vector<InstancePort *> input;
-    std::vector<InstancePort *> output;
+    std::vector<AbstractPort*> ports;
 
     friend InstanceFactory;
 

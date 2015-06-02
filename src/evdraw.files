@@ -159,3 +159,7 @@ file/RizzlyPrint.hpp
 file/RizzlyPrint.cpp
 file/RizzlyPrintTest.hpp
 file/RizzlyPrintTest.cpp
+core/instance/AbstractInstance.hpp
+core/connection/AbstractPort.hpp
+core/connection/SimplePort.hpp
+core/connection/SimplePort.cpp

@@ -7,6 +7,7 @@
 #include "Instance.hpp"
 #include "InstancePort.hpp"
 #include "InstanceFactory.hpp"
+#include "AbstractInstance.hpp"
 
 void InstanceTest::produce()
 {
@@ -16,6 +17,7 @@ void InstanceTest::produce()
   CPPUNIT_ASSERT_EQUAL(std::string("lala"), instance.getName());
   CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance.getOffset());
   CPPUNIT_ASSERT_EQUAL(&component, instance.getComponent());
+  CPPUNIT_ASSERT(dynamic_cast<AbstractInstance*>(&instance) != nullptr);
 }
 
 void InstanceTest::setPosition()
@@ -44,7 +46,7 @@ void InstanceTest::inheritsBase()
 {
   Component component("");
   Instance  instance("", Point(0, 0), &component);
-  CPPUNIT_ASSERT(dynamic_cast<Base*>(&instance) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<Positionable*>(&instance) != nullptr);
 }
 
 void InstanceTest::addInputPort()
@@ -52,23 +54,11 @@ void InstanceTest::addInputPort()
   Instance  instance("", Point(0, 0), nullptr);
 
   InstancePort *port = new InstancePort(&instance, nullptr, Point(-20,10));
-  instance.addInput(port);
+  instance.addPort(port);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getInput().size());
-  CPPUNIT_ASSERT_EQUAL(port, instance.getInput()[0]);
-
-  InstanceFactory::cleanup(instance);
-}
-
-void InstanceTest::addOutputPort()
-{
-  Instance  instance("", Point(0, 0), nullptr);
-
-  InstancePort *port = new InstancePort(&instance, nullptr, Point(-20,10));
-  instance.addOutput(port);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getOutput().size());
-  CPPUNIT_ASSERT_EQUAL(port, instance.getOutput()[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(port), instance.getPorts()[0]);
 
   InstanceFactory::cleanup(instance);
 }
+

@@ -1,28 +1,39 @@
 #include "Base.hpp"
 
-Base::Base(Base *aParent, const Point &aOffset) :
+Positionable::Positionable(Positionable *aAnchor, const Point &aOffset) :
   ObserverCollection(),
-  parent(aParent),
+  anchor(aAnchor),
   offset(aOffset)
 {
-  if (parent != nullptr) {
-    parent->registerObserver(this);
+  if (anchor != nullptr) {
+    anchor->registerObserver(this);
   }
 }
 
-Base::~Base()
+Positionable::~Positionable()
 {
-  if (parent != nullptr) {
-    parent->unregisterObserver(this);
+  if (anchor != nullptr) {
+    anchor->unregisterObserver(this);
   }
 }
 
-const Point &Base::getOffset() const
+void Positionable::setAnchor(Positionable *value)
+{
+  if (anchor != nullptr) {
+    anchor->unregisterObserver(this);
+  }
+  anchor = value;
+  if (anchor != nullptr) {
+    anchor->registerObserver(this);
+  }
+}
+
+const Point &Positionable::getOffset() const
 {
   return offset;
 }
 
-void Base::setOffset(const Point &value)
+void Positionable::setOffset(const Point &value)
 {
   if (offset != value) {
     offset = value;
@@ -30,13 +41,13 @@ void Base::setOffset(const Point &value)
   }
 }
 
-Point Base::getAbsolutePosition() const
+Point Positionable::getAbsolutePosition() const
 {
-  const Point parentPos = parent != nullptr ? parent->getAbsolutePosition() : Point(0,0);
+  const Point parentPos = anchor != nullptr ? anchor->getAbsolutePosition() : Point(0,0);
   return offset + parentPos;
 }
 
-void Base::notify(const Base *)
+void Positionable::notify(const Positionable *)
 {
-  ObserverCollection<BaseObserver>::notify(&BaseObserver::notify, static_cast<const Base*>(this));
+  ObserverCollection<PositionableObserver>::notify(&PositionableObserver::notify, static_cast<const Positionable*>(this));
 }
