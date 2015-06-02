@@ -108,10 +108,10 @@ class MultiSegment
   public:
     MultiSegment(PaperUnit x0, PaperUnit y0, PaperUnit xm, PaperUnit y1, PaperUnit x1);
 
-    PortPoint         m0;
-    IntermediatePoint m1;
-    IntermediatePoint m2;
-    PortPoint         m3;
+    Endpoint          m0;
+    Endpoint          m1;
+    Endpoint          m2;
+    Endpoint          m3;
 
     HorizontalSegment s0;
     VerticalSegment   s1;

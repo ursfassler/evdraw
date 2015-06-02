@@ -10,11 +10,11 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( EndpointTest );
 
-    CPPUNIT_TEST(initialPortPointPosition);
-    CPPUNIT_TEST(portPointIsFixed);
+    CPPUNIT_TEST(inheritsFromPositionable);
+    CPPUNIT_TEST(isMovableWhenNotHaveAnchor);
+    CPPUNIT_TEST(isNotMovableWhenHaveAnchor);
 
-    CPPUNIT_TEST(initialIntermediatePointPosition);
-    CPPUNIT_TEST(intermediatePointIsMovable);
+    CPPUNIT_TEST(initialPortPointPosition);
 
     CPPUNIT_TEST(setPosition);
 
@@ -23,11 +23,11 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void initialPortPointPosition();
-    void portPointIsFixed();
+    void inheritsFromPositionable();
+    void isMovableWhenNotHaveAnchor();
+    void isNotMovableWhenHaveAnchor();
 
-    void initialIntermediatePointPosition();
-    void intermediatePointIsMovable();
+    void initialPortPointPosition();
 
     void setPosition();
 

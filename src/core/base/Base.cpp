@@ -28,6 +28,11 @@ void Positionable::setAnchor(Positionable *value)
   }
 }
 
+Positionable *Positionable::getAnchor() const
+{
+  return anchor;
+}
+
 const Point &Positionable::getOffset() const
 {
   return offset;

@@ -1,59 +1,62 @@
 #include "EndpointTest.hpp"
 
 
+void EndpointTest::inheritsFromPositionable()
+{
+  Endpoint pp(Point(1, 2));
+
+  CPPUNIT_ASSERT(dynamic_cast<Positionable*>(&pp) != nullptr);
+}
+
+void EndpointTest::isMovableWhenNotHaveAnchor()
+{
+  Endpoint pp(Point(1, 2));
+  CPPUNIT_ASSERT(pp.freeMovable());
+}
+
+void EndpointTest::isNotMovableWhenHaveAnchor()
+{
+  Positionable p(nullptr, Point(0,0));
+  Endpoint pp(Point(1, 2));
+  pp.setAnchor(&p);
+  CPPUNIT_ASSERT(!pp.freeMovable());
+}
+
 void EndpointTest::initialPortPointPosition()
 {
-  PortPoint point(Point(1, 2));
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), point.getPosition());
-}
-
-void EndpointTest::portPointIsFixed()
-{
-  PortPoint point(Point(0, 0));
-  CPPUNIT_ASSERT_EQUAL(false, point.freeMovable());
-}
-
-void EndpointTest::initialIntermediatePointPosition()
-{
-  IntermediatePoint point(Point(1, 2));
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), point.getPosition());
-}
-
-void EndpointTest::intermediatePointIsMovable()
-{
-  IntermediatePoint point(Point(0, 0));
-  CPPUNIT_ASSERT_EQUAL(true, point.freeMovable());
+  Endpoint point(Point(1, 2));
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), point.getOffset());
 }
 
 void EndpointTest::setPosition()
 {
-  IntermediatePoint point(Point(0, 0));
+  Endpoint point(Point(0, 0));
 
-  point.setPosition(Point(42,57));
+  point.setOffset(Point(42,57));
 
-  CPPUNIT_ASSERT_EQUAL(Point(42,57), point.getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(42,57), point.getOffset());
 }
 
-class EpObserver : public EndpointObserver
+class EpObserver : public PositionableObserver
 {
   public:
-    void positionChanged(const Endpoint *sender)
+    void notify(const Positionable *sender)
     {
       lastSender = sender;
     }
 
-    Endpoint const *lastSender = nullptr;
+    Positionable const *lastSender = nullptr;
 };
 
 void EndpointTest::notifyListenerOnPosChange()
 {
-  IntermediatePoint ep(Point(0, 0));
+  Endpoint ep(Point(0, 0));
   EpObserver observer;
 
   ep.registerObserver(&observer);
 
-  ep.setPosition(Point(42,57));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Endpoint*>(&ep), observer.lastSender);
+  ep.setOffset(Point(42,57));
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<const Positionable*>(&ep), observer.lastSender);
 
   ep.unregisterObserver(&observer);
 }

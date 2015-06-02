@@ -46,9 +46,9 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-void Segment::positionChanged(const Endpoint *)
+void Segment::notify(const Positionable *)
 {
-  notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
+//  notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -58,27 +58,27 @@ HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
 
 PaperUnit HorizontalSegment::getY() const
 {
-  return start->getPosition().y;
+  return start->getAbsolutePosition().y;
 }
 
 void HorizontalSegment::moveToY(PaperUnit value)
 {
   if (moveable()) {
-    start->setPosition(Point(start->getPosition().x, value));
-    end->setPosition(Point(end->getPosition().x, value));
+    start->setOffset(Point(start->getOffset().x, value));
+    end->setOffset(Point(end->getOffset().x, value));
   }
 }
 
-void HorizontalSegment::positionChanged(const Endpoint *sender)
+void HorizontalSegment::notify(const Positionable *sender)
 {
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setPosition(Point(end->getPosition().x, start->getPosition().y));
+    end->setOffset(Point(end->getOffset().x, start->getOffset().y));
   } else {
-    start->setPosition(Point(start->getPosition().x, end->getPosition().y));
+    start->setOffset(Point(start->getOffset().x, end->getOffset().y));
   }
-  Segment::positionChanged(sender);
+  Segment::notify(sender);
 }
 
 
@@ -89,25 +89,25 @@ VerticalSegment::VerticalSegment(Endpoint *aStart, Endpoint *aEnd) :
 
 PaperUnit VerticalSegment::getX() const
 {
-  return start->getPosition().x;
+  return start->getAbsolutePosition().x;
 }
 
 void VerticalSegment::moveToX(PaperUnit value)
 {
   if (moveable()) {
-    start->setPosition(Point(value, start->getPosition().y));
-    end->setPosition(Point(value, end->getPosition().y));
+    start->setOffset(Point(value, start->getOffset().y));
+    end->setOffset(Point(value, end->getOffset().y));
   }
 }
 
-void VerticalSegment::positionChanged(const Endpoint *sender)
+void VerticalSegment::notify(const Positionable *sender)
 {
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setPosition(Point(start->getPosition().x, end->getPosition().y));
+    end->setOffset(Point(start->getOffset().x, end->getOffset().y));
   } else {
-    start->setPosition(Point(end->getPosition().x, start->getPosition().y));
+    start->setOffset(Point(end->getOffset().x, start->getOffset().y));
   }
-  Segment::positionChanged(sender);
+  Segment::notify(sender);
 }

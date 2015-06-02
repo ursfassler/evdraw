@@ -8,53 +8,15 @@
 #include "../Point.hpp"
 #include "../base/Base.hpp"
 
-class Endpoint;
-
-class EndpointObserver
-{
-  public:
-    virtual ~EndpointObserver(){}
-    virtual void positionChanged(const Endpoint *sender) = 0;
-};
-
-//TODO inherit from Positionable
-class Endpoint : public ObserverCollection<EndpointObserver>
+class Endpoint final : public Positionable
 {
   public:
     Endpoint(const Point &position);
-    virtual ~Endpoint();
 
-    const Point &getPosition() const;
-    void setPosition(const Point &value);
-
-    virtual bool freeMovable() const = 0;
-
-    bool operator==(const Endpoint &other) const
-    {
-      return position == other.position;
-    }
-
-  private:
-    Point position;
+    bool freeMovable() const;
 };
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);
-
-class PortPoint : public Endpoint
-{
-  public:
-    PortPoint(const Point &position);
-    bool freeMovable() const;
-
-};
-
-class IntermediatePoint : public Endpoint
-{
-  public:
-    IntermediatePoint(const Point &position);
-    bool freeMovable() const;
-
-};
 
 
 #endif

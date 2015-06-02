@@ -1,53 +1,18 @@
 #include "Endpoint.hpp"
 
 Endpoint::Endpoint(const Point &aPosition) :
-  ObserverCollection(),
-  position(aPosition)
+  Positionable(nullptr, aPosition)
 {
 }
 
-Endpoint::~Endpoint()
+bool Endpoint::freeMovable() const
 {
-}
-
-const Point &Endpoint::getPosition() const
-{
-  return position;
-}
-
-void Endpoint::setPosition(const Point &value)
-{
-  if (position != value) {
-    position = value;
-    notify(&EndpointObserver::positionChanged, static_cast<const Endpoint *>(this));
-  }
+  return getAnchor() == nullptr;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint)
 {
-  stream << endpoint.getPosition();
+  stream << endpoint.getAbsolutePosition();
   return stream;
-}
-
-
-PortPoint::PortPoint(const Point &position) :
-  Endpoint(position)
-{
-}
-
-bool PortPoint::freeMovable() const
-{
-  return false;
-}
-
-
-IntermediatePoint::IntermediatePoint(const Point &position) :
-  Endpoint(position)
-{
-}
-
-bool IntermediatePoint::freeMovable() const
-{
-  return true;
 }
 

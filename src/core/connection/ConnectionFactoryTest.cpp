@@ -17,7 +17,7 @@ void ConnectionFactoryTest::createMinimalPointList()
   std::vector<Endpoint *> list = ConnectionFactory::createPointList({1, 2});
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), list.size());
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getOffset());
 
   delete list[0];
 }
@@ -27,10 +27,10 @@ void ConnectionFactoryTest::createSimplePointList()
   std::vector<Endpoint *> list = ConnectionFactory::createPointList({1, 2, 3, 4, 5});
 
   CPPUNIT_ASSERT_EQUAL(size_t(4), list.size());
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(3,2), list[1]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(3,4), list[2]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(5,4), list[3]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(3,2), list[1]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(3,4), list[2]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(5,4), list[3]->getOffset());
 
   delete list[0];
   delete list[1];
@@ -90,12 +90,12 @@ void ConnectionFactoryTest::createPathConnection()
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {-10, 3, -5, 4, 1, -2, 7});
 
   CPPUNIT_ASSERT_EQUAL(size_t(6), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point( -5, 3), connection->getPoints()[1]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point( -5, 4), connection->getPoints()[2]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(  1, 4), connection->getPoints()[3]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(  1,-2), connection->getPoints()[4]->getPosition());
-  CPPUNIT_ASSERT_EQUAL(Point(  7,-2), connection->getPoints()[5]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 3), connection->getPoints()[1]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 4), connection->getPoints()[2]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  1, 4), connection->getPoints()[3]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  1,-2), connection->getPoints()[4]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  7,-2), connection->getPoints()[5]->getOffset());
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(-5, connection->getVerticalSegment()[0]->getX());

@@ -89,7 +89,7 @@ std::vector<Endpoint *> ConnectionFactory::createPointList(const std::vector<Pap
     const bool swap = (i % 2) == 1;
     const PaperUnit x = swap ? path[i-1] : path[i];
     const PaperUnit y = swap ? path[i] : path[i-1];
-    list.push_back(new IntermediatePoint(Point(x, y)));
+    list.push_back(new Endpoint(Point(x, y)));
   }
 
   return list;

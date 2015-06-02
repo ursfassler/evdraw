@@ -59,8 +59,8 @@ void ConnectionTest::addHorizontalSegment()
   SimplePort startPort;
   SimplePort endPort;
   Connection connection(&startPort, &endPort);
-  PortPoint a(Point(0,0));
-  PortPoint b(Point(0,0));
+  Endpoint a(Point(0,0));
+  Endpoint b(Point(0,0));
   HorizontalSegment *segment = new HorizontalSegment(&a, &b);
 
   connection.addHorizontalSegment(segment);
@@ -74,8 +74,8 @@ void ConnectionTest::addVerticalSegment()
   SimplePort startPort;
   SimplePort endPort;
   Connection connection(&startPort, &endPort);
-  PortPoint a(Point(0,0));
-  PortPoint b(Point(0,0));
+  Endpoint a(Point(0,0));
+  Endpoint b(Point(0,0));
   VerticalSegment *segment = new VerticalSegment(&a, &b);
 
   connection.addVerticalSegment(segment);
@@ -89,7 +89,7 @@ void ConnectionTest::addPoint()
   SimplePort startPort;
   SimplePort endPort;
   Connection connection(&startPort, &endPort);
-  Endpoint *ip = new IntermediatePoint(Point(0,0));
+  Endpoint *ip = new Endpoint(Point(0,0));
 
   connection.addPoint(ip);
   CPPUNIT_ASSERT_EQUAL(ip, connection.getPoints()[0]);
@@ -160,8 +160,8 @@ void ConnectionTest::notifyWhenAddVerticalSegment()
   Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
-  PortPoint a(Point(0,0));
-  PortPoint b(Point(0,0));
+  Endpoint a(Point(0,0));
+  Endpoint b(Point(0,0));
   VerticalSegment *segment = new VerticalSegment(&a,&b);
 
   connection.addVerticalSegment(segment);
@@ -179,8 +179,8 @@ void ConnectionTest::notifyWhenAddHorizontalSegment()
   Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
-  PortPoint a(Point(0,0));
-  PortPoint b(Point(0,0));
+  Endpoint a(Point(0,0));
+  Endpoint b(Point(0,0));
   HorizontalSegment *segment = new HorizontalSegment(&a,&b);
 
   connection.addHorizontalSegment(segment);
