@@ -61,7 +61,8 @@ void RelativePosition::setOffset(const Point &value)
 {
   if (offset != value) {
     offset = value;
-    notify(this);
+    ObserverCollection<PositionObserver>::notify(&PositionObserver::offsetChanged, static_cast<const RelativePosition*>(this));
+    ObserverCollection<PositionObserver>::notify(&PositionObserver::absolutePositionChanged, static_cast<const RelativePosition*>(this));
   }
 }
 
@@ -70,8 +71,19 @@ Point RelativePosition::getAbsolutePosition() const
   return offset + anchor->getAbsolutePosition();
 }
 
-void RelativePosition::notify(const RelativePosition *)
+void RelativePosition::setAbsolutePosition(const Point &value)
 {
-  ObserverCollection<PositionObserver>::notify(&PositionObserver::notify, static_cast<const RelativePosition*>(this));
+  setOffset(value - anchor->getAbsolutePosition());
+}
+
+void RelativePosition::absolutePositionChanged(const RelativePosition *sender)
+{
+  if (sender == anchor) {
+    ObserverCollection<PositionObserver>::notify(&PositionObserver::absolutePositionChanged, static_cast<const RelativePosition*>(this));
+  }
+}
+
+void RelativePosition::offsetChanged(const RelativePosition *)
+{
 }
 

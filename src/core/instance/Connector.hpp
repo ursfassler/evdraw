@@ -13,11 +13,6 @@ class Connector final : public RelativePosition
     void addPoint(RelativePosition *point);
     const std::vector<RelativePosition *> &getPoints() const;
 
-    void setOffset(const Point &value);
-
-  protected:
-    void notify(const RelativePosition *subject);
-
   private:
     std::vector<RelativePosition*> points;
 

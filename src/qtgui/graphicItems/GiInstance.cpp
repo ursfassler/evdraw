@@ -36,7 +36,11 @@ GiInstance::~GiInstance()
   model->unregisterObserver(this);
 }
 
-void GiInstance::notify(const RelativePosition *)
+void GiInstance::absolutePositionChanged(const RelativePosition *)
+{
+}
+
+void GiInstance::offsetChanged(const RelativePosition *)
 {
   setPos(puToScene(model->getOffset()));
 }

@@ -11,11 +11,9 @@ void SheetToGuiUpdater::instanceAdded(Instance *instance)
 {
   GiInstance *giinstA = new GiInstance(instance, 0);
 
-  for (InstancePort *port : instance->getInput()) {
-    new GiInstancePort(port, &sheet, giinstA);
-  }
-  for (InstancePort *port : instance->getOutput()) {
-    new GiInstancePort(port, &sheet, giinstA);
+  for (AbstractPort *port : instance->getPorts()) {
+    InstancePort *ip = dynamic_cast<InstancePort*>(port);
+    new GiInstancePort(ip, &sheet, giinstA);
   }
 
   scene.addItem(giinstA);

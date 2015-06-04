@@ -12,6 +12,8 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(absolutePosition);
     CPPUNIT_TEST(setOffset);
 
+    CPPUNIT_TEST(setAbsolutePosition);
+
     CPPUNIT_TEST(notifyOnChange);
     CPPUNIT_TEST(notifyChildOnChange);
     CPPUNIT_TEST(notifyGrandchildOnChange);
@@ -22,6 +24,8 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     void create();
     void absolutePosition();
     void setOffset();
+
+    void setAbsolutePosition();
 
     void notifyOnChange();
     void notifyChildOnChange();

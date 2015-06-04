@@ -40,9 +40,13 @@ void EndpointTest::setPosition()
 class EpObserver : public PositionObserver
 {
   public:
-    void notify(const RelativePosition *sender)
+    void absolutePositionChanged(const RelativePosition *sender)
     {
       lastSender = sender;
+    }
+
+    void offsetChanged(const RelativePosition *)
+    {
     }
 
     RelativePosition const *lastSender = nullptr;

@@ -176,6 +176,31 @@ void HorizontalSegmentTest::moveUnmoveable()
   CPPUNIT_ASSERT_EQUAL(Point( 10,0), end.getOffset());
 }
 
+void HorizontalSegmentTest::moveStartAnchor()
+{
+  RelativePosition p(Point(-10, 0));
+  Endpoint start(Point(0, 0));
+  start.replaceAnchor(&p);
+  Endpoint end(Point(10, 0));
+  HorizontalSegment segment(&start, &end);
+
+  p.setOffset(Point(-5, 15));
+  CPPUNIT_ASSERT_EQUAL(Point(-5, 15), start.getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10, 15), end.getAbsolutePosition());
+}
+
+void HorizontalSegmentTest::moveEndAnchor()
+{
+  Endpoint start(Point(-10, 0));
+  RelativePosition p(Point(10, 0));
+  Endpoint end(Point(0, 0));
+  end.replaceAnchor(&p);
+  HorizontalSegment segment(&start, &end);
+
+  p.setOffset(Point(5, 15));
+  CPPUNIT_ASSERT_EQUAL(Point(-10, 15), start.getAbsolutePosition());
+}
+
 void HorizontalSegmentTest::notifyListenerOnPositionChange()
 {
   Endpoint start(Point(1, 2));
@@ -272,6 +297,30 @@ void VerticalSegmentTest::moveUnmoveable()
 
   CPPUNIT_ASSERT_EQUAL(Point(0,-10), start.getOffset());
   CPPUNIT_ASSERT_EQUAL(Point(0, 10), end.getOffset());
+}
+
+void VerticalSegmentTest::moveStartAnchor()
+{
+  RelativePosition p(Point(0, -10));
+  Endpoint start(Point(0, 0));
+  start.replaceAnchor(&p);
+  Endpoint end(Point(0, 10));
+  VerticalSegment segment(&start, &end);
+
+  p.setOffset(Point(15, -5));
+  CPPUNIT_ASSERT_EQUAL(Point(15, 10), end.getAbsolutePosition());
+}
+
+void VerticalSegmentTest::moveEndAnchor()
+{
+  Endpoint start(Point(0, -10));
+  RelativePosition p(Point(0, 10));
+  Endpoint end(Point(0, 0));
+  end.replaceAnchor(&p);
+  VerticalSegment segment(&start, &end);
+
+  p.setOffset(Point(15, 5));
+  CPPUNIT_ASSERT_EQUAL(Point(15, -10), start.getAbsolutePosition());
 }
 
 void VerticalSegmentTest::notifyListenerOnPositionChange()

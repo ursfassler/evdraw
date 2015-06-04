@@ -25,15 +25,33 @@ void PositionTest::setOffset()
   CPPUNIT_ASSERT_EQUAL(Point(10,20), base.getOffset());
 }
 
+void PositionTest::setAbsolutePosition()
+{
+  RelativePosition parent(Point(10,20));
+  RelativePosition base(Point(0,0));
+  base.replaceAnchor(&parent);
+
+  base.setAbsolutePosition(Point(15,30));
+
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), parent.getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(5,10), base.getOffset());
+}
+
 class TestBaseObserver : public PositionObserver
 {
   public:
-    virtual void notify(const RelativePosition *subject)
+    virtual void absolutePositionChanged(const RelativePosition *subject)
     {
-      lastSubject = subject;
+      lastPositionChanger = subject;
     }
 
-    RelativePosition const * lastSubject = nullptr;
+    virtual void offsetChanged(const RelativePosition *subject)
+    {
+      lastOffsetChanger = subject;
+    }
+
+    RelativePosition const * lastPositionChanger = nullptr;
+    RelativePosition const * lastOffsetChanger = nullptr;
 };
 
 void PositionTest::notifyOnChange()
@@ -42,9 +60,9 @@ void PositionTest::notifyOnChange()
   TestBaseObserver observer;
   base.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(nullptr), observer.lastSubject);
   base.setOffset(Point(10,20));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&base), observer.lastSubject);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&base), observer.lastOffsetChanger);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&base), observer.lastPositionChanger);
 
   base.unregisterObserver(&observer);
 }
@@ -58,9 +76,9 @@ void PositionTest::notifyChildOnChange()
   TestBaseObserver observer;
   baseChild.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(nullptr), observer.lastSubject);
   base.setOffset(Point(10,20));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&baseChild), observer.lastSubject);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(nullptr), observer.lastOffsetChanger);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&baseChild), observer.lastPositionChanger);
 
   baseChild.unregisterObserver(&observer);
 }
@@ -76,9 +94,9 @@ void PositionTest::notifyGrandchildOnChange()
   TestBaseObserver observer;
   baseGrandchild.registerObserver(&observer);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(nullptr), observer.lastSubject);
   base.setOffset(Point(10,20));
-  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&baseGrandchild), observer.lastSubject);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(nullptr), observer.lastOffsetChanger);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const RelativePosition*>(&baseGrandchild), observer.lastPositionChanger);
 
   baseGrandchild.unregisterObserver(&observer);
 }

@@ -20,21 +20,6 @@ const std::vector<RelativePosition *> &Connector::getPoints() const
   return points;
 }
 
-void Connector::setOffset(const Point &value)
-{
-  //TODO necessary?
-  if (getOffset() != value) {
-    RelativePosition::setOffset(value);
-    updateConnectionPosition();
-  }
-}
-
-void Connector::notify(const RelativePosition *subject)
-{
-  RelativePosition::notify(subject);
-  updateConnectionPosition();
-}
-
 void Connector::updateConnectionPosition() const
 {
   for (size_t i = 0; i < points.size(); i++) {

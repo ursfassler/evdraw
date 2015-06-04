@@ -17,7 +17,8 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void notify(const RelativePosition *sender);
+    virtual void absolutePositionChanged(const RelativePosition *sender);
+    virtual void offsetChanged(const RelativePosition *sender);
 
   private:
     Instance * const model;

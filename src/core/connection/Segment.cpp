@@ -46,9 +46,13 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-void Segment::notify(const RelativePosition *)
+void Segment::absolutePositionChanged(const RelativePosition *)
 {
   ObserverCollection<SegmentObserver>::notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
+}
+
+void Segment::offsetChanged(const RelativePosition *)
+{
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -69,16 +73,16 @@ void HorizontalSegment::moveToY(PaperUnit value)
   }
 }
 
-void HorizontalSegment::notify(const RelativePosition *sender)
+void HorizontalSegment::absolutePositionChanged(const RelativePosition *sender)
 {
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setOffset(Point(end->getOffset().x, start->getOffset().y));
+    end->setAbsolutePosition(Point(end->getAbsolutePosition().x, start->getAbsolutePosition().y));
   } else {
-    start->setOffset(Point(start->getOffset().x, end->getOffset().y));
+    start->setAbsolutePosition(Point(start->getAbsolutePosition().x, end->getAbsolutePosition().y));
   }
-  Segment::notify(sender);
+  Segment::absolutePositionChanged(sender);
 }
 
 
@@ -100,14 +104,14 @@ void VerticalSegment::moveToX(PaperUnit value)
   }
 }
 
-void VerticalSegment::notify(const RelativePosition *sender)
+void VerticalSegment::absolutePositionChanged(const RelativePosition *sender)
 {
   precondition((sender == start) || (sender == end));
 
   if (sender == start) {
-    end->setOffset(Point(start->getOffset().x, end->getOffset().y));
+    end->setAbsolutePosition(Point(start->getAbsolutePosition().x, end->getAbsolutePosition().y));
   } else {
-    start->setOffset(Point(end->getOffset().x, start->getOffset().y));
+    start->setAbsolutePosition(Point(end->getAbsolutePosition().x, start->getAbsolutePosition().y));
   }
-  Segment::notify(sender);
+  Segment::absolutePositionChanged(sender);
 }

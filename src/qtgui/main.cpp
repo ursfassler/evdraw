@@ -31,13 +31,13 @@ static void loadSheet(Sheet &sheet, Component *comp)
   AbstractPort *portC = inst2->getPorts()[1];
 
   const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
-  Connection *con1 = ConnectionFactory::produce(line);
+  Connection *con1 = ConnectionFactory::produce(portA, portB, line);
   portA->addConnectionPoint(con1->getPoints().front());
   portB->addConnectionPoint(con1->getPoints().back());
   sheet.addConnection(con1);
 
   const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
-  Connection *con2 = ConnectionFactory::produce(line2);
+  Connection *con2 = ConnectionFactory::produce(portA, portC, line2);
   portA->addConnectionPoint(con2->getPoints().front());
   portC->addConnectionPoint(con2->getPoints().back());
   sheet.addConnection(con2);

@@ -13,7 +13,7 @@ GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Sheet *aShee
   sheet(aSheet)
 {
   setRect(-5,-5,10,10);
-  setPos(puToScene(connection->getEnd()->getPosition()));
+//  setPos(puToScene(connection->getEnd()->getPosition()));
 //  grabMouse();
 }
 
@@ -24,8 +24,8 @@ GiConnectionCreation::~GiConnectionCreation()
 
 void GiConnectionCreation::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  connection->getEnd()->setPosition(sceneToPu(event->scenePos()));
-  setPos(event->scenePos());
+//  connection->getEnd()->setPosition(sceneToPu(event->scenePos()));
+//  setPos(event->scenePos());
   event->accept();
 }
 

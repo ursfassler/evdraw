@@ -28,11 +28,12 @@ class Segment : public ObserverCollection<SegmentObserver>, public PositionObser
 
     bool moveable() const;
 
+    void absolutePositionChanged(const RelativePosition *sender);
+    void offsetChanged(const RelativePosition *sender);
+
   protected:
     Endpoint  *start;
     Endpoint  *end;
-
-    void notify(const RelativePosition *subject);
 };
 
 class HorizontalSegment : public Segment
@@ -43,8 +44,7 @@ class HorizontalSegment : public Segment
     PaperUnit getY() const;
     void moveToY(PaperUnit value);
 
-  private:
-    void notify(const RelativePosition *sender);
+    void absolutePositionChanged(const RelativePosition *sender);
 };
 
 class VerticalSegment : public Segment
@@ -55,8 +55,7 @@ class VerticalSegment : public Segment
     PaperUnit getX() const;
     void moveToX(PaperUnit value);
 
-  private:
-    void notify(const RelativePosition *sender);
+    void absolutePositionChanged(const RelativePosition *sender);
 };
 
 #endif // SEGMENT_HPP
