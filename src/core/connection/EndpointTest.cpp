@@ -5,7 +5,7 @@ void EndpointTest::inheritsFromPositionable()
 {
   Endpoint pp(Point(1, 2));
 
-  CPPUNIT_ASSERT(dynamic_cast<Positionable*>(&pp) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<RelativePosition*>(&pp) != nullptr);
 }
 
 void EndpointTest::isMovableWhenNotHaveAnchor()
@@ -16,9 +16,9 @@ void EndpointTest::isMovableWhenNotHaveAnchor()
 
 void EndpointTest::isNotMovableWhenHaveAnchor()
 {
-  Positionable p(nullptr, Point(0,0));
+  RelativePosition p(Point(0,0));
   Endpoint pp(Point(1, 2));
-  pp.setAnchor(&p);
+  pp.replaceAnchor(&p);
   CPPUNIT_ASSERT(!pp.freeMovable());
 }
 
@@ -37,15 +37,15 @@ void EndpointTest::setPosition()
   CPPUNIT_ASSERT_EQUAL(Point(42,57), point.getOffset());
 }
 
-class EpObserver : public PositionableObserver
+class EpObserver : public PositionObserver
 {
   public:
-    void notify(const Positionable *sender)
+    void notify(const RelativePosition *sender)
     {
       lastSender = sender;
     }
 
-    Positionable const *lastSender = nullptr;
+    RelativePosition const *lastSender = nullptr;
 };
 
 void EndpointTest::notifyListenerOnPosChange()
@@ -56,7 +56,7 @@ void EndpointTest::notifyListenerOnPosChange()
   ep.registerObserver(&observer);
 
   ep.setOffset(Point(42,57));
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<const Positionable*>(&ep), observer.lastSender);
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<const RelativePosition*>(&ep), observer.lastSender);
 
   ep.unregisterObserver(&observer);
 }

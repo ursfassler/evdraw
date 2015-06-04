@@ -1,12 +1,12 @@
-#ifndef BASETEST_HPP
-#define BASETEST_HPP
+#ifndef POSITIONTEST_HPP
+#define POSITIONTEST_HPP
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class BaseTest : public CPPUNIT_NS::TestFixture
+class PositionTest : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( BaseTest );
+    CPPUNIT_TEST_SUITE( PositionTest );
 
     CPPUNIT_TEST(create);
     CPPUNIT_TEST(absolutePosition);
@@ -28,6 +28,6 @@ class BaseTest : public CPPUNIT_NS::TestFixture
     void notifyGrandchildOnChange();
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION( BaseTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( PositionTest );
 
-#endif // BASETEST_HPP
+#endif

@@ -13,8 +13,8 @@ class InstancePortFactory
     static void dispose(AbstractPort *port);
 
   private:
-    static Point getOffset(ConnectorSide side, const ComponentPort *compPort);
-    static Point connectorOffset(ConnectorSide side);
+    static Point getOffset(Side side, const ComponentPort *compPort);
+    static Point connectorOffset(Side side);
 };
 
 #endif // INSTANCEPORTFACTORY_HPP

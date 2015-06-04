@@ -70,3 +70,21 @@ void InstancePortTest::positionChangeNotificationNotifiesConnector()
 
   CPPUNIT_ASSERT_EQUAL(Point(10,20), port.getConnector().getAbsolutePosition());
 }
+
+void InstancePortTest::portIsLeft()
+{
+  Component *comp = ComponentFactory::produce("", {"left"}, {});
+  Instance inst("", Point(0, 0), comp);
+  InstancePort port(&inst, comp->getPortLeft()[0], Point(0,0));
+
+  CPPUNIT_ASSERT_EQUAL(Side::Left, port.side());
+}
+
+void InstancePortTest::portIsRight()
+{
+  Component *comp = ComponentFactory::produce("", {}, {"right"});
+  Instance inst("", Point(0, 0), comp);
+  InstancePort port(&inst, comp->getPortRight()[0], Point(0,0));
+
+  CPPUNIT_ASSERT_EQUAL(Side::Right, port.side());
+}

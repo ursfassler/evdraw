@@ -6,9 +6,9 @@
 
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
-class Endpoint final : public Positionable
+class Endpoint final : public RelativePosition
 {
   public:
     Endpoint(const Point &position);

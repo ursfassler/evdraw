@@ -2,17 +2,17 @@
 #define SIMPLEPORT_HPP
 
 #include "AbstractPort.hpp"
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
 #include <set>
 
 class SimplePort : public AbstractPort
 {
   public:
-    virtual void addConnectionPoint(Positionable *port);
-    virtual void removeConnectionPoint(Positionable *port);
+    virtual void addConnectionPoint(RelativePosition *port);
+    virtual void removeConnectionPoint(RelativePosition *port);
 
-    std::set<Positionable*> ports;
+    std::set<RelativePosition*> ports;
 
 };
 

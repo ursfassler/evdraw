@@ -2,20 +2,20 @@
 
 #include "../component/InstanceAppearance.hpp"
 
-Connector::Connector(Positionable *parent, const Point &aOffset) :
-  Positionable(parent, aOffset),
+Connector::Connector(const Point &aOffset) :
+  RelativePosition(aOffset),
   points()
 {
 }
 
-void Connector::addPoint(Positionable *point)
+void Connector::addPoint(RelativePosition *point)
 {
   points.push_back(point);
-  point->setAnchor(this);
+  point->replaceAnchor(this);
   updateConnectionPosition();
 }
 
-const std::vector<Positionable *> &Connector::getPoints() const
+const std::vector<RelativePosition *> &Connector::getPoints() const
 {
   return points;
 }
@@ -24,14 +24,14 @@ void Connector::setOffset(const Point &value)
 {
   //TODO necessary?
   if (getOffset() != value) {
-    Positionable::setOffset(value);
+    RelativePosition::setOffset(value);
     updateConnectionPosition();
   }
 }
 
-void Connector::notify(const Positionable *subject)
+void Connector::notify(const RelativePosition *subject)
 {
-  Positionable::notify(subject);
+  RelativePosition::notify(subject);
   updateConnectionPosition();
 }
 

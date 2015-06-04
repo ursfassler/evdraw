@@ -129,10 +129,10 @@ core/instance/ConnectorTest.hpp
 core/instance/ConnectorTest.cpp
 core/instance/Connector.hpp
 core/instance/Connector.cpp
-core/base/BaseTest.hpp
-core/base/BaseTest.cpp
-core/base/Base.hpp
-core/base/Base.cpp
+core/base/PositionTest.hpp
+core/base/PositionTest.cpp
+core/base/Position.hpp
+core/base/Position.cpp
 core/PointTest.hpp
 core/PointTest.cpp
 core/Point.hpp

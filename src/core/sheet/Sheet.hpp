@@ -33,7 +33,7 @@ class Sheet final : public ObserverCollection<SheetObserver>
     const std::vector<Connection *> &getConnections() const;
     void addConnection(Connection *connection);
 
-    void startConnectionConstruction(InstancePort *start);
+    void startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort);
     void finishConnectionConstruction(InstancePort *end);
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;

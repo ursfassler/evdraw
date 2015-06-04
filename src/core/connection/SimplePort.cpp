@@ -1,12 +1,12 @@
 #include "SimplePort.hpp"
 
 
-void SimplePort::addConnectionPoint(Positionable *port)
+void SimplePort::addConnectionPoint(RelativePosition *port)
 {
   ports.insert(port);
 }
 
-void SimplePort::removeConnectionPoint(Positionable *port)
+void SimplePort::removeConnectionPoint(RelativePosition *port)
 {
   ports.erase(port);
 }

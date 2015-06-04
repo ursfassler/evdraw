@@ -2,7 +2,7 @@
 
 #include "../component/Component.hpp"
 #include "../component/ComponentFactory.hpp"
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 #include "../Point.hpp"
 #include "Instance.hpp"
 #include "InstancePort.hpp"
@@ -46,7 +46,7 @@ void InstanceTest::inheritsBase()
 {
   Component component("");
   Instance  instance("", Point(0, 0), &component);
-  CPPUNIT_ASSERT(dynamic_cast<Positionable*>(&instance) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<RelativePosition*>(&instance) != nullptr);
 }
 
 void InstanceTest::addInputPort()

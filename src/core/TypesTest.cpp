@@ -8,13 +8,13 @@
 void TypesTest::printConnectorSideLeft()
 {
   std::stringstream ss;
-  ss << ConnectorSide::Left;
+  ss << Side::Left;
   CPPUNIT_ASSERT_EQUAL(std::string("left"), ss.str());
 }
 
 void TypesTest::printConnectorSideRight()
 {
   std::stringstream ss;
-  ss << ConnectorSide::Right;
+  ss << Side::Right;
   CPPUNIT_ASSERT_EQUAL(std::string("right"), ss.str());
 }

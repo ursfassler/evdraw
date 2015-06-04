@@ -22,7 +22,7 @@ void InstanceFactoryTest::canNotDisposeNullptr()
 void InstanceFactoryTest::cleanupRemovesInput()
 {
   Instance instance("", Point(0,0), nullptr);
-  instance.addPort(new InstancePort(nullptr, nullptr, Point(0,0)));
+  instance.addPort(new InstancePort(&instance, nullptr, Point(0,0)));
   InstanceFactory::cleanup(instance);
   CPPUNIT_ASSERT(instance.getPorts().empty());
 }

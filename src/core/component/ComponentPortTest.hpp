@@ -16,7 +16,6 @@ class ComponentPortTest : public CPPUNIT_NS::TestFixture
   public:
     void produce();
     void setTopIndex();
-
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ComponentPortTest );

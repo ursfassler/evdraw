@@ -1,15 +1,20 @@
 #include "InstancePort.hpp"
 
 #include "../component/InstanceAppearance.hpp"
+#include "../util/list.hpp"
 
 #include <stdexcept>
 
 InstancePort::InstancePort(Instance *aInstance, ComponentPort *aCompPort, const Point &aOffset) :
-  Positionable(aInstance, aOffset),
+  RelativePosition(aOffset),
   owner(aInstance),
   compPort(aCompPort),
-  connector(this, Point(0,0))
+  connector(Point(0,0))
 {
+  precondition(aInstance != nullptr);
+
+  replaceAnchor(aInstance);
+  connector.replaceAnchor(this);
 }
 
 Connector &InstancePort::getConnector()
@@ -32,12 +37,17 @@ Instance *InstancePort::getInstance() const
   return owner;
 }
 
-void InstancePort::addConnectionPoint(Positionable *point)
+Side InstancePort::side() const
+{
+  return owner->getComponent()->sideOf(compPort);
+}
+
+void InstancePort::addConnectionPoint(RelativePosition *point)
 {
   connector.addPoint(point);
 }
 
-void InstancePort::removeConnectionPoint(Positionable *point)
+void InstancePort::removeConnectionPoint(RelativePosition *point)
 {
   (void)(point);
 }

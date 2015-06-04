@@ -2,14 +2,14 @@
 
 
 
-std::ostream &operator<<(std::ostream &stream, const ConnectorSide &connectorSide)
+std::ostream &operator<<(std::ostream &stream, const Side &connectorSide)
 {
   switch (connectorSide) {
-    case ConnectorSide::Right: {
+    case Side::Right: {
       stream << "right";
       break;
     }
-    case ConnectorSide::Left: {
+    case Side::Left: {
       stream << "left";
       break;
     }

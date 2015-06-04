@@ -1,6 +1,7 @@
 #include "Component.hpp"
 
-#include <cassert>
+#include "../util/list.hpp"
+#include "../util/contract.hpp"
 
 Component::Component(const std::string &aName) :
   name(aName),
@@ -11,8 +12,6 @@ Component::Component(const std::string &aName) :
 
 Component::~Component()
 {
-  assert(portLeft.empty());
-  assert(portRight.empty());
 }
 
 void Component::addPortLeft(ComponentPort *port)
@@ -35,6 +34,21 @@ void Component::addPortRight(ComponentPort *port)
 const std::vector<ComponentPort *> &Component::getPortRight() const
 {
   return portRight;
+}
+
+Side Component::sideOf(const ComponentPort *port) const
+{
+  const bool isLeft = contains(portLeft.begin(), portLeft.end(), port);
+  const bool isRight = contains(portRight.begin(), portRight.end(), port);
+
+  precondition(isLeft || isRight);
+  precondition(!(isLeft && isRight));
+
+  if (isLeft) {
+    return Side::Left;
+  } else {
+    return Side::Right;
+  }
 }
 
 const std::string &Component::getName() const

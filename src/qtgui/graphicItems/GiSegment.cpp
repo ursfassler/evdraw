@@ -41,8 +41,8 @@ void GiSegment::positionChanged(const Segment *)
 
 void GiSegment::updatePosition(Segment *model)
 {
-  QPointF start = puToScene(model->getStart()->getPosition());
-  QPointF end = puToScene(model->getEnd()->getPosition());
+  QPointF start = puToScene(model->getStart()->getAbsolutePosition());
+  QPointF end = puToScene(model->getEnd()->getAbsolutePosition());
 
   setLine(QLineF(start, end));
 }

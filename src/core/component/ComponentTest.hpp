@@ -15,6 +15,9 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(rightPortIndexUpdatedOnAdd);
     CPPUNIT_TEST(leftPortIndexUpdatedOnAdd);
 
+    CPPUNIT_TEST(portIsLeft);
+    CPPUNIT_TEST(portIsRight);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -26,6 +29,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void rightPortIndexUpdatedOnAdd();
     void leftPortIndexUpdatedOnAdd();
 
+    void portIsLeft();
+    void portIsRight();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ComponentTest );

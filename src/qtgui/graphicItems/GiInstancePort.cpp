@@ -36,5 +36,5 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   event->accept();
-  sheet->startConnectionConstruction(model);
+//  sheet->startConnectionConstruction(model);
 }

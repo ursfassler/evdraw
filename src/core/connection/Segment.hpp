@@ -13,7 +13,7 @@ class SegmentObserver
     virtual void positionChanged(const Segment *sender) = 0;
 };
 
-class Segment : public ObserverCollection<SegmentObserver>, public PositionableObserver
+class Segment : public ObserverCollection<SegmentObserver>, public PositionObserver
 {
   public:
     Segment(Endpoint *aStart, Endpoint *aEnd);
@@ -32,7 +32,7 @@ class Segment : public ObserverCollection<SegmentObserver>, public PositionableO
     Endpoint  *start;
     Endpoint  *end;
 
-    void notify(const Positionable *subject);
+    void notify(const RelativePosition *subject);
 };
 
 class HorizontalSegment : public Segment
@@ -44,7 +44,7 @@ class HorizontalSegment : public Segment
     void moveToY(PaperUnit value);
 
   private:
-    void notify(const Positionable *sender);
+    void notify(const RelativePosition *sender);
 };
 
 class VerticalSegment : public Segment
@@ -56,7 +56,7 @@ class VerticalSegment : public Segment
     void moveToX(PaperUnit value);
 
   private:
-    void notify(const Positionable *sender);
+    void notify(const RelativePosition *sender);
 };
 
 #endif // SEGMENT_HPP

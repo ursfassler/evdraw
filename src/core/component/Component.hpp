@@ -2,6 +2,7 @@
 #define COMPONENT_HPP
 
 #include "ComponentPort.hpp"
+#include "../types.hpp"
 
 #include <vector>
 #include <string>
@@ -19,6 +20,8 @@ class Component final
 
     const std::vector<ComponentPort *> &getPortLeft() const;
     const std::vector<ComponentPort *> &getPortRight() const;
+
+    Side sideOf(const ComponentPort *port) const;
 
     const std::string &getName() const;
 

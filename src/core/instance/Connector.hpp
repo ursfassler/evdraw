@@ -1,25 +1,25 @@
 #ifndef CONNECTOR_HPP
 #define CONNECTOR_HPP
 
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
 #include "../types.hpp"
 
-class Connector final : public Positionable
+class Connector final : public RelativePosition
 {
   public:
-    Connector(Positionable *anchor, const Point &offset);
+    Connector(const Point &offset);
 
-    void addPoint(Positionable *point);
-    const std::vector<Positionable *> &getPoints() const;
+    void addPoint(RelativePosition *point);
+    const std::vector<RelativePosition *> &getPoints() const;
 
     void setOffset(const Point &value);
 
   protected:
-    void notify(const Positionable *subject);
+    void notify(const RelativePosition *subject);
 
   private:
-    std::vector<Positionable*> points;
+    std::vector<RelativePosition*> points;
 
     void updateConnectionPosition() const;
     Point calcLocalConnectorOffset(size_t idx) const;

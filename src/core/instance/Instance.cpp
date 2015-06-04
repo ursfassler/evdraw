@@ -2,7 +2,7 @@
 
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
-  Positionable(nullptr, aPosition),
+  RelativePosition(aPosition),
   name(aName),
   component(aComponent),
   ports()

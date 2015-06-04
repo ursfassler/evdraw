@@ -7,11 +7,11 @@
 
 #include "../component/ComponentPort.hpp"
 #include "../types.hpp"
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
 #include <vector>
 
-class InstancePort final : public AbstractPort, public Positionable
+class InstancePort final : public AbstractPort, public RelativePosition
 {
   public:
     InstancePort(Instance *instance, ComponentPort *compPort, const Point &offset);
@@ -23,9 +23,10 @@ class InstancePort final : public AbstractPort, public Positionable
     Connector &getConnector();
     const std::string &getName() const;
     Instance *getInstance() const;
+    Side side() const;
 
-    void addConnectionPoint(Positionable *point);
-    void removeConnectionPoint(Positionable *point);
+    void addConnectionPoint(RelativePosition *point);
+    void removeConnectionPoint(RelativePosition *point);
 
   private:
     Instance * const owner;

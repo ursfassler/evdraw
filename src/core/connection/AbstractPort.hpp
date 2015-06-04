@@ -1,14 +1,14 @@
 #ifndef ABSTRACTPORT_HPP
 #define ABSTRACTPORT_HPP
 
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
 class AbstractPort
 {
   public:
     virtual ~AbstractPort(){}
-    virtual void addConnectionPoint(Positionable *point) = 0;
-    virtual void removeConnectionPoint(Positionable *point) = 0;
+    virtual void addConnectionPoint(RelativePosition *point) = 0;
+    virtual void removeConnectionPoint(RelativePosition *point) = 0;
 };
 
 

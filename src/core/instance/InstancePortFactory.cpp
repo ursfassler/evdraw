@@ -10,11 +10,11 @@
 InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *compPort)
 {
   Component *comp = instance->getComponent();
-  ConnectorSide side;
+  Side side;
   if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), compPort)) {
-    side = ConnectorSide::Left;
+    side = Side::Left;
   } else if (contains(comp->getPortRight().begin(), comp->getPortRight().end(), compPort)) {
-    side = ConnectorSide::Right;
+    side = Side::Right;
   } else {
     throw std::invalid_argument("port not part of component");
   }
@@ -29,13 +29,13 @@ InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *co
   return port;
 }
 
-Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort *compPort)
+Point InstancePortFactory::getOffset(Side side, const ComponentPort *compPort)
 {
   switch (side) {
-    case ConnectorSide::Left: {
+    case Side::Left: {
         return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
       }
-    case ConnectorSide::Right: {
+    case Side::Right: {
         return InstanceAppearance::rightPortPosition(compPort->getTopIndex());
       }
   }
@@ -43,9 +43,9 @@ Point InstancePortFactory::getOffset(ConnectorSide side, const ComponentPort *co
   throw std::runtime_error("reached unreachable position");
 }
 
-Point InstancePortFactory::connectorOffset(ConnectorSide side)
+Point InstancePortFactory::connectorOffset(Side side)
 {
-  const int sideMul = side == ConnectorSide::Left ? -1 : 1;
+  const int sideMul = side == Side::Left ? -1 : 1;
   const PaperUnit offset = sideMul * InstanceAppearance::portWidth() / 2;
   return Point(offset, 0);
 }

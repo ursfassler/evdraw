@@ -46,9 +46,9 @@ bool Segment::moveable() const
   return start->freeMovable() && end->freeMovable();
 }
 
-void Segment::notify(const Positionable *)
+void Segment::notify(const RelativePosition *)
 {
-//  notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
+  ObserverCollection<SegmentObserver>::notify(&SegmentObserver::positionChanged, static_cast<const Segment *>(this));
 }
 
 HorizontalSegment::HorizontalSegment(Endpoint *aStart, Endpoint *aEnd) :
@@ -69,7 +69,7 @@ void HorizontalSegment::moveToY(PaperUnit value)
   }
 }
 
-void HorizontalSegment::notify(const Positionable *sender)
+void HorizontalSegment::notify(const RelativePosition *sender)
 {
   precondition((sender == start) || (sender == end));
 
@@ -100,7 +100,7 @@ void VerticalSegment::moveToX(PaperUnit value)
   }
 }
 
-void VerticalSegment::notify(const Positionable *sender)
+void VerticalSegment::notify(const RelativePosition *sender)
 {
   precondition((sender == start) || (sender == end));
 

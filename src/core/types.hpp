@@ -6,12 +6,12 @@
 
 typedef std::int32_t PaperUnit;
 
-enum class ConnectorSide
+enum class Side
 {
     Right,
     Left
 };
 
-std::ostream &operator<<(std::ostream &stream, const ConnectorSide &connectorSide);
+std::ostream &operator<<(std::ostream &stream, const Side &connectorSide);
 
 #endif

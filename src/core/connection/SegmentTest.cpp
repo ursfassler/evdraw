@@ -53,11 +53,11 @@ void SegmentTest::setEnd()
 
 void SegmentTest::checkFixedFixed()
 {
-  Positionable p(nullptr, Point(0,0));
+  RelativePosition p(Point(0,0));
   Endpoint start(Point(0, 0));
   Endpoint end(Point(0, 0));
-  start.setAnchor(&p);
-  end.setAnchor(&p);
+  start.replaceAnchor(&p);
+  end.replaceAnchor(&p);
   Segment segment(&start, &end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
@@ -65,8 +65,10 @@ void SegmentTest::checkFixedFixed()
 
 void SegmentTest::checkFixedMovable()
 {
+  RelativePosition p(Point(0,0));
   Endpoint start(Point(0, 0));
   Endpoint end(Point(0, 0));
+  start.replaceAnchor(&p);
   Segment segment(&start, &end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
@@ -74,8 +76,10 @@ void SegmentTest::checkFixedMovable()
 
 void SegmentTest::checkMovableFixed()
 {
+  RelativePosition p(Point(0,0));
   Endpoint start(Point(0, 0));
   Endpoint end(Point(0, 0));
+  end.replaceAnchor(&p);
   Segment segment(&start, &end);
 
   CPPUNIT_ASSERT_EQUAL(false, segment.moveable());
@@ -158,8 +162,11 @@ void HorizontalSegmentTest::move42()
 
 void HorizontalSegmentTest::moveUnmoveable()
 {
+  RelativePosition p(Point(0,0));
   Endpoint start(Point(-10, 0));
   Endpoint end(Point(10, 0));
+  start.replaceAnchor(&p);
+  end.replaceAnchor(&p);
 
   HorizontalSegment segment(&start, &end);
 
@@ -253,8 +260,11 @@ void VerticalSegmentTest::move42()
 
 void VerticalSegmentTest::moveUnmoveable()
 {
+  RelativePosition p(Point(0,0));
   Endpoint start(Point(0, -10));
   Endpoint end(Point(0, 10));
+  start.replaceAnchor(&p);
+  end.replaceAnchor(&p);
 
   VerticalSegment segment(&start, &end);
 
@@ -289,10 +299,6 @@ void MultiSegmentTest::createSegment()
   CPPUNIT_ASSERT_EQUAL( 0, ms.s0.getY());
   CPPUNIT_ASSERT_EQUAL(15, ms.s1.getX());
   CPPUNIT_ASSERT_EQUAL(20, ms.s2.getY());
-
-  CPPUNIT_ASSERT_EQUAL(false, ms.s0.moveable());
-  CPPUNIT_ASSERT_EQUAL( true, ms.s1.moveable());
-  CPPUNIT_ASSERT_EQUAL(false, ms.s2.moveable());
 }
 
 void MultiSegmentTest::moveSegment()
@@ -302,10 +308,6 @@ void MultiSegmentTest::moveSegment()
   CPPUNIT_ASSERT_EQUAL( 0, ms.s0.getY());
   CPPUNIT_ASSERT_EQUAL(15, ms.s1.getX());
   CPPUNIT_ASSERT_EQUAL(20, ms.s2.getY());
-
-  CPPUNIT_ASSERT_EQUAL(false, ms.s0.moveable());
-  CPPUNIT_ASSERT_EQUAL( true, ms.s1.moveable());
-  CPPUNIT_ASSERT_EQUAL(false, ms.s2.moveable());
 
   ms.s1.moveToX(17);
 

@@ -79,3 +79,25 @@ void ComponentTest::leftPortIndexUpdatedOnAdd()
 
   ComponentFactory::cleanup(comp);
 }
+
+void ComponentTest::portIsLeft()
+{
+  Component     comp("");
+  ComponentPort *port = new ComponentPort("");
+  comp.addPortLeft(port);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Left, comp.sideOf(port));
+
+  ComponentFactory::cleanup(comp);
+}
+
+void ComponentTest::portIsRight()
+{
+  Component     comp("");
+  ComponentPort *port = new ComponentPort("");
+  comp.addPortRight(port);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Right, comp.sideOf(port));
+
+  ComponentFactory::cleanup(comp);
+}

@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     graphicItems/convert.cpp \
     graphicItems/GiInstancePort.cpp \
     graphicItems/GiInstance.cpp \
-    ../core/base/Base.cpp \
     ../core/component/Component.cpp \
     ../core/component/ComponentFactory.cpp \
     ../core/component/ComponentPort.cpp \
@@ -42,14 +41,14 @@ SOURCES += main.cpp\
     ../core/types.cpp \
     ../core/sheet/Sheet.cpp \
     SheetToGuiUpdater.cpp \
-    graphicItems/GiConnectionCreation.cpp
+    graphicItems/GiConnectionCreation.cpp \
+    ../core/base/Position.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
     graphicItems/convert.hpp \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiInstance.hpp \
-    ../core/base/Base.hpp \
     ../core/component/Component.hpp \
     ../core/component/ComponentFactory.hpp \
     ../core/component/ComponentPort.hpp \
@@ -70,4 +69,5 @@ HEADERS  += MainWindow.hpp \
     ../core/types.hpp \
     ../core/sheet/Sheet.hpp \
     SheetToGuiUpdater.hpp \
-    graphicItems/GiConnectionCreation.hpp
+    graphicItems/GiConnectionCreation.hpp \
+    ../core/base/Position.hpp

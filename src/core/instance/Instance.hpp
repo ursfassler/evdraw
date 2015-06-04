@@ -4,7 +4,7 @@
 #include "../component/Component.hpp"
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
-#include "../base/Base.hpp"
+#include "../base/Position.hpp"
 
 #include "AbstractInstance.hpp"
 #include "../connection/AbstractPort.hpp"
@@ -14,7 +14,7 @@
 
 class InstanceFactory;
 
-class Instance final : public AbstractInstance, public Positionable
+class Instance final : public AbstractInstance, public RelativePosition
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
