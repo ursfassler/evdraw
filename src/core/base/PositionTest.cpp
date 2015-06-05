@@ -100,3 +100,18 @@ void PositionTest::notifyGrandchildOnChange()
 
   baseGrandchild.unregisterObserver(&observer);
 }
+
+void PositionTest::setAnchorUpdatesPosition()
+{
+  RelativePosition base(Point(0,0));
+  TestBaseObserver observer;
+  base.registerObserver(&observer);
+
+  RelativePosition anchor(Point(10,20));
+  base.replaceAnchor(&anchor);
+
+  CPPUNIT_ASSERT(observer.lastPositionChanger != nullptr);
+
+  base.removeAnchor();
+  base.unregisterObserver(&observer);
+}

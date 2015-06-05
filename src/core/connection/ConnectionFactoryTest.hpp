@@ -20,6 +20,7 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createConnection);
     CPPUNIT_TEST(createPathConnection);
     CPPUNIT_TEST(createConstruction);
+    CPPUNIT_TEST(constructionPlaceIntermediatePointAtSanePositions);
 
     CPPUNIT_TEST(connectionIsRegisteredAtStartPort);
     CPPUNIT_TEST(connectionIsRegisteredAtEndPort);
@@ -38,6 +39,7 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     void createConnection();
     void createPathConnection();
     void createConstruction();
+    void constructionPlaceIntermediatePointAtSanePositions();
 
     void connectionIsRegisteredAtStartPort();
     void connectionIsRegisteredAtEndPort();

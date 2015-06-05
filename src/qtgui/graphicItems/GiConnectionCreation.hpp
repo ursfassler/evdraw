@@ -4,6 +4,7 @@
 #include "GiInstancePort.hpp"
 
 #include <core/connection/Connection.hpp>
+#include <core/connection/DrawPort.hpp>
 #include <core/sheet/Sheet.hpp>
 
 #include <QGraphicsRectItem>
@@ -21,6 +22,7 @@ class GiConnectionCreation : public QGraphicsRectItem
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
 
   private:
+    DrawPort * const port;
     Connection * const connection;
     Sheet * const sheet;
 

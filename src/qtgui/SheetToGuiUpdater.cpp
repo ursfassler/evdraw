@@ -31,6 +31,8 @@ void SheetToGuiUpdater::addConnectionUnderConstruction(Connection *connection)
   connCreate->grabMouse();
   addConnection(connection);
   connection->registerObserver(this);
+
+
 }
 
 void SheetToGuiUpdater::finishConnectionUnderConstruction(Connection *)

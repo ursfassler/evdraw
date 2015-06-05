@@ -37,9 +37,15 @@ void RelativePosition::replaceAnchor(Position *newAnchor)
 {
   precondition(newAnchor != nullptr);
 
+  Point oldPos = getAbsolutePosition();
+
   anchor->unregisterObserver(this);
   anchor = newAnchor;
   anchor->registerObserver(this);
+
+  if (oldPos != getAbsolutePosition()) {
+    ObserverCollection<PositionObserver>::notify(&PositionObserver::absolutePositionChanged, static_cast<const RelativePosition*>(this));
+  }
 }
 
 Position *RelativePosition::getAnchor() const

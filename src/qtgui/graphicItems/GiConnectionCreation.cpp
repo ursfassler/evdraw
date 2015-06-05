@@ -9,12 +9,13 @@
 #include <QDebug>
 
 GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Sheet *aSheet) :
+  port(dynamic_cast<DrawPort*>(aConnection->getEndPort())),
   connection(aConnection),
   sheet(aSheet)
 {
   setRect(-5,-5,10,10);
-//  setPos(puToScene(connection->getEnd()->getPosition()));
-//  grabMouse();
+  setPos(puToScene(port->getAbsolutePosition()));
+  grabMouse();
 }
 
 GiConnectionCreation::~GiConnectionCreation()
@@ -24,8 +25,8 @@ GiConnectionCreation::~GiConnectionCreation()
 
 void GiConnectionCreation::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-//  connection->getEnd()->setPosition(sceneToPu(event->scenePos()));
-//  setPos(event->scenePos());
+  port->setAbsolutePosition(sceneToPu(event->scenePos()));
+  setPos(event->scenePos());
   event->accept();
 }
 

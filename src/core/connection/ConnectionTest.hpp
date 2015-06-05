@@ -17,6 +17,7 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(addPoint);
 
     CPPUNIT_TEST(constructAndInsertSegment);
+    CPPUNIT_TEST(insertSegmentAtSanePosition);
 
     CPPUNIT_TEST(notifyWhenAddVerticalSegment);
     CPPUNIT_TEST(notifyWhenAddHorizontalSegment);
@@ -35,6 +36,7 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     void addPoint();
 
     void constructAndInsertSegment();
+    void insertSegmentAtSanePosition();
 
     void notifyWhenAddVerticalSegment();
     void notifyWhenAddHorizontalSegment();

@@ -163,3 +163,7 @@ core/instance/AbstractInstance.hpp
 core/connection/AbstractPort.hpp
 core/connection/SimplePort.hpp
 core/connection/SimplePort.cpp
+core/connection/DrawPortTest.hpp
+core/connection/DrawPortTest.cpp
+core/connection/DrawPort.hpp
+core/connection/DrawPort.cpp

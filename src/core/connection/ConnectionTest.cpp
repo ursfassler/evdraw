@@ -4,6 +4,7 @@
 #include "ConnectionFactory.hpp"
 #include "Segment.hpp"
 #include "SimplePort.hpp"
+#include "DrawPort.hpp"
 
 #include "../instance/AbstractInstance.hpp"
 #include "../util/contract.hpp"
@@ -129,6 +130,37 @@ void ConnectionTest::constructAndInsertSegment()
   CPPUNIT_ASSERT_EQUAL(secondPoint, connection->getPoints()[1]);
   CPPUNIT_ASSERT_EQUAL(thirdPoint, connection->getPoints()[2]);
   CPPUNIT_ASSERT_EQUAL(lastPoint, connection->getPoints().back());
+
+  ConnectionFactory::dispose(connection);
+}
+
+void ConnectionTest::insertSegmentAtSanePosition()
+{
+  DrawPort a(Point(10,20));
+  DrawPort b(Point(30,50));
+  Connection *connection = ConnectionFactory::produceConstruction(&a, &b);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
+
+  connection->insertSegmentAtEnd();
+
+  CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getAbsolutePosition());
+
+  connection->insertSegmentAtEnd();
+
+  CPPUNIT_ASSERT_EQUAL(size_t(5), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[4]->getAbsolutePosition());
 
   ConnectionFactory::dispose(connection);
 }

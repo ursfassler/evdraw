@@ -42,7 +42,9 @@ SOURCES += main.cpp\
     ../core/sheet/Sheet.cpp \
     SheetToGuiUpdater.cpp \
     graphicItems/GiConnectionCreation.cpp \
-    ../core/base/Position.cpp
+    ../core/base/Position.cpp \
+    ../core/connection/SimplePort.cpp \
+    ../core/connection/DrawPort.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -70,4 +72,6 @@ HEADERS  += MainWindow.hpp \
     ../core/sheet/Sheet.hpp \
     SheetToGuiUpdater.hpp \
     graphicItems/GiConnectionCreation.hpp \
-    ../core/base/Position.hpp
+    ../core/base/Position.hpp \
+    ../core/connection/SimplePort.hpp \
+    ../core/connection/DrawPort.hpp

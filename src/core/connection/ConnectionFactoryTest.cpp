@@ -4,6 +4,7 @@
 #include "ConnectionFactory.hpp"
 #include "Segment.hpp"
 #include "SimplePort.hpp"
+#include "DrawPort.hpp"
 
 #include "../util/contract.hpp"
 
@@ -117,11 +118,27 @@ void ConnectionFactoryTest::createConstruction()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&startPort), connection->getStartPort());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
 
   ConnectionFactory::dispose(connection);
 }
+
+void ConnectionFactoryTest::constructionPlaceIntermediatePointAtSanePositions()
+{
+  DrawPort startPort(Point(10,20));
+  DrawPort endPort(Point(30,40));
+  Connection *connection = ConnectionFactory::produceConstruction(&startPort, &endPort);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,40), connection->getPoints()[2]->getAbsolutePosition());
+
+  ConnectionFactory::dispose(connection);
+}
+
 
 void ConnectionFactoryTest::connectionIsRegisteredAtStartPort()
 {

@@ -4,6 +4,7 @@
 
 #include <core/component/InstanceAppearance.hpp>
 #include <core/connection/ConnectionFactory.hpp>
+#include <core/connection/DrawPort.hpp>
 #include "convert.hpp"
 
 #include <QBrush>
@@ -38,6 +39,6 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   event->accept();
-  GiConnectionCreation *creation = new GiConnectionCreation();
-  sheet->startConnectionConstruction(model);
+  DrawPort *end = new DrawPort(sceneToPu(event->scenePos()));
+  sheet->startConnectionConstruction(model, end);
 }

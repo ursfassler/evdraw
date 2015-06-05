@@ -114,7 +114,7 @@ void Connection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
 
-  Endpoint *ip = new Endpoint(points.back()->getOffset());
+  Endpoint *ip = new Endpoint(points.back()->getAbsolutePosition());
   HorizontalSegment *hs = new HorizontalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getVerticalSegment().back()->setEnd(ip);
@@ -128,7 +128,7 @@ void Connection::insertVerticalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 
-  Endpoint *ip = new Endpoint(points.back()->getOffset());
+  Endpoint *ip = new Endpoint(points.back()->getAbsolutePosition());
   VerticalSegment *vs = new VerticalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getHorizontalSegment().back()->setEnd(ip);

@@ -17,6 +17,7 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(notifyOnChange);
     CPPUNIT_TEST(notifyChildOnChange);
     CPPUNIT_TEST(notifyGrandchildOnChange);
+    CPPUNIT_TEST(setAnchorUpdatesPosition);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -30,6 +31,7 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     void notifyOnChange();
     void notifyChildOnChange();
     void notifyGrandchildOnChange();
+    void setAnchorUpdatesPosition();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PositionTest );
