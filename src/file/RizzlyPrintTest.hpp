@@ -10,12 +10,14 @@ class RizzlyPrintTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(printEmpty);
     CPPUNIT_TEST(onlyInstance);
+    CPPUNIT_TEST(connection);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void printEmpty();
     void onlyInstance();
+    void connection();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( RizzlyPrintTest );

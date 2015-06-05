@@ -13,6 +13,7 @@ class RizzlyPrint
     void print(const Sheet &sheet);
     void print(const Instance *instance);
     void print(const Connection *connection);
+    void print(const AbstractPort *port);
 
   private:
     std::ostream &stream;

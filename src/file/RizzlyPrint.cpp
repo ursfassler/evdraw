@@ -22,6 +22,20 @@ void RizzlyPrint::print(const Instance *instance)
 
 void RizzlyPrint::print(const Connection *connection)
 {
-//  stream << connection->getStartPort()->name()
-  (void)(connection);
+  print(connection->getStartPort());
+  stream << " -> ";
+  print(connection->getEndPort());
+  stream << ";" << std::endl;
+}
+
+void RizzlyPrint::print(const AbstractPort *port)
+{
+  const InstancePort *ip = dynamic_cast<const InstancePort*>(port);
+  if (ip == nullptr) {
+    return;
+  }
+
+  stream << ip->getInstance()->getName();
+  stream << ".";
+  stream << ip->getName();
 }
