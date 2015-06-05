@@ -122,3 +122,29 @@ void ConnectionFactoryTest::createConstruction()
 
   ConnectionFactory::dispose(connection);
 }
+
+void ConnectionFactoryTest::connectionIsRegisteredAtStartPort()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), startPort.ports.size());
+  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().front()) == endPort.ports.end());
+
+  ConnectionFactory::dispose(connection);
+}
+
+void ConnectionFactoryTest::connectionIsRegisteredAtEndPort()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), endPort.ports.size());
+  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().back()) == startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
+
+  ConnectionFactory::dispose(connection);
+}

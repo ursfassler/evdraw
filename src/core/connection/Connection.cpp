@@ -24,9 +24,23 @@ AbstractPort *Connection::getStartPort() const
   return startPort;
 }
 
+void Connection::replaceStartPort(AbstractPort *port)
+{
+  startPort->removeConnectionPoint(points.front());
+  startPort = port;
+  startPort->addConnectionPoint(points.front());
+}
+
 AbstractPort *Connection::getEndPort() const
 {
   return endPort;
+}
+
+void Connection::replaceEndPort(AbstractPort *port)
+{
+  endPort->removeConnectionPoint(points.back());
+  endPort = port;
+  endPort->addConnectionPoint(points.back());
 }
 
 void Connection::checkInvariants() const

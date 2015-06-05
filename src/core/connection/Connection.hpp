@@ -40,7 +40,9 @@ class Connection : public ObserverCollection<ConnectionObserver>
     virtual ~Connection();
 
     AbstractPort *getStartPort() const;
+    void replaceStartPort(AbstractPort *port);
     AbstractPort *getEndPort() const;
+    void replaceEndPort(AbstractPort *port);
 
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;

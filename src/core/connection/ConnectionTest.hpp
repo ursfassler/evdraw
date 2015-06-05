@@ -21,6 +21,9 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(notifyWhenAddVerticalSegment);
     CPPUNIT_TEST(notifyWhenAddHorizontalSegment);
 
+    CPPUNIT_TEST(replaceStartPort);
+    CPPUNIT_TEST(replaceEndPort);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -35,6 +38,9 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
 
     void notifyWhenAddVerticalSegment();
     void notifyWhenAddHorizontalSegment();
+
+    void replaceStartPort();
+    void replaceEndPort();
 
 };
 

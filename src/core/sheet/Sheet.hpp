@@ -6,7 +6,7 @@
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
 
-#include <vector>
+#include <list>
 
 class SheetObserver
 {
@@ -27,11 +27,12 @@ class Sheet final : public ObserverCollection<SheetObserver>
     Sheet(const Sheet &) = delete;
     bool operator=(const Sheet &) = delete;
 
-    const std::vector<Instance *> &getInstances() const;
+    const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
 
-    const std::vector<Connection *> &getConnections() const;
+    const std::list<Connection *> &getConnections() const;
     void addConnection(Connection *connection);
+    void removeConnection(Connection *connection);
 
     void startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort);
     void finishConnectionConstruction(InstancePort *end);
@@ -40,8 +41,8 @@ class Sheet final : public ObserverCollection<SheetObserver>
 
   private:
     Connection  *connectionUnderConstruction = nullptr;
-    std::vector<Instance *> instances;
-    std::vector<Connection *> connections;
+    std::list<Instance *> instances;
+    std::list<Connection *> connections;
 
     void checkInvariant();
 

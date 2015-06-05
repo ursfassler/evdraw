@@ -191,3 +191,37 @@ void ConnectionTest::notifyWhenAddHorizontalSegment()
   ConnectionFactory::cleanup(connection);
 }
 
+void ConnectionTest::replaceStartPort()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
+
+  SimplePort startPort2;
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), startPort.ports.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), startPort2.ports.size());
+  connection->replaceStartPort(&startPort2);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), startPort.ports.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), startPort2.ports.size());
+
+  ConnectionFactory::dispose(connection);
+}
+
+void ConnectionTest::replaceEndPort()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
+
+  SimplePort endPort2;
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), endPort.ports.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), endPort2.ports.size());
+  connection->replaceEndPort(&endPort2);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), endPort.ports.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), endPort2.ports.size());
+
+  ConnectionFactory::dispose(connection);
+}
+

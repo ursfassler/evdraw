@@ -1,5 +1,7 @@
 #include "GiInstancePort.hpp"
 
+#include "GiConnectionCreation.hpp"
+
 #include <core/component/InstanceAppearance.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include "convert.hpp"
@@ -36,5 +38,6 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   event->accept();
-//  sheet->startConnectionConstruction(model);
+  GiConnectionCreation *creation = new GiConnectionCreation();
+  sheet->startConnectionConstruction(model);
 }

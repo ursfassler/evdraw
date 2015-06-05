@@ -21,6 +21,9 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createPathConnection);
     CPPUNIT_TEST(createConstruction);
 
+    CPPUNIT_TEST(connectionIsRegisteredAtStartPort);
+    CPPUNIT_TEST(connectionIsRegisteredAtEndPort);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -35,6 +38,9 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     void createConnection();
     void createPathConnection();
     void createConstruction();
+
+    void connectionIsRegisteredAtStartPort();
+    void connectionIsRegisteredAtEndPort();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConnectionFactoryTest );

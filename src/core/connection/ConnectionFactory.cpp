@@ -44,6 +44,9 @@ Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *en
   con->points.assign(points.begin(), points.end());
   addSegments(con);
 
+  con->getStartPort()->addConnectionPoint(con->points.front());
+  con->getEndPort()->addConnectionPoint(con->points.back());
+
   con->checkInvariants();
 
   return con;
