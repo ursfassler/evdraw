@@ -101,3 +101,41 @@ void ComponentTest::portIsRight()
 
   ComponentFactory::cleanup(comp);
 }
+
+void ComponentTest::defaultImplementationIsNullImplementation()
+{
+  Component     component("");
+  CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(component.getImplementation()) != nullptr);
+}
+
+void ComponentTest::constructWithOwnImplementation()
+{
+  NullImplementation *impl = new NullImplementation();
+  Component     component("", impl);
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), component.getImplementation());
+}
+
+class DeleteTest : public AbstractImplementation
+{
+  public:
+    DeleteTest(bool &aDeleted) :
+      deleted(aDeleted)
+    {
+    }
+
+    ~DeleteTest()
+    {
+      deleted = true;
+    }
+
+    bool &deleted;
+};
+
+void ComponentTest::componentDeletesImplementationWhenDeleted()
+{
+  bool deleted = false;
+  DeleteTest *test = new DeleteTest(deleted);
+  Component *comp = new Component("", test);
+  delete comp;
+  CPPUNIT_ASSERT(deleted);
+}

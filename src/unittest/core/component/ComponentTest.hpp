@@ -18,6 +18,10 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(portIsLeft);
     CPPUNIT_TEST(portIsRight);
 
+    CPPUNIT_TEST(defaultImplementationIsNullImplementation);
+    CPPUNIT_TEST(constructWithOwnImplementation);
+    CPPUNIT_TEST(componentDeletesImplementationWhenDeleted);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -31,6 +35,11 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
 
     void portIsLeft();
     void portIsRight();
+
+    void defaultImplementationIsNullImplementation();
+    void constructWithOwnImplementation();
+    void componentDeletesImplementationWhenDeleted();
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ComponentTest );

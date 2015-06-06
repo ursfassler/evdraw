@@ -2,6 +2,7 @@
 #define COMPONENT_HPP
 
 #include "ComponentPort.hpp"
+#include "AbstractImplementation.hpp"
 #include "../types.hpp"
 #include "../visitor/Visitor.hpp"
 
@@ -14,6 +15,7 @@ class Component final : public VisitorClient
 {
   public:
     Component(const std::string &name);
+    Component(const std::string &name, AbstractImplementation *implementation);
     ~Component();
 
     void addPortLeft(ComponentPort *port);
@@ -28,10 +30,14 @@ class Component final : public VisitorClient
 
     void accept(Visitor &visitor) const;
 
+    AbstractImplementation *getImplementation();
+
   private:
     std::string name;
     std::vector<ComponentPort *> portLeft;
     std::vector<ComponentPort *> portRight;
+
+    AbstractImplementation * const implementation;
 
     friend ComponentFactory;
 

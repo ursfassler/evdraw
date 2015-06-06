@@ -10,3 +10,4 @@ core/base
 core/sheet
 file
 core/visitor
+unittest/core/component

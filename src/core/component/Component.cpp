@@ -6,12 +6,22 @@
 Component::Component(const std::string &aName) :
   name(aName),
   portLeft(),
-  portRight()
+  portRight(),
+  implementation(new NullImplementation())
+{
+}
+
+Component::Component(const std::string &aName, AbstractImplementation *aImplementation) :
+  name(aName),
+  portLeft(),
+  portRight(),
+  implementation(aImplementation)
 {
 }
 
 Component::~Component()
 {
+  delete implementation;
 }
 
 void Component::addPortLeft(ComponentPort *port)
@@ -59,4 +69,9 @@ const std::string &Component::getName() const
 void Component::accept(Visitor &visitor) const
 {
   visitor.visit(*this);
+}
+
+AbstractImplementation *Component::getImplementation()
+{
+  return implementation;
 }

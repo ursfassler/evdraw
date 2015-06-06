@@ -108,3 +108,6 @@ unittest/file/XmlReaderTest.cpp
 unittest/file/XmlReaderTest.hpp
 unittest/main.cpp
 
+unittest/core/component/AbstractImplementationTest.hpp
+unittest/core/component/AbstractImplementationTest.cpp
+core/component/AbstractImplementation.hpp
