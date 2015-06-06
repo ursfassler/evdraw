@@ -7,6 +7,16 @@
 
 #include <sstream>
 
+static std::vector<std::string> asList(std::stringstream &stream)
+{
+  std::vector<std::string> ret;
+  std::string line;
+  while (std::getline(stream, line)) {
+    ret.push_back(line);
+  }
+  return ret;
+}
+
 void RizzlyPrintTest::printEmpty()
 {
   std::stringstream ss;
@@ -29,7 +39,9 @@ void RizzlyPrintTest::onlyInstance()
 
   printer.print(sheet);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("instance: Component;\n"), ss.str());
+  std::vector<std::string> listing = asList(ss);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), listing.size());
+  CPPUNIT_ASSERT_EQUAL(std::string("instance: Component;"), listing[0]);
 
   ComponentFactory::dispose(component);
 }
@@ -47,7 +59,10 @@ void RizzlyPrintTest::connection()
 
   printer.print(sheet);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("inst: Component;\ninst.a -> inst.b;\n"), ss.str());
+  std::vector<std::string> listing = asList(ss);
+  CPPUNIT_ASSERT_EQUAL(size_t(2), listing.size());
+  CPPUNIT_ASSERT_EQUAL(std::string("inst: Component;"), listing[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("inst.a -> inst.b;"), listing[1]);
 
   ComponentFactory::dispose(component);
 }

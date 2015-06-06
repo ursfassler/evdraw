@@ -7,35 +7,46 @@ RizzlyPrint::RizzlyPrint(std::ostream &aStream) :
 
 void RizzlyPrint::print(const Sheet &sheet)
 {
-  for (const Instance *inst : sheet.getInstances()) {
-    print(inst);
-  }
-  for (const Connection *con : sheet.getConnections()) {
-    print(con);
-  }
+  sheet.accept(*this);
 }
 
-void RizzlyPrint::print(const Instance *instance)
+void RizzlyPrint::visit(const ComponentPort &)
 {
-  stream << instance->getName() << ": " << instance->getComponent()->getName() << ";" << std::endl;
 }
 
-void RizzlyPrint::print(const Connection *connection)
+void RizzlyPrint::visit(const Component &)
 {
-  print(connection->getStartPort());
-  stream << " -> ";
-  print(connection->getEndPort());
+}
+
+void RizzlyPrint::visit(const Instance &instance)
+{
+  stream << instance.getName();
+  stream << ": ";
+  stream << instance.getComponent()->getName();
   stream << ";" << std::endl;
 }
 
-void RizzlyPrint::print(const AbstractPort *port)
+void RizzlyPrint::visit(const InstancePort &port)
 {
-  const InstancePort *ip = dynamic_cast<const InstancePort*>(port);
-  if (ip == nullptr) {
-    return;
-  }
-
-  stream << ip->getInstance()->getName();
+  stream << port.getInstance()->getName();
   stream << ".";
-  stream << ip->getName();
+  stream << port.getName();
+}
+
+void RizzlyPrint::visit(const Connection &connection)
+{
+  connection.getStartPort()->accept(*this);
+  stream << " -> ";
+  connection.getEndPort()->accept(*this);
+  stream << ";" << std::endl;
+}
+
+void RizzlyPrint::visit(const Sheet &sheet)
+{
+  for (const Instance *inst : sheet.getInstances()) {
+    inst->accept(*this);
+  }
+  for (const Connection *con : sheet.getConnections()) {
+    con->accept(*this);
+  }
 }
