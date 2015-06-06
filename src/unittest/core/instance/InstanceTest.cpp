@@ -1,13 +1,13 @@
 #include "InstanceTest.hpp"
 
-#include "../component/Component.hpp"
-#include "../component/ComponentFactory.hpp"
-#include "../base/Position.hpp"
-#include "../Point.hpp"
-#include "Instance.hpp"
-#include "InstancePort.hpp"
-#include "InstanceFactory.hpp"
-#include "AbstractInstance.hpp"
+#include <core/component/Component.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/base/Position.hpp>
+#include <core/Point.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/instance/InstancePort.hpp>
+#include <core/instance/InstanceFactory.hpp>
+#include <core/instance/AbstractInstance.hpp>
 
 void InstanceTest::produce()
 {

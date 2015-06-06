@@ -1,15 +1,15 @@
 #include "VisitorTest.hpp"
 
-#include "Visitor.hpp"
+#include <core/visitor/Visitor.hpp>
 
-#include "../component/Component.hpp"
-#include "../component/ComponentFactory.hpp"
-#include "../instance/Instance.hpp"
-#include "../instance/InstanceFactory.hpp"
-#include "../instance/InstancePort.hpp"
-#include "../connection/Connection.hpp"
-#include "../connection/ConnectionFactory.hpp"
-#include "../sheet/Sheet.hpp"
+#include <core/component/Component.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/instance/InstanceFactory.hpp>
+#include <core/instance/InstancePort.hpp>
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
+#include <core/sheet/Sheet.hpp>
 
 class TestVisitor : public Visitor
 {

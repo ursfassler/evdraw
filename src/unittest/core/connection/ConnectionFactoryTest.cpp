@@ -1,12 +1,12 @@
 #include "ConnectionFactoryTest.hpp"
 
-#include "Connection.hpp"
-#include "ConnectionFactory.hpp"
-#include "Segment.hpp"
-#include "SimplePort.hpp"
-#include "DrawPort.hpp"
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
+#include <core/connection/Segment.hpp>
+#include <core/connection/SimplePort.hpp>
+#include <core/connection/DrawPort.hpp>
 
-#include "../util/contract.hpp"
+#include <core/util/contract.hpp>
 
 void ConnectionFactoryTest::createPointListWithOnlyOneElement()
 {

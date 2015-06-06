@@ -1,11 +1,11 @@
 #include "InstanceFactoryTest.hpp"
 
-#include "InstanceFactory.hpp"
-#include "Instance.hpp"
-#include "InstancePort.hpp"
-#include "../component/Component.hpp"
-#include "../component/ComponentFactory.hpp"
-#include "../component/InstanceAppearance.hpp"
+#include <core/instance/InstanceFactory.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/instance/InstancePort.hpp>
+#include <core/component/Component.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/component/InstanceAppearance.hpp>
 
 #include <functional>
 

@@ -1,7 +1,7 @@
 #include "ObserverTest.hpp"
 
-#include "Observer.hpp"
-#include "contract.hpp"
+#include <core/util/Observer.hpp>
+#include <core/util/contract.hpp>
 
 class ObservedClass;
 

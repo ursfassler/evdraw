@@ -1,8 +1,8 @@
 #include "ComponentFactoryTest.hpp"
 
-#include "ComponentFactory.hpp"
-#include "Component.hpp"
-#include "../util/contract.hpp"
+#include <core/component/ComponentFactory.hpp>
+#include <core/component/Component.hpp>
+#include <core/util/contract.hpp>
 
 #include <string>
 

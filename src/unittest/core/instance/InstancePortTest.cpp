@@ -1,12 +1,12 @@
 #include "InstancePortTest.hpp"
 
-#include "../component/ComponentPort.hpp"
-#include "../component/ComponentFactory.hpp"
-#include "../connection/Connection.hpp"
-#include "../connection/ConnectionFactory.hpp"
+#include <core/component/ComponentPort.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 
-#include "InstancePortFactory.hpp"
-#include "InstancePort.hpp"
+#include <core/instance/InstancePortFactory.hpp>
+#include <core/instance/InstancePort.hpp>
 
 void InstancePortTest::createPort()
 {

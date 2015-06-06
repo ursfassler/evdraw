@@ -1,6 +1,6 @@
 #include "contractTest.hpp"
 
-#include "contract.hpp"
+#include <core/util/contract.hpp>
 
 void contractTest::throwPrecondition()
 {

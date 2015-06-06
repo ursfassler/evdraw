@@ -1,8 +1,8 @@
 #include "ComponentTest.hpp"
 
-#include "Component.hpp"
-#include "ComponentPort.hpp"
-#include "ComponentFactory.hpp"
+#include <core/component/Component.hpp>
+#include <core/component/ComponentPort.hpp>
+#include <core/component/ComponentFactory.hpp>
 
 void ComponentTest::produce()
 {

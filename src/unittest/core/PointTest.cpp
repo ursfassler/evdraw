@@ -1,6 +1,6 @@
 #include "PointTest.hpp"
 
-#include "Point.hpp"
+#include <core/Point.hpp>
 
 #include <sstream>
 

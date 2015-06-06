@@ -1,8 +1,8 @@
 #include "DrawPortTest.hpp"
 
-#include "DrawPort.hpp"
-#include "AbstractPort.hpp"
-#include "../base/Position.hpp"
+#include <core/connection/DrawPort.hpp>
+#include <core/connection/AbstractPort.hpp>
+#include <core/base/Position.hpp>
 
 class Observer : public PositionObserver
 {

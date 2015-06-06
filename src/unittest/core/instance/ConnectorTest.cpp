@@ -1,9 +1,9 @@
 #include "ConnectorTest.hpp"
 
-#include "Connector.hpp"
-#include "../component/InstanceAppearance.hpp"
-#include "../connection/Connection.hpp"
-#include "../connection/ConnectionFactory.hpp"
+#include <core/instance/Connector.hpp>
+#include <core/component/InstanceAppearance.hpp>
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 
 void ConnectorTest::create()
 {

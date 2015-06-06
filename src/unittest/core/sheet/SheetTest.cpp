@@ -1,12 +1,12 @@
 #include "SheetTest.hpp"
 
-#include "Sheet.hpp"
-#include "../component/Component.hpp"
-#include "../component/ComponentFactory.hpp"
-#include "../instance/Instance.hpp"
-#include "../instance/InstanceFactory.hpp"
-#include "../connection/ConnectionFactory.hpp"
-#include "../connection/SimplePort.hpp"
+#include <core/sheet/Sheet.hpp>
+#include <core/component/Component.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/instance/InstanceFactory.hpp>
+#include <core/connection/ConnectionFactory.hpp>
+#include <core/connection/SimplePort.hpp>
 
 void SheetTest::create()
 {

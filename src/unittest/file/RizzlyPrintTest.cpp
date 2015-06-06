@@ -1,9 +1,9 @@
 #include "RizzlyPrintTest.hpp"
 
-#include "RizzlyPrint.hpp"
-#include "../core/component/ComponentFactory.hpp"
-#include "../core/instance/InstanceFactory.hpp"
-#include "../core/connection/ConnectionFactory.hpp"
+#include <file/RizzlyPrint.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/instance/InstanceFactory.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 
 #include <sstream>
 

@@ -1,7 +1,7 @@
 #ifndef POINTTEST_HPP
 #define POINTTEST_HPP
 
-#include "Endpoint.hpp"
+#include <core/connection/Endpoint.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

@@ -1,8 +1,8 @@
 #include "InstanceAppearanceTest.hpp"
 
-#include "Component.hpp"
-#include "InstanceAppearance.hpp"
-#include "ComponentFactory.hpp"
+#include <core/component/Component.hpp>
+#include <core/component/InstanceAppearance.hpp>
+#include <core/component/ComponentFactory.hpp>
 
 void InstanceAppearanceTest::dimensionIsNotZero()
 {

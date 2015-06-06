@@ -1,6 +1,6 @@
 #include "ComponentPortTest.hpp"
 
-#include "ComponentPort.hpp"
+#include <core/component/ComponentPort.hpp>
 
 #include <string>
 

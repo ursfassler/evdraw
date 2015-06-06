@@ -1,8 +1,8 @@
 #include "PositionTest.hpp"
 
-#include "Position.hpp"
+#include <core/base/Position.hpp>
 
-#include "../types.hpp"
+#include <core/types.hpp>
 
 void PositionTest::create()
 {
