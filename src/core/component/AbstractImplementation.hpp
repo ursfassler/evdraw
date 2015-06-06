@@ -7,7 +7,7 @@ class AbstractImplementation
     virtual ~AbstractImplementation() {}
 };
 
-class NullImplementation : public AbstractImplementation
+class NullImplementation final : public AbstractImplementation
 {
 };
 

@@ -11,6 +11,7 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(create);
     CPPUNIT_TEST(addInstance);
     CPPUNIT_TEST(addConnection);
+    CPPUNIT_TEST(inheritsImplementation);
 
     CPPUNIT_TEST(removeConnection);
 
@@ -27,6 +28,7 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void create();
     void addInstance();
     void addConnection();
+    void inheritsImplementation();
 
     void removeConnection();
 

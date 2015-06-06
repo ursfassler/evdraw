@@ -41,6 +41,12 @@ void CompositionTest::addConnection()
   CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections().front());
 }
 
+void CompositionTest::inheritsImplementation()
+{
+  Composition composition;
+  CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
+}
+
 void CompositionTest::removeConnection()
 {
   SimplePort startPort;

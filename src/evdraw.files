@@ -112,3 +112,7 @@ unittest/file/XmlReaderTest.cpp
 unittest/file/XmlReaderTest.hpp
 unittest/main.cpp
 
+unittest/core/component/LibraryTest.hpp
+unittest/core/component/LibraryTest.cpp
+core/component/Library.hpp
+core/component/Library.cpp

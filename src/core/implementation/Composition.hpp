@@ -6,6 +6,7 @@
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
 #include "../visitor/Visitor.hpp"
+#include "../component/AbstractImplementation.hpp"
 
 #include <list>
 
@@ -19,7 +20,7 @@ class CompositionObserver
     virtual void finishConnectionUnderConstruction(Connection *connection){ (void)(connection); }
 };
 
-class Composition final : public ObserverCollection<CompositionObserver>, public VisitorClient
+class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>, public VisitorClient
 {
   public:
     Composition();
