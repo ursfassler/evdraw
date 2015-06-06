@@ -1,5 +1,5 @@
-#ifndef SHEET_HPP
-#define SHEET_HPP
+#ifndef COMPOSITION_HPP
+#define COMPOSITION_HPP
 
 #include "../instance/Instance.hpp"
 #include "../instance/InstancePort.hpp"
@@ -9,24 +9,24 @@
 
 #include <list>
 
-class SheetObserver
+class CompositionObserver
 {
   public:
-    virtual ~SheetObserver(){}
+    virtual ~CompositionObserver(){}
     virtual void instanceAdded(Instance *instance){ (void)(instance); }
     virtual void connectionAdded(Connection *connection){ (void)(connection); }
     virtual void addConnectionUnderConstruction(Connection *connection){ (void)(connection); }
     virtual void finishConnectionUnderConstruction(Connection *connection){ (void)(connection); }
 };
 
-class Sheet final : public ObserverCollection<SheetObserver>, public VisitorClient
+class Composition final : public ObserverCollection<CompositionObserver>, public VisitorClient
 {
   public:
-    Sheet();
-    ~Sheet();
+    Composition();
+    ~Composition();
 
-    Sheet(const Sheet &) = delete;
-    bool operator=(const Sheet &) = delete;
+    Composition(const Composition &) = delete;
+    bool operator=(const Composition &) = delete;
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
@@ -51,4 +51,4 @@ class Sheet final : public ObserverCollection<SheetObserver>, public VisitorClie
 
 };
 
-#endif // SHEET_HPP
+#endif

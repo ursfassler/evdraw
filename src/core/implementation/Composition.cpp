@@ -1,17 +1,17 @@
-#include "Sheet.hpp"
+#include "Composition.hpp"
 
 #include "../connection/ConnectionFactory.hpp"
 #include "../instance/InstanceFactory.hpp"
 
 #include <cassert>
 
-Sheet::Sheet() :
+Composition::Composition() :
   instances(),
   connections()
 {
 }
 
-Sheet::~Sheet()
+Composition::~Composition()
 {
   for (Connection *connection : connections) {
     ConnectionFactory::dispose(connection);
@@ -27,34 +27,34 @@ Sheet::~Sheet()
   assert(connections.empty());
 }
 
-const std::list<Instance *> &Sheet::getInstances() const
+const std::list<Instance *> &Composition::getInstances() const
 {
   return instances;
 }
 
-void Sheet::addInstance(Instance *instance)
+void Composition::addInstance(Instance *instance)
 {
   instances.push_back(instance);
-  notify(&SheetObserver::instanceAdded, instance);
+  notify(&CompositionObserver::instanceAdded, instance);
 }
 
-const std::list<Connection *> &Sheet::getConnections() const
+const std::list<Connection *> &Composition::getConnections() const
 {
   return connections;
 }
 
-void Sheet::addConnection(Connection *connection)
+void Composition::addConnection(Connection *connection)
 {
   connections.push_back(connection);
-  notify(&SheetObserver::connectionAdded, connection);
+  notify(&CompositionObserver::connectionAdded, connection);
 }
 
-void Sheet::removeConnection(Connection *connection)
+void Composition::removeConnection(Connection *connection)
 {
   connections.remove(connection);
 }
 
-void Sheet::startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort)
+void Composition::startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort)
 {
   precondition(!hasConnectionUnderConstruction());
   precondition(startPort != nullptr);
@@ -63,10 +63,10 @@ void Sheet::startConnectionConstruction(InstancePort *startPort, AbstractPort *e
   connectionUnderConstruction = ConnectionFactory::produceConstruction(startPort, endPort);
 
   checkInvariant();
-  notify(&SheetObserver::addConnectionUnderConstruction, connectionUnderConstruction);
+  notify(&CompositionObserver::addConnectionUnderConstruction, connectionUnderConstruction);
 }
 
-void Sheet::finishConnectionConstruction(InstancePort *end)
+void Composition::finishConnectionConstruction(InstancePort *end)
 {
   precondition(hasConnectionUnderConstruction());
   precondition(end != nullptr);
@@ -75,30 +75,30 @@ void Sheet::finishConnectionConstruction(InstancePort *end)
   Connection *connection = connectionUnderConstruction;
   connectionUnderConstruction = nullptr;
 
-  notify(&SheetObserver::finishConnectionUnderConstruction, connection);
+  notify(&CompositionObserver::finishConnectionUnderConstruction, connection);
 
   addConnection(connection);
 
   postcondition(!hasConnectionUnderConstruction());
 }
 
-bool Sheet::hasConnectionUnderConstruction() const
+bool Composition::hasConnectionUnderConstruction() const
 {
   return connectionUnderConstruction != nullptr;
 }
 
-Connection *Sheet::getConnectionUnderConstruction() const
+Connection *Composition::getConnectionUnderConstruction() const
 {
   return connectionUnderConstruction;
 }
 
-void Sheet::checkInvariant()
+void Composition::checkInvariant()
 {
 }
 
 
 
-void Sheet::accept(Visitor &visitor) const
+void Composition::accept(Visitor &visitor) const
 {
   visitor.visit(*this);
 }

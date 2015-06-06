@@ -6,7 +6,7 @@ class Component;
 class Instance;
 class InstancePort;
 class Connection;
-class Sheet;
+class Composition;
 
 class Visitor
 {
@@ -17,7 +17,7 @@ class Visitor
     virtual void visit(const Instance &instance) = 0;
     virtual void visit(const InstancePort &port) = 0;
     virtual void visit(const Connection &connection) = 0;
-    virtual void visit(const Sheet &sheet) = 0;
+    virtual void visit(const Composition &sheet) = 0;
 };
 
 class VisitorClient

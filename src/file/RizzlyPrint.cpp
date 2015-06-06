@@ -5,7 +5,7 @@ RizzlyPrint::RizzlyPrint(std::ostream &aStream) :
 {
 }
 
-void RizzlyPrint::print(const Sheet &sheet)
+void RizzlyPrint::print(const Composition &sheet)
 {
   sheet.accept(*this);
 }
@@ -41,7 +41,7 @@ void RizzlyPrint::visit(const Connection &connection)
   stream << ";" << std::endl;
 }
 
-void RizzlyPrint::visit(const Sheet &sheet)
+void RizzlyPrint::visit(const Composition &sheet)
 {
   for (const Instance *inst : sheet.getInstances()) {
     inst->accept(*this);

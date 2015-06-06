@@ -9,7 +9,7 @@
 #include <core/instance/InstancePort.hpp>
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
 
 class TestVisitor : public Visitor
 {
@@ -39,7 +39,7 @@ class TestVisitor : public Visitor
       visited.push_back("connection");
     }
 
-    void visit(const Sheet &)
+    void visit(const Composition &)
     {
       visited.push_back("sheet");
     }
@@ -122,7 +122,7 @@ void VisitorTest::sheet()
 {
   TestVisitor visitor;
 
-  Sheet sheet;
+  Composition sheet;
   sheet.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());

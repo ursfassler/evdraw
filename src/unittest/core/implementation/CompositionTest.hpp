@@ -1,12 +1,12 @@
-#ifndef SHEETTEST_HPP
-#define SHEETTEST_HPP
+#ifndef COMPOSITIONTEST_HPP
+#define COMPOSITIONTEST_HPP
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class SheetTest: public CPPUNIT_NS::TestFixture
+class CompositionTest: public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( SheetTest );
+    CPPUNIT_TEST_SUITE( CompositionTest );
 
     CPPUNIT_TEST(create);
     CPPUNIT_TEST(addInstance);
@@ -39,7 +39,7 @@ class SheetTest: public CPPUNIT_NS::TestFixture
 
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION( SheetTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( CompositionTest );
 
 
-#endif // SHEETTEST_HPP
+#endif

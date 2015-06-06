@@ -1,5 +1,7 @@
+
 core/base/Position.cpp
 core/base/Position.hpp
+core/component/AbstractImplementation.hpp
 core/component/Component.cpp
 core/component/ComponentFactory.cpp
 core/component/ComponentFactory.hpp
@@ -21,6 +23,8 @@ core/connection/Segment.cpp
 core/connection/Segment.hpp
 core/connection/SimplePort.cpp
 core/connection/SimplePort.hpp
+core/implementation/Composition.cpp
+core/implementation/Composition.hpp
 core/instance/AbstractInstance.hpp
 core/instance/Connector.cpp
 core/instance/Connector.hpp
@@ -38,8 +42,6 @@ core/instance/InstancePortFactory.hpp
 core/instance/InstancePort.hpp
 core/Point.cpp
 core/Point.hpp
-core/sheet/Sheet.cpp
-core/sheet/Sheet.hpp
 core/types.cpp
 core/types.hpp
 core/util/contract.cpp
@@ -57,6 +59,8 @@ file/XmlReader.hpp
 Makefile
 unittest/core/base/PositionTest.cpp
 unittest/core/base/PositionTest.hpp
+unittest/core/component/AbstractImplementationTest.cpp
+unittest/core/component/AbstractImplementationTest.hpp
 unittest/core/component/ComponentFactoryTest.cpp
 unittest/core/component/ComponentFactoryTest.hpp
 unittest/core/component/ComponentPortTest.cpp
@@ -75,6 +79,8 @@ unittest/core/connection/EndpointTest.cpp
 unittest/core/connection/EndpointTest.hpp
 unittest/core/connection/SegmentTest.cpp
 unittest/core/connection/SegmentTest.hpp
+unittest/core/implementation/CompositionTest.cpp
+unittest/core/implementation/CompositionTest.hpp
 unittest/core/instance/ConnectorTest.cpp
 unittest/core/instance/ConnectorTest.hpp
 unittest/core/instance/InstanceAppearanceTest.cpp
@@ -87,8 +93,6 @@ unittest/core/instance/InstanceTest.cpp
 unittest/core/instance/InstanceTest.hpp
 unittest/core/PointTest.cpp
 unittest/core/PointTest.hpp
-unittest/core/sheet/SheetTest.cpp
-unittest/core/sheet/SheetTest.hpp
 unittest/core/TypesTest.cpp
 unittest/core/TypesTest.hpp
 unittest/core/util/contractTest.cpp
@@ -108,6 +112,3 @@ unittest/file/XmlReaderTest.cpp
 unittest/file/XmlReaderTest.hpp
 unittest/main.cpp
 
-unittest/core/component/AbstractImplementationTest.hpp
-unittest/core/component/AbstractImplementationTest.cpp
-core/component/AbstractImplementation.hpp

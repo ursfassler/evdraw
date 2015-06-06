@@ -21,7 +21,7 @@ void RizzlyPrintTest::printEmpty()
 {
   std::stringstream ss;
   RizzlyPrint printer(ss);
-  Sheet sheet;
+  Composition sheet;
 
   printer.print(sheet);
 
@@ -32,7 +32,7 @@ void RizzlyPrintTest::onlyInstance()
 {
   std::stringstream ss;
   RizzlyPrint printer(ss);
-  Sheet sheet;
+  Composition sheet;
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
   sheet.addInstance(instance);
@@ -50,7 +50,7 @@ void RizzlyPrintTest::connection()
 {
   std::stringstream ss;
   RizzlyPrint printer(ss);
-  Sheet sheet;
+  Composition sheet;
   Component *component = ComponentFactory::produce("Component", {"a"}, {"b"});
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   sheet.addInstance(instance);

@@ -1,6 +1,6 @@
-#include "SheetTest.hpp"
+#include "CompositionTest.hpp"
 
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
 #include <core/component/Component.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/Instance.hpp>
@@ -8,17 +8,17 @@
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/connection/SimplePort.hpp>
 
-void SheetTest::create()
+void CompositionTest::create()
 {
-  Sheet sheet;
+  Composition sheet;
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getInstances().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getConnections().size());
 }
 
-void SheetTest::addInstance()
+void CompositionTest::addInstance()
 {
-  Sheet sheet;
+  Composition sheet;
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
@@ -29,25 +29,25 @@ void SheetTest::addInstance()
   ComponentFactory::dispose(component);
 }
 
-void SheetTest::addConnection()
+void CompositionTest::addConnection()
 {
   SimplePort startPort;
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
-  Sheet sheet;
+  Composition sheet;
   sheet.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections().front());
 }
 
-void SheetTest::removeConnection()
+void CompositionTest::removeConnection()
 {
   SimplePort startPort;
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
-  Sheet sheet;
+  Composition sheet;
   sheet.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
   sheet.removeConnection(connection);
@@ -56,7 +56,7 @@ void SheetTest::removeConnection()
   ConnectionFactory::dispose(connection);
 }
 
-class SheetObserverTest : public SheetObserver
+class SheetObserverTest : public CompositionObserver
 {
   public:
     virtual void instanceAdded(Instance *instance)
@@ -85,9 +85,9 @@ class SheetObserverTest : public SheetObserver
     Connection *lastAddConnectionUnderConstruction = nullptr;
 };
 
-void SheetTest::notifyWhenAddInstance()
+void CompositionTest::notifyWhenAddInstance()
 {
-  Sheet sheet;
+  Composition sheet;
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
 
@@ -101,9 +101,9 @@ void SheetTest::notifyWhenAddInstance()
   sheet.unregisterObserver(&observer);
 }
 
-void SheetTest::notifyWhenAddConnection()
+void CompositionTest::notifyWhenAddConnection()
 {
-  Sheet sheet;
+  Composition sheet;
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
 
@@ -117,9 +117,9 @@ void SheetTest::notifyWhenAddConnection()
   sheet.unregisterObserver(&observer);
 }
 
-void SheetTest::addConnectionUnderConstructionNotifiesObserver()
+void CompositionTest::addConnectionUnderConstructionNotifiesObserver()
 {
-  Sheet sheet;
+  Composition sheet;
   SheetObserverTest observer;
   sheet.registerObserver(&observer);
   Instance instance("", Point(0,0), nullptr);
@@ -132,9 +132,9 @@ void SheetTest::addConnectionUnderConstructionNotifiesObserver()
   sheet.unregisterObserver(&observer);
 }
 
-void SheetTest::canNotOverwriteConnectionUnderConstructio()
+void CompositionTest::canNotOverwriteConnectionUnderConstructio()
 {
-  Sheet sheet;
+  Composition sheet;
   Instance instance("", Point(0,0), nullptr);
   InstancePort startPort(&instance, nullptr, Point(0,0));
   InstancePort endPort(&instance, nullptr, Point(0,0));
@@ -143,13 +143,13 @@ void SheetTest::canNotOverwriteConnectionUnderConstructio()
   CPPUNIT_ASSERT_THROW(sheet.startConnectionConstruction(&startPort, &endPort), PreconditionError);
 }
 
-void SheetTest::finishConnectionCreation()
+void CompositionTest::finishConnectionCreation()
 {
   Instance instance("", Point(0,0), nullptr);
   InstancePort startPort(&instance, nullptr, Point(0,0));
   SimplePort tmpEnd;
   InstancePort endPort(&instance, nullptr, Point(0,0));
-  Sheet sheet;
+  Composition sheet;
   sheet.startConnectionConstruction(&startPort, &tmpEnd);
   Connection *connection = sheet.getConnectionUnderConstruction();
 
