@@ -10,6 +10,7 @@ class DrawPort : public AbstractPort, public RelativePosition
     DrawPort(const Point &offset);
     void addConnectionPoint(RelativePosition *point);
     void removeConnectionPoint(RelativePosition *point);
+    void accept(Visitor &visitor) const;
 };
 
 #endif // DRAWPORT_HPP

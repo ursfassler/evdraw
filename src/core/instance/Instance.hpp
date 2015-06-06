@@ -8,13 +8,14 @@
 
 #include "AbstractInstance.hpp"
 #include "../connection/AbstractPort.hpp"
+#include "../visitor/Visitor.hpp"
 
 #include <string>
 #include <vector>
 
 class InstanceFactory;
 
-class Instance final : public AbstractInstance, public RelativePosition
+class Instance final : public AbstractInstance, public RelativePosition, public VisitorClient
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -26,6 +27,8 @@ class Instance final : public AbstractInstance, public RelativePosition
 
     void addPort(AbstractPort *port);
     const std::vector<AbstractPort *> &getPorts() const;
+
+    void accept(Visitor &visitor) const;
 
   private:
     std::string name;

@@ -3,13 +3,14 @@
 
 #include "ComponentPort.hpp"
 #include "../types.hpp"
+#include "../visitor/Visitor.hpp"
 
 #include <vector>
 #include <string>
 
 class ComponentFactory;
 
-class Component final
+class Component final : public VisitorClient
 {
   public:
     Component(const std::string &name);
@@ -24,6 +25,8 @@ class Component final
     Side sideOf(const ComponentPort *port) const;
 
     const std::string &getName() const;
+
+    void accept(Visitor &visitor) const;
 
   private:
     std::string name;

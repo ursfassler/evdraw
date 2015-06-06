@@ -10,3 +10,7 @@ void SimplePort::removeConnectionPoint(RelativePosition *port)
 {
   ports.erase(port);
 }
+
+void SimplePort::accept(Visitor &) const
+{
+}

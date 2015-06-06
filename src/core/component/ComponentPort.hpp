@@ -2,10 +2,11 @@
 #define COMPONENTPORT_HPP
 
 #include "../types.hpp"
+#include "../visitor/Visitor.hpp"
 
 #include <string>
 
-class ComponentPort final
+class ComponentPort final : public VisitorClient
 {
   public:
     ComponentPort(const std::string &name);
@@ -14,6 +15,8 @@ class ComponentPort final
 
     size_t getTopIndex() const;
     void setTopIndex(size_t value);
+
+    void accept(Visitor &visitor) const;
 
   private:
     std::string name;

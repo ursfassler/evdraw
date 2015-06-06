@@ -5,6 +5,7 @@
 #include "../instance/InstancePort.hpp"
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
+#include "../visitor/Visitor.hpp"
 
 #include <list>
 
@@ -18,7 +19,7 @@ class SheetObserver
     virtual void finishConnectionUnderConstruction(Connection *connection){ (void)(connection); }
 };
 
-class Sheet final : public ObserverCollection<SheetObserver>
+class Sheet final : public ObserverCollection<SheetObserver>, public VisitorClient
 {
   public:
     Sheet();
@@ -38,6 +39,8 @@ class Sheet final : public ObserverCollection<SheetObserver>
     void finishConnectionConstruction(InstancePort *end);
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
+
+    void accept(Visitor &visitor) const;
 
   private:
     Connection  *connectionUnderConstruction = nullptr;

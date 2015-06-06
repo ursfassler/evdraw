@@ -5,6 +5,7 @@
 #include "Segment.hpp"
 #include "AbstractPort.hpp"
 #include "../util/Observer.hpp"
+#include "../visitor/Visitor.hpp"
 #include <vector>
 #include <ostream>
 
@@ -33,7 +34,7 @@ class ConnectionObserver
     }
 };
 
-class Connection : public ObserverCollection<ConnectionObserver>
+class Connection final : public ObserverCollection<ConnectionObserver>, public VisitorClient
 {
   public:
     Connection(AbstractPort *startPort, AbstractPort *endPort);
@@ -49,6 +50,8 @@ class Connection : public ObserverCollection<ConnectionObserver>
     const std::vector<Endpoint *> &getPoints() const;
 
     void insertSegmentAtEnd();
+
+    void accept(Visitor &visitor) const;
 
   protected:
     virtual void checkInvariants() const;

@@ -19,3 +19,8 @@ void ComponentPort::setTopIndex(size_t value)
 {
   topIndex = value;
 }
+
+void ComponentPort::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}

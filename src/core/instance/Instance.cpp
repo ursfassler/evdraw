@@ -28,3 +28,8 @@ const std::vector<AbstractPort *> &Instance::getPorts() const
 {
   return ports;
 }
+
+void Instance::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}

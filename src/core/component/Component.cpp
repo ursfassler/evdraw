@@ -55,3 +55,8 @@ const std::string &Component::getName() const
 {
   return name;
 }
+
+void Component::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}

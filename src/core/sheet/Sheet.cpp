@@ -96,3 +96,9 @@ void Sheet::checkInvariant()
 {
 }
 
+
+
+void Sheet::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}

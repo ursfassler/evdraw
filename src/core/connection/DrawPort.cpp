@@ -24,3 +24,7 @@ void DrawPort::removeConnectionPoint(RelativePosition *point)
 
   postcondition(!point->hasAnchor());
 }
+
+void DrawPort::accept(Visitor &) const
+{
+}

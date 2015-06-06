@@ -167,3 +167,6 @@ core/connection/DrawPortTest.hpp
 core/connection/DrawPortTest.cpp
 core/connection/DrawPort.hpp
 core/connection/DrawPort.cpp
+core/visitor/Visitor.hpp
+core/visitor/VisitorTest.hpp
+core/visitor/VisitorTest.cpp

@@ -28,6 +28,8 @@ class InstancePort final : public AbstractPort, public RelativePosition
     void addConnectionPoint(RelativePosition *point);
     void removeConnectionPoint(RelativePosition *point);
 
+    void accept(Visitor &visitor) const;
+
   private:
     Instance * const owner;
     ComponentPort * const compPort;

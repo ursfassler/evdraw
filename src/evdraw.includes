@@ -9,3 +9,4 @@ core/instance
 core/base
 core/sheet
 file
+core/visitor

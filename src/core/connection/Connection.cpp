@@ -110,6 +110,11 @@ void Connection::insertSegmentAtEnd()
   }
 }
 
+void Connection::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}
+
 void Connection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
