@@ -8,7 +8,7 @@
 
 #include <QDebug>
 
-GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Sheet *aSheet) :
+GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Composition *aSheet) :
   port(dynamic_cast<DrawPort*>(aConnection->getEndPort())),
   connection(aConnection),
   sheet(aSheet)

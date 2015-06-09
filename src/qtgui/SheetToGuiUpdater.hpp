@@ -6,14 +6,14 @@
 #include "graphicItems/GiSegment.hpp"
 #include "graphicItems/GiConnectionCreation.hpp"
 
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
 
 #include <QGraphicsScene>
 
-class SheetToGuiUpdater : public SheetObserver, public ConnectionObserver
+class SheetToGuiUpdater : public CompositionObserver, public ConnectionObserver
 {
   public:
-    SheetToGuiUpdater(QGraphicsScene &aScene, Sheet &aSheet);
+    SheetToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet);
 
     virtual void instanceAdded(Instance *instance);
     virtual void connectionAdded(Connection *connection);
@@ -23,9 +23,11 @@ class SheetToGuiUpdater : public SheetObserver, public ConnectionObserver
     virtual void addVerticalSegment(const Connection *parent, VerticalSegment *segment);
     virtual void addHorizontalSegment(const Connection *parent, HorizontalSegment *segment);
 
+    void init();
+
   private:
     QGraphicsScene &scene;
-    Sheet &sheet;
+    Composition &sheet;
     GiConnectionCreation *connCreate = nullptr;
 
     void addConnection(Connection *connection);

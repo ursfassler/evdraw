@@ -1,7 +1,7 @@
 #include "SheetToGuiUpdater.hpp"
 
 
-SheetToGuiUpdater::SheetToGuiUpdater(QGraphicsScene &aScene, Sheet &aSheet) :
+SheetToGuiUpdater::SheetToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet) :
   scene(aScene),
   sheet(aSheet)
 {
@@ -60,5 +60,15 @@ void SheetToGuiUpdater::addConnection(Connection *connection)
   }
   for (VerticalSegment *hs : connection->getVerticalSegment()) {
     addVerticalSegment(connection, hs);
+  }
+}
+
+void SheetToGuiUpdater::init()
+{
+  for (Instance *inst : sheet.getInstances()) {
+    instanceAdded(inst);
+  }
+  for (Connection *conn : sheet.getConnections()) {
+    connectionAdded(conn);
   }
 }

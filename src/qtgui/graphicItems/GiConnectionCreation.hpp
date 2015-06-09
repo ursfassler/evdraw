@@ -5,7 +5,7 @@
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/DrawPort.hpp>
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
@@ -13,7 +13,7 @@
 class GiConnectionCreation : public QGraphicsRectItem
 {
   public:
-    GiConnectionCreation(Connection *connection, Sheet *sheet);
+    GiConnectionCreation(Connection *connection, Composition *sheet);
     ~GiConnectionCreation();
 
   protected:
@@ -24,7 +24,7 @@ class GiConnectionCreation : public QGraphicsRectItem
   private:
     DrawPort * const port;
     Connection * const connection;
-    Sheet * const sheet;
+    Composition * const sheet;
 
     GiInstancePort *filterPort(const QList<QGraphicsItem *> &list) const;
 };

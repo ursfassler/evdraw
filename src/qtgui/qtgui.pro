@@ -13,6 +13,8 @@ TEMPLATE = app
 
 CONFIG += c++11
 
+LIBS += -ltinyxml
+
 INCLUDEPATH += ../
 
 
@@ -36,15 +38,16 @@ SOURCES += main.cpp\
     ../core/instance/InstancePort.cpp \
     ../core/instance/InstancePortFactory.cpp \
     ../core/util/contract.cpp \
-    ../core/util/list.cpp \
     ../core/Point.cpp \
     ../core/types.cpp \
-    ../core/sheet/Sheet.cpp \
     SheetToGuiUpdater.cpp \
     graphicItems/GiConnectionCreation.cpp \
     ../core/base/Position.cpp \
     ../core/connection/SimplePort.cpp \
-    ../core/connection/DrawPort.cpp
+    ../core/connection/DrawPort.cpp \
+    ../core/implementation/Composition.cpp \
+    ../file/XmlReader.cpp \
+    ../core/component/Library.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -69,9 +72,11 @@ HEADERS  += MainWindow.hpp \
     ../core/util/Observer.hpp \
     ../core/Point.hpp \
     ../core/types.hpp \
-    ../core/sheet/Sheet.hpp \
     SheetToGuiUpdater.hpp \
     graphicItems/GiConnectionCreation.hpp \
     ../core/base/Position.hpp \
     ../core/connection/SimplePort.hpp \
-    ../core/connection/DrawPort.hpp
+    ../core/connection/DrawPort.hpp \
+    ../core/implementation/Composition.hpp \
+    ../file/XmlReader.hpp \
+    ../core/component/Library.hpp

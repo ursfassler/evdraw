@@ -2,7 +2,7 @@
 #define GIINSTANCEPORT_HPP
 
 #include <core/instance/InstancePort.hpp>
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
 
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
@@ -11,7 +11,7 @@
 class GiInstancePort : public QGraphicsRectItem
 {
   public:
-    explicit GiInstancePort(InstancePort *model, Sheet *sheet, QGraphicsItem *parent);
+    explicit GiInstancePort(InstancePort *model, Composition *sheet, QGraphicsItem *parent);
 
     InstancePort *getModel() const;
 
@@ -25,7 +25,7 @@ class GiInstancePort : public QGraphicsRectItem
 
   private:
     InstancePort *model;
-    Sheet *sheet;
+    Composition *sheet;
     QGraphicsSimpleTextItem label;
 
 };

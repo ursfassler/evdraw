@@ -9,7 +9,7 @@
 
 #include <QBrush>
 
-GiInstancePort::GiInstancePort(InstancePort *aModel, Sheet *aSheet, QGraphicsItem *parent) :
+GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
   sheet(aSheet),

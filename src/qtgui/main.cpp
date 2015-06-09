@@ -13,55 +13,61 @@
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
 #include <core/instance/InstanceFactory.hpp>
-#include <core/sheet/Sheet.hpp>
+#include <core/implementation/Composition.hpp>
+#include <file/XmlReader.hpp>
 
 #include <QApplication>
 
 #include <cassert>
 
-static void loadSheet(Sheet &sheet, Component *comp)
+static Library *loadLibrary()
 {
-  Instance *inst1 = InstanceFactory::produce(comp, "instance1", sceneToPu(QPointF(-150,0)));
-  sheet.addInstance(inst1);
-  Instance *inst2 = InstanceFactory::produce(comp, "instance2", sceneToPu(QPointF( 150,0)));
-  sheet.addInstance(inst2);
+  const std::string xml =
+  "<evdraw>"
+  "  <component name=\"Component\">"
+  "    <slot name=\"in1\" />"
+  "    <slot name=\"in2\" />"
+  "    <signal name=\"out1\" />"
+  "    <signal name=\"out2\" />"
+  "    <signal name=\"out3\" />"
+  "  </component>"
+  "  <component name=\"draw\">"
+  "    <composition>"
+  "      <instance name=\"instance1\" component=\"Component\" x=\"-150\" y=\"0\" >"
+  "      <instance name=\"instance2\" component=\"Component\" x=\"150\" y=\"0\">"
+  "      <connection path=\"-50 0 -20 50 20 0 50\">"
+  "        <instanceport instance=\"instance1\" port=\"out1\" />"
+  "        <instanceport instance=\"instance2\" port=\"in1\" />"
+  "      </connection>"
+  "      <connection path=\"-50 0 -20 50 20 0 50\">"
+  "        <instanceport instance=\"instance1\" port=\"out1\" />"
+  "        <instanceport instance=\"instance2\" port=\"in2\" />"
+  "      </connection>"
+  "    </composition>"
+  "  </component>"
+  "</evdraw>";
 
-  AbstractPort *portA = inst1->getPorts()[2];
-  AbstractPort *portB = inst2->getPorts()[0];
-  AbstractPort *portC = inst2->getPorts()[1];
-
-  const std::vector<PaperUnit> line = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
-  Connection *con1 = ConnectionFactory::produce(portA, portB, line);
-  portA->addConnectionPoint(con1->getPoints().front());
-  portB->addConnectionPoint(con1->getPoints().back());
-  sheet.addConnection(con1);
-
-  const std::vector<PaperUnit> line2 = {sceneToPu(-50), sceneToPu(0), sceneToPu(-20), sceneToPu(50), sceneToPu(20), sceneToPu(0), sceneToPu(50)};
-  Connection *con2 = ConnectionFactory::produce(portA, portC, line2);
-  portA->addConnectionPoint(con2->getPoints().front());
-  portC->addConnectionPoint(con2->getPoints().back());
-  sheet.addConnection(con2);
+  return XmlReader::parse(xml);
 }
 
 int main(int argc, char *argv[])
 {
   QApplication a(argc, argv);
 
-  Component *comp = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1", "out2", "out3"});
-  Sheet sheet;
+  Library *lib = loadLibrary();
+  Composition *sheet = dynamic_cast<Composition*>(lib->getComponents().back()->getImplementation());
 
   MainWindow *w = new MainWindow();
   QGraphicsScene &scene = w->getScene();
 
-  SheetToGuiUpdater sheetHandler(scene, sheet);
-  sheet.registerObserver(&sheetHandler);
+  SheetToGuiUpdater sheetHandler(scene, *sheet);
+  sheet->registerObserver(&sheetHandler);
 
-  loadSheet(sheet, comp);
+  sheetHandler.init();
 
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
 
-//  fillSceneFromSheet(scene, sheet);
   w->setMinimumSize(640, 480);
   w->show();
 
@@ -69,9 +75,9 @@ int main(int argc, char *argv[])
 
   delete w;
 
-  sheet.unregisterObserver(&sheetHandler);
+  sheet->unregisterObserver(&sheetHandler);
 
-  ComponentFactory::dispose(comp);
+  delete lib;
 
   return ret;
 }
