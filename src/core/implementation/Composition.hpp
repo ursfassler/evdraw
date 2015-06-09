@@ -31,6 +31,7 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
+    Instance *getInstance(const std::string &name) const;
 
     const std::list<Connection *> &getConnections() const;
     void addConnection(Connection *connection);

@@ -46,7 +46,6 @@ core/types.cpp
 core/types.hpp
 core/util/contract.cpp
 core/util/contract.hpp
-core/util/list.cpp
 core/util/list.hpp
 core/util/Observed.hpp
 core/util/Observer.hpp

@@ -79,3 +79,23 @@ void ListTest::indexOfStringPointer()
   CPPUNIT_ASSERT_EQUAL(size_t(1), indexOf(list.begin(), list.end(), &hallo2));
   CPPUNIT_ASSERT_EQUAL(size_t(2), indexOf(list.begin(), list.end(), &hallo3));
 }
+
+void ListTest::listGetWithPredicate()
+{
+  std::string hallo1 = "hallo1";
+  std::string hallo2 = "hallo2";
+  std::string hallo3 = "hallo3";
+
+  std::vector<std::string*>  list = { &hallo1, &hallo2, &hallo3 };
+
+  auto predicate = [&](std::string *itr){ return *itr == "hallo2"; };
+  CPPUNIT_ASSERT_EQUAL(&hallo2, listGet<std::string*>(list.begin(), list.end(), predicate));
+}
+
+void ListTest::listGetThrowsErrorWhenNotFound()
+{
+  std::vector<std::string>  list = { "hallo1", "hallo2", "hallo3" };
+
+  auto predicate = [&](std::string itr){ return itr == "hallo42"; };
+  CPPUNIT_ASSERT_THROW(listGet<std::string>(list.begin(), list.end(), predicate), std::invalid_argument);
+}

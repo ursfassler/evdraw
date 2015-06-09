@@ -17,6 +17,9 @@ class ListTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(noIndexOfInt);
     CPPUNIT_TEST(indexOfStringPointer);
 
+    CPPUNIT_TEST(listGetWithPredicate);
+    CPPUNIT_TEST(listGetThrowsErrorWhenNotFound);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -28,6 +31,9 @@ class ListTest : public CPPUNIT_NS::TestFixture
     void indexOfInt();
     void noIndexOfInt();
     void indexOfStringPointer();
+
+    void listGetWithPredicate();
+    void listGetThrowsErrorWhenNotFound();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ListTest );

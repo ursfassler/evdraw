@@ -12,8 +12,8 @@ class Library final
 
     void add(Component *component);
     bool contains(const Component *component) const;
-
-
+    const std::list<Component *> getComponents() const;
+    Component *getComponent(const std::string &name) const;
 
   private:
     std::list<Component*> components;

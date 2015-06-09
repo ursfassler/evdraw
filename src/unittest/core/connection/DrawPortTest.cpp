@@ -58,3 +58,9 @@ void DrawPortTest::getInformedByPositionChange()
   port.unregisterObserver(&observer);
   port.removeConnectionPoint(&point);
 }
+
+void DrawPortTest::getName()
+{
+  DrawPort port(Point(0,0));
+  CPPUNIT_ASSERT_EQUAL(std::string(""), port.getName());
+}

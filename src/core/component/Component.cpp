@@ -75,3 +75,11 @@ AbstractImplementation *Component::getImplementation()
 {
   return implementation;
 }
+
+void Component::setImplementation(AbstractImplementation *value)
+{
+  precondition(value != nullptr);
+
+  delete implementation;
+  implementation = value;
+}

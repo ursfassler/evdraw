@@ -39,5 +39,15 @@ size_t indexOf(_IIter first, _IIter last, const _Tp &value)
   return index;
 }
 
+template<typename _ICont, typename _IIter, typename _Predicate>
+_ICont listGet(_IIter first, _IIter last, _Predicate predicate)
+{
+  auto itr = std::find_if(first, last, predicate);
+  if (itr != last) {
+    return *itr;
+  } else {
+    throw std::invalid_argument("element not in list");
+  }
+}
 
 #endif // LIST_HPP

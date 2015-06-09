@@ -2,7 +2,9 @@
 
 #include "../connection/ConnectionFactory.hpp"
 #include "../instance/InstanceFactory.hpp"
+#include "../util/list.hpp"
 
+#include <algorithm>
 #include <cassert>
 
 Composition::Composition() :
@@ -36,6 +38,14 @@ void Composition::addInstance(Instance *instance)
 {
   instances.push_back(instance);
   notify(&CompositionObserver::instanceAdded, instance);
+}
+
+Instance *Composition::getInstance(const std::string &name) const
+{
+  auto predicate = [&](Instance *itr){
+    return itr->getName() == name;
+  };
+  return listGet<Instance*>(instances.begin(), instances.end(), predicate);
 }
 
 const std::list<Connection *> &Composition::getConnections() const

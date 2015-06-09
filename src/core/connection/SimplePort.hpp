@@ -11,6 +11,7 @@ class SimplePort : public AbstractPort
   public:
     virtual void addConnectionPoint(RelativePosition *port);
     virtual void removeConnectionPoint(RelativePosition *port);
+    virtual std::string getName() const;
     virtual void accept(Visitor &visitor) const;
 
     std::set<RelativePosition*> ports;

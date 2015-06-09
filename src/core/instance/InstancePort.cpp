@@ -27,7 +27,7 @@ ComponentPort *InstancePort::getCompPort() const
   return compPort;
 }
 
-const std::string &InstancePort::getName() const
+std::string InstancePort::getName() const
 {
   return compPort->getName();
 }

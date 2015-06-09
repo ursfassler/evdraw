@@ -62,3 +62,24 @@ void InstanceTest::addInputPort()
   InstanceFactory::cleanup(instance);
 }
 
+void InstanceTest::getPortWithExisting()
+{
+  Component *component = ComponentFactory::produce("", {"in1", "in2"}, {"out1"});
+  Instance  *instance = InstanceFactory::produce(component, "", Point(0,0));
+
+  AbstractPort *in2 = instance->getPort("in2");
+  AbstractPort *out1 = instance->getPort("out1");
+  AbstractPort *in1 = instance->getPort("in1");
+
+  CPPUNIT_ASSERT(in1 != nullptr);
+  CPPUNIT_ASSERT(in2 != nullptr);
+  CPPUNIT_ASSERT(out1 != nullptr);
+
+  CPPUNIT_ASSERT(in1 != in2);
+  CPPUNIT_ASSERT(in1 != out1);
+  CPPUNIT_ASSERT(in2 != out1);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+

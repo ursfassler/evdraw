@@ -47,6 +47,18 @@ void CompositionTest::inheritsImplementation()
   CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
 }
 
+void CompositionTest::getInstance()
+{
+  Composition composition;
+  Component *component = ComponentFactory::produce("Component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+
+  composition.addInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(instance, composition.getInstance("instance"));
+
+  ComponentFactory::dispose(component);
+}
+
 void CompositionTest::removeConnection()
 {
   SimplePort startPort;

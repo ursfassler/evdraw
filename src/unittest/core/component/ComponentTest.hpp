@@ -21,6 +21,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(defaultImplementationIsNullImplementation);
     CPPUNIT_TEST(constructWithOwnImplementation);
     CPPUNIT_TEST(componentDeletesImplementationWhenDeleted);
+    CPPUNIT_TEST(setImplementation);
+    CPPUNIT_TEST(setImplementationDeletesOldOne);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -39,6 +41,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void defaultImplementationIsNullImplementation();
     void constructWithOwnImplementation();
     void componentDeletesImplementationWhenDeleted();
+    void setImplementation();
+    void setImplementationDeletesOldOne();
 
 };
 

@@ -139,3 +139,23 @@ void ComponentTest::componentDeletesImplementationWhenDeleted()
   delete comp;
   CPPUNIT_ASSERT(deleted);
 }
+
+void ComponentTest::setImplementation()
+{
+  Component comp("");
+  NullImplementation *impl = new NullImplementation();
+
+  CPPUNIT_ASSERT(static_cast<AbstractImplementation*>(impl) != comp.getImplementation());
+  comp.setImplementation(impl);
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), comp.getImplementation());
+}
+
+void ComponentTest::setImplementationDeletesOldOne()
+{
+  bool deleted = false;
+  DeleteTest *test = new DeleteTest(deleted);
+  Component comp("", test);
+
+  comp.setImplementation(new NullImplementation());
+  CPPUNIT_ASSERT(deleted);
+}

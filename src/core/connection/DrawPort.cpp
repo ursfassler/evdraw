@@ -25,6 +25,11 @@ void DrawPort::removeConnectionPoint(RelativePosition *point)
   postcondition(!point->hasAnchor());
 }
 
+std::string DrawPort::getName() const
+{
+  return "";
+}
+
 void DrawPort::accept(Visitor &) const
 {
 }

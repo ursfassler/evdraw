@@ -27,6 +27,7 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
 
     void addPort(AbstractPort *port);
     const std::vector<AbstractPort *> &getPorts() const;
+    AbstractPort *getPort(const std::string &name) const;
 
     void accept(Visitor &visitor) const;
 

@@ -31,13 +31,14 @@ class Component final : public VisitorClient
     void accept(Visitor &visitor) const;
 
     AbstractImplementation *getImplementation();
+    void setImplementation(AbstractImplementation *value);
 
   private:
     std::string name;
     std::vector<ComponentPort *> portLeft;
     std::vector<ComponentPort *> portRight;
 
-    AbstractImplementation * const implementation;
+    AbstractImplementation *implementation;
 
     friend ComponentFactory;
 

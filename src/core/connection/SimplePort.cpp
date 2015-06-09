@@ -11,6 +11,11 @@ void SimplePort::removeConnectionPoint(RelativePosition *port)
   ports.erase(port);
 }
 
+std::string SimplePort::getName() const
+{
+  return "";
+}
+
 void SimplePort::accept(Visitor &) const
 {
 }
