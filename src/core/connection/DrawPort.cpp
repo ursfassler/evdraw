@@ -30,6 +30,11 @@ std::string DrawPort::getName() const
   return "";
 }
 
+Point DrawPort::getPosition() const
+{
+  return getAbsolutePosition();
+}
+
 void DrawPort::accept(Visitor &) const
 {
 }

@@ -125,7 +125,7 @@ void XmlReaderTest::compositionWithInstance()
       "  <component name=\"empty\" />"
       "  <component name=\"full\">"
       "    <composition>"
-      "      <instance name=\"instance\" component=\"empty\">"
+      "      <instance name=\"instance\" component=\"empty\" x=\"10\" y=\"20\" >"
       "    </composition>"
       "  </component>"
       "</evdraw>";
@@ -146,6 +146,7 @@ void XmlReaderTest::compositionWithInstance()
   Instance *instance = composition->getInstances().front();
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
   CPPUNIT_ASSERT_EQUAL(empty, instance->getComponent());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), instance->getAbsolutePosition());
 
   delete lib;
 }
@@ -160,8 +161,8 @@ void XmlReaderTest::compositionWithConnection()
       "  </component>"
       "  <component name=\"full\">"
       "    <composition>"
-      "      <instance name=\"instance\" component=\"empty\">"
-      "      <connection>"
+      "      <instance name=\"instance\" component=\"empty\" x=\"0\" y=\"0\" >"
+      "      <connection path=\"100 -135 -120\" >"
       "        <instanceport instance=\"instance\" port=\"out\" />"
       "        <instanceport instance=\"instance\" port=\"in\" />"
       "      </connection>"
@@ -186,6 +187,16 @@ void XmlReaderTest::compositionWithConnection()
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
   CPPUNIT_ASSERT_EQUAL(empty, instance->getComponent());
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
+  Connection *con = composition->getConnections().front();
+  CPPUNIT_ASSERT_EQUAL(size_t(6), con->getPoints().size());
+  CPPUNIT_ASSERT_EQUAL(Point(100,-135), con->getPoints()[2]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(-120,-135), con->getPoints()[3]->getAbsolutePosition());
 
   delete lib;
 }
+
+void XmlReaderTest::createOwnTestForThe3Classes()
+{
+  CPPUNIT_ASSERT(false);
+}
+

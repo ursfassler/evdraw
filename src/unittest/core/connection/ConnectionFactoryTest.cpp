@@ -60,35 +60,28 @@ void ConnectionFactoryTest::createEmptyConnection()
   CPPUNIT_ASSERT_THROW(ConnectionFactory::produce(&startPort, &endPort, empty), PreconditionError);
 }
 
-void ConnectionFactoryTest::createInvalidConnection()
-{
-  SimplePort startPort;
-  SimplePort endPort;
-  CPPUNIT_ASSERT_THROW(ConnectionFactory::produce(&startPort, &endPort, {1, 2, 3}), PreconditionError);
-}
-
 void ConnectionFactoryTest::createConnection()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  SimplePort startPort(Point(10,20));
+  SimplePort endPort(Point(50,70));
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
+  CPPUNIT_ASSERT_EQUAL(30, connection->getVerticalSegment().front()->getX());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&startPort), connection->getStartPort());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
-  //TODO reimplement
-//  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
-//  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
+  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
 
   ConnectionFactory::dispose(connection);
 }
 
 void ConnectionFactoryTest::createPathConnection()
 {
-  SimplePort startPort;
-  SimplePort endPort;
-  Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {-10, 3, -5, 4, 1, -2, 7});
+  SimplePort startPort(Point(-10, 3));
+  SimplePort endPort(Point(7, -2));
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {-5, 4, 1});
 
   CPPUNIT_ASSERT_EQUAL(size_t(6), connection->getPoints().size());
   CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getOffset());

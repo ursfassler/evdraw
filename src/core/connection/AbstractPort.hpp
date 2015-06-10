@@ -11,6 +11,7 @@ class AbstractPort : public VisitorClient
     virtual void addConnectionPoint(RelativePosition *point) = 0;
     virtual void removeConnectionPoint(RelativePosition *point) = 0;
     virtual std::string getName() const = 0;
+    virtual Point getPosition() const = 0;
 };
 
 

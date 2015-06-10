@@ -25,6 +25,27 @@ class NodeByTagName final : public TiXmlVisitor
 
 };
 
+class BaseParser
+{
+  public:
+    BaseParser(const Library &library, const TiXmlElement &element);
+
+    std::string getAttribute(const std::string &attribute) const;
+
+    const Library &library;
+    const TiXmlElement &element;
+};
+
+class InstanceParser final : protected BaseParser
+{
+  public:
+    InstanceParser(const Library &library, const TiXmlElement &element);
+
+    Component *getComponent() const;
+    std::string getName() const;
+    Point getPosition() const;
+};
+
 class Loader final
 {
   public:
@@ -54,6 +75,7 @@ class Loader final
     ComponentPort *loadPort(const TiXmlElement &element) const;
     std::string getAttribute(const TiXmlElement &element, const std::string &attribute) const;
     AbstractPort *getPort(const TiXmlElement &element) const;
+    std::vector<PaperUnit> parsePath(const std::string &path) const;
 
 };
 

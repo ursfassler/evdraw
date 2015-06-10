@@ -11,6 +11,7 @@ class DrawPort : public AbstractPort, public RelativePosition
     void addConnectionPoint(RelativePosition *point);
     void removeConnectionPoint(RelativePosition *point);
     std::string getName() const;
+    Point getPosition() const;
     void accept(Visitor &visitor) const;
 };
 

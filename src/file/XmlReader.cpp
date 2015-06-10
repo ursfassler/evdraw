@@ -116,6 +116,20 @@ AbstractPort *Loader::getPort(const TiXmlElement &element) const
   return port;
 }
 
+std::vector<PaperUnit> Loader::parsePath(const std::string &path) const
+{
+  std::vector<PaperUnit> ret;
+
+  std::istringstream ss(path);
+  while (!ss.eof()) {
+    PaperUnit number;
+    ss >> number;
+    ret.push_back(number);
+  }
+
+  return ret;
+}
+
 void Loader::libraryEnter(const TiXmlElement &)
 {
   precondition(lib == nullptr);
@@ -181,11 +195,8 @@ void Loader::instanceEnter(const TiXmlElement &element)
   precondition(lib != nullptr);
   precondition(composition != nullptr);
 
-  const std::string componentName = getAttribute(element, "component");
-  Component * const comp = lib->getComponent(componentName);
-  const std::string name = getAttribute(element, "name");
-
-  Instance *instance = InstanceFactory::produce(comp, name, Point(0,0));
+  InstanceParser parser(*lib, element);
+  Instance *instance = InstanceFactory::produce(parser.getComponent(), parser.getName(), parser.getPosition());
   composition->addInstance(instance);
 }
 
@@ -201,9 +212,10 @@ void Loader::connectionEnter(const TiXmlElement &element)
     throw std::runtime_error("expected 2 elements, got " + std::to_string(ports.nodelist().size()));
   }
 
+  const std::vector<PaperUnit> path = parsePath(getAttribute(element, "path"));
   AbstractPort * const startPort = getPort(*ports.nodelist()[0]);
   AbstractPort * const endPort = getPort(*ports.nodelist()[1]);
-  Connection * connection = ConnectionFactory::produce(startPort, endPort);
+  Connection * connection = ConnectionFactory::produce(startPort, endPort, path);
   composition->addConnection(connection);
 }
 
@@ -233,3 +245,43 @@ const std::vector<const TiXmlElement *> &NodeByTagName::nodelist() const
 {
   return nodes;
 }
+
+
+InstanceParser::InstanceParser(const Library &library, const TiXmlElement &element) :
+  BaseParser(library, element)
+{
+}
+
+Component *InstanceParser::getComponent() const
+{
+  const std::string componentName = getAttribute("component");
+  return library.getComponent(componentName);
+}
+
+std::string InstanceParser::getName() const
+{
+  return getAttribute("name");
+}
+
+Point InstanceParser::getPosition() const
+{
+  const PaperUnit x = std::atoi(getAttribute("x").c_str());
+  const PaperUnit y = std::atoi(getAttribute("y").c_str());
+  return Point(x,y);
+}
+
+
+BaseParser::BaseParser(const Library &aLibrary, const TiXmlElement &aElement) :
+  library(aLibrary),
+  element(aElement)
+{
+}
+
+std::string BaseParser::getAttribute(const std::string &attribute) const
+{
+  std::string value = "";
+  if (element.QueryStringAttribute(attribute.c_str(), &value) != TIXML_SUCCESS) {
+  }
+  return value;
+}
+

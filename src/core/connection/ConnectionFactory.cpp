@@ -7,32 +7,40 @@
 
 Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort)
 {
+  const PaperUnit center = (startPort->getPosition().x + endPort->getPosition().x) / 2;
+
   std::vector<PaperUnit> path;
-  path.push_back(0);
-  path.push_back(0);
-  path.push_back(0);
-  path.push_back(0);
-  path.push_back(0);
+  path.push_back(center);
 
   return produce(startPort, endPort, path);
 }
 
 Connection *ConnectionFactory::produceConstruction(AbstractPort *startPort, AbstractPort *endPort)
 {
-  std::vector<PaperUnit> path;
-  path.push_back(0);
-  path.push_back(0);
-  path.push_back(0);
-  path.push_back(0);
+  const Point start = startPort->getPosition();
+  const Point end = endPort->getPosition();
+  const Point middle = Point(end.x, start.y);
 
-  return produce(startPort, endPort, path);
+  std::vector<Endpoint *> pointlist;
+  pointlist.push_back(new Endpoint(Point(0,0)));
+  pointlist.push_back(new Endpoint(middle));
+  pointlist.push_back(new Endpoint(Point(0,0)));
+
+  return produce(startPort, endPort, pointlist);
 }
 
 Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<PaperUnit> &path)
 {
-  precondition(path.size() >= 4);
+  precondition(path.size() >= 1);
 
-  return produce(startPort, endPort, createPointList(path));
+  std::vector<PaperUnit> fullpath;
+  fullpath.push_back(startPort->getPosition().x);
+  fullpath.push_back(startPort->getPosition().y);
+  fullpath.insert(fullpath.end(), path.begin(), path.end());
+  fullpath.push_back(endPort->getPosition().y);
+  fullpath.push_back(endPort->getPosition().x);
+
+  return produce(startPort, endPort, createPointList(fullpath));
 }
 
 Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<Endpoint *> &points)

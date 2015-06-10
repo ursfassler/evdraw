@@ -32,6 +32,11 @@ std::string InstancePort::getName() const
   return compPort->getName();
 }
 
+Point InstancePort::getPosition() const
+{
+  return getAbsolutePosition();
+}
+
 Instance *InstancePort::getInstance() const
 {
   return owner;

@@ -16,7 +16,6 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(cleanup);
     CPPUNIT_TEST(canNotDisposeNullptr);
     CPPUNIT_TEST(createEmptyConnection);
-    CPPUNIT_TEST(createInvalidConnection);
     CPPUNIT_TEST(createConnection);
     CPPUNIT_TEST(createPathConnection);
     CPPUNIT_TEST(createConstruction);
@@ -35,7 +34,6 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     void cleanup();
     void canNotDisposeNullptr();
     void createEmptyConnection();
-    void createInvalidConnection();
     void createConnection();
     void createPathConnection();
     void createConstruction();

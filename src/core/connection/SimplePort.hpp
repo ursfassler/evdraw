@@ -9,13 +9,19 @@
 class SimplePort : public AbstractPort
 {
   public:
+    SimplePort();
+    SimplePort(const Point &position);
+
     virtual void addConnectionPoint(RelativePosition *port);
     virtual void removeConnectionPoint(RelativePosition *port);
     virtual std::string getName() const;
+    Point getPosition() const;
     virtual void accept(Visitor &visitor) const;
 
     std::set<RelativePosition*> ports;
 
+  private:
+    const Point position;
 };
 
 

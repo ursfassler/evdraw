@@ -22,6 +22,7 @@ class InstancePort final : public AbstractPort, public RelativePosition
     ComponentPort *getCompPort() const;
     Connector &getConnector();
     std::string getName() const;
+    Point getPosition() const;
     Instance *getInstance() const;
     Side side() const;
 
