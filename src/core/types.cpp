@@ -16,3 +16,23 @@ std::ostream &operator<<(std::ostream &stream, const Side &connectorSide)
   }
   return stream;
 }
+
+
+std::ostream &operator<<(std::ostream &stream, const std::vector<PaperUnit> &path)
+{
+  stream << "[";
+
+  bool first = true;
+  for (PaperUnit itr : path) {
+    if (first) {
+      first = false;
+    } else {
+      stream << " ";
+    }
+    stream << itr;
+  }
+
+  stream << "]";
+
+  return stream;
+}

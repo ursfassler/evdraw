@@ -18,3 +18,10 @@ void TypesTest::printConnectorSideRight()
   ss << Side::Right;
   CPPUNIT_ASSERT_EQUAL(std::string("right"), ss.str());
 }
+
+void TypesTest::printVectorOfPaperUnit()
+{
+  std::stringstream ss;
+  ss << std::vector<PaperUnit>({10, -10, 1, 42, 3});
+  CPPUNIT_ASSERT_EQUAL(std::string("[10 -10 1 42 3]"), ss.str());
+}

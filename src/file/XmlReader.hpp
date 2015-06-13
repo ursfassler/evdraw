@@ -10,41 +10,7 @@
 #include <functional>
 #include <vector>
 
-class NodeByTagName final : public TiXmlVisitor
-{
-  public:
-    NodeByTagName(const std::string &name);
-
-    virtual bool VisitEnter(const TiXmlElement &element, const TiXmlAttribute *);
-
-    const std::vector<const TiXmlElement *> &nodelist() const;
-
-  private:
-    const std::string name;
-    std::vector<const TiXmlElement *> nodes;
-
-};
-
-class BaseParser
-{
-  public:
-    BaseParser(const Library &library, const TiXmlElement &element);
-
-    std::string getAttribute(const std::string &attribute) const;
-
-    const Library &library;
-    const TiXmlElement &element;
-};
-
-class InstanceParser final : protected BaseParser
-{
-  public:
-    InstanceParser(const Library &library, const TiXmlElement &element);
-
-    Component *getComponent() const;
-    std::string getName() const;
-    Point getPosition() const;
-};
+#include "BaseParser.hpp"
 
 class Loader final
 {
@@ -74,8 +40,6 @@ class Loader final
 
     ComponentPort *loadPort(const TiXmlElement &element) const;
     std::string getAttribute(const TiXmlElement &element, const std::string &attribute) const;
-    AbstractPort *getPort(const TiXmlElement &element) const;
-    std::vector<PaperUnit> parsePath(const std::string &path) const;
 
 };
 

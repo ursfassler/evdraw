@@ -115,3 +115,15 @@ unittest/core/component/LibraryTest.hpp
 unittest/core/component/LibraryTest.cpp
 core/component/Library.hpp
 core/component/Library.cpp
+unittest/file/BaseParserTest.cpp
+unittest/file/BaseParserTest.hpp
+file/BaseParser.hpp
+file/BaseParser.cpp
+unittest/file/InstanceParserTest.hpp
+unittest/file/InstanceParserTest.cpp
+file/InstanceParser.hpp
+file/InstanceParser.cpp
+unittest/file/ConnectionParserTest.hpp
+unittest/file/ConnectionParserTest.cpp
+file/ConnectionParser.hpp
+file/ConnectionParser.cpp

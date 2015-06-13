@@ -194,9 +194,3 @@ void XmlReaderTest::compositionWithConnection()
 
   delete lib;
 }
-
-void XmlReaderTest::createOwnTestForThe3Classes()
-{
-  CPPUNIT_ASSERT(false);
-}
-

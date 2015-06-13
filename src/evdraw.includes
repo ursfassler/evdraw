@@ -11,3 +11,4 @@ core/sheet
 file
 core/visitor
 unittest/core/component
+unittest/file

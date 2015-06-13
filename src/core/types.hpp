@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <ostream>
+#include <vector>
 
 typedef std::int32_t PaperUnit;
 
@@ -12,6 +13,7 @@ enum class Side
     Left
 };
 
+std::ostream &operator<<(std::ostream &stream, const std::vector<PaperUnit> &path);
 std::ostream &operator<<(std::ostream &stream, const Side &connectorSide);
 
 #endif
