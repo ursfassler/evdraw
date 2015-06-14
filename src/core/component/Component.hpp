@@ -18,6 +18,9 @@ class Component final : public VisitorClient
     Component(const std::string &name, AbstractImplementation *implementation);
     ~Component();
 
+    Component(const Component &) = delete;
+    Component operator=(const Component &) = delete;
+
     void addPortLeft(ComponentPort *port);
     void addPortRight(ComponentPort *port);
 

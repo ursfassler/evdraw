@@ -37,7 +37,7 @@ class RelativePosition : public Position, public PositionObserver
     virtual ~RelativePosition();
 
     RelativePosition(const RelativePosition &) = delete;
-    bool operator=(const RelativePosition &) = delete;
+    RelativePosition operator=(const RelativePosition &) = delete;
 
     void replaceAnchor(Position *newAnchor);
     void removeAnchor();

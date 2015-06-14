@@ -2,11 +2,13 @@
 
 
 SimplePort::SimplePort() :
+  ports(),
   position(Point(0,0))
 {
 }
 
 SimplePort::SimplePort(const Point &aPosition) :
+  ports(),
   position(aPosition)
 {
 }

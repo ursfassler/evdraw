@@ -17,6 +17,7 @@ Point ZeroPosition::getAbsolutePosition() const
 
 
 RelativePosition::RelativePosition(const Point &aOffset) :
+  zeroAnchor(),
   anchor(&zeroAnchor),
   offset(aOffset)
 {

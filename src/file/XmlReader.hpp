@@ -48,6 +48,9 @@ class XmlVisitor : public TiXmlVisitor
   public:
     XmlVisitor(Loader *loader);
 
+    XmlVisitor(const XmlVisitor &) = delete;
+    XmlVisitor operator=(const XmlVisitor &) = delete;
+
     virtual bool VisitEnter(const TiXmlElement &element, const TiXmlAttribute *);
     virtual bool VisitExit(const TiXmlElement &element);
 

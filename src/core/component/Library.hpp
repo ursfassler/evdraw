@@ -8,6 +8,7 @@
 class Library final
 {
   public:
+    Library();
     ~Library();
 
     void add(Component *component);

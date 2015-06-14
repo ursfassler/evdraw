@@ -40,6 +40,9 @@ class Connection final : public ObserverCollection<ConnectionObserver>, public V
     Connection(AbstractPort *startPort, AbstractPort *endPort);
     virtual ~Connection();
 
+    Connection(const Connection &) = delete;
+    Connection operator=(const Connection &) = delete;
+
     AbstractPort *getStartPort() const;
     void replaceStartPort(AbstractPort *port);
     AbstractPort *getEndPort() const;

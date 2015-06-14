@@ -5,6 +5,11 @@
 
 #include <stdexcept>
 
+Library::Library() :
+  components()
+{
+}
+
 Library::~Library()
 {
   for (Component *component : components) {

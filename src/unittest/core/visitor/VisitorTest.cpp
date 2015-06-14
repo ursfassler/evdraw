@@ -14,6 +14,11 @@
 class TestVisitor : public Visitor
 {
   public:
+    TestVisitor() :
+      visited()
+    {
+    }
+
     void visit(const ComponentPort &port)
     {
       visited.push_back(port.getName());
