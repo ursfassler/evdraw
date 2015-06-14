@@ -1,13 +1,13 @@
 #include "BaseParser.hpp"
 
-NoSuchAttributeException::NoSuchAttributeException(const std::string &aAttributeName) :
-  attributeName(aAttributeName)
+NoSuchAttributeException::NoSuchAttributeException(const std::string &attributeName) :
+  msg("attribute not found: " + attributeName)
 {
 }
 
 const char *NoSuchAttributeException::what() const _GLIBCXX_USE_NOEXCEPT
 {
-  return ("attribute not found: " + attributeName).c_str();
+  return msg.c_str();
 }
 
 

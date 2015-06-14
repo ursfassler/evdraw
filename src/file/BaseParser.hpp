@@ -17,7 +17,7 @@ class NoSuchAttributeException : public std::exception
     virtual const char *what() const _GLIBCXX_USE_NOEXCEPT;
 
   protected:
-    const std::string attributeName;
+    const std::string msg;
 };
 
 class NoSuchElementException: public std::exception

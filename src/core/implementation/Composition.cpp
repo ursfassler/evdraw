@@ -20,6 +20,11 @@ Composition::~Composition()
   }
   connections.clear();
 
+  if (connectionUnderConstruction != nullptr) {
+    ConnectionFactory::dispose(connectionUnderConstruction);
+    connectionUnderConstruction = nullptr;
+  }
+
   for (Instance *instance : instances) {
     InstanceFactory::dispose(instance);
   }
@@ -27,6 +32,7 @@ Composition::~Composition()
 
   assert(instances.empty());
   assert(connections.empty());
+  assert(connectionUnderConstruction == nullptr);
 }
 
 const std::list<Instance *> &Composition::getInstances() const

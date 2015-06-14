@@ -69,6 +69,8 @@ void InstancePortTest::positionChangeNotificationNotifiesConnector()
   inst.setOffset(Point(10,20));
 
   CPPUNIT_ASSERT_EQUAL(Point(10,20), port.getConnector().getAbsolutePosition());
+
+  ComponentFactory::dispose(comp);
 }
 
 void InstancePortTest::portIsLeft()
@@ -78,6 +80,8 @@ void InstancePortTest::portIsLeft()
   InstancePort port(&inst, comp->getPortLeft()[0], Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, port.side());
+
+  ComponentFactory::dispose(comp);
 }
 
 void InstancePortTest::portIsRight()
@@ -87,4 +91,6 @@ void InstancePortTest::portIsRight()
   InstancePort port(&inst, comp->getPortRight()[0], Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(Side::Right, port.side());
+
+  ComponentFactory::dispose(comp);
 }

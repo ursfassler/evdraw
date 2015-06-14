@@ -1,5 +1,6 @@
 #include "Library.hpp"
 
+#include "ComponentFactory.hpp"
 #include "../util/list.hpp"
 
 #include <stdexcept>
@@ -7,7 +8,7 @@
 Library::~Library()
 {
   for (Component *component : components) {
-    delete component;
+    ComponentFactory::dispose(component);
   }
   components.clear();
 }

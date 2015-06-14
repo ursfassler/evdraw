@@ -105,6 +105,9 @@ void VisitorTest::instancePort()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
   CPPUNIT_ASSERT_EQUAL(std::string("port"), visitor.visited[0]);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
 }
 
 void VisitorTest::connection()

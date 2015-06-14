@@ -117,6 +117,7 @@ void CompositionTest::notifyWhenAddInstance()
   CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceAdded);
 
   sheet.unregisterObserver(&observer);
+  ComponentFactory::dispose(component);
 }
 
 void CompositionTest::notifyWhenAddConnection()
@@ -137,28 +138,30 @@ void CompositionTest::notifyWhenAddConnection()
 
 void CompositionTest::addConnectionUnderConstructionNotifiesObserver()
 {
-  Composition sheet;
-  SheetObserverTest observer;
-  sheet.registerObserver(&observer);
   Instance instance("", Point(0,0), nullptr);
   InstancePort startPort(&instance, nullptr, Point(0,0));
   InstancePort endPort(&instance, nullptr, Point(0,0));
 
-  sheet.startConnectionConstruction(&startPort, &endPort);
-  CPPUNIT_ASSERT_EQUAL(sheet.getConnectionUnderConstruction(), observer.lastAddConnectionUnderConstruction);
+  SheetObserverTest observer;
+  Composition composition;
+  composition.registerObserver(&observer);
 
-  sheet.unregisterObserver(&observer);
+  composition.startConnectionConstruction(&startPort, &endPort);
+  CPPUNIT_ASSERT_EQUAL(composition.getConnectionUnderConstruction(), observer.lastAddConnectionUnderConstruction);
+
+  composition.unregisterObserver(&observer);
 }
 
 void CompositionTest::canNotOverwriteConnectionUnderConstructio()
 {
-  Composition sheet;
   Instance instance("", Point(0,0), nullptr);
   InstancePort startPort(&instance, nullptr, Point(0,0));
   InstancePort endPort(&instance, nullptr, Point(0,0));
-  sheet.startConnectionConstruction(&startPort, &endPort);
 
-  CPPUNIT_ASSERT_THROW(sheet.startConnectionConstruction(&startPort, &endPort), PreconditionError);
+  Composition composition;
+  composition.startConnectionConstruction(&startPort, &endPort);
+
+  CPPUNIT_ASSERT_THROW(composition.startConnectionConstruction(&startPort, &endPort), PreconditionError);
 }
 
 void CompositionTest::finishConnectionCreation()
@@ -167,14 +170,15 @@ void CompositionTest::finishConnectionCreation()
   InstancePort startPort(&instance, nullptr, Point(0,0));
   SimplePort tmpEnd;
   InstancePort endPort(&instance, nullptr, Point(0,0));
-  Composition sheet;
-  sheet.startConnectionConstruction(&startPort, &tmpEnd);
-  Connection *connection = sheet.getConnectionUnderConstruction();
 
-  sheet.finishConnectionConstruction(&endPort);
+  Composition composition;
+  composition.startConnectionConstruction(&startPort, &tmpEnd);
+  Connection *connection = composition.getConnectionUnderConstruction();
+
+  composition.finishConnectionConstruction(&endPort);
 
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
-  CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections().front());
-  CPPUNIT_ASSERT(!sheet.hasConnectionUnderConstruction());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
+  CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
+  CPPUNIT_ASSERT(!composition.hasConnectionUnderConstruction());
 }
