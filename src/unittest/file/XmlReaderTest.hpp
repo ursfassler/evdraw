@@ -19,6 +19,8 @@ class XmlReaderTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(compositionWithInstance);
     CPPUNIT_TEST(compositionWithConnection);
 
+    CPPUNIT_TEST(openFile);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -32,6 +34,8 @@ class XmlReaderTest : public CPPUNIT_NS::TestFixture
     void compositionEmpty();
     void compositionWithInstance();
     void compositionWithConnection();
+
+    void openFile();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( XmlReaderTest );

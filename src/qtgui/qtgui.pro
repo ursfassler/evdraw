@@ -40,14 +40,21 @@ SOURCES += main.cpp\
     ../core/util/contract.cpp \
     ../core/Point.cpp \
     ../core/types.cpp \
-    SheetToGuiUpdater.cpp \
     graphicItems/GiConnectionCreation.cpp \
     ../core/base/Position.cpp \
     ../core/connection/SimplePort.cpp \
     ../core/connection/DrawPort.cpp \
     ../core/implementation/Composition.cpp \
     ../file/XmlReader.cpp \
-    ../core/component/Library.cpp
+    ../core/component/Library.cpp \
+    ../file/BaseParser.cpp \
+    ../file/ConnectionParser.cpp \
+    ../file/InstanceParser.cpp \
+    ../file/Parsers.cpp \
+    ../file/RizzlyPrint.cpp \
+    ComponentList.cpp \
+    CompositionEditor.cpp \
+    CompositionToGuiUpdater.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -72,11 +79,21 @@ HEADERS  += MainWindow.hpp \
     ../core/util/Observer.hpp \
     ../core/Point.hpp \
     ../core/types.hpp \
-    SheetToGuiUpdater.hpp \
     graphicItems/GiConnectionCreation.hpp \
     ../core/base/Position.hpp \
     ../core/connection/SimplePort.hpp \
     ../core/connection/DrawPort.hpp \
     ../core/implementation/Composition.hpp \
     ../file/XmlReader.hpp \
-    ../core/component/Library.hpp
+    ../core/component/Library.hpp \
+    ../file/BaseParser.hpp \
+    ../file/ConnectionParser.hpp \
+    ../file/InstanceParser.hpp \
+    ../file/Parsers.h \
+    ../file/RizzlyPrint.hpp \
+    ComponentList.hpp \
+    CompositionEditor.hpp \
+    CompositionToGuiUpdater.hpp
+
+OTHER_FILES += \
+    drawings/test1.evd

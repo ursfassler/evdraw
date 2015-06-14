@@ -22,6 +22,18 @@ Library *XmlReader::parse(const std::string &data)
   return l.getLibrary();
 }
 
+Library *XmlReader::loadFile(const std::string &filename)
+{
+  TiXmlDocument doc;
+  doc.LoadFile(filename);
+
+  Loader l;
+  XmlVisitor loader(&l);
+  doc.Accept(&loader);
+
+  return l.getLibrary();
+}
+
 
 XmlVisitor::XmlVisitor(Loader *aLoader) :
   loader(aLoader),

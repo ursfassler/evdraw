@@ -4,6 +4,7 @@
 #include <core/implementation/Composition.hpp>
 #include <file/XmlReader.hpp>
 #include <sstream>
+#include <stdio.h>
 
 
 void XmlReaderTest::parseEmpty()
@@ -191,6 +192,38 @@ void XmlReaderTest::compositionWithConnection()
   CPPUNIT_ASSERT_EQUAL(size_t(6), con->getPoints().size());
   CPPUNIT_ASSERT_EQUAL(Point(100,-135), con->getPoints()[2]->getAbsolutePosition());
   CPPUNIT_ASSERT_EQUAL(Point(-120,-135), con->getPoints()[3]->getAbsolutePosition());
+
+  delete lib;
+}
+
+void XmlReaderTest::openFile()
+{
+  const std::string xml =
+      "<evdraw>"
+      "  <component name=\"empty\">"
+      "    <slot name=\"in\" />"
+      "    <signal name=\"out\" />"
+      "  </component>"
+      "  <component name=\"full\">"
+      "    <composition>"
+      "      <instance name=\"instance\" component=\"empty\" x=\"0\" y=\"0\" >"
+      "      <connection path=\"100 -135 -120\" >"
+      "        <instanceport instance=\"instance\" port=\"out\" />"
+      "        <instanceport instance=\"instance\" port=\"in\" />"
+      "      </connection>"
+      "    </composition>"
+      "  </component>"
+      "</evdraw>";
+
+  char filename[] = "testXXXXXX";
+  int fd = mkstemp(filename);
+  FILE *file = ::fdopen(fd, "w");
+  ::fwrite(xml.c_str(), xml.size(), 1, file);
+  ::fclose(file);
+
+  Library *lib = XmlReader::loadFile(filename);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(2), lib->getComponents().size());
 
   delete lib;
 }

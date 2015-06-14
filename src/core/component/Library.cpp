@@ -28,7 +28,7 @@ bool Library::contains(const Component *component) const
   return ::contains(components.begin(), components.end(), component);
 }
 
-const std::list<Component *> Library::getComponents() const
+const std::vector<Component *> Library::getComponents() const
 {
   return components;
 }

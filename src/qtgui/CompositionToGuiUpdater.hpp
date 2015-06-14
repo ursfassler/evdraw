@@ -1,5 +1,5 @@
-#ifndef SHEETTOGUIUPDATER_HPP
-#define SHEETTOGUIUPDATER_HPP
+#ifndef COMPOSITIONTOGUIUPDATER_HPP
+#define COMPOSITIONTOGUIUPDATER_HPP
 
 #include "graphicItems/GiInstance.hpp"
 #include "graphicItems/GiInstancePort.hpp"
@@ -10,10 +10,11 @@
 
 #include <QGraphicsScene>
 
-class SheetToGuiUpdater : public CompositionObserver, public ConnectionObserver
+class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObserver
 {
   public:
-    SheetToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet);
+    CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet);
+    ~CompositionToGuiUpdater();
 
     virtual void instanceAdded(Instance *instance);
     virtual void connectionAdded(Connection *connection);
@@ -27,7 +28,7 @@ class SheetToGuiUpdater : public CompositionObserver, public ConnectionObserver
 
   private:
     QGraphicsScene &scene;
-    Composition &sheet;
+    Composition &composition;
     GiConnectionCreation *connCreate = nullptr;
 
     void addConnection(Connection *connection);
@@ -35,4 +36,4 @@ class SheetToGuiUpdater : public CompositionObserver, public ConnectionObserver
 
 };
 
-#endif // SHEETTOGUIUPDATER_HPP
+#endif

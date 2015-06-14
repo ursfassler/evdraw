@@ -1,0 +1,25 @@
+
+<evdraw>
+  <component name="Component">
+    <slot name="in1" />
+    <slot name="in2" />
+    <signal name="out1" />
+    <signal name="out2" />
+    <signal name="out3" />
+  </component>
+  <component name="draw">
+    <composition>
+      <instance name="instance1" component="Component" x="-150000" y="0" >
+      <instance name="instance2" component="Component" x="150000" y="0">
+      <connection path="20000">
+        <instanceport instance="instance1" port="out1" />
+        <instanceport instance="instance2" port="in1" />
+      </connection>
+      <connection path="-20000">
+        <instanceport instance="instance1" port="out1" />
+        <instanceport instance="instance2" port="in2" />
+      </connection>
+    </composition>
+  </component>
+</evdraw>
+

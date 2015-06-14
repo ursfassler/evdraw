@@ -91,6 +91,7 @@ class XmlReader
 {
   public:
     static Library *parse(const std::string &data);
+    static Library *loadFile(const std::string &filename);
 };
 
 #endif // XMLREADER_HPP

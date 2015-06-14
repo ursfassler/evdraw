@@ -1,21 +1,53 @@
 #include "MainWindow.hpp"
 
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include "CompositionEditor.hpp"
+
+#include <QMenuBar>
+#include <QApplication>
+#include <QFileDialog>
+
+#include <core/connection/Connection.hpp>
+#include <core/connection/ConnectionFactory.hpp>
+#include <core/component/Component.hpp>
+#include <core/component/InstanceAppearance.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/instance/InstancePort.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/instance/InstanceFactory.hpp>
+#include <core/implementation/Composition.hpp>
+#include <file/XmlReader.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
-  scene(this),
-  view(&scene)
+  componentView(this)
 {
-  setCentralWidget(&view);
+  setCentralWidget(&componentView);
+
+  QMenu *file = menuBar()->addMenu("File");
+  file->addAction("Open", this, SLOT(openFile()));
+  file->addAction("Exit", QApplication::instance(), SLOT(quit()));
+
+  connect(&componentView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
 }
 
 MainWindow::~MainWindow()
 {
 }
 
-QGraphicsScene &MainWindow::getScene()
+void MainWindow::openComponent(const QModelIndex &index)
 {
-  return scene;
+  Component *comp = componentModel->getComponent(index);
+  Composition *composition = dynamic_cast<Composition*>(comp->getImplementation());
+  if (composition != nullptr) {
+    CompositionEditor *editor = new CompositionEditor(*composition);
+    editor->show();
+  }
+}
+
+void MainWindow::openFile()
+{
+  const QString fileName = QFileDialog::getOpenFileName(this, "Open File");
+  Library *lib = XmlReader::loadFile(fileName.toStdString());
+  componentModel = new ComponentList(lib);
+  componentView.setModel(componentModel);
 }

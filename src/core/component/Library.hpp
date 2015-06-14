@@ -3,7 +3,7 @@
 
 #include "Component.hpp"
 
-#include <list>
+#include <vector>
 
 class Library final
 {
@@ -13,11 +13,11 @@ class Library final
 
     void add(Component *component);
     bool contains(const Component *component) const;
-    const std::list<Component *> getComponents() const;
+    const std::vector<Component *> getComponents() const;
     Component *getComponent(const std::string &name) const;
 
   private:
-    std::list<Component*> components;
+    std::vector<Component*> components;
 };
 
 #endif // LIBRARY_HPP

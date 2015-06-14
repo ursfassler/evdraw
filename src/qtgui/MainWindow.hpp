@@ -1,9 +1,10 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include "ComponentList.hpp"
+
 #include <QMainWindow>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include <QListView>
 
 class MainWindow : public QMainWindow
 {
@@ -13,11 +14,13 @@ class MainWindow : public QMainWindow
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    QGraphicsScene &getScene();
+  private slots:
+    void openComponent(const QModelIndex &index);
+    void openFile();
 
   private:
-    QGraphicsScene scene;
-    QGraphicsView  view;
+    QListView componentView;
+    ComponentList *componentModel = nullptr;
 
 };
 
