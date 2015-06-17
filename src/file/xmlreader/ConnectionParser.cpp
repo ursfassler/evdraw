@@ -1,6 +1,6 @@
 #include "ConnectionParser.hpp"
 
-#include "../core/implementation/Composition.hpp"
+#include <core/implementation/Composition.hpp>
 
 #include <regex>
 

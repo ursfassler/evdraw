@@ -5,7 +5,7 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <file/ConnectionParser.hpp>
+#include <file/xmlreader/ConnectionParser.hpp>
 #include <core/implementation/Composition.hpp>
 
 class ConnectionTestEnvironment : public CPPUNIT_NS::TestFixture

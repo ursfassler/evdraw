@@ -45,13 +45,12 @@ SOURCES += main.cpp\
     ../core/connection/SimplePort.cpp \
     ../core/connection/DrawPort.cpp \
     ../core/implementation/Composition.cpp \
-    ../file/XmlReader.cpp \
+    ../file/xmlreader/XmlReader.cpp \
     ../core/component/Library.cpp \
-    ../file/BaseParser.cpp \
-    ../file/ConnectionParser.cpp \
-    ../file/InstanceParser.cpp \
-    ../file/Parsers.cpp \
-    ../file/RizzlyPrint.cpp \
+    ../file/xmlreader/BaseParser.cpp \
+    ../file/xmlreader/ConnectionParser.cpp \
+    ../file/xmlreader/InstanceParser.cpp \
+    ../file/xmlreader/Parsers.cpp \
     ComponentList.cpp \
     CompositionEditor.cpp \
     CompositionToGuiUpdater.cpp
@@ -84,13 +83,12 @@ HEADERS  += MainWindow.hpp \
     ../core/connection/SimplePort.hpp \
     ../core/connection/DrawPort.hpp \
     ../core/implementation/Composition.hpp \
-    ../file/XmlReader.hpp \
+    ../file/xmlreader/XmlReader.hpp \
     ../core/component/Library.hpp \
-    ../file/BaseParser.hpp \
-    ../file/ConnectionParser.hpp \
-    ../file/InstanceParser.hpp \
-    ../file/Parsers.h \
-    ../file/RizzlyPrint.hpp \
+    ../file/xmlreader/BaseParser.hpp \
+    ../file/xmlreader/ConnectionParser.hpp \
+    ../file/xmlreader/InstanceParser.hpp \
+    ../file/xmlreader/Parsers.h \
     ComponentList.hpp \
     CompositionEditor.hpp \
     CompositionToGuiUpdater.hpp

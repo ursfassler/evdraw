@@ -1,7 +1,7 @@
 #ifndef INSTANCEPARSER_HPP
 #define INSTANCEPARSER_HPP
 
-#include "../core/Point.hpp"
+#include <core/Point.hpp>
 
 #include "BaseParser.hpp"
 

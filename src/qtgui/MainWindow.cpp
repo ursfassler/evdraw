@@ -15,7 +15,7 @@
 #include <core/instance/Instance.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/implementation/Composition.hpp>
-#include <file/XmlReader.hpp>
+#include <file/xmlreader/XmlReader.hpp>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),

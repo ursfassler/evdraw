@@ -1,6 +1,6 @@
 #include "BaseParserTest.hpp"
 
-#include <file/BaseParser.hpp>
+#include <file/xmlreader/BaseParser.hpp>
 
 #include <stdexcept>
 

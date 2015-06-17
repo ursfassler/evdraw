@@ -2,7 +2,7 @@
 
 #include <core/component/Library.hpp>
 #include <core/implementation/Composition.hpp>
-#include <file/XmlReader.hpp>
+#include <file/xmlreader/XmlReader.hpp>
 #include <sstream>
 #include <stdio.h>
 
@@ -222,6 +222,8 @@ void XmlReaderTest::openFile()
   ::fclose(file);
 
   Library *lib = XmlReader::loadFile(filename);
+
+  ::remove(filename);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), lib->getComponents().size());
 

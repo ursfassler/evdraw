@@ -2,7 +2,7 @@
 #define CONNECTIONPARSER_HPP
 
 #include "BaseParser.hpp"
-#include "../core/connection/AbstractPort.hpp"
+#include <core/connection/AbstractPort.hpp>
 
 class ConnectionPortParserTest;
 

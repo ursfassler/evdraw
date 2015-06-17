@@ -1,6 +1,6 @@
 #include "InstanceParserTest.hpp"
 
-#include <file/InstanceParser.hpp>
+#include <file/xmlreader/InstanceParser.hpp>
 
 void InstanceParserTest::create()
 {

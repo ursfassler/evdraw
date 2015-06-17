@@ -7,7 +7,7 @@ CPPFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
 LINKFLAGS = -ltinyxml
 INCLUDE_DIR = .
 
-SRC=$(wildcard core/*/*.cpp core/*.cpp file/*.cpp unittest/*.cpp unittest/*/*.cpp unittest/*/*/*.cpp)
+SRC=$(wildcard core/*/*.cpp core/*.cpp file/*.cpp file/*/*.cpp unittest/*.cpp unittest/*/*.cpp unittest/*/*/*.cpp)
 OBJ=$(SRC:.cpp=.o)
 
 %.o: %.cpp

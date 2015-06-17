@@ -1,8 +1,8 @@
 #ifndef XMLREADER_HPP
 #define XMLREADER_HPP
 
-#include "../core/component/Library.hpp"
-#include "../core/util/contract.hpp"
+#include <core/component/Library.hpp>
+#include <core/util/contract.hpp>
 #include <core/implementation/Composition.hpp>
 
 #include <tinyxml.h>
