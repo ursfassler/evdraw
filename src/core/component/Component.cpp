@@ -3,14 +3,6 @@
 #include "../util/list.hpp"
 #include "../util/contract.hpp"
 
-Component::Component(const std::string &aName) :
-  name(aName),
-  portLeft(),
-  portRight(),
-  implementation(new NullImplementation())
-{
-}
-
 Component::Component(const std::string &aName, AbstractImplementation *aImplementation) :
   name(aName),
   portLeft(),
@@ -24,24 +16,24 @@ Component::~Component()
   delete implementation;
 }
 
-void Component::addPortLeft(ComponentPort *port)
+void Component::addPortLeft(Slot *port)
 {
   portLeft.push_back(port);
   port->setTopIndex(portLeft.size()-1);
 }
 
-const std::vector<ComponentPort *> &Component::getPortLeft() const
+const std::vector<Slot *> &Component::getPortLeft() const
 {
   return portLeft;
 }
 
-void Component::addPortRight(ComponentPort *port)
+void Component::addPortRight(Signal *port)
 {
   portRight.push_back(port);
   port->setTopIndex(portRight.size()-1);
 }
 
-const std::vector<ComponentPort *> &Component::getPortRight() const
+const std::vector<Signal *> &Component::getPortRight() const
 {
   return portRight;
 }
@@ -71,7 +63,7 @@ void Component::accept(Visitor &visitor) const
   visitor.visit(*this);
 }
 
-AbstractImplementation *Component::getImplementation()
+AbstractImplementation *Component::getImplementation() const
 {
   return implementation;
 }

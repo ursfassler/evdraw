@@ -40,3 +40,8 @@ Component *Library::getComponent(const std::string &name) const
   };
   return listGet<Component*>(components.begin(), components.end(), predicate);
 }
+
+void Library::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}

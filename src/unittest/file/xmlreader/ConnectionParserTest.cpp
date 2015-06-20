@@ -1,10 +1,12 @@
 #include "ConnectionParserTest.hpp"
 
+#include <core/implementation/NullImplementation.hpp>
+
 void ConnectionTestEnvironment::setUp()
 {
-  compA = new Component("CompA");
-  theCompPort1 = new ComponentPort("thePort1");
-  theCompPort2 = new ComponentPort("thePort2");
+  compA = new Component("CompA", new NullImplementation());
+  theCompPort1 = new Signal("thePort1");
+  theCompPort2 = new Slot("thePort2");
   compA->addPortRight(theCompPort1);
   compA->addPortLeft(theCompPort2);
 
@@ -15,8 +17,7 @@ void ConnectionTestEnvironment::setUp()
   theInstance->addPort(theInstPort2);
   composition = new Composition();
   composition->addInstance(theInstance);
-  compB = new Component("CompB");
-  compB->setImplementation(composition);
+  compB = new Component("CompB", composition);
 
   library = new Library();
   library->add(compA);

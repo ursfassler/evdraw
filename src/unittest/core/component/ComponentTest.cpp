@@ -3,17 +3,18 @@
 #include <core/component/Component.hpp>
 #include <core/component/ComponentPort.hpp>
 #include <core/component/ComponentFactory.hpp>
+#include <core/implementation/NullImplementation.hpp>
 
 void ComponentTest::produce()
 {
-  Component comp("Lala");
+  Component comp("Lala", new NullImplementation());
   CPPUNIT_ASSERT_EQUAL(std::string("Lala"), comp.getName());
 }
 
 void ComponentTest::addPortLeft()
 {
-  Component     comp("");
-  ComponentPort *port = new ComponentPort("left1");
+  Component     comp("", new NullImplementation());
+  Slot *port = new Slot("left1");
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPortLeft().size());
   comp.addPortLeft(port);
@@ -26,8 +27,8 @@ void ComponentTest::addPortLeft()
 
 void ComponentTest::addPortRight()
 {
-  Component     comp("");
-  ComponentPort *port = new ComponentPort("right1");
+  Component     comp("", new NullImplementation());
+  Signal *port = new Signal("right1");
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPortRight().size());
   comp.addPortRight(port);
@@ -40,11 +41,11 @@ void ComponentTest::addPortRight()
 
 void ComponentTest::rightPortIndexUpdatedOnAdd()
 {
-  Component     comp("");
-  ComponentPort *port1 = new ComponentPort("1");
-  ComponentPort *port2 = new ComponentPort("2");
-  ComponentPort *port3 = new ComponentPort("3");
-  ComponentPort *port4 = new ComponentPort("4");
+  Component     comp("", new NullImplementation());
+  Signal *port1 = new Signal("1");
+  Signal *port2 = new Signal("2");
+  Signal *port3 = new Signal("3");
+  Signal *port4 = new Signal("4");
 
   comp.addPortRight(port1);
   comp.addPortRight(port2);
@@ -61,11 +62,11 @@ void ComponentTest::rightPortIndexUpdatedOnAdd()
 
 void ComponentTest::leftPortIndexUpdatedOnAdd()
 {
-  Component     comp("");
-  ComponentPort *port1 = new ComponentPort("1");
-  ComponentPort *port2 = new ComponentPort("2");
-  ComponentPort *port3 = new ComponentPort("3");
-  ComponentPort *port4 = new ComponentPort("4");
+  Component     comp("", new NullImplementation());
+  Slot *port1 = new Slot("1");
+  Slot *port2 = new Slot("2");
+  Slot *port3 = new Slot("3");
+  Slot *port4 = new Slot("4");
 
   comp.addPortLeft(port1);
   comp.addPortLeft(port2);
@@ -82,8 +83,8 @@ void ComponentTest::leftPortIndexUpdatedOnAdd()
 
 void ComponentTest::portIsLeft()
 {
-  Component     comp("");
-  ComponentPort *port = new ComponentPort("");
+  Component     comp("", new NullImplementation());
+  Slot *port = new Slot("");
   comp.addPortLeft(port);
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, comp.sideOf(port));
@@ -93,19 +94,13 @@ void ComponentTest::portIsLeft()
 
 void ComponentTest::portIsRight()
 {
-  Component     comp("");
-  ComponentPort *port = new ComponentPort("");
+  Component     comp("", new NullImplementation());
+  Signal *port = new Signal("");
   comp.addPortRight(port);
 
   CPPUNIT_ASSERT_EQUAL(Side::Right, comp.sideOf(port));
 
   ComponentFactory::cleanup(comp);
-}
-
-void ComponentTest::defaultImplementationIsNullImplementation()
-{
-  Component     component("");
-  CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(component.getImplementation()) != nullptr);
 }
 
 void ComponentTest::constructWithOwnImplementation()
@@ -128,6 +123,8 @@ class DeleteTest : public AbstractImplementation
       deleted = true;
     }
 
+    void accept(Visitor &) const {}
+
     bool &deleted;
 };
 
@@ -142,7 +139,7 @@ void ComponentTest::componentDeletesImplementationWhenDeleted()
 
 void ComponentTest::setImplementation()
 {
-  Component comp("");
+  Component comp("", new NullImplementation());
   NullImplementation *impl = new NullImplementation();
 
   CPPUNIT_ASSERT(static_cast<AbstractImplementation*>(impl) != comp.getImplementation());

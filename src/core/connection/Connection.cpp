@@ -57,6 +57,26 @@ void Connection::checkInvariants() const
   }
 }
 
+std::vector<PaperUnit> Connection::getPath() const
+{
+  std::vector<PaperUnit> path;
+
+  for (size_t i = 1; i < horizontalSegments.size()+verticalSegments.size()-1; i++) {
+    const bool isHorizontal = (i % 2) == 0;
+    const size_t segIndex = i / 2;
+
+    PaperUnit pos;
+    if (isHorizontal) {
+      pos = horizontalSegments[segIndex]->getY();
+    } else {
+      pos = verticalSegments[segIndex]->getX();
+    }
+    path.push_back(pos);
+  }
+
+  return path;
+}
+
 Segment *Connection::getSegment(size_t index) const
 {
   const bool isHorizontal = (index % 2) == 0;

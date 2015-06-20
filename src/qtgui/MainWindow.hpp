@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
   private slots:
     void openComponent(const QModelIndex &index);
     void openFile();
+    void saveFile();
 
   private:
     QListView componentView;

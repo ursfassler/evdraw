@@ -2,6 +2,7 @@
 
 #include <core/component/Library.hpp>
 #include <core/component/Component.hpp>
+#include <core/component/ComponentFactory.hpp>
 
 void LibraryTest::create()
 {
@@ -11,7 +12,7 @@ void LibraryTest::create()
 
 void LibraryTest::addComponent()
 {
-  Component *comp = new Component("comp");
+  Component *comp = ComponentFactory::produce("comp");
   Library lib;
   lib.add(comp);
   CPPUNIT_ASSERT(lib.contains(comp));
@@ -30,6 +31,8 @@ class Implementation : public AbstractImplementation
       destructorCalled = true;
     }
 
+    void accept(Visitor &) const {}
+
     bool &destructorCalled;
 };
 
@@ -47,7 +50,7 @@ void LibraryTest::deletsComponentsWhenDeleted()
 
 void LibraryTest::getComponent()
 {
-  Component *comp = new Component("comp");
+  Component *comp = ComponentFactory::produce("comp");
   Library lib;
   lib.add(comp);
 
@@ -57,14 +60,14 @@ void LibraryTest::getComponent()
 
 void LibraryTest::getCorrectComponent()
 {
-  Component *comp = new Component("comp3");
+  Component *comp = ComponentFactory::produce("comp3");
   Library lib;
-  lib.add(new Component("comp1"));
-  lib.add(new Component("comp2"));
+  lib.add(ComponentFactory::produce("comp1"));
+  lib.add(ComponentFactory::produce("comp2"));
   lib.add(comp);
-  lib.add(new Component("comp4"));
-  lib.add(new Component("comp5"));
-  lib.add(new Component("comp6"));
+  lib.add(ComponentFactory::produce("comp4"));
+  lib.add(ComponentFactory::produce("comp5"));
+  lib.add(ComponentFactory::produce("comp6"));
 
   Component *ret = lib.getComponent("comp3");
   CPPUNIT_ASSERT_EQUAL(comp, ret);

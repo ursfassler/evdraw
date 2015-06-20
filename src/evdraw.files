@@ -127,3 +127,16 @@ unittest/file/xmlreader/XmlReaderTest.cpp
 unittest/file/xmlreader/XmlReaderTest.hpp
 unittest/main.cpp
 
+unittest/file/xmlwriter/XmlWriterTest.hpp
+unittest/file/xmlwriter/XmlWriterTest.cpp
+file/xmlwriter/XmlWriter.hpp
+file/xmlwriter/XmlWriter.cpp
+unittest/file/xmlwriter/XmlNodeWriterTest.hpp
+unittest/file/xmlwriter/XmlNodeWriterTest.cpp
+file/xmlwriter/XmlNodeWriter.hpp
+file/xmlwriter/XmlNodeWriter.cpp
+core/visitor/Visitor.hpp
+unittest/core/implementation/NullImplementationTest.hpp
+unittest/core/implementation/NullImplementationTest.cpp
+core/implementation/NullImplementation.hpp
+core/implementation/NullImplementation.cpp

@@ -53,7 +53,10 @@ SOURCES += main.cpp\
     ../file/xmlreader/Parsers.cpp \
     ComponentList.cpp \
     CompositionEditor.cpp \
-    CompositionToGuiUpdater.cpp
+    CompositionToGuiUpdater.cpp \
+    ../file/xmlwriter/XmlWriter.cpp \
+    ../file/xmlwriter/XmlNodeWriter.cpp \
+    ../core/implementation/NullImplementation.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -91,7 +94,10 @@ HEADERS  += MainWindow.hpp \
     ../file/xmlreader/Parsers.h \
     ComponentList.hpp \
     CompositionEditor.hpp \
-    CompositionToGuiUpdater.hpp
+    CompositionToGuiUpdater.hpp \
+    ../file/xmlwriter/XmlWriter.hpp \
+    ../file/xmlwriter/XmlNodeWriter.hpp \
+    ../core/implementation/NullImplementation.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

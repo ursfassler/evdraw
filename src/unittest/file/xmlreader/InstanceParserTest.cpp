@@ -1,6 +1,7 @@
 #include "InstanceParserTest.hpp"
 
 #include <file/xmlreader/InstanceParser.hpp>
+#include <core/component/ComponentFactory.hpp>
 
 void InstanceParserTest::create()
 {
@@ -14,7 +15,7 @@ void InstanceParserTest::create()
 
 void InstanceParserTest::component()
 {
-  Component *comp = new Component("TheComponent");
+  Component *comp = ComponentFactory::produce("TheComponent");
   Library library;
   library.add(comp);
 

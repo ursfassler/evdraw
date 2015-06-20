@@ -12,3 +12,7 @@ file
 core/visitor
 unittest/core/component
 unittest/file
+unittest/file/xmlwriter
+file/xmlwriter
+unittest/core/implementation
+core/implementation

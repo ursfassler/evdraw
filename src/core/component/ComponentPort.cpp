@@ -20,7 +20,26 @@ void ComponentPort::setTopIndex(size_t value)
   topIndex = value;
 }
 
-void ComponentPort::accept(Visitor &visitor) const
+
+Signal::Signal(const std::string &name) :
+  ComponentPort(name)
+{
+}
+
+void Signal::accept(Visitor &visitor) const
 {
   visitor.visit(*this);
 }
+
+
+Slot::Slot(const std::string &name) :
+  ComponentPort(name)
+{
+}
+
+void Slot::accept(Visitor &visitor) const
+{
+  visitor.visit(*this);
+}
+
+

@@ -2,9 +2,21 @@
 
 #include <core/component/ComponentFactory.hpp>
 #include <core/component/Component.hpp>
+#include <core/implementation/NullImplementation.hpp>
 #include <core/util/contract.hpp>
 
 #include <string>
+
+void ComponentFactoryTest::produceSimple()
+{
+  Component *component = ComponentFactory::produce("Component");
+
+  CPPUNIT_ASSERT_EQUAL(std::string("Component"), component->getName());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPortLeft().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPortRight().size());
+
+  ComponentFactory::dispose(component);
+}
 
 void ComponentFactoryTest::produce()
 {
@@ -36,9 +48,11 @@ void ComponentFactoryTest::canNotDisposeNullptr()
 
 void ComponentFactoryTest::cleanupComponentOnStack()
 {
-  Component component("");
-  ComponentPort *port = new ComponentPort("");
+  Component component("", new NullImplementation());
+  Slot *port = new Slot("");
   component.addPortLeft(port);
 
   ComponentFactory::cleanup(component);
 }
+
+

@@ -38,7 +38,6 @@ class Loader final
     Component *component = nullptr;
     Composition *composition = nullptr;
 
-    ComponentPort *loadPort(const TiXmlElement &element) const;
     std::string getAttribute(const TiXmlElement &element, const std::string &attribute) const;
 
 };

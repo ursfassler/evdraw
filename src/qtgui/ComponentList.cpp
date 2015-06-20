@@ -42,3 +42,8 @@ Component *ComponentList::getComponent(const QModelIndex &index) const
   return library->getComponents()[index.row()];
 }
 
+Library *ComponentList::getLibrary() const
+{
+  return library;
+}
+

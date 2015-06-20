@@ -257,3 +257,24 @@ void ConnectionTest::replaceEndPort()
   ConnectionFactory::dispose(connection);
 }
 
+void ConnectionTest::pathMinimal()
+{
+  DrawPort a(Point(10,15));
+  DrawPort b(Point(30,50));
+  Connection *connection = ConnectionFactory::produce(&a, &b);
+
+  CPPUNIT_ASSERT_EQUAL(std::vector<PaperUnit>({20}), connection->getPath());
+
+  ConnectionFactory::dispose(connection);
+}
+
+void ConnectionTest::pathLong()
+{
+  DrawPort a(Point(10,15));
+  DrawPort b(Point(30,50));
+  Connection *connection = ConnectionFactory::produce(&a, &b, {-3, 11, 75, 4, 2});
+
+  CPPUNIT_ASSERT_EQUAL(std::vector<PaperUnit>({-3, 11, 75, 4, 2}), connection->getPath());
+
+  ConnectionFactory::dispose(connection);
+}

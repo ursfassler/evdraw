@@ -8,7 +8,8 @@ class VisitorTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( VisitorTest );
 
-    CPPUNIT_TEST(componentPort);
+    CPPUNIT_TEST(slot);
+    CPPUNIT_TEST(signal);
     CPPUNIT_TEST(component);
     CPPUNIT_TEST(componentWithPorts);
 
@@ -17,12 +18,16 @@ class VisitorTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(connection);
 
-    CPPUNIT_TEST(sheet);
+    CPPUNIT_TEST(composition);
+    CPPUNIT_TEST(nullImplementation);
+
+    CPPUNIT_TEST(library);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void componentPort();
+    void slot();
+    void signal();
     void component();
     void componentWithPorts();
 
@@ -31,7 +36,10 @@ class VisitorTest : public CPPUNIT_NS::TestFixture
 
     void connection();
 
-    void sheet();
+    void composition();
+    void nullImplementation();
+
+    void library();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( VisitorTest );

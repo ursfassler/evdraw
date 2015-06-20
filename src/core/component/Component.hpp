@@ -14,18 +14,17 @@ class ComponentFactory;
 class Component final : public VisitorClient
 {
   public:
-    Component(const std::string &name);
     Component(const std::string &name, AbstractImplementation *implementation);
     ~Component();
 
     Component(const Component &) = delete;
     Component operator=(const Component &) = delete;
 
-    void addPortLeft(ComponentPort *port);
-    void addPortRight(ComponentPort *port);
+    void addPortLeft(Slot *port);
+    void addPortRight(Signal *port);
 
-    const std::vector<ComponentPort *> &getPortLeft() const;
-    const std::vector<ComponentPort *> &getPortRight() const;
+    const std::vector<Slot *> &getPortLeft() const;
+    const std::vector<Signal *> &getPortRight() const;
 
     Side sideOf(const ComponentPort *port) const;
 
@@ -33,13 +32,13 @@ class Component final : public VisitorClient
 
     void accept(Visitor &visitor) const;
 
-    AbstractImplementation *getImplementation();
+    AbstractImplementation *getImplementation() const;
     void setImplementation(AbstractImplementation *value);
 
   private:
     std::string name;
-    std::vector<ComponentPort *> portLeft;
-    std::vector<ComponentPort *> portRight;
+    std::vector<Slot *> portLeft;
+    std::vector<Signal *> portRight;
 
     AbstractImplementation *implementation;
 

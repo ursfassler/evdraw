@@ -2,6 +2,7 @@
 
 #include <core/component/Library.hpp>
 #include <core/implementation/Composition.hpp>
+#include <core/implementation/NullImplementation.hpp>
 #include <file/xmlreader/XmlReader.hpp>
 #include <sstream>
 #include <stdio.h>

@@ -8,6 +8,7 @@ class ComponentFactoryTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( ComponentFactoryTest );
 
+    CPPUNIT_TEST(produceSimple);
     CPPUNIT_TEST(produce);
     CPPUNIT_TEST(canNotDisposeNullptr);
     CPPUNIT_TEST(cleanupComponentOnStack);
@@ -15,6 +16,7 @@ class ComponentFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
   public:
+    void produceSimple();
     void produce();
     void canNotDisposeNullptr();
     void cleanupComponentOnStack();

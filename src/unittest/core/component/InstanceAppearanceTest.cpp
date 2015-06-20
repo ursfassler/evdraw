@@ -6,31 +6,32 @@
 
 void InstanceAppearanceTest::dimensionIsNotZero()
 {
-  Component component("");
+  Component *component = ComponentFactory::produce("");
   CPPUNIT_ASSERT(InstanceAppearance::width() > 0);
-  CPPUNIT_ASSERT(InstanceAppearance::height(component) > 0);
+  CPPUNIT_ASSERT(InstanceAppearance::height(*component) > 0);
+  ComponentFactory::dispose(component);
 }
 
 void InstanceAppearanceTest::heightDependsOnPorts()
 {
-  Component component("");
+  Component *component = ComponentFactory::produce("");
 
-  PaperUnit height0 = InstanceAppearance::height(component);
+  PaperUnit height0 = InstanceAppearance::height(*component);
 
-  component.addPortLeft(new ComponentPort(""));
-  PaperUnit height1 = InstanceAppearance::height(component);
+  component->addPortLeft(new Slot(""));
+  PaperUnit height1 = InstanceAppearance::height(*component);
 
-  component.addPortLeft(new ComponentPort(""));
-  PaperUnit height2 = InstanceAppearance::height(component);
+  component->addPortLeft(new Slot(""));
+  PaperUnit height2 = InstanceAppearance::height(*component);
 
-  component.addPortRight(new ComponentPort(""));
-  PaperUnit height2a = InstanceAppearance::height(component);
+  component->addPortRight(new Signal(""));
+  PaperUnit height2a = InstanceAppearance::height(*component);
 
-  component.addPortRight(new ComponentPort(""));
-  PaperUnit height2b = InstanceAppearance::height(component);
+  component->addPortRight(new Signal(""));
+  PaperUnit height2b = InstanceAppearance::height(*component);
 
-  component.addPortRight(new ComponentPort(""));
-  PaperUnit height3 = InstanceAppearance::height(component);
+  component->addPortRight(new Signal(""));
+  PaperUnit height3 = InstanceAppearance::height(*component);
 
   CPPUNIT_ASSERT(height1 > height0);
   CPPUNIT_ASSERT(height2 > height1);
@@ -38,7 +39,7 @@ void InstanceAppearanceTest::heightDependsOnPorts()
   CPPUNIT_ASSERT_EQUAL(height2, height2b);
   CPPUNIT_ASSERT(height3 > height2);
 
-  ComponentFactory::cleanup(component);
+  ComponentFactory::dispose(component);
 }
 
 void InstanceAppearanceTest::textHeightIsGreaterZero()

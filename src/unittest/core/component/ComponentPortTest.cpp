@@ -4,17 +4,27 @@
 
 #include <string>
 
-void ComponentPortTest::produce()
+void ComponentPortTest::setTopIndex()
 {
-  ComponentPort port("hallo");
+  Signal port("hallo");
+  port.setTopIndex(42);
+  CPPUNIT_ASSERT_EQUAL(size_t(42), port.getTopIndex());
+}
+
+
+void SignalTest::produce()
+{
+  Signal port("hallo");
 
   CPPUNIT_ASSERT_EQUAL(std::string("hallo"), port.getName());
   CPPUNIT_ASSERT_EQUAL(size_t(0), port.getTopIndex());
 }
 
-void ComponentPortTest::setTopIndex()
+
+void SlotTest::produce()
 {
-  ComponentPort port("hallo");
-  port.setTopIndex(42);
-  CPPUNIT_ASSERT_EQUAL(size_t(42), port.getTopIndex());
+  Slot port("hallo");
+
+  CPPUNIT_ASSERT_EQUAL(std::string("hallo"), port.getName());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port.getTopIndex());
 }

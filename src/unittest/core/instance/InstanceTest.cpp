@@ -11,23 +11,27 @@
 
 void InstanceTest::produce()
 {
-  Component component("");
-  Instance  instance("lala", Point(3, 7), &component);
+  Component *component = ComponentFactory::produce("");
+  Instance  instance("lala", Point(3, 7), component);
 
   CPPUNIT_ASSERT_EQUAL(std::string("lala"), instance.getName());
   CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance.getOffset());
-  CPPUNIT_ASSERT_EQUAL(&component, instance.getComponent());
+  CPPUNIT_ASSERT_EQUAL(component, instance.getComponent());
   CPPUNIT_ASSERT(dynamic_cast<AbstractInstance*>(&instance) != nullptr);
+
+  ComponentFactory::dispose(component);
 }
 
 void InstanceTest::setPosition()
 {
-  Component component("");
-  Instance  instance("", Point(0, 0), &component);
+  Component *component = ComponentFactory::produce("");
+  Instance  instance("", Point(0, 0), component);
 
   CPPUNIT_ASSERT_EQUAL(Point( 0,  0), instance.getOffset());
   instance.setOffset(Point(57, 42));
   CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getOffset());
+
+  ComponentFactory::dispose(component);
 }
 
 class EpObserver
@@ -44,9 +48,11 @@ class EpObserver
 
 void InstanceTest::inheritsBase()
 {
-  Component component("");
-  Instance  instance("", Point(0, 0), &component);
+  Component *component = ComponentFactory::produce("");
+  Instance  instance("", Point(0, 0), component);
   CPPUNIT_ASSERT(dynamic_cast<RelativePosition*>(&instance) != nullptr);
+
+  ComponentFactory::dispose(component);
 }
 
 void InstanceTest::addInputPort()

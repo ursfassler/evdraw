@@ -7,6 +7,7 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
+#include <core/component/ComponentFactory.hpp>
 
 #include <iostream>
 
@@ -136,7 +137,7 @@ void Loader::componentEnter(const TiXmlElement &element)
   precondition(component == nullptr);
 
   const std::string name = getAttribute(element, "name");
-  component = new Component(name);
+  component = ComponentFactory::produce(name);
 }
 
 void Loader::componentExit()
@@ -152,14 +153,20 @@ void Loader::slotEnter(const TiXmlElement &element)
 {
   precondition(component != nullptr);
 
-  component->addPortLeft(loadPort(element));
+  const std::string name = getAttribute(element, "name");
+  Slot *port = new Slot(name);
+
+  component->addPortLeft(port);
 }
 
 void Loader::signalEnter(const TiXmlElement &element)
 {
   precondition(component != nullptr);
 
-  component->addPortRight(loadPort(element));
+  const std::string name = getAttribute(element, "name");
+  Signal *port = new Signal(name);
+
+  component->addPortRight(port);
 }
 
 void Loader::compositionEnter(const TiXmlElement &)
@@ -197,13 +204,3 @@ void Loader::connectionEnter(const TiXmlElement &element)
   Connection * connection = ConnectionFactory::produce(parser.startPort(), parser.endPort(), parser.path());
   composition->addConnection(connection);
 }
-
-ComponentPort *Loader::loadPort(const TiXmlElement &element) const
-{
-  const std::string name = getAttribute(element, "name");
-  ComponentPort *port = new ComponentPort(name);
-  return port;
-}
-
-
-

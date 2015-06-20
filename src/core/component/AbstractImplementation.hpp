@@ -1,14 +1,12 @@
 #ifndef ABSTRACTIMPLEMENTATION_HPP
 #define ABSTRACTIMPLEMENTATION_HPP
 
-class AbstractImplementation
+#include "../visitor/Visitor.hpp"
+
+class AbstractImplementation : public VisitorClient
 {
   public:
     virtual ~AbstractImplementation() {}
-};
-
-class NullImplementation final : public AbstractImplementation
-{
 };
 
 #endif // ABSTRACTIMPLEMENTATION_HPP

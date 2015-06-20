@@ -20,7 +20,7 @@ class CompositionObserver
     virtual void finishConnectionUnderConstruction(Connection *connection){ (void)(connection); }
 };
 
-class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>, public VisitorClient
+class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>
 {
   public:
     Composition();

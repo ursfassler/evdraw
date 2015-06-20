@@ -1,9 +1,10 @@
 #ifndef CONNECTIONTEST_HPP
 #define CONNECTIONTEST_HPP
 
+#include <core/types.hpp>
+
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-
 
 class ConnectionTest : public CPPUNIT_NS::TestFixture
 {
@@ -25,6 +26,9 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(replaceStartPort);
     CPPUNIT_TEST(replaceEndPort);
 
+    CPPUNIT_TEST(pathMinimal);
+    CPPUNIT_TEST(pathLong);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -44,6 +48,8 @@ class ConnectionTest : public CPPUNIT_NS::TestFixture
     void replaceStartPort();
     void replaceEndPort();
 
+    void pathMinimal();
+    void pathLong();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConnectionTest );

@@ -8,18 +8,12 @@ class AbstractImplementationTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( AbstractImplementationTest );
 
-    CPPUNIT_TEST(construct);
     CPPUNIT_TEST(destructorIsVirtual);
-    CPPUNIT_TEST(constructNullImplementation);
-    CPPUNIT_TEST(nullImplementationInheritsAbstractImplementation);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void construct();
     void destructorIsVirtual();
-    void constructNullImplementation();
-    void nullImplementationInheritsAbstractImplementation();
 
 };
 

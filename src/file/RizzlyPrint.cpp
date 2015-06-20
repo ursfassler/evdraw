@@ -10,7 +10,11 @@ void RizzlyPrint::print(const Composition &sheet)
   sheet.accept(*this);
 }
 
-void RizzlyPrint::visit(const ComponentPort &)
+void RizzlyPrint::visit(const Signal &)
+{
+}
+
+void RizzlyPrint::visit(const Slot &)
 {
 }
 
@@ -41,12 +45,21 @@ void RizzlyPrint::visit(const Connection &connection)
   stream << ";" << std::endl;
 }
 
-void RizzlyPrint::visit(const Composition &sheet)
+void RizzlyPrint::visit(const Composition &composition)
 {
-  for (const Instance *inst : sheet.getInstances()) {
+  for (const Instance *inst : composition.getInstances()) {
     inst->accept(*this);
   }
-  for (const Connection *con : sheet.getConnections()) {
+  for (const Connection *con : composition.getConnections()) {
     con->accept(*this);
   }
+}
+
+void RizzlyPrint::visit(const Library &)
+{
+}
+
+
+void RizzlyPrint::visit(const NullImplementation &)
+{
 }

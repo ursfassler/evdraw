@@ -23,6 +23,8 @@ class ComponentList : public QAbstractListModel
 
     Component *getComponent(const QModelIndex &index) const;
 
+    Library *getLibrary() const;
+
   signals:
 
   public slots:

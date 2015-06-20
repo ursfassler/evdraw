@@ -9,6 +9,7 @@
 class ComponentFactory
 {
   public:
+    static Component *produce(const std::string &name);
     static Component *produce(const std::string &name, const std::vector<std::string> &inPort, const std::vector<std::string> &outPort);
 
     static void cleanup(Component &component);

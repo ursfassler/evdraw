@@ -51,6 +51,7 @@ class Connection final : public ObserverCollection<ConnectionObserver>, public V
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
     const std::vector<Endpoint *> &getPoints() const;
+    std::vector<PaperUnit> getPath() const;
 
     void insertSegmentAtEnd();
 

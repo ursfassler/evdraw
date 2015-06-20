@@ -15,14 +15,12 @@ class Implementation : public AbstractImplementation
       destructorCalled = true;
     }
 
+    void accept(Visitor &) const
+    {
+    }
+
     bool &destructorCalled;
 };
-
-void AbstractImplementationTest::construct()
-{
-  AbstractImplementation  implementation;
-  (void)(implementation);
-}
 
 void AbstractImplementationTest::destructorIsVirtual()
 {
@@ -30,16 +28,4 @@ void AbstractImplementationTest::destructorIsVirtual()
   AbstractImplementation *impl = new Implementation(destructorCalled);
   delete impl;
   CPPUNIT_ASSERT(destructorCalled);
-}
-
-void AbstractImplementationTest::constructNullImplementation()
-{
-  NullImplementation  implementation;
-  (void)(implementation);
-}
-
-void AbstractImplementationTest::nullImplementationInheritsAbstractImplementation()
-{
-  NullImplementation  implementation;
-  CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&implementation) != nullptr);
 }
