@@ -39,11 +39,14 @@ MainWindow::~MainWindow()
 void MainWindow::openComponent(const QModelIndex &index)
 {
   Component *comp = componentModel->getComponent(index);
-  Composition *composition = dynamic_cast<Composition*>(comp->getImplementation());
-  if (composition != nullptr) {
-    CompositionEditor *editor = new CompositionEditor(*composition);
-    editor->show();
-  }
+  ImplementationOpener opener;
+  comp->getImplementation()->accept(opener);
+}
+
+void ImplementationOpener::visit(Composition &composition)
+{
+  CompositionEditor *editor = new CompositionEditor(composition);
+  editor->show();
 }
 
 void MainWindow::openFile()

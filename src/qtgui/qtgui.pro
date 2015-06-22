@@ -56,7 +56,9 @@ SOURCES += main.cpp\
     CompositionToGuiUpdater.cpp \
     ../file/xmlwriter/XmlWriter.cpp \
     ../file/xmlwriter/XmlNodeWriter.cpp \
-    ../core/implementation/NullImplementation.cpp
+    ../core/implementation/NullImplementation.cpp \
+    ../core/visitor/DefaultConstVisitor.cpp \
+    ../core/visitor/DefaultVisitor.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -97,7 +99,13 @@ HEADERS  += MainWindow.hpp \
     CompositionToGuiUpdater.hpp \
     ../file/xmlwriter/XmlWriter.hpp \
     ../file/xmlwriter/XmlNodeWriter.hpp \
-    ../core/implementation/NullImplementation.hpp
+    ../core/implementation/NullImplementation.hpp \
+    ../core/visitor/ConstVisitor.hpp \
+    ../core/visitor/DefaultConstVisitor.hpp \
+    ../core/visitor/DefaultVisitor.hpp \
+    ../core/visitor/VisitedPrototypes.hpp \
+    ../core/visitor/Visitor.hpp \
+    ../core/visitor/VisitorClient.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

@@ -3,6 +3,8 @@
 
 #include "ComponentList.hpp"
 
+#include <core/visitor/DefaultVisitor.hpp>
+
 #include <QMainWindow>
 #include <QListView>
 
@@ -24,5 +26,12 @@ class MainWindow : public QMainWindow
     ComponentList *componentModel = nullptr;
 
 };
+
+class ImplementationOpener : public DefaultVisitor
+{
+  public:
+    void visit(Composition &composition);
+};
+
 
 #endif // MAINWINDOW_HPP
