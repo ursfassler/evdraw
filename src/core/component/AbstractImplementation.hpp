@@ -1,7 +1,7 @@
 #ifndef ABSTRACTIMPLEMENTATION_HPP
 #define ABSTRACTIMPLEMENTATION_HPP
 
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 class AbstractImplementation : public VisitorClient
 {

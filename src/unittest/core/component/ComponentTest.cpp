@@ -123,7 +123,8 @@ class DeleteTest : public AbstractImplementation
       deleted = true;
     }
 
-    void accept(Visitor &) const {}
+    void accept(Visitor &) {}
+    void accept(ConstVisitor &) const {}
 
     bool &deleted;
 };

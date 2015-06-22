@@ -1,12 +1,17 @@
 #include "NullImplementation.hpp"
 
-#include "../visitor/Visitor.hpp"
+#include "../visitor/ConstVisitor.hpp"
 
 NullImplementation::NullImplementation()
 {
 }
 
-void NullImplementation::accept(Visitor &visitor) const
+void NullImplementation::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void NullImplementation::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

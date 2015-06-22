@@ -130,7 +130,12 @@ void Connection::insertSegmentAtEnd()
   }
 }
 
-void Connection::accept(Visitor &visitor) const
+void Connection::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Connection::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

@@ -5,7 +5,7 @@
 #include "../instance/InstancePort.hpp"
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/ConstVisitor.hpp"
 #include "../component/AbstractImplementation.hpp"
 
 #include <list>
@@ -42,7 +42,8 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
   private:
     Connection  *connectionUnderConstruction = nullptr;

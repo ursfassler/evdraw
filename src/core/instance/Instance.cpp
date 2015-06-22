@@ -37,7 +37,12 @@ AbstractPort *Instance::getPort(const std::string &name) const
   return listGet<AbstractPort*>(ports.begin(), ports.end(), predicate);
 }
 
-void Instance::accept(Visitor &visitor) const
+void Instance::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Instance::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

@@ -57,7 +57,12 @@ void InstancePort::removeConnectionPoint(RelativePosition *point)
   (void)(point);
 }
 
-void InstancePort::accept(Visitor &visitor) const
+void InstancePort::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void InstancePort::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

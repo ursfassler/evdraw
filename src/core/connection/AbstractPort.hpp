@@ -2,7 +2,7 @@
 #define ABSTRACTPORT_HPP
 
 #include "../base/Position.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 class AbstractPort : public VisitorClient
 {

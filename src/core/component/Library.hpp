@@ -2,7 +2,7 @@
 #define LIBRARY_HPP
 
 #include "Component.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 #include <vector>
 
@@ -17,7 +17,8 @@ class Library final : public VisitorClient
     const std::vector<Component *> getComponents() const;
     Component *getComponent(const std::string &name) const;
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
   private:
     std::vector<Component*> components;

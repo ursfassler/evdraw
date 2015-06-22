@@ -4,7 +4,7 @@
 #include "ComponentPort.hpp"
 #include "AbstractImplementation.hpp"
 #include "../types.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 #include <vector>
 #include <string>
@@ -30,7 +30,8 @@ class Component final : public VisitorClient
 
     const std::string &getName() const;
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
     AbstractImplementation *getImplementation() const;
     void setImplementation(AbstractImplementation *value);

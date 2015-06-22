@@ -35,6 +35,10 @@ Point DrawPort::getPosition() const
   return getAbsolutePosition();
 }
 
-void DrawPort::accept(Visitor &) const
+void DrawPort::accept(Visitor &)
+{
+}
+
+void DrawPort::accept(ConstVisitor &) const
 {
 }

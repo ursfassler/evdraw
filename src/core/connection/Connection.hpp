@@ -5,7 +5,7 @@
 #include "Segment.hpp"
 #include "AbstractPort.hpp"
 #include "../util/Observer.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 #include <vector>
 #include <ostream>
 
@@ -55,7 +55,8 @@ class Connection final : public ObserverCollection<ConnectionObserver>, public V
 
     void insertSegmentAtEnd();
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
   protected:
     virtual void checkInvariants() const;

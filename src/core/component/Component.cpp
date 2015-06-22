@@ -58,7 +58,12 @@ const std::string &Component::getName() const
   return name;
 }
 
-void Component::accept(Visitor &visitor) const
+void Component::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Component::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

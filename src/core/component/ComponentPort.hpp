@@ -2,7 +2,7 @@
 #define COMPONENTPORT_HPP
 
 #include "../types.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 #include <string>
 
@@ -26,7 +26,8 @@ class Signal final : public ComponentPort
   public:
     Signal(const std::string &name);
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
 };
 
@@ -35,7 +36,8 @@ class Slot final : public ComponentPort
   public:
     Slot(const std::string &name);
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
 };
 

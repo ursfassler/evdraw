@@ -8,7 +8,8 @@ class NullImplementation : public AbstractImplementation
   public:
     NullImplementation();
 
-    virtual void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    virtual void accept(ConstVisitor &visitor) const;
 };
 
 #endif // NULLIMPLEMENTATION_HPP

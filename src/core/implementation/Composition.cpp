@@ -114,7 +114,12 @@ void Composition::checkInvariant()
 
 
 
-void Composition::accept(Visitor &visitor) const
+void Composition::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Composition::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

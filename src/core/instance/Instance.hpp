@@ -8,7 +8,7 @@
 
 #include "AbstractInstance.hpp"
 #include "../connection/AbstractPort.hpp"
-#include "../visitor/Visitor.hpp"
+#include "../visitor/VisitorClient.hpp"
 
 #include <string>
 #include <vector>
@@ -29,7 +29,8 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     const std::vector<AbstractPort *> &getPorts() const;
     AbstractPort *getPort(const std::string &name) const;
 
-    void accept(Visitor &visitor) const;
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
   private:
     std::string name;

@@ -15,7 +15,11 @@ class Implementation : public AbstractImplementation
       destructorCalled = true;
     }
 
-    void accept(Visitor &) const
+    void accept(Visitor &)
+    {
+    }
+
+    void accept(ConstVisitor &) const
     {
     }
 

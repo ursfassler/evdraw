@@ -1,12 +1,12 @@
 #ifndef XMLNODEWRITER_HPP
 #define XMLNODEWRITER_HPP
 
-#include <core/visitor/Visitor.hpp>
+#include <core/visitor/ConstVisitor.hpp>
 #include <core/types.hpp>
 #include <tinyxml.h>
 #include <vector>
 
-class XmlNodeWriter final : public Visitor
+class XmlNodeWriter final : public ConstVisitor
 {
   public:
     XmlNodeWriter(TiXmlNode *parent);

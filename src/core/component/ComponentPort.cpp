@@ -26,7 +26,12 @@ Signal::Signal(const std::string &name) :
 {
 }
 
-void Signal::accept(Visitor &visitor) const
+void Signal::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Signal::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }
@@ -37,7 +42,12 @@ Slot::Slot(const std::string &name) :
 {
 }
 
-void Slot::accept(Visitor &visitor) const
+void Slot::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void Slot::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }

@@ -140,3 +140,17 @@ unittest/core/implementation/NullImplementationTest.hpp
 unittest/core/implementation/NullImplementationTest.cpp
 core/implementation/NullImplementation.hpp
 core/implementation/NullImplementation.cpp
+unittest/core/visitor/DefaultConstVisitorTest.hpp
+unittest/core/visitor/DefaultConstVisitorTest.cpp
+core/visitor/DefaultConstVisitor.hpp
+core/visitor/DefaultConstVisitor.cpp
+unittest/core/visitor/ConstVisitorTest.cpp
+unittest/core/visitor/ConstVisitorTest.hpp
+core/visitor/ConstVisitor.hpp
+core/visitor/Visitor.hpp
+core/visitor/VisitorClient.hpp
+core/visitor/VisitedPrototypes.hpp
+unittest/core/visitor/DefaultVisitorTest.cpp
+unittest/core/visitor/DefaultVisitorTest.hpp
+core/visitor/DefaultVisitor.cpp
+core/visitor/DefaultVisitor.hpp

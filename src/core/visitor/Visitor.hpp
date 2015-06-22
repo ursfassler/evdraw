@@ -1,36 +1,21 @@
 #ifndef VISITOR_HPP
 #define VISITOR_HPP
 
-class Slot;
-class Signal;
-class Component;
-class Instance;
-class InstancePort;
-class Connection;
-class Composition;
-class NullImplementation;
-class Library;
+#include "VisitedPrototypes.hpp"
 
 class Visitor
 {
   public:
     virtual ~Visitor() {}
-    virtual void visit(const Slot &port) = 0;
-    virtual void visit(const Signal &port) = 0;
-    virtual void visit(const Component &component) = 0;
-    virtual void visit(const Instance &instance) = 0;
-    virtual void visit(const InstancePort &port) = 0;
-    virtual void visit(const Connection &connection) = 0;
-    virtual void visit(const Composition &composition) = 0;
-    virtual void visit(const NullImplementation &nullImplementation) = 0;
-    virtual void visit(const Library &library) = 0;
-};
-
-class VisitorClient
-{
-  public:
-    virtual ~VisitorClient() {}
-    virtual void accept(Visitor &visitor) const = 0;
+    virtual void visit(Slot &port) = 0;
+    virtual void visit(Signal &port) = 0;
+    virtual void visit(Component &component) = 0;
+    virtual void visit(Instance &instance) = 0;
+    virtual void visit(InstancePort &port) = 0;
+    virtual void visit(Connection &connection) = 0;
+    virtual void visit(Composition &composition) = 0;
+    virtual void visit(NullImplementation &nullImplementation) = 0;
+    virtual void visit(Library &library) = 0;
 };
 
 #endif // VISITOR_HPP

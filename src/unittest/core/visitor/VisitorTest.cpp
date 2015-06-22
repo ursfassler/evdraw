@@ -9,6 +9,7 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/connection/Connection.hpp>
+#include <core/connection/DrawPort.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/implementation/Composition.hpp>
 #include <core/implementation/NullImplementation.hpp>
@@ -16,79 +17,72 @@
 class TestVisitor : public Visitor
 {
   public:
-    TestVisitor() :
-      visited()
+    void visit(Slot &port)
+    {
+      port.setTopIndex(2*port.getTopIndex());
+    }
+
+    void visit(Signal &port)
+    {
+      port.setTopIndex(3*port.getTopIndex());
+    }
+
+    void visit(Component &component)
+    {
+      component.addPortLeft(new Slot(""));
+    }
+
+    void visit(Instance &instance)
+    {
+      instance.addPort(new DrawPort(Point(0,0)));
+    }
+
+    void visit(InstancePort &port)
+    {
+      port.setOffset(Point(100,200));
+    }
+
+    void visit(Connection &connection)
+    {
+      AbstractPort *start = connection.getStartPort();
+      AbstractPort *end = connection.getEndPort();
+      connection.replaceStartPort(end);
+      connection.replaceEndPort(start);
+    }
+
+    void visit(Composition &composition)
+    {
+      composition.addInstance(new Instance("", Point(0,0), nullptr));
+    }
+
+    void visit(NullImplementation &)
     {
     }
 
-    void visit(const Slot &port)
+    void visit(Library &library)
     {
-      visited.push_back("Slot: " + port.getName());
+      library.add(ComponentFactory::produce(""));
     }
-
-    void visit(const Signal &port)
-    {
-      visited.push_back("Signal: " + port.getName());
-    }
-
-    void visit(const Component &component)
-    {
-      visited.push_back(component.getName());
-    }
-
-    void visit(const Instance &instance)
-    {
-      visited.push_back(instance.getName());
-    }
-
-    void visit(const InstancePort &port)
-    {
-      visited.push_back(port.getName());
-    }
-
-    void visit(const Connection &)
-    {
-      visited.push_back("connection");
-    }
-
-    void visit(const Composition &)
-    {
-      visited.push_back("composition");
-    }
-
-    void visit(const NullImplementation &)
-    {
-      visited.push_back("nullImplementation");
-    }
-
-    void visit(const Library &)
-    {
-      visited.push_back("library");
-    }
-
-    std::vector<std::string> visited;
 };
 
 void VisitorTest::slot()
 {
   TestVisitor visitor;
 
-  Slot port("theSlot");
+  Slot port("");
+  port.setTopIndex(10);
   port.accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("Slot: theSlot"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(2*10), port.getTopIndex());
 }
 
 void VisitorTest::signal()
 {
   TestVisitor visitor;
 
-  Signal port("theSignal");
+  Signal port("");
+  port.setTopIndex(10);
   port.accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("Signal: theSignal"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(3*10), port.getTopIndex());
 }
 
 void VisitorTest::component()
@@ -96,23 +90,9 @@ void VisitorTest::component()
   TestVisitor visitor;
 
   Component *component = ComponentFactory::produce("component");
+  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPortLeft().size());
   component->accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("component"), visitor.visited[0]);
-
-  ComponentFactory::dispose(component);
-}
-
-void VisitorTest::componentWithPorts()
-{
-  TestVisitor visitor;
-
-  Component *component = ComponentFactory::produce("component", {"in1", "in2"}, {"out1"});
-  component->accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("component"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), component->getPortLeft().size());
 
   ComponentFactory::dispose(component);
 }
@@ -122,10 +102,11 @@ void VisitorTest::instance()
   TestVisitor visitor;
 
   Instance instance("instance", Point(0,0), nullptr);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), instance.getPorts().size());
   instance.accept(visitor);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getPorts().size());
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("instance"), visitor.visited[0]);
+  delete instance.getPorts()[0];
 }
 
 void VisitorTest::instancePort()
@@ -137,9 +118,7 @@ void VisitorTest::instancePort()
 
   AbstractPort *port = instance->getPorts().front();
   port->accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("port"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(Point(100,200), port->getPosition());
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -148,12 +127,15 @@ void VisitorTest::instancePort()
 void VisitorTest::connection()
 {
   TestVisitor visitor;
+  DrawPort start(Point(0,0));
+  DrawPort end(Point(0,0));
+  Connection *connection = ConnectionFactory::produce(&start, &end);
 
-  Connection connection(nullptr, nullptr);
-  connection.accept(visitor);
+  connection->accept(visitor);
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&end), connection->getStartPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&start), connection->getEndPort());
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("connection"), visitor.visited[0]);
+  ConnectionFactory::dispose(connection);
 }
 
 void VisitorTest::composition()
@@ -163,8 +145,7 @@ void VisitorTest::composition()
   Composition composition;
   composition.accept(visitor);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("composition"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getInstances().size());
 }
 
 void VisitorTest::nullImplementation()
@@ -173,9 +154,6 @@ void VisitorTest::nullImplementation()
 
   NullImplementation nullImpl;
   nullImpl.accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("nullImplementation"), visitor.visited[0]);
 }
 
 void VisitorTest::library()
@@ -185,6 +163,5 @@ void VisitorTest::library()
   Library library;
   library.accept(visitor);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("library"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), library.getComponents().size());
 }

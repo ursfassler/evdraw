@@ -16,3 +16,4 @@ unittest/file/xmlwriter
 file/xmlwriter
 unittest/core/implementation
 core/implementation
+unittest/core/visitor

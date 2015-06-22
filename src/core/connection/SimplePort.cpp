@@ -33,6 +33,10 @@ Point SimplePort::getPosition() const
   return position;
 }
 
-void SimplePort::accept(Visitor &) const
+void SimplePort::accept(Visitor &)
+{
+}
+
+void SimplePort::accept(ConstVisitor &) const
 {
 }
