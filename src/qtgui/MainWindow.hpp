@@ -1,12 +1,10 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
-#include "ComponentList.hpp"
-
-#include <core/visitor/DefaultVisitor.hpp>
+#include "Workspace.hpp"
 
 #include <QMainWindow>
-#include <QListView>
+
 
 class MainWindow : public QMainWindow
 {
@@ -17,21 +15,12 @@ class MainWindow : public QMainWindow
     ~MainWindow();
 
   private slots:
-    void openComponent(const QModelIndex &index);
     void openFile();
     void saveFile();
 
   private:
-    QListView componentView;
-    ComponentList *componentModel = nullptr;
+    Workspace workspace;
 
 };
-
-class ImplementationOpener : public DefaultVisitor
-{
-  public:
-    void visit(Composition &composition);
-};
-
 
 #endif // MAINWINDOW_HPP

@@ -16,20 +16,14 @@ int ComponentList::rowCount(const QModelIndex &) const
   return library->getComponents().size();
 }
 
-int ComponentList::columnCount(const QModelIndex &parent) const
+int ComponentList::columnCount(const QModelIndex &) const
 {
   return 1;
 }
 
 QVariant ComponentList::data(const QModelIndex &index, int role) const
 {
-//  if (!index.isValid())
-//      return QVariant();
-
   switch (role) {
-//    case Qt::DecorationRole:
-//      return QIcon(pixmaps.value(index.row()).scaled(m_PieceSize, m_PieceSize,
-//                       Qt::KeepAspectRatio, Qt::SmoothTransformation));
     case Qt::DisplayRole:
       return QString::fromStdString(library->getComponents()[index.row()]->getName());
   }

@@ -58,7 +58,9 @@ SOURCES += main.cpp\
     ../file/xmlwriter/XmlNodeWriter.cpp \
     ../core/implementation/NullImplementation.cpp \
     ../core/visitor/DefaultConstVisitor.cpp \
-    ../core/visitor/DefaultVisitor.cpp
+    ../core/visitor/DefaultVisitor.cpp \
+    Workspace.cpp \
+    CompifaceModel.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -105,7 +107,9 @@ HEADERS  += MainWindow.hpp \
     ../core/visitor/DefaultVisitor.hpp \
     ../core/visitor/VisitedPrototypes.hpp \
     ../core/visitor/Visitor.hpp \
-    ../core/visitor/VisitorClient.hpp
+    ../core/visitor/VisitorClient.hpp \
+    Workspace.hpp \
+    CompifaceModel.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

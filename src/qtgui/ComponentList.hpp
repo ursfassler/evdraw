@@ -9,10 +9,6 @@ class ComponentList : public QAbstractListModel
 {
     Q_OBJECT
   public:
-    typedef enum
-    {
-      ComponentRole = Qt::UserRole
-    } Roles;
 
     explicit ComponentList(Library *library, QObject *parent = 0);
     ~ComponentList();
