@@ -6,6 +6,20 @@ CompifaceModel::CompifaceModel(const Component &aComponent, QObject *parent) :
 {
 }
 
+QVariant CompifaceModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+  if (role != Qt::DisplayRole) {
+    return QVariant();
+  }
+
+  switch(section) {
+    case 0: return "name";
+    case 1: return "type";
+  }
+
+  return QVariant();
+}
+
 int CompifaceModel::rowCount(const QModelIndex &) const
 {
   return component.getPortLeft().size() + component.getPortRight().size();

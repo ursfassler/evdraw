@@ -11,6 +11,7 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QListView>
+#include <QTreeView>
 
 class Workspace : public QWidget
 {
@@ -30,7 +31,7 @@ class Workspace : public QWidget
     ComponentList *componentModel = nullptr;
     QListView compList;
     CompifaceModel *portModel = nullptr;
-    QListView portView;
+    QTreeView portView;
     QTabWidget drawTabs;
 
     void showComponent(const Component *component);
