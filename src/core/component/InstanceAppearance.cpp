@@ -14,7 +14,7 @@ PaperUnit InstanceAppearance::width()
 
 PaperUnit InstanceAppearance::height(const Component &component)
 {
-   size_t count = std::max(component.getPortLeft().size(), component.getPortRight().size());
+   const size_t count = component.height();
    return (count-1) * verticalPortDistance() + topPortDistance() + bottomPortDistance();
 }
 

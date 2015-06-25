@@ -22,7 +22,7 @@ QVariant CompifaceModel::headerData(int section, Qt::Orientation orientation, in
 
 int CompifaceModel::rowCount(const QModelIndex &) const
 {
-  return component.getPortLeft().size() + component.getPortRight().size();
+  return component.getPorts().size();
 }
 
 int CompifaceModel::columnCount(const QModelIndex &) const
@@ -38,12 +38,7 @@ QVariant CompifaceModel::data(const QModelIndex &index, int role) const
 
   if (index.column() == 0) {
     const unsigned row = index.row();
-    ComponentPort *port;
-    if (row < component.getPortLeft().size()) {
-      port = component.getPortLeft()[row];
-    } else {
-      port = component.getPortRight()[row-component.getPortLeft().size()];
-    }
+    const ComponentPort *port = component.getPorts()[row];
     return QString::fromStdString(port->getName());
   } else {
     return "lolo";

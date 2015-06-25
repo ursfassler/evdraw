@@ -7,8 +7,8 @@ void ConnectionTestEnvironment::setUp()
   compA = new Component("CompA", new NullImplementation());
   theCompPort1 = new Signal("thePort1");
   theCompPort2 = new Slot("thePort2");
-  compA->addPortRight(theCompPort1);
-  compA->addPortLeft(theCompPort2);
+  compA->addPort(theCompPort1);
+  compA->addPort(theCompPort2);
 
   theInstance = new Instance("theInstance", Point(0,0), compA);
   theInstPort1 = new InstancePort(theInstance, theCompPort1, Point(0,0));

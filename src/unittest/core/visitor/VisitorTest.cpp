@@ -29,7 +29,7 @@ class TestVisitor : public Visitor
 
     void visit(Component &component)
     {
-      component.addPortLeft(new Slot(""));
+      component.addPort(new Slot(""));
     }
 
     void visit(Instance &instance)
@@ -90,9 +90,9 @@ void VisitorTest::component()
   TestVisitor visitor;
 
   Component *component = ComponentFactory::produce("component");
-  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPortLeft().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPorts().size());
   component->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), component->getPortLeft().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), component->getPorts().size());
 
   ComponentFactory::dispose(component);
 }

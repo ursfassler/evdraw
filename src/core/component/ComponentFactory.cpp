@@ -15,33 +15,26 @@ Component *ComponentFactory::produce(const std::string &name, const std::vector<
 
   for (const std::string &portName : inPort) {
     Slot *port = new Slot(portName);
-    comp->addPortLeft(port);
+    comp->addPort(port);
   }
   for (const std::string &portName : outPort) {
     Signal *port = new Signal(portName);
-    comp->addPortRight(port);
+    comp->addPort(port);
   }
 
   postcondition(comp != nullptr);
-  postcondition(comp->getPortLeft().size() == inPort.size());
-  postcondition(comp->getPortRight().size() == outPort.size());
+  postcondition(comp->getPorts().size() == inPort.size() + outPort.size());
   return comp;
 }
 
 void ComponentFactory::cleanup(Component &component)
 {
-  for (ComponentPort *port : component.portRight) {
+  for (ComponentPort *port : component.ports) {
     delete port;
   }
-  component.portRight.clear();
+  component.ports.clear();
 
-  for (ComponentPort *port : component.portLeft) {
-    delete port;
-  }
-  component.portLeft.clear();
-
-  postcondition(component.portRight.empty());
-  postcondition(component.portLeft.empty());
+  postcondition(component.ports.empty());
 }
 
 void ComponentFactory::dispose(Component *component)

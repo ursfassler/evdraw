@@ -10,13 +10,7 @@ Instance *InstanceFactory::produce(Component *component, const std::string &name
 
   Instance *instance = new Instance(name, position, component);
 
-  for (ComponentPort *compPort : component->getPortLeft()) {
-    //TODO use better suited produce
-    InstancePort *instPort = InstancePortFactory::produce(instance, compPort);
-    instance->addPort(instPort);
-  }
-  for (ComponentPort *compPort : component->getPortRight()) {
-    //TODO use better suited produce
+  for (ComponentPort *compPort : component->getPorts()) {
     InstancePort *instPort = InstancePortFactory::produce(instance, compPort);
     instance->addPort(instPort);
   }

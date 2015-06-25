@@ -95,6 +95,25 @@ void XmlNodeWriterTest::writeComponentWithSlotsAndSignals()
   ComponentFactory::dispose(comp);
 }
 
+void XmlNodeWriterTest::writeComponentWithSlotsAndSignalsKeepsOrder()
+{
+  Component *comp = ComponentFactory::produce("Component");
+  comp->addPort(new Slot("in1"));
+  comp->addPort(new Signal("out1"));
+  comp->addPort(new Signal("out2"));
+  comp->addPort(new Slot("in2"));
+
+  comp->accept(*writer);
+
+  CPPUNIT_ASSERT_EQUAL(4, childrenCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("in1"),  childAttr(0, "name"));
+  CPPUNIT_ASSERT_EQUAL(std::string("out1"), childAttr(1, "name"));
+  CPPUNIT_ASSERT_EQUAL(std::string("out2"), childAttr(2, "name"));
+  CPPUNIT_ASSERT_EQUAL(std::string("in2"),  childAttr(3, "name"));
+
+  ComponentFactory::dispose(comp);
+}
+
 void XmlNodeWriterTest::writeComponentWithComposition()
 {
   Component component("Compo", new Composition());
@@ -222,7 +241,7 @@ void XmlNodeWriterTest::writeInstanceOutPort()
 void XmlNodeWriterTest::writeComponentInPort()
 {
   Component *comp = ComponentFactory::produce("Component", {"in"}, {});
-  ComponentPort *port = comp->getPortLeft().front();
+  ComponentPort *port = comp->getPorts().front();
 
   port->accept(*writer);
 
@@ -237,7 +256,7 @@ void XmlNodeWriterTest::writeComponentInPort()
 void XmlNodeWriterTest::writeComponentOutPort()
 {
   Component *comp = ComponentFactory::produce("Component", {}, {"out"});
-  ComponentPort *port = comp->getPortRight().front();
+  ComponentPort *port = comp->getPorts().front();
 
   port->accept(*writer);
 

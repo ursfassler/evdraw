@@ -3,10 +3,11 @@
 #include "../util/list.hpp"
 #include "../util/contract.hpp"
 
+#include <map>
+
 Component::Component(const std::string &aName, AbstractImplementation *aImplementation) :
   name(aName),
-  portLeft(),
-  portRight(),
+  ports(),
   implementation(aImplementation)
 {
 }
@@ -16,41 +17,28 @@ Component::~Component()
   delete implementation;
 }
 
-void Component::addPortLeft(Slot *port)
+void Component::addPort(ComponentPort *port)
 {
-  portLeft.push_back(port);
-  port->setTopIndex(portLeft.size()-1);
+  ports.push_back(port);
+  updateTopIndex();
 }
 
-const std::vector<Slot *> &Component::getPortLeft() const
+const std::vector<ComponentPort *> &Component::getPorts() const
 {
-  return portLeft;
+  return ports;
 }
 
-void Component::addPortRight(Signal *port)
+size_t Component::height() const
 {
-  portRight.push_back(port);
-  port->setTopIndex(portRight.size()-1);
-}
+  std::map<Side,size_t> index;
+  index[Side::Left] = 0;
+  index[Side::Right] = 0;
 
-const std::vector<Signal *> &Component::getPortRight() const
-{
-  return portRight;
-}
-
-Side Component::sideOf(const ComponentPort *port) const
-{
-  const bool isLeft = contains(portLeft.begin(), portLeft.end(), port);
-  const bool isRight = contains(portRight.begin(), portRight.end(), port);
-
-  precondition(isLeft || isRight);
-  precondition(!(isLeft && isRight));
-
-  if (isLeft) {
-    return Side::Left;
-  } else {
-    return Side::Right;
+  for (ComponentPort *port : ports) {
+    index[port->side()]++;
   }
+
+  return std::max(index[Side::Left], index[Side::Right]);
 }
 
 const std::string &Component::getName() const
@@ -79,4 +67,17 @@ void Component::setImplementation(AbstractImplementation *value)
 
   delete implementation;
   implementation = value;
+}
+
+void Component::updateTopIndex()
+{
+  std::map<Side,size_t> index;
+  index[Side::Left] = 0;
+  index[Side::Right] = 0;
+
+  for (ComponentPort *port : ports) {
+    size_t &portIndex = index[port->side()];
+    port->setTopIndex(portIndex);
+    portIndex++;
+  }
 }

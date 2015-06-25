@@ -11,7 +11,7 @@
 void InstancePortTest::createPort()
 {
   Component *comp = ComponentFactory::produce("", {"bla"}, {});
-  ComponentPort *cport = comp->getPortLeft()[0];
+  ComponentPort *cport = comp->getPorts()[0];
 
   Instance inst("", Point(0, 0), comp);
   InstancePort *port = InstancePortFactory::produce(&inst, cport);
@@ -27,8 +27,8 @@ void InstancePortTest::createPort()
 void InstancePortTest::offset()
 {
   Component *comp = ComponentFactory::produce("", {"1", "2"}, {});
-  ComponentPort *cport1 = comp->getPortLeft()[0];
-  ComponentPort *cport2 = comp->getPortLeft()[1];
+  ComponentPort *cport1 = comp->getPorts()[0];
+  ComponentPort *cport2 = comp->getPorts()[1];
 
   Instance inst("", Point(0, 0), comp);
   InstancePort *port1 = InstancePortFactory::produce(&inst, cport1);
@@ -48,7 +48,7 @@ void InstancePortTest::offset()
 void InstancePortTest::absolutePosition()
 {
   Component *comp = ComponentFactory::produce("", {"bla"}, {});
-  ComponentPort *cport = comp->getPortLeft()[0];
+  ComponentPort *cport = comp->getPorts()[0];
 
   Instance inst("", Point(0, 0), comp);
   InstancePort *port = InstancePortFactory::produce(&inst, cport);
@@ -77,7 +77,7 @@ void InstancePortTest::portIsLeft()
 {
   Component *comp = ComponentFactory::produce("", {"left"}, {});
   Instance inst("", Point(0, 0), comp);
-  InstancePort port(&inst, comp->getPortLeft()[0], Point(0,0));
+  InstancePort port(&inst, comp->getPorts()[0], Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, port.side());
 
@@ -88,7 +88,7 @@ void InstancePortTest::portIsRight()
 {
   Component *comp = ComponentFactory::produce("", {}, {"right"});
   Instance inst("", Point(0, 0), comp);
-  InstancePort port(&inst, comp->getPortRight()[0], Point(0,0));
+  InstancePort port(&inst, comp->getPorts()[0], Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(Side::Right, port.side());
 

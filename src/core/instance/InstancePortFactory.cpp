@@ -9,16 +9,7 @@
 
 InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *compPort)
 {
-  Component *comp = instance->getComponent();
-  Side side;
-  if (contains(comp->getPortLeft().begin(), comp->getPortLeft().end(), compPort)) {
-    side = Side::Left;
-  } else if (contains(comp->getPortRight().begin(), comp->getPortRight().end(), compPort)) {
-    side = Side::Right;
-  } else {
-    throw std::invalid_argument("port not part of component");
-  }
-
+  const Side side = compPort->side();
   const Point portOffset = getOffset(side, compPort);
 
   InstancePort *port = new InstancePort(instance, compPort, portOffset);

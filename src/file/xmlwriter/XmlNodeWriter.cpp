@@ -34,11 +34,7 @@ void XmlNodeWriter::visit(const Component &component)
 
   element->SetAttribute("name", component.getName());
 
-  for (ComponentPort *inst : component.getPortLeft()) {
-    inst->accept(writer);
-  }
-
-  for (ComponentPort *inst : component.getPortRight()) {
+  for (ComponentPort *inst : component.getPorts()) {
     inst->accept(writer);
   }
 

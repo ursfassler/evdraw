@@ -10,8 +10,9 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(produce);
 
-    CPPUNIT_TEST(addPortLeft);
-    CPPUNIT_TEST(addPortRight);
+    CPPUNIT_TEST(addSlot);
+    CPPUNIT_TEST(addSignal);
+    CPPUNIT_TEST(signalSlotCanBeInterleaved);
     CPPUNIT_TEST(rightPortIndexUpdatedOnAdd);
     CPPUNIT_TEST(leftPortIndexUpdatedOnAdd);
 
@@ -23,13 +24,20 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(setImplementation);
     CPPUNIT_TEST(setImplementationDeletesOldOne);
 
+    CPPUNIT_TEST(heightOfEmptyComponent);
+    CPPUNIT_TEST(heightOf2Slots);
+    CPPUNIT_TEST(heightOf2Signals);
+    CPPUNIT_TEST(heightOf2SlotsAnd3Signals);
+    CPPUNIT_TEST(heightOf2SignalsAnd3Slots);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void produce();
 
-    void addPortLeft();
-    void addPortRight();
+    void addSlot();
+    void addSignal();
+    void signalSlotCanBeInterleaved();
 
     void rightPortIndexUpdatedOnAdd();
     void leftPortIndexUpdatedOnAdd();
@@ -41,6 +49,12 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void componentDeletesImplementationWhenDeleted();
     void setImplementation();
     void setImplementationDeletesOldOne();
+
+    void heightOfEmptyComponent();
+    void heightOf2Slots();
+    void heightOf2Signals();
+    void heightOf2SlotsAnd3Signals();
+    void heightOf2SignalsAnd3Slots();
 
 };
 

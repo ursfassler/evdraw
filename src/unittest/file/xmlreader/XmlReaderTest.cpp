@@ -32,8 +32,7 @@ void XmlReaderTest::parseSimple()
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
   Component *comp = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(std::string("Component"), comp->getName());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPortLeft().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPortRight().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPorts().size());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
 
   delete lib;
@@ -71,9 +70,8 @@ void XmlReaderTest::componentWithSlot()
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
   Component *comp = lib->getComponents().front();
-  CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPortLeft().size());
-  CPPUNIT_ASSERT_EQUAL(std::string("in"), comp->getPortLeft()[0]->getName());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPortRight().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(std::string("in"), comp->getPorts()[0]->getName());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
 
   delete lib;
@@ -93,10 +91,35 @@ void XmlReaderTest::componentWithSignal()
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
   Component *comp = lib->getComponents().front();
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPortLeft().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPortRight().size());
-  CPPUNIT_ASSERT_EQUAL(std::string("out"), comp->getPortRight()[0]->getName());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(std::string("out"), comp->getPorts()[0]->getName());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
+
+  delete lib;
+}
+
+void XmlReaderTest::componentWithSignalAndSlotKeepsOrder()
+{
+  const std::string xml =
+      "<evdraw>"
+      "  <component name=\"\">"
+      "    <signal name=\"out1\" />"
+      "    <slot name=\"in1\" />"
+      "    <slot name=\"in2\" />"
+      "    <signal name=\"out2\" />"
+      "  </component>"
+      "</evdraw>";
+
+  Library *lib = XmlReader::parse(xml);
+
+  CPPUNIT_ASSERT(lib != nullptr);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
+  Component *comp = lib->getComponents().front();
+  CPPUNIT_ASSERT_EQUAL(size_t(4), comp->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(std::string("out1"), comp->getPorts()[0]->getName());
+  CPPUNIT_ASSERT_EQUAL(std::string("in1"), comp->getPorts()[1]->getName());
+  CPPUNIT_ASSERT_EQUAL(std::string("in2"), comp->getPorts()[2]->getName());
+  CPPUNIT_ASSERT_EQUAL(std::string("out2"), comp->getPorts()[3]->getName());
 
   delete lib;
 }

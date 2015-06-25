@@ -156,7 +156,7 @@ void Loader::slotEnter(const TiXmlElement &element)
   const std::string name = getAttribute(element, "name");
   Slot *port = new Slot(name);
 
-  component->addPortLeft(port);
+  component->addPort(port);
 }
 
 void Loader::signalEnter(const TiXmlElement &element)
@@ -166,7 +166,7 @@ void Loader::signalEnter(const TiXmlElement &element)
   const std::string name = getAttribute(element, "name");
   Signal *port = new Signal(name);
 
-  component->addPortRight(port);
+  component->addPort(port);
 }
 
 void Loader::compositionEnter(const TiXmlElement &)

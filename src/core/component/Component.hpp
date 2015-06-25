@@ -20,13 +20,10 @@ class Component final : public VisitorClient
     Component(const Component &) = delete;
     Component operator=(const Component &) = delete;
 
-    void addPortLeft(Slot *port);
-    void addPortRight(Signal *port);
+    void addPort(ComponentPort *port);
+    const std::vector<ComponentPort *> &getPorts() const;
 
-    const std::vector<Slot *> &getPortLeft() const;
-    const std::vector<Signal *> &getPortRight() const;
-
-    Side sideOf(const ComponentPort *port) const;
+    size_t height() const;
 
     const std::string &getName() const;
 
@@ -38,10 +35,11 @@ class Component final : public VisitorClient
 
   private:
     std::string name;
-    std::vector<Slot *> portLeft;
-    std::vector<Signal *> portRight;
+    std::vector<ComponentPort *> ports;
 
     AbstractImplementation *implementation;
+
+    void updateTopIndex();
 
     friend ComponentFactory;
 

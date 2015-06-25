@@ -16,6 +16,7 @@ class XmlNodeWriterTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(writeComponentWithSlots);
     CPPUNIT_TEST(writeComponentWithSignals);
     CPPUNIT_TEST(writeComponentWithSlotsAndSignals);
+    CPPUNIT_TEST(writeComponentWithSlotsAndSignalsKeepsOrder);
     CPPUNIT_TEST(writeComponentWithComposition);
 
     CPPUNIT_TEST(writeLibraryWithComponents);
@@ -45,6 +46,7 @@ class XmlNodeWriterTest : public CPPUNIT_NS::TestFixture
     void writeComponentWithSlots();
     void writeComponentWithSignals();
     void writeComponentWithSlotsAndSignals();
+    void writeComponentWithSlotsAndSignalsKeepsOrder();
     void writeComponentWithComposition();
 
     void writeLibraryWithComponents();

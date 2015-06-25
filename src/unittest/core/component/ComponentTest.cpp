@@ -11,30 +11,52 @@ void ComponentTest::produce()
   CPPUNIT_ASSERT_EQUAL(std::string("Lala"), comp.getName());
 }
 
-void ComponentTest::addPortLeft()
+void ComponentTest::addSlot()
 {
   Component     comp("", new NullImplementation());
-  Slot *port = new Slot("left1");
+  ComponentPort *port = new Slot("left");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPortLeft().size());
-  comp.addPortLeft(port);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPortLeft().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
+  comp.addPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPorts().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), port->getTopIndex());
-  CPPUNIT_ASSERT_EQUAL(port, comp.getPortLeft()[0]);
+  CPPUNIT_ASSERT_EQUAL(port, comp.getPorts()[0]);
 
   ComponentFactory::cleanup(comp);
 }
 
-void ComponentTest::addPortRight()
+void ComponentTest::addSignal()
 {
   Component     comp("", new NullImplementation());
-  Signal *port = new Signal("right1");
+  ComponentPort *port = new Signal("right");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPortRight().size());
-  comp.addPortRight(port);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPortRight().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
+  comp.addPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPorts().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), port->getTopIndex());
-  CPPUNIT_ASSERT_EQUAL(port, comp.getPortRight()[0]);
+  CPPUNIT_ASSERT_EQUAL(port, comp.getPorts()[0]);
+
+  ComponentFactory::cleanup(comp);
+}
+
+void ComponentTest::signalSlotCanBeInterleaved()
+{
+  Component     comp("", new NullImplementation());
+  ComponentPort *port1 = new Slot("");
+  ComponentPort *port2 = new Signal("");
+  ComponentPort *port3 = new Slot("");
+
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(3), comp.getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(port1, comp.getPorts()[0]);
+  CPPUNIT_ASSERT_EQUAL(port2, comp.getPorts()[1]);
+  CPPUNIT_ASSERT_EQUAL(port3, comp.getPorts()[2]);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
 
   ComponentFactory::cleanup(comp);
 }
@@ -47,10 +69,10 @@ void ComponentTest::rightPortIndexUpdatedOnAdd()
   Signal *port3 = new Signal("3");
   Signal *port4 = new Signal("4");
 
-  comp.addPortRight(port1);
-  comp.addPortRight(port2);
-  comp.addPortRight(port3);
-  comp.addPortRight(port4);
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+  comp.addPort(port4);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(1), port2->getTopIndex());
@@ -68,10 +90,10 @@ void ComponentTest::leftPortIndexUpdatedOnAdd()
   Slot *port3 = new Slot("3");
   Slot *port4 = new Slot("4");
 
-  comp.addPortLeft(port1);
-  comp.addPortLeft(port2);
-  comp.addPortLeft(port3);
-  comp.addPortLeft(port4);
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+  comp.addPort(port4);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(1), port2->getTopIndex());
@@ -85,9 +107,9 @@ void ComponentTest::portIsLeft()
 {
   Component     comp("", new NullImplementation());
   Slot *port = new Slot("");
-  comp.addPortLeft(port);
+  comp.addPort(port);
 
-  CPPUNIT_ASSERT_EQUAL(Side::Left, comp.sideOf(port));
+  CPPUNIT_ASSERT_EQUAL(Side::Left, port->side());
 
   ComponentFactory::cleanup(comp);
 }
@@ -96,9 +118,9 @@ void ComponentTest::portIsRight()
 {
   Component     comp("", new NullImplementation());
   Signal *port = new Signal("");
-  comp.addPortRight(port);
+  comp.addPort(port);
 
-  CPPUNIT_ASSERT_EQUAL(Side::Right, comp.sideOf(port));
+  CPPUNIT_ASSERT_EQUAL(Side::Right, port->side());
 
   ComponentFactory::cleanup(comp);
 }
@@ -156,4 +178,38 @@ void ComponentTest::setImplementationDeletesOldOne()
 
   comp.setImplementation(new NullImplementation());
   CPPUNIT_ASSERT(deleted);
+}
+
+void ComponentTest::heightOfEmptyComponent()
+{
+  Component     comp("", new NullImplementation());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.height());
+}
+
+void ComponentTest::heightOf2Slots()
+{
+  Component     *comp = ComponentFactory::produce("", {"", ""}, {});
+  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->height());
+  ComponentFactory::dispose(comp);
+}
+
+void ComponentTest::heightOf2Signals()
+{
+  Component     *comp = ComponentFactory::produce("", {}, {"", ""});
+  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->height());
+  ComponentFactory::dispose(comp);
+}
+
+void ComponentTest::heightOf2SlotsAnd3Signals()
+{
+  Component     *comp = ComponentFactory::produce("", {"", ""}, {"", "", ""});
+  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->height());
+  ComponentFactory::dispose(comp);
+}
+
+void ComponentTest::heightOf2SignalsAnd3Slots()
+{
+  Component     *comp = ComponentFactory::produce("", {"", "", ""}, {"", ""});
+  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->height());
+  ComponentFactory::dispose(comp);
 }

@@ -44,7 +44,7 @@ Instance *InstancePort::getInstance() const
 
 Side InstancePort::side() const
 {
-  return owner->getComponent()->sideOf(compPort);
+  return compPort->side();
 }
 
 void InstancePort::addConnectionPoint(RelativePosition *point)

@@ -26,6 +26,11 @@ Signal::Signal(const std::string &name) :
 {
 }
 
+Side Signal::side() const
+{
+  return Side::Right;
+}
+
 void Signal::accept(Visitor &visitor)
 {
   visitor.visit(*this);
@@ -40,6 +45,11 @@ void Signal::accept(ConstVisitor &visitor) const
 Slot::Slot(const std::string &name) :
   ComponentPort(name)
 {
+}
+
+Side Slot::side() const
+{
+  return Side::Left;
 }
 
 void Slot::accept(Visitor &visitor)

@@ -14,6 +14,7 @@ class XmlReaderTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(componentWithSlot);
     CPPUNIT_TEST(componentWithSignal);
+    CPPUNIT_TEST(componentWithSignalAndSlotKeepsOrder);
 
     CPPUNIT_TEST(compositionEmpty);
     CPPUNIT_TEST(compositionWithInstance);
@@ -30,6 +31,7 @@ class XmlReaderTest : public CPPUNIT_NS::TestFixture
 
     void componentWithSlot();
     void componentWithSignal();
+    void componentWithSignalAndSlotKeepsOrder();
 
     void compositionEmpty();
     void compositionWithInstance();
