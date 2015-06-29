@@ -154,3 +154,5 @@ unittest/core/visitor/DefaultVisitorTest.cpp
 unittest/core/visitor/DefaultVisitorTest.hpp
 core/visitor/DefaultVisitor.cpp
 core/visitor/DefaultVisitor.hpp
+unittest/core/component/LibraryObserverTest.hpp
+unittest/core/component/LibraryObserverTest.cpp

@@ -37,6 +37,11 @@ Workspace::Workspace(QWidget *parent) :
   connect(&compList, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
 }
 
+void Workspace::addComponent()
+{
+  componentModel->addComponent("lulu");
+}
+
 void Workspace::openFile(const QString &filename)
 {
   Library *lib = XmlReader::loadFile(filename.toStdString());

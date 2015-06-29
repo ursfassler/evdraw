@@ -14,12 +14,14 @@ class MainWindow : public QMainWindow
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-  private slots:
+    private slots:
     void openFile();
     void saveFile();
 
   private:
     Workspace workspace;
+    void createFileMenu();
+    void createEditMenu();
 
 };
 

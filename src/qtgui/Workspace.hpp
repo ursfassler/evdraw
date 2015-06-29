@@ -22,6 +22,9 @@ class Workspace : public QWidget
   signals:
 
   public slots:
+    void addComponent();
+
+  public slots:
     void openFile(const QString &filename);
     void saveFile(const QString &filename);
     void openComponent(const QModelIndex &index);

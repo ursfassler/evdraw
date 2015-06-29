@@ -1,13 +1,17 @@
+#include <core/component/ComponentFactory.hpp>
+
 #include "ComponentList.hpp"
 
 ComponentList::ComponentList(Library *aLibrary, QObject *parent) :
   QAbstractListModel(parent),
   library(aLibrary)
 {
+  library->registerObserver(this);
 }
 
 ComponentList::~ComponentList()
 {
+  library->unregisterObserver(this);
   delete library;
 }
 
@@ -31,6 +35,11 @@ QVariant ComponentList::data(const QModelIndex &index, int role) const
   return QVariant();
 }
 
+void ComponentList::addComponent(const QString &name)
+{
+  library->add(ComponentFactory::produce(name.toStdString()));
+}
+
 Component *ComponentList::getComponent(const QModelIndex &index) const
 {
   return library->getComponents()[index.row()];
@@ -41,3 +50,9 @@ Library *ComponentList::getLibrary() const
   return library;
 }
 
+void ComponentList::addComponent(const Library *, Component *)
+{
+  const int row = rowCount();
+  beginInsertRows(QModelIndex(), row, row);
+  endInsertRows();
+}

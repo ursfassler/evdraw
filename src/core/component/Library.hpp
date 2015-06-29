@@ -3,10 +3,25 @@
 
 #include "Component.hpp"
 #include "../visitor/VisitorClient.hpp"
+#include "../util/Observer.hpp"
 
 #include <vector>
 
-class Library final : public VisitorClient
+class LibraryObserver
+{
+  public:
+    virtual ~LibraryObserver()
+    {
+    }
+
+    virtual void addComponent(const Library *parent, Component *component)
+    {
+      (void)(parent);
+      (void)(component);
+    }
+};
+
+class Library final : public VisitorClient, public ObserverCollection<LibraryObserver>
 {
   public:
     Library();

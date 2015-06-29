@@ -10,15 +10,34 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   setCentralWidget(&workspace);
 
-  QMenu *file = menuBar()->addMenu("File");
-  file->addAction("Open", this, SLOT(openFile()));
-  file->addAction("Save", this, SLOT(saveFile()));
-  file->addAction("Exit", QApplication::instance(), SLOT(quit()));
+  createFileMenu();
+  createEditMenu();
 }
+
+void MainWindow::createFileMenu()
+{
+  QMenu *menu = menuBar()->addMenu("File");
+  menu->addAction("Open", this, SLOT(openFile()));
+  menu->addAction("Save", this, SLOT(saveFile()));
+  menu->addAction("Exit", QApplication::instance(), SLOT(quit()));
+}
+
+void MainWindow::createEditMenu()
+{
+  QMenu *menu = menuBar()->addMenu("Edit");
+  menu->addAction("Add Component", &workspace, SLOT(addComponent()));
+  menu->addAction("Add Instance");
+  menu->addAction("Add Port");
+  menu->addAction("Delete Component");
+  menu->addAction("Delete Instance");
+  menu->addAction("Delete Port");
+}
+
 
 MainWindow::~MainWindow()
 {
 }
+
 
 void MainWindow::openFile()
 {

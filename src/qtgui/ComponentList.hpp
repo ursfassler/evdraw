@@ -2,10 +2,11 @@
 #define COMPONENTLIST_HPP
 
 #include <core/component/Library.hpp>
+#include <core/component/Component.hpp>
 
 #include <QAbstractListModel>
 
-class ComponentList : public QAbstractListModel
+class ComponentList : public QAbstractListModel, public LibraryObserver
 {
     Q_OBJECT
   public:
@@ -17,9 +18,12 @@ class ComponentList : public QAbstractListModel
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void addComponent(const QString &name);
     Component *getComponent(const QModelIndex &index) const;
 
     Library *getLibrary() const;
+
+    void addComponent(const Library *parent, Component *component);
 
   signals:
 

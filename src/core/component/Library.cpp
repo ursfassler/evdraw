@@ -21,6 +21,7 @@ Library::~Library()
 void Library::add(Component *component)
 {
   components.push_back(component);
+  notify(&LibraryObserver::addComponent, static_cast<const Library*>(this), component);
 }
 
 bool Library::contains(const Component *component) const
