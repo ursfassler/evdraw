@@ -12,9 +12,11 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(addSlot);
     CPPUNIT_TEST(addSignal);
+    CPPUNIT_TEST(delPort);
     CPPUNIT_TEST(signalSlotCanBeInterleaved);
     CPPUNIT_TEST(rightPortIndexUpdatedOnAdd);
     CPPUNIT_TEST(leftPortIndexUpdatedOnAdd);
+    CPPUNIT_TEST(portIndexUpdatedOnDel);
 
     CPPUNIT_TEST(portIsLeft);
     CPPUNIT_TEST(portIsRight);
@@ -37,10 +39,12 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
 
     void addSlot();
     void addSignal();
+    void delPort();
     void signalSlotCanBeInterleaved();
 
     void rightPortIndexUpdatedOnAdd();
     void leftPortIndexUpdatedOnAdd();
+    void portIndexUpdatedOnDel();
 
     void portIsLeft();
     void portIsRight();

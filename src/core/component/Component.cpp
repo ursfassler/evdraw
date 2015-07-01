@@ -21,6 +21,17 @@ void Component::addPort(ComponentPort *port)
 {
   ports.push_back(port);
   updateTopIndex();
+  notify(&ComponentObserver::addPort, static_cast<const Component*>(this), port);
+}
+
+void Component::delPort(ComponentPort *port)
+{
+  std::vector<ComponentPort*>::iterator idx = std::find(ports.begin(), ports.end(), port);
+  precondition(idx != ports.end());
+  ports.erase(idx);
+  updateTopIndex();
+  notify(&ComponentObserver::delPort, static_cast<const Component*>(this), port);
+  delete port;
 }
 
 const std::vector<ComponentPort *> &Component::getPorts() const

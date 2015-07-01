@@ -39,6 +39,20 @@ void ComponentTest::addSignal()
   ComponentFactory::cleanup(comp);
 }
 
+void ComponentTest::delPort()
+{
+  Component     comp("", new NullImplementation());
+  ComponentPort *port = new Signal("");
+
+  comp.addPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPorts().size());
+
+  comp.delPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
+
+  ComponentFactory::cleanup(comp);
+}
+
 void ComponentTest::signalSlotCanBeInterleaved()
 {
   Component     comp("", new NullImplementation());
@@ -99,6 +113,31 @@ void ComponentTest::leftPortIndexUpdatedOnAdd()
   CPPUNIT_ASSERT_EQUAL(size_t(1), port2->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(2), port3->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(3), port4->getTopIndex());
+
+  ComponentFactory::cleanup(comp);
+}
+
+void ComponentTest::portIndexUpdatedOnDel()
+{
+  Component     comp("", new NullImplementation());
+  Slot *port1 = new Slot("1");
+  Slot *port2 = new Slot("2");
+  Slot *port3 = new Slot("3");
+  Slot *port4 = new Slot("4");
+
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+  comp.addPort(port4);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), port3->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), port4->getTopIndex());
+
+  comp.delPort(port1);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), port4->getTopIndex());
 
   ComponentFactory::cleanup(comp);
 }

@@ -5,13 +5,34 @@
 #include "AbstractImplementation.hpp"
 #include "../types.hpp"
 #include "../visitor/VisitorClient.hpp"
+#include "../util/Observer.hpp"
 
 #include <vector>
 #include <string>
 
 class ComponentFactory;
 
-class Component final : public VisitorClient
+class ComponentObserver
+{
+  public:
+    virtual ~ComponentObserver()
+    {
+    }
+
+    virtual void addPort(const Component *parent, ComponentPort *port)
+    {
+      (void)(parent);
+      (void)(port);
+    }
+
+    virtual void delPort(const Component *parent, ComponentPort *port)
+    {
+      (void)(parent);
+      (void)(port);
+    }
+};
+
+class Component final : public VisitorClient, public ObserverCollection<ComponentObserver>
 {
   public:
     Component(const std::string &name, AbstractImplementation *implementation);
@@ -21,6 +42,7 @@ class Component final : public VisitorClient
     Component operator=(const Component &) = delete;
 
     void addPort(ComponentPort *port);
+    void delPort(ComponentPort *port);
     const std::vector<ComponentPort *> &getPorts() const;
 
     size_t height() const;
