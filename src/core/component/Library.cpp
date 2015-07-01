@@ -24,6 +24,15 @@ void Library::add(Component *component)
   notify(&LibraryObserver::addComponent, static_cast<const Library*>(this), component);
 }
 
+void Library::del(Component *component)
+{
+  std::vector<Component*>::iterator idx = std::find(components.begin(), components.end(), component);
+  precondition(idx != components.end());
+  components.erase(idx);
+  notify(&LibraryObserver::delComponent, static_cast<const Library*>(this), component);
+  delete component;
+}
+
 bool Library::contains(const Component *component) const
 {
   return ::contains(components.begin(), components.end(), component);

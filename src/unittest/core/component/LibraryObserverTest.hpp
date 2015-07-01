@@ -12,6 +12,7 @@ class LibraryObserverTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(libraryInheritsObserverCollection);
 
     CPPUNIT_TEST(getInformedOnAdd);
+    CPPUNIT_TEST(getInformedOnDelete);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -20,6 +21,7 @@ class LibraryObserverTest: public CPPUNIT_NS::TestFixture
     void libraryInheritsObserverCollection();
 
     void getInformedOnAdd();
+    void getInformedOnDelete();
 
 };
 

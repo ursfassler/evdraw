@@ -39,14 +39,26 @@ void LibraryObserverTest::libraryInheritsObserverCollection()
 class LibraryTestObserver : public LibraryObserver
 {
   public:
+    LibraryTestObserver() :
+      newComponents(),
+      delComponents()
+    {
+    }
+
     void addComponent(const Library *parent, Component *component)
     {
       (void)(parent);
       newComponents.push_back(component);
     }
 
-    std::vector<Component*> newComponents;
+    void delComponent(const Library *parent, Component *component)
+    {
+      (void)(parent);
+      delComponents.push_back(component);
+    }
 
+    std::vector<Component*> newComponents;
+    std::vector<Component*> delComponents;
 };
 
 void LibraryObserverTest::getInformedOnAdd()
@@ -60,4 +72,18 @@ void LibraryObserverTest::getInformedOnAdd()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newComponents.size());
   CPPUNIT_ASSERT_EQUAL(component, observer.newComponents[0]);
+}
+
+void LibraryObserverTest::getInformedOnDelete()
+{
+  LibraryTestObserver observer;
+  Library library;
+  library.registerObserver(&observer);
+
+  Component *component = ComponentFactory::produce("");
+  library.add(component);
+  library.del(component);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.delComponents.size());
+  CPPUNIT_ASSERT_EQUAL(component, observer.delComponents[0]);
 }

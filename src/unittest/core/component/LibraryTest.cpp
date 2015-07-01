@@ -37,6 +37,20 @@ class Implementation : public AbstractImplementation
     bool &destructorCalled;
 };
 
+void LibraryTest::deleteComponent()
+{
+  bool deleted = false;
+  Implementation *impl = new Implementation(deleted);
+  Component *comp = new Component("comp", impl);
+  Library lib;
+  lib.add(comp);
+  CPPUNIT_ASSERT(lib.contains(comp));
+  lib.del(comp);
+
+  CPPUNIT_ASSERT(!lib.contains(comp));
+  CPPUNIT_ASSERT(deleted);
+}
+
 void LibraryTest::deletsComponentsWhenDeleted()
 {
   Library *lib = new Library();
