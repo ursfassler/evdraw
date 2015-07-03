@@ -19,6 +19,7 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(notifyWhenAddInstance);
     CPPUNIT_TEST(notifyWhenAddConnection);
+    CPPUNIT_TEST(notifyWhenRemoveConnection);
     CPPUNIT_TEST(addConnectionUnderConstructionNotifiesObserver);
     CPPUNIT_TEST(canNotOverwriteConnectionUnderConstructio);
 
@@ -38,6 +39,7 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
 
     void notifyWhenAddInstance();
     void notifyWhenAddConnection();
+    void notifyWhenRemoveConnection();
     void addConnectionUnderConstructionNotifiesObserver();
     void canNotOverwriteConnectionUnderConstructio();
 

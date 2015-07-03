@@ -30,6 +30,24 @@ void CompositionToGuiUpdater::connectionAdded(Connection *connection)
   addConnection(connection);
 }
 
+void CompositionToGuiUpdater::connectionRemoved(Connection *connection)
+{
+  QSet<QGraphicsItem*> removable;
+  QHashIterator<QGraphicsItem*, Connection*> i(connections);
+  while (i.hasNext()) {
+      i.next();
+      if (i.value() == connection) {
+        removable.insert(i.key());
+      }
+  }
+
+  for (QGraphicsItem *itr : removable) {
+    connections.remove(itr);
+    scene.removeItem(itr);
+    delete itr;
+  }
+}
+
 void CompositionToGuiUpdater::addConnectionUnderConstruction(Connection *connection)
 {
   connCreate = new GiConnectionCreation(connection, &composition);
@@ -37,8 +55,6 @@ void CompositionToGuiUpdater::addConnectionUnderConstruction(Connection *connect
   connCreate->grabMouse();
   addConnection(connection);
   connection->registerObserver(this);
-
-
 }
 
 void CompositionToGuiUpdater::finishConnectionUnderConstruction(Connection *)
@@ -47,16 +63,18 @@ void CompositionToGuiUpdater::finishConnectionUnderConstruction(Connection *)
   delete connCreate;
 }
 
-void CompositionToGuiUpdater::addVerticalSegment(const Connection *, VerticalSegment *segment)
+void CompositionToGuiUpdater::addVerticalSegment(Connection *connection, VerticalSegment *segment)
 {
   GiVerticalSegment *ghs = new GiVerticalSegment(segment, nullptr);
   scene.addItem(ghs);
+  connections[ghs] = connection;
 }
 
-void CompositionToGuiUpdater::addHorizontalSegment(const Connection *, HorizontalSegment *segment)
+void CompositionToGuiUpdater::addHorizontalSegment(Connection *connection, HorizontalSegment *segment)
 {
   GiSegment *ghs = new GiHorizontalSegment(segment, nullptr);
   scene.addItem(ghs);
+  connections[ghs] = connection;
 }
 
 void CompositionToGuiUpdater::addConnection(Connection *connection)
@@ -76,5 +94,13 @@ void CompositionToGuiUpdater::init()
   }
   for (Connection *conn : composition.getConnections()) {
     connectionAdded(conn);
+  }
+}
+
+void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
+{
+  Connection *connection = connections[item];
+  if (connection != nullptr) {
+    composition.removeConnection(connection);
   }
 }

@@ -68,6 +68,7 @@ void Composition::addConnection(Connection *connection)
 void Composition::removeConnection(Connection *connection)
 {
   connections.remove(connection);
+  notify(&CompositionObserver::connectionRemoved, connection);
 }
 
 void Composition::startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort)

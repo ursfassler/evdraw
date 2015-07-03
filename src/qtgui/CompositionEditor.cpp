@@ -15,5 +15,12 @@ CompositionEditor::CompositionEditor(Composition &aComposition, QWidget *parent)
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
 
+  connect(&scene, SIGNAL(removeFromModel(QGraphicsItem*)), this, SLOT(removeFromModel(QGraphicsItem*)));
+
   updater.init();
+}
+
+void CompositionEditor::removeFromModel(QGraphicsItem *item)
+{
+  updater.removeFromModel(item);
 }

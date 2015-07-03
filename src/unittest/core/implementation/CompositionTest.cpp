@@ -87,6 +87,11 @@ class SheetObserverTest : public CompositionObserver
       lastConnectionAdded = connection;
     }
 
+    virtual void connectionRemoved(Connection *connection)
+    {
+      lastConnectionRemoved = connection;
+    }
+
     virtual void finishConnectionUnderConstruction(Connection *connection)
     {
       lastFinishConnectionUnderConstruction = connection;
@@ -99,6 +104,7 @@ class SheetObserverTest : public CompositionObserver
 
     Instance *lastInstanceAdded = nullptr;
     Connection *lastConnectionAdded = nullptr;
+    Connection *lastConnectionRemoved = nullptr;
     Connection *lastFinishConnectionUnderConstruction = nullptr;
     Connection *lastAddConnectionUnderConstruction = nullptr;
 };
@@ -132,6 +138,23 @@ void CompositionTest::notifyWhenAddConnection()
   sheet.addConnection(connection);
 
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionAdded);
+
+  sheet.unregisterObserver(&observer);
+}
+
+void CompositionTest::notifyWhenRemoveConnection()
+{
+  Composition sheet;
+  SheetObserverTest observer;
+  sheet.registerObserver(&observer);
+
+  SimplePort startPort;
+  SimplePort endPort;
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
+  sheet.addConnection(connection);
+  sheet.removeConnection(connection);
+
+  CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionRemoved);
 
   sheet.unregisterObserver(&observer);
 }

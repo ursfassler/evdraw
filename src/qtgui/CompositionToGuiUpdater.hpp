@@ -9,6 +9,7 @@
 #include <core/implementation/Composition.hpp>
 
 #include <QGraphicsScene>
+#include <QHash>
 
 class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObserver
 {
@@ -18,20 +19,26 @@ class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObs
 
     virtual void instanceAdded(Instance *instance);
     virtual void connectionAdded(Connection *connection);
+    virtual void connectionRemoved(Connection *connection);
     virtual void addConnectionUnderConstruction(Connection *connection);
     virtual void finishConnectionUnderConstruction(Connection *connection);
 
-    virtual void addVerticalSegment(const Connection *parent, VerticalSegment *segment);
-    virtual void addHorizontalSegment(const Connection *parent, HorizontalSegment *segment);
+    virtual void addVerticalSegment(Connection *parent, VerticalSegment *segment);
+    virtual void addHorizontalSegment(Connection *parent, HorizontalSegment *segment);
 
     void init();
+
+    void removeFromModel(QGraphicsItem *item);
 
   private:
     QGraphicsScene &scene;
     Composition &composition;
     GiConnectionCreation *connCreate = nullptr;
 
+    QHash<QGraphicsItem*, Connection*> connections;
+
     void addConnection(Connection *connection);
+
 
 
 };

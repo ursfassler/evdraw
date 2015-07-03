@@ -2,6 +2,7 @@
 #define COMPOSITIONEDITOR_HPP
 
 #include "CompositionToGuiUpdater.hpp"
+#include "graphicItems/CompositionScene.hpp"
 
 #include <core/implementation/Composition.hpp>
 
@@ -19,8 +20,11 @@ class CompositionEditor : public QGraphicsView
 
   public slots:
 
+  private slots:
+    void removeFromModel(QGraphicsItem *item);
+
   private:
-    QGraphicsScene scene;
+    CompositionScene scene;
     CompositionToGuiUpdater updater;
     Composition &composition;
 

@@ -13,11 +13,34 @@
 class CompositionObserver
 {
   public:
-    virtual ~CompositionObserver(){}
-    virtual void instanceAdded(Instance *instance){ (void)(instance); }
-    virtual void connectionAdded(Connection *connection){ (void)(connection); }
-    virtual void addConnectionUnderConstruction(Connection *connection){ (void)(connection); }
-    virtual void finishConnectionUnderConstruction(Connection *connection){ (void)(connection); }
+    virtual ~CompositionObserver()
+    {
+    }
+
+    virtual void instanceAdded(Instance *instance)
+    {
+      (void)(instance);
+    }
+
+    virtual void connectionAdded(Connection *connection)
+    {
+      (void)(connection);
+    }
+
+    virtual void connectionRemoved(Connection *connection)
+    {
+      (void)(connection);
+    }
+
+    virtual void addConnectionUnderConstruction(Connection *connection)
+    {
+      (void)(connection);
+    }
+
+    virtual void finishConnectionUnderConstruction(Connection *connection)
+    {
+      (void)(connection);
+    }
 };
 
 class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>

@@ -168,13 +168,13 @@ void ConnectionTest::insertSegmentAtSanePosition()
 class ConnectionObserverTest : public ConnectionObserver
 {
   public:
-    virtual void addVerticalSegment(const Connection *parent, VerticalSegment *segment)
+    virtual void addVerticalSegment(Connection *parent, VerticalSegment *segment)
     {
       lastParent = parent;
       lastAddVerticalSegment = segment;
     }
 
-    virtual void addHorizontalSegment(const Connection *parent, HorizontalSegment *segment)
+    virtual void addHorizontalSegment(Connection *parent, HorizontalSegment *segment)
     {
       lastParent = parent;
       lastAddHorizontalSegment = segment;

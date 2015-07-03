@@ -60,7 +60,8 @@ SOURCES += main.cpp\
     ../core/visitor/DefaultConstVisitor.cpp \
     ../core/visitor/DefaultVisitor.cpp \
     Workspace.cpp \
-    CompifaceModel.cpp
+    CompifaceModel.cpp \
+    graphicItems/CompositionScene.cpp
 
 HEADERS  += MainWindow.hpp \
     graphicItems/GiSegment.hpp \
@@ -109,7 +110,8 @@ HEADERS  += MainWindow.hpp \
     ../core/visitor/Visitor.hpp \
     ../core/visitor/VisitorClient.hpp \
     Workspace.hpp \
-    CompifaceModel.hpp
+    CompifaceModel.hpp \
+    graphicItems/CompositionScene.hpp
 
 OTHER_FILES += \
     drawings/test1.evd
