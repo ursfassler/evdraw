@@ -80,12 +80,20 @@ void Workspace::showComponent(const Component *component)
 void Workspace::openImplementation(const QModelIndex &index)
 {
   Component *comp = componentModel->getComponent(index);
-  ImplementationOpener opener(drawTabs);
+  ImplementationOpener opener(drawTabs, this);
   comp->getImplementation()->accept(opener);
 }
 
-ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs) :
-  drawTabs(aDrawTabs)
+void Workspace::addInstance(Point position, Composition &composition)
+{
+  Component *component = componentModel->getLibrary()->getComponents()[0];
+  Instance *inst = InstanceFactory::produce(component, "?", position);
+  composition.addInstance(inst);
+}
+
+ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWorkspace) :
+  drawTabs(aDrawTabs),
+  workspace(aWorkspace)
 {
 }
 
@@ -93,6 +101,6 @@ void ImplementationOpener::visit(Composition &composition)
 {
   CompositionEditor *editor = new CompositionEditor(composition);
   drawTabs.addTab(editor, "lala");
-  //  editor->show();
+  QObject::connect(editor, SIGNAL(addInstance(Point,Composition&)), workspace, SLOT(addInstance(Point,Composition&)));
 }
 

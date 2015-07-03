@@ -104,3 +104,8 @@ void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
     composition.removeConnection(connection);
   }
 }
+
+Composition &CompositionToGuiUpdater::getComposition()
+{
+  return composition;
+}

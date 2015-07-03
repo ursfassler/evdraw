@@ -1,6 +1,8 @@
 #ifndef COMPOSITIONSCENE_HPP
 #define COMPOSITIONSCENE_HPP
 
+#include <core/Point.hpp>
+
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 
@@ -12,6 +14,7 @@ class CompositionScene : public QGraphicsScene
 
   signals:
     void removeFromModel(QGraphicsItem *item);
+    void addInstance(Point position);
 
   public slots:
 

@@ -3,6 +3,7 @@
 #include "graphicItems/convert.hpp"
 
 #include <core/component/InstanceAppearance.hpp>
+#include <core/instance/InstanceFactory.hpp>
 
 CompositionEditor::CompositionEditor(Composition &aComposition, QWidget *parent) :
   QGraphicsView(parent),
@@ -16,6 +17,7 @@ CompositionEditor::CompositionEditor(Composition &aComposition, QWidget *parent)
   scene.setFont(font);
 
   connect(&scene, SIGNAL(removeFromModel(QGraphicsItem*)), this, SLOT(removeFromModel(QGraphicsItem*)));
+  connect(&scene, SIGNAL(addInstance(Point)), this, SLOT(addInstance(Point)));
 
   updater.init();
 }
@@ -23,4 +25,9 @@ CompositionEditor::CompositionEditor(Composition &aComposition, QWidget *parent)
 void CompositionEditor::removeFromModel(QGraphicsItem *item)
 {
   updater.removeFromModel(item);
+}
+
+void CompositionEditor::addInstance(Point position)
+{
+  addInstance(position, updater.getComposition());
 }

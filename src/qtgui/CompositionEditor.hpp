@@ -17,11 +17,13 @@ class CompositionEditor : public QGraphicsView
     explicit CompositionEditor(Composition &composition, QWidget *parent = 0);
 
   signals:
+    void addInstance(Point position, Composition &composition);
 
   public slots:
 
   private slots:
     void removeFromModel(QGraphicsItem *item);
+    void addInstance(Point position);
 
   private:
     CompositionScene scene;

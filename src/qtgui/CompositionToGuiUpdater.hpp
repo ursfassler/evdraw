@@ -30,6 +30,8 @@ class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObs
 
     void removeFromModel(QGraphicsItem *item);
 
+    Composition &getComposition();
+
   private:
     QGraphicsScene &scene;
     Composition &composition;

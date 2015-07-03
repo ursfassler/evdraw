@@ -14,7 +14,7 @@ class MainWindow : public QMainWindow
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    private slots:
+  private slots:
     void openFile();
     void saveFile();
 

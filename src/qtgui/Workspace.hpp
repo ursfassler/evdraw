@@ -31,6 +31,9 @@ class Workspace : public QWidget
     void openComponent(const QModelIndex &index);
     void openImplementation(const QModelIndex &index);
 
+  private slots:
+    void addInstance(Point position, Composition &composition);
+
   private:
     ComponentList *componentModel = nullptr;
     QListView compList;
@@ -44,12 +47,13 @@ class Workspace : public QWidget
 class ImplementationOpener : public DefaultVisitor
 {
   public:
-    ImplementationOpener(QTabWidget &drawTabs);
+    ImplementationOpener(QTabWidget &drawTabs, Workspace *workspace);
 
     void visit(Composition &composition);
 
   private:
     QTabWidget &drawTabs;
+    Workspace * const workspace;
 };
 
 
