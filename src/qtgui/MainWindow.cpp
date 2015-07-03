@@ -28,7 +28,7 @@ void MainWindow::createEditMenu()
   menu->addAction("Add Component", &workspace, SLOT(addComponent()));
   menu->addAction("Add Instance");
   menu->addAction("Add Port");
-  menu->addAction("Delete Component");
+  menu->addAction("Delete Component", &workspace, SLOT(delComponent()));
   menu->addAction("Delete Instance");
   menu->addAction("Delete Port");
 }

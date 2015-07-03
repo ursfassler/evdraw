@@ -17,6 +17,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 
+#include <QDebug>
+
 Workspace::Workspace(QWidget *parent) :
   QWidget(parent),
   drawTabs(this)
@@ -40,6 +42,12 @@ Workspace::Workspace(QWidget *parent) :
 void Workspace::addComponent()
 {
   componentModel->addComponent("lulu");
+}
+
+void Workspace::delComponent()
+{
+  QModelIndex selected = compList.currentIndex();
+  componentModel->delComponent(selected);
 }
 
 void Workspace::openFile(const QString &filename)
@@ -85,6 +93,6 @@ void ImplementationOpener::visit(Composition &composition)
 {
   CompositionEditor *editor = new CompositionEditor(composition);
   drawTabs.addTab(editor, "lala");
-//  editor->show();
+  //  editor->show();
 }
 

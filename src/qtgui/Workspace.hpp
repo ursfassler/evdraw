@@ -23,6 +23,7 @@ class Workspace : public QWidget
 
   public slots:
     void addComponent();
+    void delComponent();
 
   public slots:
     void openFile(const QString &filename);

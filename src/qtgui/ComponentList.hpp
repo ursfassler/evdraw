@@ -20,10 +20,12 @@ class ComponentList : public QAbstractListModel, public LibraryObserver
 
     void addComponent(const QString &name);
     Component *getComponent(const QModelIndex &index) const;
+    void delComponent(const QModelIndex &index);
 
     Library *getLibrary() const;
 
     void addComponent(const Library *parent, Component *component);
+    void delComponent(const Library *parent, Component *component);
 
   signals:
 

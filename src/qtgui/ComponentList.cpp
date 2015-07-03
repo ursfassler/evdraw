@@ -45,6 +45,15 @@ Component *ComponentList::getComponent(const QModelIndex &index) const
   return library->getComponents()[index.row()];
 }
 
+void ComponentList::delComponent(const QModelIndex &index)
+{
+  if (!index.isValid()) {
+    return;
+  }
+  Component *component = library->getComponents()[index.row()];
+  library->del(component);
+}
+
 Library *ComponentList::getLibrary() const
 {
   return library;
@@ -52,7 +61,10 @@ Library *ComponentList::getLibrary() const
 
 void ComponentList::addComponent(const Library *, Component *)
 {
-  const int row = rowCount();
-  beginInsertRows(QModelIndex(), row, row);
-  endInsertRows();
+  layoutChanged();
+}
+
+void ComponentList::delComponent(const Library *, Component *)
+{
+  layoutChanged();
 }
