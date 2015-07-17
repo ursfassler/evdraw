@@ -5,7 +5,7 @@
 #include "CompositionEditor.hpp"
 #include "CompifaceModel.hpp"
 
-#include <core/visitor/DefaultVisitor.hpp>
+#include <core/visitor/NullVisitor.hpp>
 
 #include <QWidget>
 #include <QListView>

@@ -1,9 +1,9 @@
-#ifndef DEFAULTVISITOR_HPP
-#define DEFAULTVISITOR_HPP
+#ifndef NULLVISITOR_HPP
+#define NULLVISITOR_HPP
 
 #include "Visitor.hpp"
 
-class DefaultVisitor : public Visitor
+class NullVisitor : public Visitor
 {
   public:
     void visit(Slot &port);
@@ -17,4 +17,4 @@ class DefaultVisitor : public Visitor
     void visit(Library &library);
 };
 
-#endif // DEFAULTVISITOR_HPP
+#endif

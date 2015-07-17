@@ -1,23 +1,11 @@
 #ifndef DEFAULTVISITORTEST_HPP
 #define DEFAULTVISITORTEST_HPP
 
-#include <cppunit/TestFixture.h>
-#include <cppunit/extensions/HelperMacros.h>
 
-class DefaultVisitorTest : public CPPUNIT_NS::TestFixture
+class DefaultVisitorTest
 {
-    CPPUNIT_TEST_SUITE( DefaultVisitorTest );
-
-    CPPUNIT_TEST(implementsVisitor);
-    CPPUNIT_TEST(implementsAllVisitMethods);
-
-    CPPUNIT_TEST_SUITE_END();
-
   public:
-    void implementsVisitor();
-    void implementsAllVisitMethods();
+    DefaultVisitorTest();
 };
-
-CPPUNIT_TEST_SUITE_REGISTRATION( DefaultVisitorTest );
 
 #endif // DEFAULTVISITORTEST_HPP

@@ -1,9 +1,9 @@
-#ifndef DEFAULTCONSTVISITOR_HPP
-#define DEFAULTCONSTVISITOR_HPP
+#ifndef NULLCONSTVISITOR_HPP
+#define NULLCONSTVISITOR_HPP
 
 #include "ConstVisitor.hpp"
 
-class DefaultConstVisitor : public ConstVisitor
+class NullConstVisitor : public ConstVisitor
 {
   public:
     void visit(const Slot &port);

@@ -45,8 +45,6 @@ HEADERS += \
     core/util/list.hpp \
     core/util/Observer.hpp \
     core/visitor/ConstVisitor.hpp \
-    core/visitor/DefaultConstVisitor.hpp \
-    core/visitor/DefaultVisitor.hpp \
     core/visitor/VisitedPrototypes.hpp \
     core/visitor/Visitor.hpp \
     core/visitor/VisitorClient.hpp \
@@ -84,8 +82,6 @@ HEADERS += \
     unittest/core/util/listTest.hpp \
     unittest/core/util/ObserverTest.hpp \
     unittest/core/visitor/ConstVisitorTest.hpp \
-    unittest/core/visitor/DefaultConstVisitorTest.hpp \
-    unittest/core/visitor/DefaultVisitorTest.hpp \
     unittest/core/visitor/VisitorTest.hpp \
     unittest/core/PointTest.hpp \
     unittest/core/TypesTest.hpp \
@@ -95,7 +91,11 @@ HEADERS += \
     unittest/file/xmlreader/XmlReaderTest.hpp \
     unittest/file/xmlwriter/XmlNodeWriterTest.hpp \
     unittest/file/xmlwriter/XmlWriterTest.hpp \
-    unittest/file/RizzlyPrintTest.hpp
+    unittest/file/RizzlyPrintTest.hpp \
+    unittest/core/visitor/NullVisitorTest.hpp \
+    unittest/core/visitor/NullConstVisitorTest.hpp \
+    core/visitor/NullConstVisitor.hpp \
+    core/visitor/NullVisitor.hpp
 
 SOURCES += \
     core/base/Position.cpp \
@@ -118,8 +118,6 @@ SOURCES += \
     core/instance/InstancePort.cpp \
     core/instance/InstancePortFactory.cpp \
     core/util/contract.cpp \
-    core/visitor/DefaultConstVisitor.cpp \
-    core/visitor/DefaultVisitor.cpp \
     core/Point.cpp \
     core/types.cpp \
     file/xmlreader/BaseParser.cpp \
@@ -155,8 +153,6 @@ SOURCES += \
     unittest/core/util/listTest.cpp \
     unittest/core/util/ObserverTest.cpp \
     unittest/core/visitor/ConstVisitorTest.cpp \
-    unittest/core/visitor/DefaultConstVisitorTest.cpp \
-    unittest/core/visitor/DefaultVisitorTest.cpp \
     unittest/core/visitor/VisitorTest.cpp \
     unittest/core/PointTest.cpp \
     unittest/core/TypesTest.cpp \
@@ -166,4 +162,8 @@ SOURCES += \
     unittest/file/xmlreader/XmlReaderTest.cpp \
     unittest/file/xmlwriter/XmlNodeWriterTest.cpp \
     unittest/file/xmlwriter/XmlWriterTest.cpp \
-    unittest/file/RizzlyPrintTest.cpp
+    unittest/file/RizzlyPrintTest.cpp \
+    unittest/core/visitor/NullVisitorTest.cpp \
+    unittest/core/visitor/NullConstVisitorTest.cpp \
+    core/visitor/NullVisitor.cpp \
+    core/visitor/NullConstVisitor.cpp

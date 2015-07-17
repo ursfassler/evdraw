@@ -1,12 +1,12 @@
-#ifndef DEFAULTCONSTVISITORTEST_HPP
-#define DEFAULTCONSTVISITORTEST_HPP
+#ifndef NULLCONSTVISITORTEST_HPP
+#define NULLCONSTVISITORTEST_HPP
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-class DefaultConstVisitorTest : public CPPUNIT_NS::TestFixture
+class NullConstVisitorTest : public CPPUNIT_NS::TestFixture
 {
-    CPPUNIT_TEST_SUITE( DefaultConstVisitorTest );
+    CPPUNIT_TEST_SUITE( NullConstVisitorTest );
 
     CPPUNIT_TEST(implementsVisitor);
     CPPUNIT_TEST(implementsAllVisitMethods);
@@ -18,6 +18,6 @@ class DefaultConstVisitorTest : public CPPUNIT_NS::TestFixture
     void implementsAllVisitMethods();
 };
 
-CPPUNIT_TEST_SUITE_REGISTRATION( DefaultConstVisitorTest );
+CPPUNIT_TEST_SUITE_REGISTRATION( NullConstVisitorTest );
 
 #endif
