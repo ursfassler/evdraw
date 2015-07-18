@@ -95,7 +95,9 @@ HEADERS += \
     unittest/core/visitor/NullVisitorTest.hpp \
     unittest/core/visitor/NullConstVisitorTest.hpp \
     core/visitor/NullConstVisitor.hpp \
-    core/visitor/NullVisitor.hpp
+    core/visitor/NullVisitor.hpp \
+    unittest/core/visitor/DefaultVisitorTest.hpp \
+    core/visitor/DefaultVisitor.hpp
 
 SOURCES += \
     core/base/Position.cpp \
@@ -166,4 +168,6 @@ SOURCES += \
     unittest/core/visitor/NullVisitorTest.cpp \
     unittest/core/visitor/NullConstVisitorTest.cpp \
     core/visitor/NullVisitor.cpp \
-    core/visitor/NullConstVisitor.cpp
+    core/visitor/NullConstVisitor.cpp \
+    unittest/core/visitor/DefaultVisitorTest.cpp \
+    core/visitor/DefaultVisitor.cpp
