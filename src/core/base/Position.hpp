@@ -1,6 +1,7 @@
 #ifndef POSITION_HPP
 #define POSITION_HPP
 
+#include "Base.hpp"
 #include "../Point.hpp"
 #include "../util/Observer.hpp"
 
@@ -14,7 +15,7 @@ class PositionObserver
     virtual void offsetChanged(const RelativePosition *sender) = 0;
 };
 
-class Position : public ObserverCollection<PositionObserver>
+class Position : public Base, public ObserverCollection<PositionObserver>
 {
   public:
     Position();

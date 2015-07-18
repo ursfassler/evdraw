@@ -92,12 +92,22 @@ HEADERS += \
     unittest/file/xmlwriter/XmlNodeWriterTest.hpp \
     unittest/file/xmlwriter/XmlWriterTest.hpp \
     unittest/file/RizzlyPrintTest.hpp \
+    unittest/core/util/SpecificationTest.hpp \
+    core/util/Specification.hpp \
+    unittest/core/instance/InstanceOfSpecificationTest.hpp \
+    core/instance/InstanceOfSpecification.hpp \
+    unittest/core/base/BaseTest.hpp \
+    core/base/Base.hpp \
     unittest/core/visitor/NullVisitorTest.hpp \
     unittest/core/visitor/NullConstVisitorTest.hpp \
     core/visitor/NullConstVisitor.hpp \
     core/visitor/NullVisitor.hpp \
     unittest/core/visitor/DefaultVisitorTest.hpp \
-    core/visitor/DefaultVisitor.hpp
+    core/visitor/DefaultVisitor.hpp \
+    unittest/core/util/ChildRemoverTest.hpp \
+    core/util/ChildRemover.hpp \
+    unittest/core/util/AlwaysSatisfiedSpecificationTest.hpp \
+    core/util/AlwaysSatisfiedSpecification.hpp
 
 SOURCES += \
     core/base/Position.cpp \
@@ -165,9 +175,19 @@ SOURCES += \
     unittest/file/xmlwriter/XmlNodeWriterTest.cpp \
     unittest/file/xmlwriter/XmlWriterTest.cpp \
     unittest/file/RizzlyPrintTest.cpp \
+    unittest/core/util/SpecificationTest.cpp \
+    core/util/Specification.cpp \
+    unittest/core/instance/InstanceOfSpecificationTest.cpp \
+    core/instance/InstanceOfSpecification.cpp \
+    unittest/core/base/BaseTest.cpp \
+    core/base/Base.cpp \
     unittest/core/visitor/NullVisitorTest.cpp \
     unittest/core/visitor/NullConstVisitorTest.cpp \
     core/visitor/NullVisitor.cpp \
     core/visitor/NullConstVisitor.cpp \
     unittest/core/visitor/DefaultVisitorTest.cpp \
-    core/visitor/DefaultVisitor.cpp
+    core/visitor/DefaultVisitor.cpp \
+    unittest/core/util/ChildRemoverTest.cpp \
+    core/util/ChildRemover.cpp \
+    unittest/core/util/AlwaysSatisfiedSpecificationTest.cpp \
+    core/util/AlwaysSatisfiedSpecification.cpp

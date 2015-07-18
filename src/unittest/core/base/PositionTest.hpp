@@ -9,6 +9,7 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( PositionTest );
 
     CPPUNIT_TEST(create);
+    CPPUNIT_TEST(inheritsBase);
     CPPUNIT_TEST(absolutePosition);
     CPPUNIT_TEST(setOffset);
 
@@ -23,6 +24,7 @@ class PositionTest : public CPPUNIT_NS::TestFixture
 
   public:
     void create();
+    void inheritsBase();
     void absolutePosition();
     void setOffset();
 

@@ -75,6 +75,8 @@ void ComponentObserverTest::getInformedOnAdd()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.newPorts[0]);
+
+  delete port;
 }
 
 void ComponentObserverTest::getInformedOnDelete()

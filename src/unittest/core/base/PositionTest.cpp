@@ -1,6 +1,7 @@
 #include "PositionTest.hpp"
 
 #include <core/base/Position.hpp>
+#include <core/base/Base.hpp>
 
 #include <core/types.hpp>
 
@@ -8,6 +9,12 @@ void PositionTest::create()
 {
   RelativePosition base(Point(10,20));
   CPPUNIT_ASSERT_EQUAL(Point(10,20), base.getOffset());
+}
+
+void PositionTest::inheritsBase()
+{
+  RelativePosition base(Point(10,20));
+  CPPUNIT_ASSERT(dynamic_cast<Base*>(&base) != nullptr);
 }
 
 void PositionTest::absolutePosition()

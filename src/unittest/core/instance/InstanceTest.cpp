@@ -46,11 +46,20 @@ class EpObserver
     }
 };
 
+void InstanceTest::inheritsPosition()
+{
+  Component *component = ComponentFactory::produce("");
+  Instance  instance("", Point(0, 0), component);
+  CPPUNIT_ASSERT(dynamic_cast<Position*>(&instance) != nullptr);
+
+  ComponentFactory::dispose(component);
+}
+
 void InstanceTest::inheritsBase()
 {
   Component *component = ComponentFactory::produce("");
   Instance  instance("", Point(0, 0), component);
-  CPPUNIT_ASSERT(dynamic_cast<RelativePosition*>(&instance) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<Base*>(&instance) != nullptr);
 
   ComponentFactory::dispose(component);
 }
