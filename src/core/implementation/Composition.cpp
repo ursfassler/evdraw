@@ -46,6 +46,12 @@ void Composition::addInstance(Instance *instance)
   notify(&CompositionObserver::instanceAdded, instance);
 }
 
+void Composition::removeInstance(Instance *instance)
+{
+  instances.remove(instance);
+  notify(&CompositionObserver::instanceRemoved, instance);
+}
+
 Instance *Composition::getInstance(const std::string &name) const
 {
   auto predicate = [&](Instance *itr){

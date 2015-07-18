@@ -22,6 +22,11 @@ class CompositionObserver
       (void)(instance);
     }
 
+    virtual void instanceRemoved(Instance *instance)
+    {
+      (void)(instance);
+    }
+
     virtual void connectionAdded(Connection *connection)
     {
       (void)(connection);
@@ -54,6 +59,7 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
+    void removeInstance(Instance *instance);
     Instance *getInstance(const std::string &name) const;
 
     const std::list<Connection *> &getConnections() const;

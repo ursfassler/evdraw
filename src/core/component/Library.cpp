@@ -2,6 +2,8 @@
 
 #include "ComponentFactory.hpp"
 #include "../util/list.hpp"
+#include "../instance/InstanceOfSpecification.hpp"
+#include "../util/ChildRemover.hpp"
 
 #include <stdexcept>
 
@@ -28,6 +30,11 @@ void Library::del(Component *component)
 {
   std::vector<Component*>::iterator idx = std::find(components.begin(), components.end(), component);
   precondition(idx != components.end());
+
+  InstanceOfSpecification spec(component);
+  ChildRemover remover(spec);
+  this->accept(remover);
+
   components.erase(idx);
   notify(&LibraryObserver::delComponent, static_cast<const Library*>(this), component);
   delete component;

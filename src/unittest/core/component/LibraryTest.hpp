@@ -11,6 +11,7 @@ class LibraryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(create);
     CPPUNIT_TEST(addComponent);
     CPPUNIT_TEST(deleteComponent);
+    CPPUNIT_TEST(deleteComponentRemovesDepdantInstances);
     CPPUNIT_TEST(deletsComponentsWhenDeleted);
     CPPUNIT_TEST(getComponent);
     CPPUNIT_TEST(getCorrectComponent);
@@ -22,6 +23,7 @@ class LibraryTest : public CPPUNIT_NS::TestFixture
     void create();
     void addComponent();
     void deleteComponent();
+    void deleteComponentRemovesDepdantInstances();
     void deletsComponentsWhenDeleted();
     void getComponent();
     void getCorrectComponent();

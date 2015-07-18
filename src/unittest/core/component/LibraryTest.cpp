@@ -3,6 +3,8 @@
 #include <core/component/Library.hpp>
 #include <core/component/Component.hpp>
 #include <core/component/ComponentFactory.hpp>
+#include <core/instance/Instance.hpp>
+#include <core/implementation/Composition.hpp>
 
 void LibraryTest::create()
 {
@@ -49,6 +51,23 @@ void LibraryTest::deleteComponent()
 
   CPPUNIT_ASSERT(!lib.contains(comp));
   CPPUNIT_ASSERT(deleted);
+}
+
+void LibraryTest::deleteComponentRemovesDepdantInstances()
+{
+  Component *comp1 = ComponentFactory::produce("comp1");
+  Composition *composition = new Composition();
+  Instance *inst = new Instance("inst", Point(0,0), comp1);
+  composition->addInstance(inst);
+  Component *comp2 = new Component("comp2", composition);
+
+  Library lib;
+  lib.add(comp1);
+  lib.add(comp2);
+
+  lib.del(comp1);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getInstances().size());
 }
 
 void LibraryTest::deletsComponentsWhenDeleted()

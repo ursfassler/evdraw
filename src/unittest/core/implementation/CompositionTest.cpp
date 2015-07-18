@@ -59,6 +59,20 @@ void CompositionTest::getInstance()
   ComponentFactory::dispose(component);
 }
 
+void CompositionTest::removeInstance()
+{
+  Composition sheet;
+  Component *component = ComponentFactory::produce("Component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+
+  sheet.addInstance(instance);
+  sheet.removeInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getInstances().size());
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
 void CompositionTest::removeConnection()
 {
   SimplePort startPort;
@@ -82,6 +96,11 @@ class SheetObserverTest : public CompositionObserver
       lastInstanceAdded = instance;
     }
 
+    virtual void instanceRemoved(Instance *instance)
+    {
+      lastInstanceRemoved = instance;
+    }
+
     virtual void connectionAdded(Connection *connection)
     {
       lastConnectionAdded = connection;
@@ -103,6 +122,7 @@ class SheetObserverTest : public CompositionObserver
     }
 
     Instance *lastInstanceAdded = nullptr;
+    Instance *lastInstanceRemoved = nullptr;
     Connection *lastConnectionAdded = nullptr;
     Connection *lastConnectionRemoved = nullptr;
     Connection *lastFinishConnectionUnderConstruction = nullptr;
@@ -142,6 +162,23 @@ void CompositionTest::notifyWhenAddConnection()
   sheet.unregisterObserver(&observer);
 }
 
+void CompositionTest::notifyWhenRemoveInstance()
+{
+  Composition sheet;
+  SheetObserverTest observer;
+  sheet.registerObserver(&observer);
+  Component *component = ComponentFactory::produce("Component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+
+  sheet.addInstance(instance);
+  sheet.removeInstance(instance);
+
+  CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceRemoved);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
 void CompositionTest::notifyWhenRemoveConnection()
 {
   Composition sheet;
@@ -157,6 +194,7 @@ void CompositionTest::notifyWhenRemoveConnection()
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionRemoved);
 
   sheet.unregisterObserver(&observer);
+  ConnectionFactory::dispose(connection);
 }
 
 void CompositionTest::addConnectionUnderConstructionNotifiesObserver()
