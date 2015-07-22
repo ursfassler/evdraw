@@ -21,6 +21,11 @@ class TestSpecification : public Specification
       return candidate != nullptr;
     }
 
+    Specification *or_(const Specification *) const
+    {
+      return new TestSpecification(destructorCalled);
+    }
+
   private:
     bool &destructorCalled;
 
@@ -44,5 +49,17 @@ void SpecificationTest::hasVirtualIsSatisfiedBy()
   CPPUNIT_ASSERT(test->isSatisfiedBy(&base));
   CPPUNIT_ASSERT(!test->isSatisfiedBy(nullptr));
 
+  delete test;
+}
+
+void SpecificationTest::hasVirtualOr()
+{
+  bool destructed = false;
+  Specification *test = new TestSpecification(destructed);
+
+  Specification *ored = test->or_(test);
+  CPPUNIT_ASSERT(test != ored);
+
+  delete ored;
   delete test;
 }

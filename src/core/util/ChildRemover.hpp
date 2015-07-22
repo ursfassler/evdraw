@@ -4,6 +4,8 @@
 #include "Specification.hpp"
 #include "../visitor/DefaultVisitor.hpp"
 
+#include <list>
+
 class ChildRemover : public DefaultVisitor
 {
   public:
@@ -13,6 +15,23 @@ class ChildRemover : public DefaultVisitor
 
   private:
     const Specification &specification;
+
+    void removeInstances(Composition &composition) const;
+    void removeConnections(Composition &composition) const;
+
+    template<class T>
+    std::list<T*> getSatisfied(const std::list<T*> &list) const
+    {
+      std::list<T*> removable;
+      for (T *itr : list)
+      {
+        if (specification.isSatisfiedBy(itr))
+        {
+          removable.push_back(itr);
+        }
+      }
+      return removable;
+    }
 
 };
 

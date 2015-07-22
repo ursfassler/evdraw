@@ -3,6 +3,9 @@
 #include "../connection/ConnectionFactory.hpp"
 #include "../instance/InstanceFactory.hpp"
 #include "../util/list.hpp"
+#include "../util/ChildRemover.hpp"
+#include "../connection/ConnectionWithPortSpecification.hpp"
+#include "../util/OrSpecification.hpp"
 
 #include <algorithm>
 #include <cassert>
@@ -48,6 +51,14 @@ void Composition::addInstance(Instance *instance)
 
 void Composition::removeInstance(Instance *instance)
 {
+  OrSpecification spec;
+  for (AbstractPort *port : instance->getPorts()) {
+    spec.add(new ConnectionWithPortSpecification(port));
+  }
+
+  ChildRemover remover(spec);
+  accept(remover);
+
   instances.remove(instance);
   notify(&CompositionObserver::instanceRemoved, instance);
 }

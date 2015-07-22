@@ -1,13 +1,13 @@
 #ifndef INSTANCEOFSPECIFICATION_HPP
 #define INSTANCEOFSPECIFICATION_HPP
 
-#include "../util/Specification.hpp"
+#include "../util/DefaultSpecification.hpp"
 #include "../component/Component.hpp"
 #include "../base/Base.hpp"
 
 class InstanceOfSpecificationTest;
 
-class InstanceOfSpecification : public Specification
+class InstanceOfSpecification : public DefaultSpecification
 {
   public:
     InstanceOfSpecification(const Component *component);

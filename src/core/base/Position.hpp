@@ -15,7 +15,7 @@ class PositionObserver
     virtual void offsetChanged(const RelativePosition *sender) = 0;
 };
 
-class Position : public Base, public ObserverCollection<PositionObserver>
+class Position : public ObserverCollection<PositionObserver>
 {
   public:
     Position();

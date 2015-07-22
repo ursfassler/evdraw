@@ -17,6 +17,7 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(removeInstance);
     CPPUNIT_TEST(removeConnection);
+    CPPUNIT_TEST(removeInstanceRemovesDependantConnections);
 
     CPPUNIT_TEST(notifyWhenAddInstance);
     CPPUNIT_TEST(notifyWhenAddConnection);
@@ -39,6 +40,8 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
 
     void removeInstance();
     void removeConnection();
+
+    void removeInstanceRemovesDependantConnections();
 
     void notifyWhenAddInstance();
     void notifyWhenAddConnection();

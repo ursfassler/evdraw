@@ -6,10 +6,10 @@
 class Specification
 {
   public:
-    Specification();
-    virtual ~Specification();
+    virtual ~Specification(){}
 
     virtual bool isSatisfiedBy(const Base *candidate) const = 0;
+    virtual Specification *or_(const Specification *right) const = 0;
 };
 
 #endif // SPECIFICATION_HPP

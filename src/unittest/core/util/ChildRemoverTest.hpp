@@ -10,13 +10,14 @@ class ChildRemoverTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(inheritsDefaultVisitor);
     CPPUNIT_TEST(compositionRemovesInstance);
+    CPPUNIT_TEST(compositionRemovesConnection);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void inheritsDefaultVisitor();
     void compositionRemovesInstance();
-
+    void compositionRemovesConnection();
 
 };
 

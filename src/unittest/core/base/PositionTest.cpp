@@ -11,12 +11,6 @@ void PositionTest::create()
   CPPUNIT_ASSERT_EQUAL(Point(10,20), base.getOffset());
 }
 
-void PositionTest::inheritsBase()
-{
-  RelativePosition base(Point(10,20));
-  CPPUNIT_ASSERT(dynamic_cast<Base*>(&base) != nullptr);
-}
-
 void PositionTest::absolutePosition()
 {
   RelativePosition parent(Point(20,60));

@@ -12,6 +12,7 @@ TARGET = testapp
 
 CONFIG += c++11
 
+#QMAKE_CXX = clang
 QMAKE_CXXFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
 
 LIBS += -ltinyxml -lcppunit
@@ -107,7 +108,14 @@ HEADERS += \
     unittest/core/util/ChildRemoverTest.hpp \
     core/util/ChildRemover.hpp \
     unittest/core/util/AlwaysSatisfiedSpecificationTest.hpp \
-    core/util/AlwaysSatisfiedSpecification.hpp
+    core/util/AlwaysSatisfiedSpecification.hpp \
+    unittest/core/visitor/VisitorClientTest.hpp \
+    unittest/core/connection/ConnectionWithPortSpecificationTest.hpp \
+    core/connection/ConnectionWithPortSpecification.hpp \
+    unittest/core/util/OrSpecificationTest.hpp \
+    core/util/OrSpecification.hpp \
+    unittest/core/util/DefaultSpecificationTest.hpp \
+    core/util/DefaultSpecification.hpp
 
 SOURCES += \
     core/base/Position.cpp \
@@ -176,7 +184,6 @@ SOURCES += \
     unittest/file/xmlwriter/XmlWriterTest.cpp \
     unittest/file/RizzlyPrintTest.cpp \
     unittest/core/util/SpecificationTest.cpp \
-    core/util/Specification.cpp \
     unittest/core/instance/InstanceOfSpecificationTest.cpp \
     core/instance/InstanceOfSpecification.cpp \
     unittest/core/base/BaseTest.cpp \
@@ -190,4 +197,11 @@ SOURCES += \
     unittest/core/util/ChildRemoverTest.cpp \
     core/util/ChildRemover.cpp \
     unittest/core/util/AlwaysSatisfiedSpecificationTest.cpp \
-    core/util/AlwaysSatisfiedSpecification.cpp
+    core/util/AlwaysSatisfiedSpecification.cpp \
+    unittest/core/visitor/VisitorClientTest.cpp \
+    unittest/core/connection/ConnectionWithPortSpecificationTest.cpp \
+    core/connection/ConnectionWithPortSpecification.cpp \
+    unittest/core/util/OrSpecificationTest.cpp \
+    core/util/OrSpecification.cpp \
+    unittest/core/util/DefaultSpecificationTest.cpp \
+    core/util/DefaultSpecification.cpp

@@ -3,8 +3,9 @@
 
 #include "ConstVisitor.hpp"
 #include "Visitor.hpp"
+#include "../base/Base.hpp"
 
-class VisitorClient
+class VisitorClient : public Base
 {
   public:
     virtual ~VisitorClient() {}

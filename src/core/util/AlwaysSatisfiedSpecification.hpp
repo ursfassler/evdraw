@@ -1,9 +1,9 @@
 #ifndef ALWAYSSATISFIEDSPECIFICATION_HPP
 #define ALWAYSSATISFIEDSPECIFICATION_HPP
 
-#include "Specification.hpp"
+#include "DefaultSpecification.hpp"
 
-class AlwaysSatisfiedSpecification : public Specification
+class AlwaysSatisfiedSpecification : public DefaultSpecification
 {
   public:
     AlwaysSatisfiedSpecification();

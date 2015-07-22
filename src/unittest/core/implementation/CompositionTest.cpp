@@ -88,6 +88,24 @@ void CompositionTest::removeConnection()
   ConnectionFactory::dispose(connection);
 }
 
+void CompositionTest::removeInstanceRemovesDependantConnections()
+{
+  Composition composition;
+
+  Component *component = ComponentFactory::produce("Component", {"in"}, {"out"});
+  Instance *instance = InstanceFactory::produce(component, "Instance", Point(0,0));
+  composition.addInstance(instance);
+
+  Connection *connection = ConnectionFactory::produce(instance->getPort("out"), instance->getPort("out"));
+  composition.addConnection(connection);
+
+  composition.removeInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
 class SheetObserverTest : public CompositionObserver
 {
   public:

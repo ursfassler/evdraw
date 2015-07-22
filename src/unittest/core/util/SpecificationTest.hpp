@@ -11,12 +11,14 @@ class SpecificationTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(destructorIsVirtual);
     CPPUNIT_TEST(hasVirtualIsSatisfiedBy);
+    CPPUNIT_TEST(hasVirtualOr);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void destructorIsVirtual();
     void hasVirtualIsSatisfiedBy();
+    void hasVirtualOr();
 
 };
 
