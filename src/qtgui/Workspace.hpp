@@ -44,7 +44,7 @@ class Workspace : public QWidget
     void showComponent(const Component *component);
 };
 
-class ImplementationOpener : public DefaultVisitor
+class ImplementationOpener : public NullVisitor
 {
   public:
     ImplementationOpener(QTabWidget &drawTabs, Workspace *workspace);
