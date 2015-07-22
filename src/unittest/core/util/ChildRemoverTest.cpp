@@ -1,7 +1,7 @@
 #include "ChildRemoverTest.hpp"
 
 #include <core/util/ChildRemover.hpp>
-#include <core/util/AlwaysSatisfiedSpecification.hpp>
+#include <core/specification/AlwaysSatisfiedSpecification.hpp>
 #include <core/implementation/Composition.hpp>
 #include <core/instance/Instance.hpp>
 #include <core/visitor/DefaultVisitor.hpp>

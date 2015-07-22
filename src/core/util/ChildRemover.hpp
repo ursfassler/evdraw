@@ -1,7 +1,7 @@
 #ifndef CHILDREMOVER_HPP
 #define CHILDREMOVER_HPP
 
-#include "Specification.hpp"
+#include "../specification/Specification.hpp"
 #include "../visitor/DefaultVisitor.hpp"
 
 #include <list>

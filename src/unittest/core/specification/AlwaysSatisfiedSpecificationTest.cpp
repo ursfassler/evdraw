@@ -1,7 +1,7 @@
 #include "AlwaysSatisfiedSpecificationTest.hpp"
 
-#include <core/util/AlwaysSatisfiedSpecification.hpp>
-#include <core/util/Specification.hpp>
+#include <core/specification/AlwaysSatisfiedSpecification.hpp>
+#include <core/specification/Specification.hpp>
 
 void AlwaysSatisfiedSpecificationTest::inheritsSpecification()
 {

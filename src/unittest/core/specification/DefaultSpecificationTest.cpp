@@ -1,8 +1,8 @@
 #include "DefaultSpecificationTest.hpp"
 
-#include <core/util/DefaultSpecification.hpp>
-#include <core/util/Specification.hpp>
-#include <core/util/OrSpecification.hpp>
+#include <core/specification/DefaultSpecification.hpp>
+#include <core/specification/Specification.hpp>
+#include <core/specification/OrSpecification.hpp>
 
 class TestDefaultSpecificationTest : public DefaultSpecification
 {

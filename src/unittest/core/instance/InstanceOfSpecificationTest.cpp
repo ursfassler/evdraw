@@ -1,7 +1,7 @@
 #include "InstanceOfSpecificationTest.hpp"
 
 #include <core/instance/InstanceOfSpecification.hpp>
-#include <core/util/Specification.hpp>
+#include <core/specification/Specification.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/component/ComponentFactory.hpp>
 

@@ -1,7 +1,7 @@
 #ifndef INSTANCEOFSPECIFICATION_HPP
 #define INSTANCEOFSPECIFICATION_HPP
 
-#include "../util/DefaultSpecification.hpp"
+#include "../specification//DefaultSpecification.hpp"
 #include "../component/Component.hpp"
 #include "../base/Base.hpp"
 

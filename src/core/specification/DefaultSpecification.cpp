@@ -1,6 +1,6 @@
 #include "DefaultSpecification.hpp"
 
-#include <core/util/OrSpecification.hpp>
+#include <core/specification/OrSpecification.hpp>
 
 Specification *DefaultSpecification::or_(const Specification *right) const
 {

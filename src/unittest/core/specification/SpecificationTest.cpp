@@ -1,5 +1,5 @@
 #include <core/base/Base.hpp>
-#include <core/util/Specification.hpp>
+#include <core/specification/Specification.hpp>
 
 #include "SpecificationTest.hpp"
 

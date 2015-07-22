@@ -5,7 +5,7 @@
 #include "../util/list.hpp"
 #include "../util/ChildRemover.hpp"
 #include "../connection/ConnectionWithPortSpecification.hpp"
-#include "../util/OrSpecification.hpp"
+#include "../specification/OrSpecification.hpp"
 
 #include <algorithm>
 #include <cassert>

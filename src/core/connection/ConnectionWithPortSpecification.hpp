@@ -1,7 +1,7 @@
 #ifndef CONNECTIONWITHPORTSPECIFICATION_HPP
 #define CONNECTIONWITHPORTSPECIFICATION_HPP
 
-#include "../util/DefaultSpecification.hpp"
+#include "../specification/DefaultSpecification.hpp"
 #include "AbstractPort.hpp"
 
 class ConnectionWithPortSpecification : public DefaultSpecification

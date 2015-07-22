@@ -1,7 +1,7 @@
 #include "ConnectionWithPortSpecificationTest.hpp"
 
 #include <core/connection/ConnectionWithPortSpecification.hpp>
-#include <core/util/Specification.hpp>
+#include <core/specification/Specification.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/connection/SimplePort.hpp>
 

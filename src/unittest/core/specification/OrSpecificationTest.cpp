@@ -1,7 +1,7 @@
 #include "OrSpecificationTest.hpp"
 
-#include <core/util/OrSpecification.hpp>
-#include <core/util/DefaultSpecification.hpp>
+#include <core/specification/OrSpecification.hpp>
+#include <core/specification/DefaultSpecification.hpp>
 
 class TestOrSpecFalse : public DefaultSpecification
 {
