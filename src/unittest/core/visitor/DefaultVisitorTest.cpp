@@ -5,22 +5,6 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 
-#include <string>
-#include <vector>
-#include <ostream>
-
-typedef std::vector<std::string> sl;
-
-std::ostream &operator <<(std::ostream &stream, const sl &list)
-{
-  for(const std::string &item : list)
-  {
-    stream << item << " ";
-  }
-  return stream;
-}
-
-
 void DefaultVisitorTest::inheritsVisitor()
 {
   DefaultVisitor visitor;
@@ -126,7 +110,7 @@ class TestDefaultVisitor : public DefaultVisitor
       DefaultVisitor::visit(library);
     }
 
-    sl visited;
+    test::sl visited;
 
     bool hasVisited(const std::string &value) const
     {
@@ -147,7 +131,7 @@ void DefaultVisitorTest::slotVisitsOnlySlot()
 
   slot->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(sl({"Slot:slot"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"Slot:slot"}), tdv.visited);
 }
 
 void DefaultVisitorTest::signalVisitsOnlySignal()
@@ -156,7 +140,7 @@ void DefaultVisitorTest::signalVisitsOnlySignal()
 
   signal->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(sl({"Signal:signal"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"Signal:signal"}), tdv.visited);
 }
 
 void DefaultVisitorTest::instancePortVisitsOnlyInstancePort()
@@ -165,7 +149,7 @@ void DefaultVisitorTest::instancePortVisitsOnlyInstancePort()
 
   instanceSlot->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(sl({"InstancePort:slot"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"InstancePort:slot"}), tdv.visited);
 }
 
 void DefaultVisitorTest::instanceVisitsPorts()
@@ -185,7 +169,7 @@ void DefaultVisitorTest::connectionVisitsOnlyConnection()
 
   connection->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(sl({"Connection:signal->slot"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"Connection:signal->slot"}), tdv.visited);
 }
 
 void DefaultVisitorTest::compositionVisitsInstance()
@@ -214,7 +198,7 @@ void DefaultVisitorTest::nullImplementationVisitsOnlyNullImplementation()
 
   componentNullImpl->getImplementation()->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(sl({"NullImplementation"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"NullImplementation"}), tdv.visited);
 }
 
 void DefaultVisitorTest::componentVisitsPorts()
