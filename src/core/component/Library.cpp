@@ -14,10 +14,10 @@ Library::Library() :
 
 Library::~Library()
 {
-  for (Component *component : components) {
-    ComponentFactory::dispose(component);
+  while (!components.empty()) {
+    del(components.back());
   }
-  components.clear();
+  postcondition(components.empty());
 }
 
 void Library::add(Component *component)
@@ -37,7 +37,7 @@ void Library::del(Component *component)
 
   components.erase(idx);
   notify(&LibraryObserver::delComponent, static_cast<const Library*>(this), component);
-  delete component;
+  ComponentFactory::dispose(component);
 }
 
 bool Library::contains(const Component *component) const

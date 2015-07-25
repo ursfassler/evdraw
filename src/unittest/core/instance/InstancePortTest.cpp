@@ -7,20 +7,22 @@
 
 #include <core/instance/InstancePortFactory.hpp>
 #include <core/instance/InstancePort.hpp>
+#include <core/instance/InstanceFactory.hpp>
 
 void InstancePortTest::createPort()
 {
   Component *comp = ComponentFactory::produce("", {"bla"}, {});
   ComponentPort *cport = comp->getPorts()[0];
 
-  Instance inst("", Point(0, 0), comp);
-  InstancePort *port = InstancePortFactory::produce(&inst, cport);
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, cport);
 
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort()->getName());
   CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
   CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getOffset().y);
 
   InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
 
@@ -30,9 +32,9 @@ void InstancePortTest::offset()
   ComponentPort *cport1 = comp->getPorts()[0];
   ComponentPort *cport2 = comp->getPorts()[1];
 
-  Instance inst("", Point(0, 0), comp);
-  InstancePort *port1 = InstancePortFactory::produce(&inst, cport1);
-  InstancePort *port2 = InstancePortFactory::produce(&inst, cport2);
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port1 = InstancePortFactory::produce(inst, cport1);
+  InstancePort *port2 = InstancePortFactory::produce(inst, cport2);
 
   CPPUNIT_ASSERT(port1->getOffset().x < 0);
   CPPUNIT_ASSERT(port1->getOffset().y > 0);
@@ -42,6 +44,7 @@ void InstancePortTest::offset()
 
   InstancePortFactory::dispose(port2);
   InstancePortFactory::dispose(port1);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
 
@@ -50,47 +53,55 @@ void InstancePortTest::absolutePosition()
   Component *comp = ComponentFactory::produce("", {"bla"}, {});
   ComponentPort *cport = comp->getPorts()[0];
 
-  Instance inst("", Point(0, 0), comp);
-  InstancePort *port = InstancePortFactory::produce(&inst, cport);
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, cport);
 
   CPPUNIT_ASSERT(port->getAbsolutePosition().x < 0);
   CPPUNIT_ASSERT(port->getAbsolutePosition().y > 0);
 
   InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
 
 void InstancePortTest::positionChangeNotificationNotifiesConnector()
 {
-  Component *comp = ComponentFactory::produce("", {}, {});
-  Instance inst("", Point(0, 0), comp);
-  InstancePort port(&inst, nullptr, Point(0,0));
+  Component *comp = ComponentFactory::produce("", {"left"}, {});
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, comp->getPorts()[0]);
 
-  inst.setOffset(Point(10,20));
+  Point pos = port->getConnector().getAbsolutePosition();
+  inst->setOffset(Point(10,20));
 
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), port.getConnector().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(pos+Point(10,20), port->getConnector().getAbsolutePosition());
 
+  InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
 
 void InstancePortTest::portIsLeft()
 {
   Component *comp = ComponentFactory::produce("", {"left"}, {});
-  Instance inst("", Point(0, 0), comp);
-  InstancePort port(&inst, comp->getPorts()[0], Point(0,0));
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, comp->getPorts()[0]);
 
-  CPPUNIT_ASSERT_EQUAL(Side::Left, port.side());
+  CPPUNIT_ASSERT_EQUAL(Side::Left, port->side());
 
+  InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
 
 void InstancePortTest::portIsRight()
 {
   Component *comp = ComponentFactory::produce("", {}, {"right"});
-  Instance inst("", Point(0, 0), comp);
-  InstancePort port(&inst, comp->getPorts()[0], Point(0,0));
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, comp->getPorts()[0]);
 
-  CPPUNIT_ASSERT_EQUAL(Side::Right, port.side());
+  CPPUNIT_ASSERT_EQUAL(Side::Right, port->side());
 
+  InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }

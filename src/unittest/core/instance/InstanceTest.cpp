@@ -1,87 +1,71 @@
 #include "InstanceTest.hpp"
 
-#include <core/component/Component.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/base/Position.hpp>
 #include <core/Point.hpp>
-#include <core/instance/Instance.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/instance/AbstractInstance.hpp>
 
+void InstanceTest::setUp()
+{
+  component = ComponentFactory::produce("Component", {"in1", "in2"}, {"out1"});
+  instance = InstanceFactory::produce(component, "instance", Point(3, 7));
+}
+
+void InstanceTest::tearDown()
+{
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}
+
 void InstanceTest::produce()
 {
-  Component *component = ComponentFactory::produce("");
-  Instance  instance("lala", Point(3, 7), component);
-
-  CPPUNIT_ASSERT_EQUAL(std::string("lala"), instance.getName());
-  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance.getOffset());
-  CPPUNIT_ASSERT_EQUAL(component, instance.getComponent());
-  CPPUNIT_ASSERT(dynamic_cast<AbstractInstance*>(&instance) != nullptr);
-
-  ComponentFactory::dispose(component);
+  CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
+  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance->getOffset());
+  CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
+  CPPUNIT_ASSERT(dynamic_cast<AbstractInstance*>(instance) != nullptr);
 }
 
 void InstanceTest::setPosition()
 {
-  Component *component = ComponentFactory::produce("");
-  Instance  instance("", Point(0, 0), component);
-
-  CPPUNIT_ASSERT_EQUAL(Point( 0,  0), instance.getOffset());
-  instance.setOffset(Point(57, 42));
-  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance.getOffset());
-
-  ComponentFactory::dispose(component);
+  CPPUNIT_ASSERT_EQUAL(Point( 3,  7), instance->getOffset());
+  instance->setOffset(Point(57, 42));
+  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance->getOffset());
 }
-
-class EpObserver
-{
-  public:
-    Instance const *lastSender = nullptr;
-
-  public:
-    void notify(const Instance *sender)
-    {
-      lastSender = sender;
-    }
-};
 
 void InstanceTest::inheritsPosition()
 {
-  Component *component = ComponentFactory::produce("");
-  Instance  instance("", Point(0, 0), component);
-  CPPUNIT_ASSERT(dynamic_cast<Position*>(&instance) != nullptr);
-
-  ComponentFactory::dispose(component);
+  CPPUNIT_ASSERT(dynamic_cast<Position*>(instance) != nullptr);
 }
 
 void InstanceTest::inheritsBase()
 {
-  Component *component = ComponentFactory::produce("");
-  Instance  instance("", Point(0, 0), component);
-  CPPUNIT_ASSERT(dynamic_cast<Base*>(&instance) != nullptr);
-
-  ComponentFactory::dispose(component);
+  CPPUNIT_ASSERT(dynamic_cast<Base*>(instance) != nullptr);
 }
 
-void InstanceTest::addInputPort()
+void InstanceTest::addPort()
 {
-  Instance  instance("", Point(0, 0), nullptr);
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
 
-  InstancePort *port = new InstancePort(&instance, nullptr, Point(-20,10));
-  instance.addPort(port);
+  AbstractPort *port = new InstancePort(instance, nullptr, Point(-20,10));
+  instance->addPort(port);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getPorts().size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(port), instance.getPorts()[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(port, instance->getPorts()[3]);
+}
 
-  InstanceFactory::cleanup(instance);
+void InstanceTest::delPort()
+{
+  AbstractPort *port = instance->getPorts()[0];
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  instance->delPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
+  delete port;
 }
 
 void InstanceTest::getPortWithExisting()
 {
-  Component *component = ComponentFactory::produce("", {"in1", "in2"}, {"out1"});
-  Instance  *instance = InstanceFactory::produce(component, "", Point(0,0));
-
   AbstractPort *in2 = instance->getPort("in2");
   AbstractPort *out1 = instance->getPort("out1");
   AbstractPort *in1 = instance->getPort("in1");
@@ -93,8 +77,15 @@ void InstanceTest::getPortWithExisting()
   CPPUNIT_ASSERT(in1 != in2);
   CPPUNIT_ASSERT(in1 != out1);
   CPPUNIT_ASSERT(in2 != out1);
+}
 
-  InstanceFactory::dispose(instance);
-  ComponentFactory::dispose(component);
+void InstanceTest::deletePortWhenComponentPortIsRemoved()
+{
+  ComponentPort *compPort = component->getPorts()[0];
+  AbstractPort *instPort = instance->getPort(compPort->getName());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  component->delPort(compPort);
+  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
+  delete instPort;
 }
 

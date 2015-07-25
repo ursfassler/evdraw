@@ -120,7 +120,8 @@ HEADERS += \
     unittest/file/xmlreader/XmlReaderTest.hpp \
     unittest/file/xmlwriter/XmlNodeWriterTest.hpp \
     unittest/file/xmlwriter/XmlWriterTest.hpp \
-    unittest/testtypes.hpp
+    unittest/testtypes.hpp \
+    unittest/core/instance/InstanceObserverTest.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -210,5 +211,6 @@ SOURCES += \
     unittest/file/xmlwriter/XmlNodeWriterTest.cpp \
     unittest/file/xmlwriter/XmlWriterTest.cpp \
     unittest/main.cpp \
-    unittest/testtypes.cpp
+    unittest/testtypes.cpp \
+    unittest/core/instance/InstanceObserverTest.cpp
 

@@ -121,11 +121,16 @@ void ConstVisitorTest::instance()
 {
   TestConstVisitor visitor;
 
-  Instance instance("instance", Point(0,0), nullptr);
-  instance.accept(visitor);
+  Component *component = ComponentFactory::produce("component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+
+  instance->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), visitor.visited[0]);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
 }
 
 void ConstVisitorTest::instancePort()

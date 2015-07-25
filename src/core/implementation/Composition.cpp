@@ -45,6 +45,7 @@ const std::list<Instance *> &Composition::getInstances() const
 
 void Composition::addInstance(Instance *instance)
 {
+  instance->ObserverCollection<InstanceObserver>::registerObserver(this);
   instances.push_back(instance);
   notify(&CompositionObserver::instanceAdded, instance);
 }
@@ -60,6 +61,7 @@ void Composition::removeInstance(Instance *instance)
   accept(remover);
 
   instances.remove(instance);
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   notify(&CompositionObserver::instanceRemoved, instance);
 }
 
@@ -88,7 +90,7 @@ void Composition::removeConnection(Connection *connection)
   notify(&CompositionObserver::connectionRemoved, connection);
 }
 
-void Composition::startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort)
+void Composition::startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort)
 {
   precondition(!hasConnectionUnderConstruction());
   precondition(startPort != nullptr);
@@ -100,7 +102,7 @@ void Composition::startConnectionConstruction(InstancePort *startPort, AbstractP
   notify(&CompositionObserver::addConnectionUnderConstruction, connectionUnderConstruction);
 }
 
-void Composition::finishConnectionConstruction(InstancePort *end)
+void Composition::finishConnectionConstruction(AbstractPort *end)
 {
   precondition(hasConnectionUnderConstruction());
   precondition(end != nullptr);
@@ -124,6 +126,14 @@ bool Composition::hasConnectionUnderConstruction() const
 Connection *Composition::getConnectionUnderConstruction() const
 {
   return connectionUnderConstruction;
+}
+
+void Composition::portDeleted(AbstractPort *port)
+{
+  ConnectionWithPortSpecification spec(port);
+  ChildRemover remover(spec);
+  accept(remover);
+  delete port;
 }
 
 void Composition::checkInvariant()

@@ -18,14 +18,15 @@ void CompositionTest::create()
 
 void CompositionTest::addInstance()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  sheet.addInstance(instance);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getInstances().size());
-  CPPUNIT_ASSERT_EQUAL(instance, sheet.getInstances().front());
+  composition->addInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getInstances().size());
+  CPPUNIT_ASSERT_EQUAL(instance, composition->getInstances().front());
 
+  delete composition;
   ComponentFactory::dispose(component);
 }
 
@@ -49,26 +50,28 @@ void CompositionTest::inheritsImplementation()
 
 void CompositionTest::getInstance()
 {
-  Composition composition;
+  Composition *composition = new Composition();
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  composition.addInstance(instance);
-  CPPUNIT_ASSERT_EQUAL(instance, composition.getInstance("instance"));
+  composition->addInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(instance, composition->getInstance("instance"));
 
+  delete composition;
   ComponentFactory::dispose(component);
 }
 
 void CompositionTest::removeInstance()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  sheet.addInstance(instance);
-  sheet.removeInstance(instance);
-  CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getInstances().size());
+  composition->addInstance(instance);
+  composition->removeInstance(instance);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getInstances().size());
 
+  delete composition;
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
 }
@@ -149,77 +152,80 @@ class SheetObserverTest : public CompositionObserver
 
 void CompositionTest::notifyWhenAddInstance()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   SheetObserverTest observer;
-  sheet.registerObserver(&observer);
+  composition->registerObserver(&observer);
 
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  sheet.addInstance(instance);
+  composition->addInstance(instance);
 
   CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceAdded);
 
-  sheet.unregisterObserver(&observer);
+  composition->unregisterObserver(&observer);
+  delete composition;
   ComponentFactory::dispose(component);
 }
 
 void CompositionTest::notifyWhenAddConnection()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   SheetObserverTest observer;
-  sheet.registerObserver(&observer);
+  composition->registerObserver(&observer);
 
   SimplePort startPort;
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
-  sheet.addConnection(connection);
+  composition->addConnection(connection);
 
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionAdded);
 
-  sheet.unregisterObserver(&observer);
+  composition->unregisterObserver(&observer);
+  delete composition;
 }
 
 void CompositionTest::notifyWhenRemoveInstance()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   SheetObserverTest observer;
-  sheet.registerObserver(&observer);
+  composition->registerObserver(&observer);
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  sheet.addInstance(instance);
-  sheet.removeInstance(instance);
+  composition->addInstance(instance);
+  composition->removeInstance(instance);
 
   CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceRemoved);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
+  delete composition;
 }
 
 void CompositionTest::notifyWhenRemoveConnection()
 {
-  Composition sheet;
+  Composition *composition = new Composition();
   SheetObserverTest observer;
-  sheet.registerObserver(&observer);
+  composition->registerObserver(&observer);
 
   SimplePort startPort;
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
-  sheet.addConnection(connection);
-  sheet.removeConnection(connection);
+  composition->addConnection(connection);
+  composition->removeConnection(connection);
 
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionRemoved);
 
-  sheet.unregisterObserver(&observer);
+  composition->unregisterObserver(&observer);
   ConnectionFactory::dispose(connection);
+  delete composition;
 }
 
 void CompositionTest::addConnectionUnderConstructionNotifiesObserver()
 {
-  Instance instance("", Point(0,0), nullptr);
-  InstancePort startPort(&instance, nullptr, Point(0,0));
-  InstancePort endPort(&instance, nullptr, Point(0,0));
+  SimplePort startPort;
+  SimplePort endPort;
 
   SheetObserverTest observer;
   Composition composition;
@@ -233,9 +239,8 @@ void CompositionTest::addConnectionUnderConstructionNotifiesObserver()
 
 void CompositionTest::canNotOverwriteConnectionUnderConstructio()
 {
-  Instance instance("", Point(0,0), nullptr);
-  InstancePort startPort(&instance, nullptr, Point(0,0));
-  InstancePort endPort(&instance, nullptr, Point(0,0));
+  SimplePort startPort;
+  SimplePort endPort;
 
   Composition composition;
   composition.startConnectionConstruction(&startPort, &endPort);
@@ -245,10 +250,9 @@ void CompositionTest::canNotOverwriteConnectionUnderConstructio()
 
 void CompositionTest::finishConnectionCreation()
 {
-  Instance instance("", Point(0,0), nullptr);
-  InstancePort startPort(&instance, nullptr, Point(0,0));
+  SimplePort startPort;
   SimplePort tmpEnd;
-  InstancePort endPort(&instance, nullptr, Point(0,0));
+  SimplePort endPort;
 
   Composition composition;
   composition.startConnectionConstruction(&startPort, &tmpEnd);
@@ -260,4 +264,24 @@ void CompositionTest::finishConnectionCreation()
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
   CPPUNIT_ASSERT(!composition.hasConnectionUnderConstruction());
+}
+
+void CompositionTest::deleteInstancePortRemovesDependantConnections()
+{
+  Component *comp1 = ComponentFactory::produce("comp1", {"in"}, {"out"});
+  Composition *composition = new Composition();
+  Instance *inst = InstanceFactory::produce(comp1, "inst", Point(0,0));
+  composition->addInstance(inst);
+  AbstractPort *portOut = inst->getPort("out");
+  AbstractPort *portIn = inst->getPort("in");
+  Connection *connection = ConnectionFactory::produce(portOut, portIn);
+  composition->addConnection(connection);
+
+  ComponentPort *port = comp1->getPorts()[0];
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
+  comp1->delPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getConnections().size());
+
+  delete composition;
+  ComponentFactory::dispose(comp1);
 }

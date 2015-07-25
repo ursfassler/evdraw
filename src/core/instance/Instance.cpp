@@ -7,6 +7,13 @@ Instance::Instance(const std::string &aName, const Point &aPosition, Component *
   component(aComponent),
   ports()
 {
+  precondition(component != nullptr);
+  component->registerObserver(this);
+}
+
+Instance::~Instance()
+{
+  component->unregisterObserver(this);
 }
 
 const std::string &Instance::getName() const
@@ -22,6 +29,16 @@ Component *Instance::getComponent() const
 void Instance::addPort(AbstractPort *port)
 {
   ports.push_back(port);
+  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, port);
+}
+
+//TODO: also delete port (check that all del* methods behave the same)
+void Instance::delPort(AbstractPort *port)
+{
+  const auto itr = std::find(ports.begin(), ports.end(), port);
+  precondition(itr != ports.end());
+  ports.erase(itr);
+  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portDeleted, port);
 }
 
 const std::vector<AbstractPort *> &Instance::getPorts() const
@@ -45,4 +62,18 @@ void Instance::accept(Visitor &visitor)
 void Instance::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
+}
+
+void Instance::addPort(const Component *, ComponentPort *)
+{
+}
+
+void Instance::delPort(const Component *, ComponentPort *port)
+{
+  auto predicate = [&](AbstractPort *itr){
+    return itr->getName() == port->getName();
+  };
+  auto idx = std::find_if(ports.begin(), ports.end(), predicate);
+  precondition(idx != ports.end());
+  delPort(*idx);
 }

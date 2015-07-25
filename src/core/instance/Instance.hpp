@@ -15,22 +15,45 @@
 
 class InstanceFactory;
 
-class Instance final : public AbstractInstance, public RelativePosition, public VisitorClient
+class InstanceObserver
+{
+  public:
+    virtual ~InstanceObserver()
+    {
+    }
+
+    virtual void portAdded(AbstractPort *port)
+    {
+      (void)(port);
+    }
+
+    virtual void portDeleted(AbstractPort *port)
+    {
+      (void)(port);
+    }
+};
+
+class Instance final : public AbstractInstance, public RelativePosition, public VisitorClient, public ObserverCollection<InstanceObserver>, public ComponentObserver
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
     Instance(const Instance &copy) = delete;
-    Instance & operator=(const Instance &L) = delete;
+    Instance & operator=(const Instance &) = delete;
+    ~Instance();
 
     const std::string &getName() const;
     Component *getComponent() const;
 
     void addPort(AbstractPort *port);
+    void delPort(AbstractPort *port);
     const std::vector<AbstractPort *> &getPorts() const;
     AbstractPort *getPort(const std::string &name) const;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
+
+    void addPort(const Component *parent, ComponentPort *port);
+    void delPort(const Component *parent, ComponentPort *port);
 
   private:
     std::string name;

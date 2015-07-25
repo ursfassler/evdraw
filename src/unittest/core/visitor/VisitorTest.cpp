@@ -14,9 +14,22 @@
 #include <core/implementation/Composition.hpp>
 #include <core/implementation/NullImplementation.hpp>
 
-class TestVisitor : public Visitor
+class TestVisitor final : public Visitor
 {
   public:
+    TestVisitor() :
+      component(ComponentFactory::produce("Component"))
+    {
+    }
+
+    TestVisitor(const TestVisitor &) = delete;
+    TestVisitor *operator =(const TestVisitor &) = delete;
+
+    ~TestVisitor()
+    {
+      ComponentFactory::dispose(component);
+    }
+
     void visit(Slot &port)
     {
       port.setTopIndex(2*port.getTopIndex());
@@ -52,7 +65,7 @@ class TestVisitor : public Visitor
 
     void visit(Composition &composition)
     {
-      composition.addInstance(new Instance("", Point(0,0), nullptr));
+      composition.addInstance(new Instance("", Point(0,0), component));
     }
 
     void visit(NullImplementation &)
@@ -63,6 +76,9 @@ class TestVisitor : public Visitor
     {
       library.add(ComponentFactory::produce(""));
     }
+
+  private:
+    Component *component;
 };
 
 void VisitorTest::slot()
@@ -101,12 +117,15 @@ void VisitorTest::instance()
 {
   TestVisitor visitor;
 
-  Instance instance("instance", Point(0,0), nullptr);
-  CPPUNIT_ASSERT_EQUAL(size_t(0), instance.getPorts().size());
-  instance.accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance.getPorts().size());
+  Component *component = ComponentFactory::produce("component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  delete instance.getPorts()[0];
+  CPPUNIT_ASSERT_EQUAL(size_t(0), instance->getPorts().size());
+  instance->accept(visitor);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
 }
 
 void VisitorTest::instancePort()

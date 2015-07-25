@@ -48,7 +48,7 @@ class CompositionObserver
     }
 };
 
-class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>
+class Composition final : public AbstractImplementation, public ObserverCollection<CompositionObserver>, public InstanceObserver
 {
   public:
     Composition();
@@ -66,10 +66,12 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
     void addConnection(Connection *connection);
     void removeConnection(Connection *connection);
 
-    void startConnectionConstruction(InstancePort *startPort, AbstractPort *endPort);
-    void finishConnectionConstruction(InstancePort *end);
+    void startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort);
+    void finishConnectionConstruction(AbstractPort *end);
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
+
+    void portDeleted(AbstractPort *port);
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;

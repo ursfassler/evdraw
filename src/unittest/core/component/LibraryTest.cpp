@@ -4,7 +4,9 @@
 #include <core/component/Component.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/Instance.hpp>
+#include <core/instance/InstanceFactory.hpp>
 #include <core/implementation/Composition.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 
 void LibraryTest::create()
 {
@@ -112,4 +114,3 @@ void LibraryTest::throwErrorWhenComponentNotInLibrary()
   Library lib;
   CPPUNIT_ASSERT_THROW(lib.getComponent("lala"), std::invalid_argument);
 }
-
