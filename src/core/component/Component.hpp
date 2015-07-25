@@ -19,13 +19,13 @@ class ComponentObserver
     {
     }
 
-    virtual void addPort(const Component *parent, ComponentPort *port)
+    virtual void portAdded(const Component *parent, ComponentPort *port)
     {
       (void)(parent);
       (void)(port);
     }
 
-    virtual void delPort(const Component *parent, ComponentPort *port)
+    virtual void portDeleted(const Component *parent, ComponentPort *port)
     {
       (void)(parent);
       (void)(port);

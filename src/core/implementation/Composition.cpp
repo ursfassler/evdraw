@@ -133,7 +133,6 @@ void Composition::portDeleted(AbstractPort *port)
   ConnectionWithPortSpecification spec(port);
   ChildRemover remover(spec);
   accept(remover);
-  delete port;
 }
 
 void Composition::checkInvariant()

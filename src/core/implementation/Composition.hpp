@@ -71,10 +71,11 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
 
-    void portDeleted(AbstractPort *port);
-
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
+
+  protected:
+    void portDeleted(AbstractPort *port);
 
   private:
     Connection  *connectionUnderConstruction = nullptr;

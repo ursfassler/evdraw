@@ -32,13 +32,13 @@ void Instance::addPort(AbstractPort *port)
   ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, port);
 }
 
-//TODO: also delete port (check that all del* methods behave the same)
-void Instance::delPort(AbstractPort *port)
+void Instance::deletePort(AbstractPort *port)
 {
   const auto itr = std::find(ports.begin(), ports.end(), port);
   precondition(itr != ports.end());
   ports.erase(itr);
   ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portDeleted, port);
+  delete port;
 }
 
 const std::vector<AbstractPort *> &Instance::getPorts() const
@@ -64,16 +64,16 @@ void Instance::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-void Instance::addPort(const Component *, ComponentPort *)
+void Instance::portAdded(const Component *, ComponentPort *)
 {
 }
 
-void Instance::delPort(const Component *, ComponentPort *port)
+void Instance::portDeleted(const Component *, ComponentPort *port)
 {
   auto predicate = [&](AbstractPort *itr){
     return itr->getName() == port->getName();
   };
   auto idx = std::find_if(ports.begin(), ports.end(), predicate);
   precondition(idx != ports.end());
-  delPort(*idx);
+  deletePort(*idx);
 }

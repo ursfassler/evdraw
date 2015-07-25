@@ -59,9 +59,8 @@ void InstanceTest::delPort()
 {
   AbstractPort *port = instance->getPorts()[0];
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  instance->delPort(port);
+  instance->deletePort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
-  delete port;
 }
 
 void InstanceTest::getPortWithExisting()
@@ -82,10 +81,8 @@ void InstanceTest::getPortWithExisting()
 void InstanceTest::deletePortWhenComponentPortIsRemoved()
 {
   ComponentPort *compPort = component->getPorts()[0];
-  AbstractPort *instPort = instance->getPort(compPort->getName());
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
   component->delPort(compPort);
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
-  delete instPort;
 }
 

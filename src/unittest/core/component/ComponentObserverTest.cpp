@@ -48,13 +48,13 @@ class ComponentTestObserver : public ComponentObserver
     {
     }
 
-    void addPort(const Component *parent, ComponentPort *port)
+    void portAdded(const Component *parent, ComponentPort *port)
     {
       (void)(parent);
       newPorts.push_back(port);
     }
 
-    void delPort(const Component *parent, ComponentPort *port)
+    void portDeleted(const Component *parent, ComponentPort *port)
     {
       (void)(parent);
       delPorts.push_back(port);

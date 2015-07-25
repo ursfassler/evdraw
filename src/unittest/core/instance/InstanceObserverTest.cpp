@@ -105,11 +105,10 @@ void InstanceObserverTest::notifyDelPort()
 
   AbstractPort *port = new SimplePort();
   instance->addPort(port);
-  instance->delPort(port);
+  instance->deletePort(port);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.deletedPorts[0]);
 
-  delete port;
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }

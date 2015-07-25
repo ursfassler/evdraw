@@ -45,15 +45,16 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     Component *getComponent() const;
 
     void addPort(AbstractPort *port);
-    void delPort(AbstractPort *port);
+    void deletePort(AbstractPort *port);
     const std::vector<AbstractPort *> &getPorts() const;
     AbstractPort *getPort(const std::string &name) const;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-    void addPort(const Component *parent, ComponentPort *port);
-    void delPort(const Component *parent, ComponentPort *port);
+  protected:
+    void portAdded(const Component *parent, ComponentPort *port);
+    void portDeleted(const Component *parent, ComponentPort *port);
 
   private:
     std::string name;

@@ -21,7 +21,7 @@ void Component::addPort(ComponentPort *port)
 {
   ports.push_back(port);
   updateTopIndex();
-  notify(&ComponentObserver::addPort, static_cast<const Component*>(this), port);
+  notify(&ComponentObserver::portAdded, static_cast<const Component*>(this), port);
 }
 
 void Component::delPort(ComponentPort *port)
@@ -30,7 +30,7 @@ void Component::delPort(ComponentPort *port)
   precondition(idx != ports.end());
   ports.erase(idx);
   updateTopIndex();
-  notify(&ComponentObserver::delPort, static_cast<const Component*>(this), port);
+  notify(&ComponentObserver::portDeleted, static_cast<const Component*>(this), port);
   delete port;
 }
 
