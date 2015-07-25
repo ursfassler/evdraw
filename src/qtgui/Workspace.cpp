@@ -50,6 +50,12 @@ void Workspace::delComponent()
   componentModel->delComponent(selected);
 }
 
+void Workspace::delPort()
+{
+  QModelIndex selected = portView.currentIndex();
+  portModel->delPort(selected);
+}
+
 void Workspace::openFile(const QString &filename)
 {
   Library *lib = XmlReader::loadFile(filename.toStdString());
@@ -68,7 +74,7 @@ void Workspace::openComponent(const QModelIndex &index)
   showComponent(comp);
 }
 
-void Workspace::showComponent(const Component *component)
+void Workspace::showComponent(Component *component)
 {
   if (portModel != nullptr) {
     portModel->deleteLater();

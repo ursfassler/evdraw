@@ -9,15 +9,17 @@ class CompifaceModel : public QAbstractListModel
 {
     Q_OBJECT
   public:
-    explicit CompifaceModel(const Component &component, QObject *parent = 0);
+    explicit CompifaceModel(Component &component, QObject *parent = 0);
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     int columnCount(const QModelIndex &parent) const;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
+    void delPort(const QModelIndex &index);
+
   private:
-    const Component &component;
+    Component &component;
 
 };
 

@@ -1,6 +1,6 @@
 #include "CompifaceModel.hpp"
 
-CompifaceModel::CompifaceModel(const Component &aComponent, QObject *parent) :
+CompifaceModel::CompifaceModel(Component &aComponent, QObject *parent) :
   QAbstractListModel(parent),
   component(aComponent)
 {
@@ -43,4 +43,13 @@ QVariant CompifaceModel::data(const QModelIndex &index, int role) const
   } else {
     return "lolo";
   }
+}
+
+void CompifaceModel::delPort(const QModelIndex &index)
+{
+  if (!index.isValid()) {
+    return;
+  }
+  ComponentPort *port = component.getPorts()[index.row()];
+  component.delPort(port);
 }

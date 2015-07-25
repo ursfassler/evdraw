@@ -15,13 +15,7 @@ CompositionToGuiUpdater::~CompositionToGuiUpdater()
 
 void CompositionToGuiUpdater::instanceAdded(Instance *instance)
 {
-  GiInstance *giinstA = new GiInstance(instance, 0);
-
-  for (AbstractPort *port : instance->getPorts()) {
-    InstancePort *ip = dynamic_cast<InstancePort*>(port);
-    new GiInstancePort(ip, &composition, giinstA);
-  }
-
+  GiInstance *giinstA = new GiInstance(instance, &composition, 0);
   scene.addItem(giinstA);
 }
 

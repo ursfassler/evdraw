@@ -24,6 +24,7 @@ class Workspace : public QWidget
   public slots:
     void addComponent();
     void delComponent();
+    void delPort();
 
   public slots:
     void openFile(const QString &filename);
@@ -41,7 +42,7 @@ class Workspace : public QWidget
     QTreeView portView;
     QTabWidget drawTabs;
 
-    void showComponent(const Component *component);
+    void showComponent(Component *component);
 };
 
 class ImplementationOpener : public NullVisitor

@@ -2,7 +2,6 @@
 #define COMPOSITIONTOGUIUPDATER_HPP
 
 #include "graphicItems/GiInstance.hpp"
-#include "graphicItems/GiInstancePort.hpp"
 #include "graphicItems/GiSegment.hpp"
 #include "graphicItems/GiConnectionCreation.hpp"
 

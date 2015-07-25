@@ -8,32 +8,50 @@
 #include <QFont>
 #include <QRectF>
 
-GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
+GiInstance::GiInstance(Instance *aModel, Composition *composition, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
   instanceText(this),
   componentText(this)
 {
-  model->registerObserver(this);
+  model->ObserverCollection<PositionObserver>::registerObserver(this);
+  model->ObserverCollection<InstanceObserver>::registerObserver(this);
   setBrush(QBrush(QColor::fromRgb(0xf2, 0xf2, 0xff)));
 
+  resize();
+  updatePosition();
+
+  addText();
+  addPorts(composition);
+}
+
+GiInstance::~GiInstance()
+{
+  model->ObserverCollection<InstanceObserver>::unregisterObserver(this);
+  model->ObserverCollection<PositionObserver>::unregisterObserver(this);
+}
+
+void GiInstance::resize()
+{
   qreal x = puToScene(-InstanceAppearance::width() / 2);
   qreal w = puToScene(InstanceAppearance::width());
   qreal y = puToScene(0);
   qreal h = puToScene(InstanceAppearance::height(*model->getComponent()));
 
   setRect(x, y, w, h);
-  setPos(puToScene(model->getOffset()));
+}
 
+void GiInstance::updatePosition()
+{
+  setPos(puToScene(model->getOffset()));
+}
+
+void GiInstance::addText()
+{
   instanceText.setText(QString::fromStdString(model->getName()));
   componentText.setText(QString::fromStdString(model->getComponent()->getName()));
   instanceText.setPos(calcTextPos(0, instanceText.boundingRect()));
   componentText.setPos(calcTextPos(1, componentText.boundingRect()));
-}
-
-GiInstance::~GiInstance()
-{
-  model->unregisterObserver(this);
 }
 
 void GiInstance::absolutePositionChanged(const RelativePosition *)
@@ -42,7 +60,18 @@ void GiInstance::absolutePositionChanged(const RelativePosition *)
 
 void GiInstance::offsetChanged(const RelativePosition *)
 {
-  setPos(puToScene(model->getOffset()));
+  updatePosition();
+}
+
+void GiInstance::portDeleted(AbstractPort *port)
+{
+  precondition(ports.contains(port));
+
+  GiInstancePort *inst = ports.take(port);
+  delete inst;
+  resize();
+
+  postcondition(!childItems().contains(inst));
 }
 
 QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) const
@@ -51,6 +80,15 @@ QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) cons
   const qreal offset = (0.5 + index) * puToScene(InstanceAppearance::textHeight());
   const qreal y = offset - boundingRect.height()/2;
   return QPointF(x,y);
+}
+
+void GiInstance::addPorts(Composition *composition)
+{
+  for (AbstractPort *port : model->getPorts()) {
+    InstancePort *ip = dynamic_cast<InstancePort*>(port);
+    GiInstancePort *gipo = new GiInstancePort(ip, composition, this);
+    ports[ip] = gipo;
+  }
 }
 
 void GiInstance::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
