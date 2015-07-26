@@ -4,9 +4,15 @@ CompifaceModel::CompifaceModel(Component &aComponent, QObject *parent) :
   QAbstractListModel(parent),
   component(aComponent)
 {
+  component.registerObserver(this);
 }
 
-QVariant CompifaceModel::headerData(int section, Qt::Orientation orientation, int role) const
+CompifaceModel::~CompifaceModel()
+{
+  component.unregisterObserver(this);
+}
+
+QVariant CompifaceModel::headerData(int section, Qt::Orientation, int role) const
 {
   if (role != Qt::DisplayRole) {
     return QVariant();
@@ -52,4 +58,19 @@ void CompifaceModel::delPort(const QModelIndex &index)
   }
   ComponentPort *port = component.getPorts()[index.row()];
   component.deletePort(port);
+}
+
+void CompifaceModel::addPort(const QString &name)
+{
+  component.addPort(new Slot(name.toStdString()));
+}
+
+void CompifaceModel::portAdded(ComponentPort *)
+{
+  layoutChanged();
+}
+
+void CompifaceModel::portDeleted(ComponentPort *)
+{
+  layoutChanged();
 }

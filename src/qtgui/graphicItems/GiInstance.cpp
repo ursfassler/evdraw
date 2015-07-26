@@ -8,9 +8,10 @@
 #include <QFont>
 #include <QRectF>
 
-GiInstance::GiInstance(Instance *aModel, Composition *composition, QGraphicsItem *parent) :
+GiInstance::GiInstance(Instance *aModel, Composition *aComposition, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
+  composition(aComposition),
   instanceText(this),
   componentText(this)
 {
@@ -63,6 +64,12 @@ void GiInstance::offsetChanged(const RelativePosition *)
   updatePosition();
 }
 
+void GiInstance::portAdded(AbstractPort *port)
+{
+  addPort(port, composition);
+  resize();
+}
+
 void GiInstance::portDeleted(AbstractPort *port)
 {
   precondition(ports.contains(port));
@@ -85,10 +92,15 @@ QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) cons
 void GiInstance::addPorts(Composition *composition)
 {
   for (AbstractPort *port : model->getPorts()) {
-    InstancePort *ip = dynamic_cast<InstancePort*>(port);
-    GiInstancePort *gipo = new GiInstancePort(ip, composition, this);
-    ports[ip] = gipo;
+    addPort(port, composition);
   }
+}
+
+void GiInstance::addPort(AbstractPort *port, Composition *composition)
+{
+  InstancePort *ip = dynamic_cast<InstancePort*>(port);
+  GiInstancePort *gipo = new GiInstancePort(ip, composition, this);
+  ports[ip] = gipo;
 }
 
 void GiInstance::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

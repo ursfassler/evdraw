@@ -23,6 +23,7 @@ class Workspace : public QWidget
 
   public slots:
     void addComponent();
+    void addPort();
     void delComponent();
     void delPort();
 

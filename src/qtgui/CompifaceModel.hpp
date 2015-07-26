@@ -5,11 +5,12 @@
 
 #include <QAbstractListModel>
 
-class CompifaceModel : public QAbstractListModel
+class CompifaceModel : public QAbstractListModel, protected ComponentObserver
 {
     Q_OBJECT
   public:
     explicit CompifaceModel(Component &component, QObject *parent = 0);
+    ~CompifaceModel();
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -17,6 +18,11 @@ class CompifaceModel : public QAbstractListModel
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     void delPort(const QModelIndex &index);
+    void addPort(const QString &name);
+
+  protected:
+    void portAdded(ComponentPort *port);
+    void portDeleted(ComponentPort *port);
 
   private:
     Component &component;

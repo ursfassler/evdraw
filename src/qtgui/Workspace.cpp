@@ -44,6 +44,11 @@ void Workspace::addComponent()
   componentModel->addComponent("lulu");
 }
 
+void Workspace::addPort()
+{
+  portModel->addPort("lolo");
+}
+
 void Workspace::delComponent()
 {
   QModelIndex selected = compList.currentIndex();

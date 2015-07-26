@@ -26,7 +26,7 @@ void MainWindow::createEditMenu()
 {
   QMenu *menu = menuBar()->addMenu("Edit");
   menu->addAction("Add Component", &workspace, SLOT(addComponent()));
-  menu->addAction("Add Port");
+  menu->addAction("Add Port", &workspace, SLOT(addPort()));
   menu->addAction("Delete Component", &workspace, SLOT(delComponent()));
   menu->addAction("Delete Port", &workspace, SLOT(delPort()));
 }

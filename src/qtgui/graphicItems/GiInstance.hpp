@@ -17,15 +17,18 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
     ~GiInstance();
 
   protected:
-    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
-    virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
-    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    virtual void absolutePositionChanged(const RelativePosition *sender);
-    virtual void offsetChanged(const RelativePosition *sender);
-    virtual void portDeleted(AbstractPort *port);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
+    void mousePressEvent(QGraphicsSceneMouseEvent * event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+    void absolutePositionChanged(const RelativePosition *sender);
+    void offsetChanged(const RelativePosition *sender);
+
+    void portAdded(AbstractPort *port);
+    void portDeleted(AbstractPort *port);
 
   private:
     Instance * const model;
+    Composition * const composition;
     QGraphicsSimpleTextItem instanceText;
     QGraphicsSimpleTextItem componentText;
     QPointF calcTextPos(unsigned index, const QRectF &boundingRect) const;
@@ -35,6 +38,7 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
     void updatePosition();
     void addText();
     void addPorts(Composition *composition);
+    void addPort(AbstractPort *port, Composition *composition);
 };
 
 #endif // GIINSTANCE_HPP
