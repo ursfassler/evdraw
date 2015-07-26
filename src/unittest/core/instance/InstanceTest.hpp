@@ -21,7 +21,8 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(getPortWithExisting);
 
-    CPPUNIT_TEST(deletePortWhenComponentPortIsRemoved);
+    CPPUNIT_TEST(addPortWhenComponentPortIsAdded);
+    CPPUNIT_TEST(deletePortWhenComponentPortIsDeleted);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -39,7 +40,8 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
 
     void getPortWithExisting();
 
-    void deletePortWhenComponentPortIsRemoved();
+    void addPortWhenComponentPortIsAdded();
+    void deletePortWhenComponentPortIsDeleted();
 
   private:
     Component *component = nullptr;

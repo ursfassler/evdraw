@@ -1,5 +1,6 @@
 #include "Instance.hpp"
 #include "../util/list.hpp"
+#include "InstancePortFactory.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
   RelativePosition(aPosition),
@@ -64,8 +65,10 @@ void Instance::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-void Instance::portAdded(ComponentPort *)
+void Instance::portAdded(ComponentPort *port)
 {
+  InstancePort *instPort = InstancePortFactory::produce(this, port);
+  addPort(instPort);
 }
 
 void Instance::portDeleted(ComponentPort *port)

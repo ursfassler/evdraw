@@ -78,7 +78,15 @@ void InstanceTest::getPortWithExisting()
   CPPUNIT_ASSERT(in2 != out1);
 }
 
-void InstanceTest::deletePortWhenComponentPortIsRemoved()
+void InstanceTest::addPortWhenComponentPortIsAdded()
+{
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  component->addPort(new Slot("newSlot"));
+  CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(std::string("newSlot"), instance->getPorts().back()->getName());
+}
+
+void InstanceTest::deletePortWhenComponentPortIsDeleted()
 {
   ComponentPort *compPort = component->getPorts()[0];
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
