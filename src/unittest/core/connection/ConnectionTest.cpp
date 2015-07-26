@@ -168,19 +168,16 @@ void ConnectionTest::insertSegmentAtSanePosition()
 class ConnectionObserverTest : public ConnectionObserver
 {
   public:
-    virtual void addVerticalSegment(Connection *parent, VerticalSegment *segment)
+    virtual void verticalSegmentAdded(VerticalSegment *segment)
     {
-      lastParent = parent;
       lastAddVerticalSegment = segment;
     }
 
-    virtual void addHorizontalSegment(Connection *parent, HorizontalSegment *segment)
+    virtual void horizontalSegmentAdded(HorizontalSegment *segment)
     {
-      lastParent = parent;
       lastAddHorizontalSegment = segment;
     }
 
-    Connection const * lastParent = nullptr;
     VerticalSegment *lastAddVerticalSegment = nullptr;
     HorizontalSegment *lastAddHorizontalSegment = nullptr;
 };
@@ -197,7 +194,6 @@ void ConnectionTest::notifyWhenAddVerticalSegment()
   VerticalSegment *segment = new VerticalSegment(&a,&b);
 
   connection.addVerticalSegment(segment);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Connection*>(&connection), observer.lastParent);
   CPPUNIT_ASSERT_EQUAL(segment, observer.lastAddVerticalSegment);
 
   connection.unregisterObserver(&observer);
@@ -216,7 +212,6 @@ void ConnectionTest::notifyWhenAddHorizontalSegment()
   HorizontalSegment *segment = new HorizontalSegment(&a,&b);
 
   connection.addHorizontalSegment(segment);
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Connection*>(&connection), observer.lastParent);
   CPPUNIT_ASSERT_EQUAL(segment, observer.lastAddHorizontalSegment);
 
   connection.unregisterObserver(&observer);

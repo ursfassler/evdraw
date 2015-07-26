@@ -47,7 +47,7 @@ void Workspace::addComponent()
 void Workspace::delComponent()
 {
   QModelIndex selected = compList.currentIndex();
-  componentModel->delComponent(selected);
+  componentModel->deleteComponent(selected);
 }
 
 void Workspace::delPort()

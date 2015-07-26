@@ -127,8 +127,8 @@ void XmlNodeWriterTest::writeComponentWithComposition()
 void XmlNodeWriterTest::writeLibraryWithComponents()
 {
   Library lib;
-  lib.add(ComponentFactory::produce("comp1"));
-  lib.add(ComponentFactory::produce("comp2"));
+  lib.addComponent(ComponentFactory::produce("comp1"));
+  lib.addComponent(ComponentFactory::produce("comp2"));
   lib.accept(*writer);
 
   CPPUNIT_ASSERT_EQUAL(std::string("evdraw"), name());

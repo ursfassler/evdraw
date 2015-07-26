@@ -20,7 +20,7 @@ void DefaultVisitorTest::setUp()
   componentNullImpl->addPort(slot);
   signal = new Signal("signal");
   componentNullImpl->addPort(signal);
-  library->add(componentNullImpl);
+  library->addComponent(componentNullImpl);
 
   composition = new Composition();
   instance = InstanceFactory::produce(componentNullImpl, "instance", Point(0,0));
@@ -30,7 +30,7 @@ void DefaultVisitorTest::setUp()
   connection = ConnectionFactory::produce(instanceSignal, instanceSlot);
   composition->addConnection(connection);
   componentComposition = new Component("componentComposition", composition);
-  library->add(componentComposition);
+  library->addComponent(componentComposition);
 }
 
 void DefaultVisitorTest::tearDown()

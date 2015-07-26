@@ -97,7 +97,7 @@ const std::vector<HorizontalSegment *> &Connection::getHorizontalSegment() const
 void Connection::addHorizontalSegment(HorizontalSegment *segment)
 {
   horizontalSegments.push_back(segment);
-  notify(&ConnectionObserver::addHorizontalSegment, this, segment);
+  notify(&ConnectionObserver::horizontalSegmentAdded, segment);
 }
 
 const std::vector<VerticalSegment *> &Connection::getVerticalSegment() const
@@ -108,7 +108,7 @@ const std::vector<VerticalSegment *> &Connection::getVerticalSegment() const
 void Connection::addVerticalSegment(VerticalSegment *segment)
 {
   verticalSegments.push_back(segment);
-  notify(&ConnectionObserver::addVerticalSegment, this, segment);
+  notify(&ConnectionObserver::verticalSegmentAdded, segment);
 }
 
 const std::vector<Endpoint *> &Connection::getPoints() const

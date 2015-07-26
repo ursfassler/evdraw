@@ -82,7 +82,7 @@ void InstanceTest::deletePortWhenComponentPortIsRemoved()
 {
   ComponentPort *compPort = component->getPorts()[0];
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  component->delPort(compPort);
+  component->deletePort(compPort);
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 }
 

@@ -48,15 +48,13 @@ class ComponentTestObserver : public ComponentObserver
     {
     }
 
-    void portAdded(const Component *parent, ComponentPort *port)
+    void portAdded(ComponentPort *port)
     {
-      (void)(parent);
       newPorts.push_back(port);
     }
 
-    void portDeleted(const Component *parent, ComponentPort *port)
+    void portDeleted(ComponentPort *port)
     {
-      (void)(parent);
       delPorts.push_back(port);
     }
 
@@ -87,7 +85,7 @@ void ComponentObserverTest::getInformedOnDelete()
 
   ComponentPort *port = new Signal("");
   component.addPort(port);
-  component.delPort(port);
+  component.deletePort(port);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.delPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.delPorts[0]);

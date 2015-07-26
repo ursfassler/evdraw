@@ -18,7 +18,7 @@ void LibraryTest::addComponent()
 {
   Component *comp = ComponentFactory::produce("comp");
   Library lib;
-  lib.add(comp);
+  lib.addComponent(comp);
   CPPUNIT_ASSERT(lib.contains(comp));
 }
 
@@ -47,9 +47,9 @@ void LibraryTest::deleteComponent()
   Implementation *impl = new Implementation(deleted);
   Component *comp = new Component("comp", impl);
   Library lib;
-  lib.add(comp);
+  lib.addComponent(comp);
   CPPUNIT_ASSERT(lib.contains(comp));
-  lib.del(comp);
+  lib.deleteComponent(comp);
 
   CPPUNIT_ASSERT(!lib.contains(comp));
   CPPUNIT_ASSERT(deleted);
@@ -64,10 +64,10 @@ void LibraryTest::deleteComponentRemovesDepdantInstances()
   Component *comp2 = new Component("comp2", composition);
 
   Library lib;
-  lib.add(comp1);
-  lib.add(comp2);
+  lib.addComponent(comp1);
+  lib.addComponent(comp2);
 
-  lib.del(comp1);
+  lib.deleteComponent(comp1);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getInstances().size());
 }
@@ -78,7 +78,7 @@ void LibraryTest::deletsComponentsWhenDeleted()
   bool deleted = false;
   Implementation *impl = new Implementation(deleted);
   Component *comp = new Component("comp", impl);
-  lib->add(comp);
+  lib->addComponent(comp);
   delete lib;
 
   CPPUNIT_ASSERT(deleted);
@@ -88,7 +88,7 @@ void LibraryTest::getComponent()
 {
   Component *comp = ComponentFactory::produce("comp");
   Library lib;
-  lib.add(comp);
+  lib.addComponent(comp);
 
   Component *ret = lib.getComponent("comp");
   CPPUNIT_ASSERT_EQUAL(comp, ret);
@@ -98,12 +98,12 @@ void LibraryTest::getCorrectComponent()
 {
   Component *comp = ComponentFactory::produce("comp3");
   Library lib;
-  lib.add(ComponentFactory::produce("comp1"));
-  lib.add(ComponentFactory::produce("comp2"));
-  lib.add(comp);
-  lib.add(ComponentFactory::produce("comp4"));
-  lib.add(ComponentFactory::produce("comp5"));
-  lib.add(ComponentFactory::produce("comp6"));
+  lib.addComponent(ComponentFactory::produce("comp1"));
+  lib.addComponent(ComponentFactory::produce("comp2"));
+  lib.addComponent(comp);
+  lib.addComponent(ComponentFactory::produce("comp4"));
+  lib.addComponent(ComponentFactory::produce("comp5"));
+  lib.addComponent(ComponentFactory::produce("comp6"));
 
   Component *ret = lib.getComponent("comp3");
   CPPUNIT_ASSERT_EQUAL(comp, ret);

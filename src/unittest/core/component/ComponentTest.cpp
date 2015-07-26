@@ -47,7 +47,7 @@ void ComponentTest::delPort()
   comp.addPort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPorts().size());
 
-  comp.delPort(port);
+  comp.deletePort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
 
   ComponentFactory::cleanup(comp);
@@ -134,7 +134,7 @@ void ComponentTest::portIndexUpdatedOnDel()
   CPPUNIT_ASSERT_EQUAL(size_t(2), port3->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(3), port4->getTopIndex());
 
-  comp.delPort(port1);
+  comp.deletePort(port1);
   CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(2), port4->getTopIndex());

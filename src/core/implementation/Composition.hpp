@@ -59,11 +59,13 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
+    ///TODO: change to delete
     void removeInstance(Instance *instance);
     Instance *getInstance(const std::string &name) const;
 
     const std::list<Connection *> &getConnections() const;
     void addConnection(Connection *connection);
+    ///TODO: change to delete
     void removeConnection(Connection *connection);
 
     void startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort);

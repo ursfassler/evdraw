@@ -51,5 +51,5 @@ void CompifaceModel::delPort(const QModelIndex &index)
     return;
   }
   ComponentPort *port = component.getPorts()[index.row()];
-  component.delPort(port);
+  component.deletePort(port);
 }

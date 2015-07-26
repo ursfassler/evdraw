@@ -17,7 +17,7 @@ void InstanceParserTest::component()
 {
   Component *comp = ComponentFactory::produce("TheComponent");
   Library library;
-  library.add(comp);
+  library.addComponent(comp);
 
   TiXmlElement  element("");
   element.SetAttribute("component", "TheComponent");

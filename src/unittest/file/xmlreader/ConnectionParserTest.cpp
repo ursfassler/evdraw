@@ -20,8 +20,8 @@ void ConnectionTestEnvironment::setUp()
   compB = new Component("CompB", composition);
 
   library = new Library();
-  library->add(compA);
-  library->add(compB);
+  library->addComponent(compA);
+  library->addComponent(compB);
 
   element = new TiXmlElement("");
 }

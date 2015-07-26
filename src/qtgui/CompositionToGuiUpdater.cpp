@@ -26,20 +26,8 @@ void CompositionToGuiUpdater::connectionAdded(Connection *connection)
 
 void CompositionToGuiUpdater::connectionRemoved(Connection *connection)
 {
-  QSet<QGraphicsItem*> removable;
-  QHashIterator<QGraphicsItem*, Connection*> i(connections);
-  while (i.hasNext()) {
-      i.next();
-      if (i.value() == connection) {
-        removable.insert(i.key());
-      }
-  }
-
-  for (QGraphicsItem *itr : removable) {
-    connections.remove(itr);
-    scene.removeItem(itr);
-    delete itr;
-  }
+  ConnectionItem *item = connections.take(connection);
+  delete item;
 }
 
 void CompositionToGuiUpdater::addConnectionUnderConstruction(Connection *connection)
@@ -48,37 +36,21 @@ void CompositionToGuiUpdater::addConnectionUnderConstruction(Connection *connect
   scene.addItem(connCreate);
   connCreate->grabMouse();
   addConnection(connection);
-  connection->registerObserver(this);
 }
 
-void CompositionToGuiUpdater::finishConnectionUnderConstruction(Connection *)
+void CompositionToGuiUpdater::finishConnectionUnderConstruction(Connection *connection)
 {
+  ConnectionItem *item = connections.take(connection);
+  delete item;
+
   assert(connCreate != nullptr);
   delete connCreate;
 }
 
-void CompositionToGuiUpdater::addVerticalSegment(Connection *connection, VerticalSegment *segment)
-{
-  GiVerticalSegment *ghs = new GiVerticalSegment(segment, nullptr);
-  scene.addItem(ghs);
-  connections[ghs] = connection;
-}
-
-void CompositionToGuiUpdater::addHorizontalSegment(Connection *connection, HorizontalSegment *segment)
-{
-  GiSegment *ghs = new GiHorizontalSegment(segment, nullptr);
-  scene.addItem(ghs);
-  connections[ghs] = connection;
-}
-
 void CompositionToGuiUpdater::addConnection(Connection *connection)
 {
-  for (HorizontalSegment *hs : connection->getHorizontalSegment()) {
-    addHorizontalSegment(connection, hs);
-  }
-  for (VerticalSegment *hs : connection->getVerticalSegment()) {
-    addVerticalSegment(connection, hs);
-  }
+  ConnectionItem *item = new ConnectionItem(connection, scene);
+  connections.insert(connection, item);
 }
 
 void CompositionToGuiUpdater::init()
@@ -93,13 +65,74 @@ void CompositionToGuiUpdater::init()
 
 void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
 {
-  Connection *connection = connections[item];
+  Connection *connection = findConnectionOf(item);
   if (connection != nullptr) {
     composition.removeConnection(connection);
   }
+}
+
+Connection *CompositionToGuiUpdater::findConnectionOf(QGraphicsItem *item) const
+{
+  QHashIterator<Connection*,ConnectionItem*> i(connections);
+  while (i.hasNext()) {
+    i.next();
+    if (i.value()->hasItem(item)) {
+      return i.key();
+    }
+  }
+
+  return nullptr;
 }
 
 Composition &CompositionToGuiUpdater::getComposition()
 {
   return composition;
 }
+
+
+
+
+ConnectionItem::ConnectionItem(Connection *aConnection, QGraphicsScene &aScene) :
+  connection(aConnection),
+  scene(aScene)
+{
+  connection->registerObserver(this);
+
+  for (HorizontalSegment *hs : connection->getHorizontalSegment()) {
+    horizontalSegmentAdded(hs);
+  }
+  for (VerticalSegment *hs : connection->getVerticalSegment()) {
+    verticalSegmentAdded(hs);
+  }
+}
+
+ConnectionItem::~ConnectionItem()
+{
+  for (QGraphicsItem *itr : items) {
+    scene.removeItem(itr);
+    delete itr;
+  }
+  items.clear();
+
+  connection->unregisterObserver(this);
+}
+
+bool ConnectionItem::hasItem(QGraphicsItem *item) const
+{
+  return items.contains(item);
+}
+
+void ConnectionItem::verticalSegmentAdded(VerticalSegment *segment)
+{
+  GiVerticalSegment *ghs = new GiVerticalSegment(segment, nullptr);
+  scene.addItem(ghs);
+  items.insert(ghs);
+}
+
+void ConnectionItem::horizontalSegmentAdded(HorizontalSegment *segment)
+{
+  GiHorizontalSegment *ghs = new GiHorizontalSegment(segment, nullptr);
+  scene.addItem(ghs);
+  items.insert(ghs);
+}
+

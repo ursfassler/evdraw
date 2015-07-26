@@ -14,15 +14,13 @@ class LibraryObserver
     {
     }
 
-    virtual void addComponent(const Library *parent, Component *component)
+    virtual void componentAdded(Component *component)
     {
-      (void)(parent);
       (void)(component);
     }
 
-    virtual void delComponent(const Library *parent, Component *component)
+    virtual void componentDeleted(Component *component)
     {
-      (void)(parent);
       (void)(component);
     }
 };
@@ -33,8 +31,8 @@ class Library final : public VisitorClient, public ObserverCollection<LibraryObs
     Library();
     ~Library();
 
-    void add(Component *component);
-    void del(Component *component);
+    void addComponent(Component *component);
+    void deleteComponent(Component *component);
     bool contains(const Component *component) const;
     const std::vector<Component *> getComponents() const;
     Component *getComponent(const std::string &name) const;

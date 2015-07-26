@@ -64,11 +64,11 @@ void Instance::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-void Instance::portAdded(const Component *, ComponentPort *)
+void Instance::portAdded(ComponentPort *)
 {
 }
 
-void Instance::portDeleted(const Component *, ComponentPort *port)
+void Instance::portDeleted(ComponentPort *port)
 {
   auto predicate = [&](AbstractPort *itr){
     return itr->getName() == port->getName();

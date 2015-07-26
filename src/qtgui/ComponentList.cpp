@@ -37,7 +37,7 @@ QVariant ComponentList::data(const QModelIndex &index, int role) const
 
 void ComponentList::addComponent(const QString &name)
 {
-  library->add(ComponentFactory::produce(name.toStdString()));
+  library->addComponent(ComponentFactory::produce(name.toStdString()));
 }
 
 Component *ComponentList::getComponent(const QModelIndex &index) const
@@ -45,13 +45,13 @@ Component *ComponentList::getComponent(const QModelIndex &index) const
   return library->getComponents()[index.row()];
 }
 
-void ComponentList::delComponent(const QModelIndex &index)
+void ComponentList::deleteComponent(const QModelIndex &index)
 {
   if (!index.isValid()) {
     return;
   }
   Component *component = library->getComponents()[index.row()];
-  library->del(component);
+  library->deleteComponent(component);
 }
 
 Library *ComponentList::getLibrary() const
@@ -59,12 +59,12 @@ Library *ComponentList::getLibrary() const
   return library;
 }
 
-void ComponentList::addComponent(const Library *, Component *)
+void ComponentList::componentAdded(Component *)
 {
   layoutChanged();
 }
 
-void ComponentList::delComponent(const Library *, Component *)
+void ComponentList::componentDeleted(Component *)
 {
   layoutChanged();
 }

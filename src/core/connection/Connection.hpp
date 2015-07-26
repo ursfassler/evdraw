@@ -21,15 +21,13 @@ class ConnectionObserver
     {
     }
 
-    virtual void addVerticalSegment(Connection *parent, VerticalSegment *segment)
+    virtual void verticalSegmentAdded(VerticalSegment *segment)
     {
-      (void)(parent);
       (void)(segment);
     }
 
-    virtual void addHorizontalSegment(Connection *parent, HorizontalSegment *segment)
+    virtual void horizontalSegmentAdded(HorizontalSegment *segment)
     {
-      (void)(parent);
       (void)(segment);
     }
 };

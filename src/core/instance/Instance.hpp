@@ -53,8 +53,8 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     void accept(ConstVisitor &visitor) const;
 
   protected:
-    void portAdded(const Component *parent, ComponentPort *port);
-    void portDeleted(const Component *parent, ComponentPort *port);
+    void portAdded(ComponentPort *port);
+    void portDeleted(ComponentPort *port);
 
   private:
     std::string name;

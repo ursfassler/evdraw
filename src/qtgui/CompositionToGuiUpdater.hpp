@@ -10,7 +10,25 @@
 #include <QGraphicsScene>
 #include <QHash>
 
-class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObserver
+class ConnectionItem : public ConnectionObserver
+{
+  public:
+    ConnectionItem(Connection *connection, QGraphicsScene &scene);
+    ~ConnectionItem();
+
+    bool hasItem(QGraphicsItem *item) const;
+
+  protected:
+    virtual void verticalSegmentAdded(VerticalSegment *segment);
+    virtual void horizontalSegmentAdded(HorizontalSegment *segment);
+
+  private:
+    Connection * const connection;
+    QGraphicsScene &scene;
+    QSet<QGraphicsItem*> items;
+};
+
+class CompositionToGuiUpdater : public CompositionObserver
 {
   public:
     CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet);
@@ -21,9 +39,6 @@ class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObs
     virtual void connectionRemoved(Connection *connection);
     virtual void addConnectionUnderConstruction(Connection *connection);
     virtual void finishConnectionUnderConstruction(Connection *connection);
-
-    virtual void addVerticalSegment(Connection *parent, VerticalSegment *segment);
-    virtual void addHorizontalSegment(Connection *parent, HorizontalSegment *segment);
 
     void init();
 
@@ -36,11 +51,10 @@ class CompositionToGuiUpdater : public CompositionObserver, public ConnectionObs
     Composition &composition;
     GiConnectionCreation *connCreate = nullptr;
 
-    QHash<QGraphicsItem*, Connection*> connections;
+    QHash<Connection*,ConnectionItem*> connections;
 
     void addConnection(Connection *connection);
-
-
+    Connection *findConnectionOf(QGraphicsItem *item) const;
 
 };
 

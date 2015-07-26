@@ -19,15 +19,13 @@ class ComponentObserver
     {
     }
 
-    virtual void portAdded(const Component *parent, ComponentPort *port)
+    virtual void portAdded(ComponentPort *port)
     {
-      (void)(parent);
       (void)(port);
     }
 
-    virtual void portDeleted(const Component *parent, ComponentPort *port)
+    virtual void portDeleted(ComponentPort *port)
     {
-      (void)(parent);
       (void)(port);
     }
 };
@@ -42,7 +40,7 @@ class Component final : public VisitorClient, public ObserverCollection<Componen
     Component operator=(const Component &) = delete;
 
     void addPort(ComponentPort *port);
-    void delPort(ComponentPort *port);
+    void deletePort(ComponentPort *port);
     const std::vector<ComponentPort *> &getPorts() const;
 
     size_t height() const;

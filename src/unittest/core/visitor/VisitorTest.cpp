@@ -74,7 +74,7 @@ class TestVisitor final : public Visitor
 
     void visit(Library &library)
     {
-      library.add(ComponentFactory::produce(""));
+      library.addComponent(ComponentFactory::produce(""));
     }
 
   private:

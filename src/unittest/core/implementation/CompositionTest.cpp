@@ -279,7 +279,7 @@ void CompositionTest::deleteInstancePortRemovesDependantConnections()
 
   ComponentPort *port = comp1->getPorts()[0];
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
-  comp1->delPort(port);
+  comp1->deletePort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getConnections().size());
 
   delete composition;

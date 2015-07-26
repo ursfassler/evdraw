@@ -45,15 +45,13 @@ class LibraryTestObserver : public LibraryObserver
     {
     }
 
-    void addComponent(const Library *parent, Component *component)
+    void componentAdded(Component *component)
     {
-      (void)(parent);
       newComponents.push_back(component);
     }
 
-    void delComponent(const Library *parent, Component *component)
+    void componentDeleted(Component *component)
     {
-      (void)(parent);
       delComponents.push_back(component);
     }
 
@@ -68,7 +66,7 @@ void LibraryObserverTest::getInformedOnAdd()
   library.registerObserver(&observer);
 
   Component *component = ComponentFactory::produce("");
-  library.add(component);
+  library.addComponent(component);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newComponents.size());
   CPPUNIT_ASSERT_EQUAL(component, observer.newComponents[0]);
@@ -81,8 +79,8 @@ void LibraryObserverTest::getInformedOnDelete()
   library.registerObserver(&observer);
 
   Component *component = ComponentFactory::produce("");
-  library.add(component);
-  library.del(component);
+  library.addComponent(component);
+  library.deleteComponent(component);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.delComponents.size());
   CPPUNIT_ASSERT_EQUAL(component, observer.delComponents[0]);

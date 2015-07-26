@@ -145,7 +145,7 @@ void Loader::componentExit()
   precondition(lib != nullptr);
   precondition(component != nullptr);
 
-  lib->add(component);
+  lib->addComponent(component);
   component = nullptr;
 }
 

@@ -15,18 +15,18 @@ Library::Library() :
 Library::~Library()
 {
   while (!components.empty()) {
-    del(components.back());
+    deleteComponent(components.back());
   }
   postcondition(components.empty());
 }
 
-void Library::add(Component *component)
+void Library::addComponent(Component *component)
 {
   components.push_back(component);
-  notify(&LibraryObserver::addComponent, static_cast<const Library*>(this), component);
+  notify(&LibraryObserver::componentAdded, component);
 }
 
-void Library::del(Component *component)
+void Library::deleteComponent(Component *component)
 {
   std::vector<Component*>::iterator idx = std::find(components.begin(), components.end(), component);
   precondition(idx != components.end());
@@ -36,7 +36,7 @@ void Library::del(Component *component)
   this->accept(remover);
 
   components.erase(idx);
-  notify(&LibraryObserver::delComponent, static_cast<const Library*>(this), component);
+  notify(&LibraryObserver::componentDeleted, component);
   ComponentFactory::dispose(component);
 }
 
