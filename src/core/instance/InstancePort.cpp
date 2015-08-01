@@ -12,9 +12,17 @@ InstancePort::InstancePort(Instance *aInstance, ComponentPort *aCompPort, const 
   connector(Point(0,0))
 {
   precondition(aInstance != nullptr);
+  precondition(aCompPort != nullptr);
 
   replaceAnchor(aInstance);
   connector.replaceAnchor(this);
+
+  compPort->registerObserver(this);
+}
+
+InstancePort::~InstancePort()
+{
+  compPort->unregisterObserver(this);
 }
 
 Connector &InstancePort::getConnector()
@@ -65,4 +73,24 @@ void InstancePort::accept(Visitor &visitor)
 void InstancePort::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
+}
+
+void InstancePort::topIndexChanged(size_t)
+{
+  const Point offset = calcOffset();
+  setOffset(offset);
+}
+
+Point InstancePort::calcOffset() const
+{
+  switch (compPort->side()) {
+    case Side::Left: {
+        return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
+      }
+    case Side::Right: {
+        return InstanceAppearance::rightPortPosition(compPort->getTopIndex());
+      }
+  }
+
+  throw std::runtime_error("reached unreachable position");
 }

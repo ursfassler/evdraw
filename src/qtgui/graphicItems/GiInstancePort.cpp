@@ -15,6 +15,8 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraph
   sheet(aSheet),
   label(this)
 {
+  model->registerObserver(this);
+
   setBrush(QBrush(QColor::fromRgb(0xff, 0xfa, 0x99)));
 
   Point topLeft     = -InstanceAppearance::portDimension() / 2;
@@ -25,6 +27,11 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraph
 
   label.setText(QString::fromStdString(model->getCompPort()->getName()));
   label.setPos(-label.boundingRect().width()/2, -label.boundingRect().height()/2);
+}
+
+GiInstancePort::~GiInstancePort()
+{
+  model->unregisterObserver(this);
 }
 
 InstancePort *GiInstancePort::getModel() const
@@ -41,4 +48,14 @@ void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   event->accept();
   DrawPort *end = new DrawPort(sceneToPu(event->scenePos()));
   sheet->startConnectionConstruction(model, end);
+}
+
+void GiInstancePort::absolutePositionChanged(const RelativePosition *sender)
+{
+
+}
+
+void GiInstancePort::offsetChanged(const RelativePosition *sender)
+{
+  setPos(puToScene(model->getOffset()));
 }

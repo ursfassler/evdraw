@@ -13,7 +13,7 @@ void InstanceObserverTest::setUp()
   precondition(component == nullptr);
   precondition(instance == nullptr);
 
-  component = ComponentFactory::produce("Component");
+  component = ComponentFactory::produce("Component", {"in"}, {"out"});
   instance = InstanceFactory::produce(component, "instance", Point(0,0));
 }
 
@@ -89,11 +89,13 @@ void InstanceObserverTest::notifyAddPort()
   TestInstanceObserver observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
-  AbstractPort *port = new SimplePort();
-  instance->addPort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
+
+  component->addPort(new Signal("sig"));
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.addedPorts.size());
-  CPPUNIT_ASSERT_EQUAL(port, observer.addedPorts[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(instance->getPorts()[2], observer.addedPorts[0]);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
@@ -103,12 +105,14 @@ void InstanceObserverTest::notifyDelPort()
   TestInstanceObserver observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
-  AbstractPort *port = new SimplePort();
-  instance->addPort(port);
-  instance->deletePort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
+
+  AbstractPort *port = instance->getPorts()[0];
+  component->deletePort(component->getPorts()[0]);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.deletedPorts[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }

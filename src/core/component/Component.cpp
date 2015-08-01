@@ -39,6 +39,14 @@ const std::vector<ComponentPort *> &Component::getPorts() const
   return ports;
 }
 
+ComponentPort *Component::getPort(const std::string &name) const
+{
+  auto predicate = [&](ComponentPort *itr){
+    return itr->getName() == name;
+  };
+  return listGet<ComponentPort*>(ports.begin(), ports.end(), predicate);
+}
+
 size_t Component::height() const
 {
   std::map<Side,size_t> index;

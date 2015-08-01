@@ -44,8 +44,6 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     const std::string &getName() const;
     Component *getComponent() const;
 
-    void addPort(AbstractPort *port);
-    void deletePort(AbstractPort *port);
     const std::vector<AbstractPort *> &getPorts() const;
     AbstractPort *getPort(const std::string &name) const;
 
@@ -60,6 +58,9 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     std::string name;
     Component * const component;
     std::vector<AbstractPort*> ports;
+
+    void addPort(AbstractPort *port);
+    void deletePort(AbstractPort *port);
 
     friend InstanceFactory;
 

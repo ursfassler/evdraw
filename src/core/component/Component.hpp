@@ -42,6 +42,7 @@ class Component final : public VisitorClient, public ObserverCollection<Componen
     void addPort(ComponentPort *port);
     void deletePort(ComponentPort *port);
     const std::vector<ComponentPort *> &getPorts() const;
+    ComponentPort *getPort(const std::string &name) const;
 
     size_t height() const;
 

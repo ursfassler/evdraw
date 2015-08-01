@@ -3,10 +3,24 @@
 
 #include "../types.hpp"
 #include "../visitor/VisitorClient.hpp"
+#include "../util/Observer.hpp"
 
 #include <string>
 
-class ComponentPort : public VisitorClient
+class ComponentPortObserver
+{
+  public:
+    virtual ~ComponentPortObserver()
+    {
+    }
+
+    virtual void topIndexChanged(size_t index)
+    {
+      (void)(index);
+    }
+};
+
+class ComponentPort : public VisitorClient, public ObserverCollection<ComponentPortObserver>
 {
   public:
     ComponentPort(const std::string &name);

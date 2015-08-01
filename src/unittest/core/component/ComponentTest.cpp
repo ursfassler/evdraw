@@ -164,6 +164,21 @@ void ComponentTest::portIsRight()
   ComponentFactory::cleanup(comp);
 }
 
+void ComponentTest::getPort()
+{
+  Component *comp = ComponentFactory::produce("", {"in"}, {});
+  ComponentPort *port = comp->getPort("in");
+  CPPUNIT_ASSERT(port != nullptr);
+  ComponentFactory::dispose(comp);
+}
+
+void ComponentTest::getPortForNonExistingThrowsError()
+{
+  Component *comp = ComponentFactory::produce("", {"in"}, {});
+  CPPUNIT_ASSERT_THROW(comp->getPort("lala"), std::invalid_argument);
+  ComponentFactory::dispose(comp);
+}
+
 void ComponentTest::constructWithOwnImplementation()
 {
   NullImplementation *impl = new NullImplementation();

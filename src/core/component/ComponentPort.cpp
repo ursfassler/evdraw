@@ -17,7 +17,10 @@ size_t ComponentPort::getTopIndex() const
 
 void ComponentPort::setTopIndex(size_t value)
 {
-  topIndex = value;
+  if (topIndex != value) {
+    topIndex = value;
+    notify(&ComponentPortObserver::topIndexChanged, topIndex);
+  }
 }
 
 

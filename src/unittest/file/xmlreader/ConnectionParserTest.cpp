@@ -1,20 +1,17 @@
 #include "ConnectionParserTest.hpp"
 
-#include <core/implementation/NullImplementation.hpp>
+#include <core/component/ComponentFactory.hpp>
+#include <core/instance/InstanceFactory.hpp>
 
 void ConnectionTestEnvironment::setUp()
 {
-  compA = new Component("CompA", new NullImplementation());
-  theCompPort1 = new Signal("thePort1");
-  theCompPort2 = new Slot("thePort2");
-  compA->addPort(theCompPort1);
-  compA->addPort(theCompPort2);
+  compA = ComponentFactory::produce("CompA", {"thePort2"}, {"thePort1"});
+  theCompPort1 = dynamic_cast<Signal*>(compA->getPort("thePort1"));
+  theCompPort2 = dynamic_cast<Slot*>(compA->getPort("thePort2"));
 
-  theInstance = new Instance("theInstance", Point(0,0), compA);
-  theInstPort1 = new InstancePort(theInstance, theCompPort1, Point(0,0));
-  theInstPort2 = new InstancePort(theInstance, theCompPort2, Point(0,0));
-  theInstance->addPort(theInstPort1);
-  theInstance->addPort(theInstPort2);
+  theInstance = InstanceFactory::produce(compA, "theInstance", Point(0,0));
+  theInstPort1 = theInstance->getPort("thePort1");
+  theInstPort2 = theInstance->getPort("thePort2");
   composition = new Composition();
   composition->addInstance(theInstance);
   compB = new Component("CompB", composition);

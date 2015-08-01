@@ -20,6 +20,7 @@ InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *co
   return port;
 }
 
+///TODO: delete function, move functionality into InstancePort
 Point InstancePortFactory::getOffset(Side side, const ComponentPort *compPort)
 {
   switch (side) {

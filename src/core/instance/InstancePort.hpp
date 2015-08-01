@@ -11,10 +11,11 @@
 
 #include <vector>
 
-class InstancePort final : public AbstractPort, public RelativePosition
+class InstancePort final : public AbstractPort, public RelativePosition, protected ComponentPortObserver
 {
   public:
     InstancePort(Instance *instance, ComponentPort *compPort, const Point &offset);
+    ~InstancePort();
 
     InstancePort(const InstancePort &) = delete;
     bool operator=(const InstancePort &) = delete;
@@ -32,11 +33,15 @@ class InstancePort final : public AbstractPort, public RelativePosition
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
+  protected:
+    void topIndexChanged(size_t index);
+
   private:
     Instance * const owner;
     ComponentPort * const compPort;
     Connector connector;
 
+    Point calcOffset() const;
 };
 
 #endif // INSTANCEPORT_HPP

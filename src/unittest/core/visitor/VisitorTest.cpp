@@ -47,7 +47,7 @@ class TestVisitor final : public Visitor
 
     void visit(Instance &instance)
     {
-      instance.addPort(new DrawPort(Point(0,0)));
+      instance.setOffset(Point(42,57));
     }
 
     void visit(InstancePort &port)
@@ -120,9 +120,9 @@ void VisitorTest::instance()
   Component *component = ComponentFactory::produce("component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), instance->getOffset());
   instance->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(Point(42,57), instance->getOffset());
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);

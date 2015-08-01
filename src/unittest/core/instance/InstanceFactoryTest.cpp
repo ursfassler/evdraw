@@ -7,6 +7,7 @@
 #include <core/component/ComponentFactory.hpp>
 #include <core/component/InstanceAppearance.hpp>
 #include <core/implementation/NullImplementation.hpp>
+#include <core/connection/SimplePort.hpp>
 
 #include <functional>
 
@@ -22,16 +23,19 @@ void InstanceFactoryTest::canNotDisposeNullptr()
 
 void InstanceFactoryTest::cleanupRemovesInput()
 {
-  Component component("Component", new NullImplementation());
-  Instance instance("", Point(0,0), &component);
-  instance.addPort(new InstancePort(&instance, nullptr, Point(0,0)));
-  InstanceFactory::cleanup(instance);
-  CPPUNIT_ASSERT(instance.getPorts().empty());
+  Component *component = ComponentFactory::produce("Component", {"in"}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+
+  InstanceFactory::cleanup(*instance);
+  CPPUNIT_ASSERT(instance->getPorts().empty());
+  delete instance;
+
+  ComponentFactory::dispose(component);
 }
 
 void InstanceFactoryTest::produceSimple()
 {
-  Component *component = ComponentFactory::produce("Component", {}, {});
+  Component *component = ComponentFactory::produce("Component");
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());

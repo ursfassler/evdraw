@@ -8,10 +8,11 @@
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsSceneMouseEvent>
 
-class GiInstancePort : public QGraphicsRectItem
+class GiInstancePort : public QGraphicsRectItem, protected PositionObserver
 {
   public:
     explicit GiInstancePort(InstancePort *model, Composition *sheet, QGraphicsItem *parent);
+    ~GiInstancePort();
 
     InstancePort *getModel() const;
 
@@ -22,6 +23,9 @@ class GiInstancePort : public QGraphicsRectItem
   protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent * event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
+
+    virtual void absolutePositionChanged(const RelativePosition *sender);
+    virtual void offsetChanged(const RelativePosition *sender);
 
   private:
     InstancePort *model;
