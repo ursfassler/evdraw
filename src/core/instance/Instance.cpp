@@ -3,7 +3,7 @@
 #include "InstancePortFactory.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
-  RelativePosition(aPosition),
+  AbstractInstance(aPosition),
   name(aName),
   component(aComponent),
   ports()
@@ -27,13 +27,13 @@ Component *Instance::getComponent() const
   return component;
 }
 
-void Instance::addPort(AbstractPort *port)
+void Instance::addPort(InstancePort *port)
 {
   ports.push_back(port);
   ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, port);
 }
 
-void Instance::deletePort(AbstractPort *port)
+void Instance::deletePort(InstancePort *port)
 {
   const auto itr = std::find(ports.begin(), ports.end(), port);
   precondition(itr != ports.end());
@@ -42,17 +42,17 @@ void Instance::deletePort(AbstractPort *port)
   delete port;
 }
 
-const std::vector<AbstractPort *> &Instance::getPorts() const
+const std::vector<InstancePort *> &Instance::getPorts() const
 {
   return ports;
 }
 
-AbstractPort *Instance::getPort(const std::string &name) const
+InstancePort *Instance::getPort(const std::string &name) const
 {
   auto predicate = [&](AbstractPort *itr){
     return itr->getName() == name;
   };
-  return listGet<AbstractPort*>(ports.begin(), ports.end(), predicate);
+  return listGet<InstancePort*>(ports.begin(), ports.end(), predicate);
 }
 
 void Instance::accept(Visitor &visitor)

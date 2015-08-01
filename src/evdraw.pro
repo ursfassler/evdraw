@@ -122,7 +122,8 @@ HEADERS += \
     unittest/file/xmlwriter/XmlWriterTest.hpp \
     unittest/testtypes.hpp \
     unittest/core/instance/InstanceObserverTest.hpp \
-    unittest/core/component/ComponentPortObserverTest.hpp
+    unittest/core/component/ComponentPortObserverTest.hpp \
+    unittest/core/instance/AbstractInstanceTest.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -214,5 +215,6 @@ SOURCES += \
     unittest/main.cpp \
     unittest/testtypes.cpp \
     unittest/core/instance/InstanceObserverTest.cpp \
-    unittest/core/component/ComponentPortObserverTest.cpp
+    unittest/core/component/ComponentPortObserverTest.cpp \
+    unittest/core/instance/AbstractInstanceTest.cpp
 

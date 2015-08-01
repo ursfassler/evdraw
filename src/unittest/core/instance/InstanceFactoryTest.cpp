@@ -60,11 +60,13 @@ void InstanceFactoryTest::produceWithPorts()
     return dynamic_cast<InstancePort*>(instance->getPorts()[i]);
   };
 
-  CPPUNIT_ASSERT_EQUAL(instance, ip(0)->getInstance());
-  CPPUNIT_ASSERT_EQUAL(instance, ip(1)->getInstance());
-  CPPUNIT_ASSERT_EQUAL(instance, ip(2)->getInstance());
-  CPPUNIT_ASSERT_EQUAL(instance, ip(3)->getInstance());
-  CPPUNIT_ASSERT_EQUAL(instance, ip(4)->getInstance());
+  AbstractInstance *ainst = dynamic_cast<AbstractInstance*>(instance);
+  CPPUNIT_ASSERT(ainst != nullptr);
+  CPPUNIT_ASSERT_EQUAL(ainst, ip(0)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(ainst, ip(1)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(ainst, ip(2)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(ainst, ip(3)->getInstance());
+  CPPUNIT_ASSERT_EQUAL(ainst, ip(4)->getInstance());
 
   std::set<std::string> names;
   for (auto i = 0; i < 5; i++ ) {

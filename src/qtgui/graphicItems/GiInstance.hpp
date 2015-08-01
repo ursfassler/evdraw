@@ -23,8 +23,8 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
     void absolutePositionChanged(const RelativePosition *sender);
     void offsetChanged(const RelativePosition *sender);
 
-    void portAdded(AbstractPort *port);
-    void portDeleted(AbstractPort *port);
+    void portAdded(InstancePort *port);
+    void portDeleted(InstancePort *port);
 
   private:
     Instance * const model;
@@ -32,13 +32,13 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
     QGraphicsSimpleTextItem instanceText;
     QGraphicsSimpleTextItem componentText;
     QPointF calcTextPos(unsigned index, const QRectF &boundingRect) const;
-    QHash<AbstractPort*,GiInstancePort*> ports;
+    QHash<InstancePort*,GiInstancePort*> ports;
 
     void resize();
     void updatePosition();
     void addText();
     void addPorts(Composition *composition);
-    void addPort(AbstractPort *port, Composition *composition);
+    void addPort(InstancePort *port, Composition *composition);
 };
 
 #endif // GIINSTANCE_HPP

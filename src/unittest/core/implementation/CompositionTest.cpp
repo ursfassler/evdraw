@@ -272,8 +272,8 @@ void CompositionTest::deleteInstancePortRemovesDependantConnections()
   Composition *composition = new Composition();
   Instance *inst = InstanceFactory::produce(comp1, "inst", Point(0,0));
   composition->addInstance(inst);
-  AbstractPort *portOut = inst->getPort("out");
-  AbstractPort *portIn = inst->getPort("in");
+  InstancePort *portOut = inst->getPort("out");
+  InstancePort *portIn = inst->getPort("in");
   Connection *connection = ConnectionFactory::produce(portOut, portIn);
   composition->addConnection(connection);
 

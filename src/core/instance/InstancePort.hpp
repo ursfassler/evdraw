@@ -1,9 +1,9 @@
 #ifndef INSTANCEPORT_HPP
 #define INSTANCEPORT_HPP
 
+#include "AbstractInstance.hpp"
 #include "Connector.hpp"
-
-#include "Instance.hpp"
+#include "../connection/AbstractPort.hpp"
 
 #include "../component/ComponentPort.hpp"
 #include "../types.hpp"
@@ -14,7 +14,7 @@
 class InstancePort final : public AbstractPort, public RelativePosition, protected ComponentPortObserver
 {
   public:
-    InstancePort(Instance *instance, ComponentPort *compPort, const Point &offset);
+    InstancePort(AbstractInstance *instance, ComponentPort *compPort, const Point &offset);
     ~InstancePort();
 
     InstancePort(const InstancePort &) = delete;
@@ -24,7 +24,7 @@ class InstancePort final : public AbstractPort, public RelativePosition, protect
     Connector &getConnector();
     std::string getName() const;
     Point getPosition() const;
-    Instance *getInstance() const;
+    AbstractInstance *getInstance() const;
     Side side() const;
 
     void addConnectionPoint(RelativePosition *point);
@@ -37,7 +37,7 @@ class InstancePort final : public AbstractPort, public RelativePosition, protect
     void topIndexChanged(size_t index);
 
   private:
-    Instance * const owner;
+    AbstractInstance * const owner;
     ComponentPort * const compPort;
     Connector connector;
 

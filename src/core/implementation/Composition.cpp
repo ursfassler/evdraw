@@ -128,7 +128,7 @@ Connection *Composition::getConnectionUnderConstruction() const
   return connectionUnderConstruction;
 }
 
-void Composition::portDeleted(AbstractPort *port)
+void Composition::portDeleted(InstancePort *port)
 {
   ConnectionWithPortSpecification spec(port);
   ChildRemover remover(spec);

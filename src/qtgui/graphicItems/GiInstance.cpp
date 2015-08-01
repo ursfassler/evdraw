@@ -64,13 +64,13 @@ void GiInstance::offsetChanged(const RelativePosition *)
   updatePosition();
 }
 
-void GiInstance::portAdded(AbstractPort *port)
+void GiInstance::portAdded(InstancePort *port)
 {
   addPort(port, composition);
   resize();
 }
 
-void GiInstance::portDeleted(AbstractPort *port)
+void GiInstance::portDeleted(InstancePort *port)
 {
   precondition(ports.contains(port));
 
@@ -91,12 +91,12 @@ QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) cons
 
 void GiInstance::addPorts(Composition *composition)
 {
-  for (AbstractPort *port : model->getPorts()) {
+  for (InstancePort *port : model->getPorts()) {
     addPort(port, composition);
   }
 }
 
-void GiInstance::addPort(AbstractPort *port, Composition *composition)
+void GiInstance::addPort(InstancePort *port, Composition *composition)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
   GiInstancePort *gipo = new GiInstancePort(ip, composition, this);

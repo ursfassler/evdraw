@@ -17,7 +17,7 @@ class InstanceFactory
     static void dispose(Instance *instance);
 
   private:
-    static void cleanupPort(std::vector<AbstractPort *> &ports);
+    static void cleanupPort(std::vector<InstancePort *> &ports);
 
 };
 

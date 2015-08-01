@@ -13,6 +13,7 @@ class Instance : public AbstractInstance
 {
   public:
     Instance(const std::string &aName) :
+      AbstractInstance(Point(0,0)),
       name(aName)
     {
     }

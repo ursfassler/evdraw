@@ -77,7 +77,7 @@ class Composition final : public AbstractImplementation, public ObserverCollecti
     void accept(ConstVisitor &visitor) const;
 
   protected:
-    void portDeleted(AbstractPort *port);
+    void portDeleted(InstancePort *port);
 
   private:
     Connection  *connectionUnderConstruction = nullptr;

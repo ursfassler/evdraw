@@ -5,7 +5,7 @@
 
 #include <stdexcept>
 
-InstancePort::InstancePort(Instance *aInstance, ComponentPort *aCompPort, const Point &aOffset) :
+InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort, const Point &aOffset) :
   RelativePosition(aOffset),
   owner(aInstance),
   compPort(aCompPort),
@@ -45,7 +45,7 @@ Point InstancePort::getPosition() const
   return getAbsolutePosition();
 }
 
-Instance *InstancePort::getInstance() const
+AbstractInstance *InstancePort::getInstance() const
 {
   return owner;
 }

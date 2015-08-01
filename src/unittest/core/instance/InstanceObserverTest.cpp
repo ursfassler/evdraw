@@ -70,17 +70,17 @@ class TestInstanceObserver : public InstanceObserver
     {
     }
 
-    void portAdded(AbstractPort *port)
+    void portAdded(InstancePort *port)
     {
       addedPorts.push_back(port);
     }
-    std::vector<AbstractPort*> addedPorts;
+    std::vector<InstancePort*> addedPorts;
 
-    void portDeleted(AbstractPort *port)
+    void portDeleted(InstancePort *port)
     {
       deletedPorts.push_back(port);
     }
-    std::vector<AbstractPort*> deletedPorts;
+    std::vector<InstancePort*> deletedPorts;
 
 };
 
@@ -107,7 +107,7 @@ void InstanceObserverTest::notifyDelPort()
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 
-  AbstractPort *port = instance->getPorts()[0];
+  InstancePort *port = instance->getPorts()[0];
   component->deletePort(component->getPorts()[0]);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());

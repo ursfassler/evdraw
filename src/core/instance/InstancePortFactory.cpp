@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-InstancePort *InstancePortFactory::produce(Instance *instance, ComponentPort *compPort)
+InstancePort *InstancePortFactory::produce(AbstractInstance *instance, ComponentPort *compPort)
 {
   const Side side = compPort->side();
   const Point portOffset = getOffset(side, compPort);
@@ -43,7 +43,7 @@ Point InstancePortFactory::connectorOffset(Side side)
 }
 
 
-void InstancePortFactory::dispose(AbstractPort *port)
+void InstancePortFactory::dispose(InstancePort *port)
 {
   delete port;
 }

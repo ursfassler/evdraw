@@ -14,12 +14,13 @@ void InstancePortTest::createPort()
   Component *comp = ComponentFactory::produce("", {"bla"}, {});
   ComponentPort *cport = comp->getPorts()[0];
 
-  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  Instance *inst = InstanceFactory::produce(comp, "inst", Point(0,0));
   InstancePort *port = InstancePortFactory::produce(inst, cport);
 
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort()->getName());
   CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
   CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getOffset().y);
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractInstance*>(inst), port->getInstance());
 
   InstancePortFactory::dispose(port);
   InstanceFactory::dispose(inst);

@@ -52,9 +52,9 @@ void InstanceTest::inheritsBase()
 
 void InstanceTest::getPortWithExisting()
 {
-  AbstractPort *in2 = instance->getPort("in2");
-  AbstractPort *out1 = instance->getPort("out1");
-  AbstractPort *in1 = instance->getPort("in1");
+  InstancePort *in2 = instance->getPort("in2");
+  InstancePort *out1 = instance->getPort("out1");
+  InstancePort *in1 = instance->getPort("in1");
 
   CPPUNIT_ASSERT(in1 != nullptr);
   CPPUNIT_ASSERT(in2 != nullptr);

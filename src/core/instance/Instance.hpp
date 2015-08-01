@@ -4,10 +4,9 @@
 #include "../component/Component.hpp"
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
-#include "../base/Position.hpp"
 
 #include "AbstractInstance.hpp"
-#include "../connection/AbstractPort.hpp"
+#include "InstancePort.hpp"
 #include "../visitor/VisitorClient.hpp"
 
 #include <string>
@@ -22,18 +21,18 @@ class InstanceObserver
     {
     }
 
-    virtual void portAdded(AbstractPort *port)
+    virtual void portAdded(InstancePort *port)
     {
       (void)(port);
     }
 
-    virtual void portDeleted(AbstractPort *port)
+    virtual void portDeleted(InstancePort *port)
     {
       (void)(port);
     }
 };
 
-class Instance final : public AbstractInstance, public RelativePosition, public VisitorClient, public ObserverCollection<InstanceObserver>, public ComponentObserver
+class Instance final : public AbstractInstance, public ObserverCollection<InstanceObserver>, public ComponentObserver
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -44,8 +43,8 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
     const std::string &getName() const;
     Component *getComponent() const;
 
-    const std::vector<AbstractPort *> &getPorts() const;
-    AbstractPort *getPort(const std::string &name) const;
+    const std::vector<InstancePort *> &getPorts() const;
+    InstancePort *getPort(const std::string &name) const;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
@@ -57,10 +56,10 @@ class Instance final : public AbstractInstance, public RelativePosition, public 
   private:
     std::string name;
     Component * const component;
-    std::vector<AbstractPort*> ports;
+    std::vector<InstancePort*> ports;
 
-    void addPort(AbstractPort *port);
-    void deletePort(AbstractPort *port);
+    void addPort(InstancePort *port);
+    void deletePort(InstancePort *port);
 
     friend InstanceFactory;
 

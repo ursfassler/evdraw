@@ -32,9 +32,9 @@ void InstanceFactory::dispose(Instance *instance)
   delete instance;
 }
 
-void InstanceFactory::cleanupPort(std::vector<AbstractPort *> &ports)
+void InstanceFactory::cleanupPort(std::vector<InstancePort *> &ports)
 {
-  for (AbstractPort *port : ports) {
+  for (InstancePort *port : ports) {
     InstancePortFactory::dispose(port);
   }
   ports.clear();
