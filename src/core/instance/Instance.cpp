@@ -49,7 +49,7 @@ const std::vector<InstancePort *> &Instance::getPorts() const
 
 InstancePort *Instance::getPort(const std::string &name) const
 {
-  auto predicate = [&](AbstractPort *itr){
+  auto predicate = [&](InstancePort *itr){
     return itr->getName() == name;
   };
   return listGet<InstancePort*>(ports.begin(), ports.end(), predicate);
@@ -73,8 +73,8 @@ void Instance::portAdded(ComponentPort *port)
 
 void Instance::portDeleted(ComponentPort *port)
 {
-  auto predicate = [&](AbstractPort *itr){
-    return itr->getName() == port->getName();
+  auto predicate = [&](InstancePort *itr){
+    return itr->getCompPort() == port;
   };
   auto idx = std::find_if(ports.begin(), ports.end(), predicate);
   precondition(idx != ports.end());

@@ -86,6 +86,22 @@ void InstanceTest::deletePortWhenComponentPortIsDeleted()
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 }
 
+void InstanceTest::deletePortWhenComponentHasPortsWithSameName()
+{
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  InstancePort *port1 = instance->getPorts()[2];
+  Signal *sig = new Signal("out1");
+  component->addPort(sig);
+  CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
+  InstancePort *port2 = instance->getPorts()[3];
+  CPPUNIT_ASSERT_EQUAL(std::string("out1"), port1->getName());
+  CPPUNIT_ASSERT_EQUAL(std::string("out1"), port2->getName());
+
+  component->deletePort(sig);
+  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(port1, instance->getPorts()[2]);
+}
+
 void InstanceTest::updatePortPositionsOnPortDelete()
 {
   const Point pos0 = instance->getPort("in1")->getPosition();
