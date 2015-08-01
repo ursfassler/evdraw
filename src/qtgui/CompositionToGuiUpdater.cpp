@@ -16,7 +16,14 @@ CompositionToGuiUpdater::~CompositionToGuiUpdater()
 void CompositionToGuiUpdater::instanceAdded(Instance *instance)
 {
   GiInstance *giinstA = new GiInstance(instance, &composition, 0);
+  instances.insert(instance, giinstA);
   scene.addItem(giinstA);
+}
+
+void CompositionToGuiUpdater::instanceRemoved(Instance *instance)
+{
+  GiInstance *inst = instances.take(instance);
+  delete inst;
 }
 
 void CompositionToGuiUpdater::connectionAdded(Connection *connection)

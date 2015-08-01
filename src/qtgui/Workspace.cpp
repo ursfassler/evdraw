@@ -23,6 +23,8 @@ Workspace::Workspace(QWidget *parent) :
   QWidget(parent),
   drawTabs(this)
 {
+
+
   QWidget *leftBar = new QWidget(this);
   QVBoxLayout *leftLayout = new QVBoxLayout;
   leftLayout->addWidget(&compList);
@@ -66,6 +68,7 @@ void Workspace::openFile(const QString &filename)
   Library *lib = XmlReader::loadFile(filename.toStdString());
   componentModel = new ComponentList(lib);
   compList.setModel(componentModel);
+  lib->registerObserver(this);
 }
 
 void Workspace::saveFile(const QString &filename)
@@ -86,6 +89,15 @@ void Workspace::showComponent(Component *component)
   }
   portModel = new CompifaceModel(*component);
   portView.setModel(portModel);
+}
+
+void Workspace::componentDeleted(Component *component)
+{
+  if ((portModel != nullptr) && (portModel->getComponent() == component)) {
+    portView.setModel(nullptr);
+    delete portModel;
+    portModel = nullptr;
+  }
 }
 
 void Workspace::openImplementation(const QModelIndex &index)

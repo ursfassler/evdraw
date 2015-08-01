@@ -35,6 +35,7 @@ class CompositionToGuiUpdater : public CompositionObserver
     ~CompositionToGuiUpdater();
 
     virtual void instanceAdded(Instance *instance);
+    virtual void instanceRemoved(Instance *instance);
     virtual void connectionAdded(Connection *connection);
     virtual void connectionRemoved(Connection *connection);
     virtual void addConnectionUnderConstruction(Connection *connection);
@@ -52,6 +53,7 @@ class CompositionToGuiUpdater : public CompositionObserver
     GiConnectionCreation *connCreate = nullptr;
 
     QHash<Connection*,ConnectionItem*> connections;
+    QHash<Instance*,GiInstance*> instances;
 
     void addConnection(Connection *connection);
     Connection *findConnectionOf(QGraphicsItem *item) const;

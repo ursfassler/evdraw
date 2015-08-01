@@ -65,6 +65,11 @@ void CompifaceModel::addPort(const QString &name)
   component.addPort(new Slot(name.toStdString()));
 }
 
+const Component *CompifaceModel::getComponent() const
+{
+  return &component;
+}
+
 void CompifaceModel::portAdded(ComponentPort *)
 {
   layoutChanged();

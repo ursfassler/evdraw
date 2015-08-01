@@ -20,6 +20,8 @@ class CompifaceModel : public QAbstractListModel, protected ComponentObserver
     void delPort(const QModelIndex &index);
     void addPort(const QString &name);
 
+    const Component *getComponent() const;
+
   protected:
     void portAdded(ComponentPort *port);
     void portDeleted(ComponentPort *port);

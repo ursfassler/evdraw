@@ -13,7 +13,7 @@
 #include <QListView>
 #include <QTreeView>
 
-class Workspace : public QWidget
+class Workspace : public QWidget, private LibraryObserver
 {
     Q_OBJECT
   public:
@@ -44,6 +44,7 @@ class Workspace : public QWidget
     QTabWidget drawTabs;
 
     void showComponent(Component *component);
+    void componentDeleted(Component *component);
 };
 
 class ImplementationOpener : public NullVisitor
