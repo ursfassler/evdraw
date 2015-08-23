@@ -122,7 +122,13 @@ void Workspace::openImplementation(const QModelIndex &index)
 
 void Workspace::addInstance(Point position, Composition &composition)
 {
-  Component *component = componentModel->getLibrary()->getComponents()[0];
+  QModelIndexList selected = compView.selectionModel()->selectedIndexes();
+  if (selected.empty()) {
+    return;
+  }
+
+  QModelIndex idx = selected.first();
+  Component *component = componentModel->getComponent(idx);
   Instance *inst = InstanceFactory::produce(component, "?", position);
   composition.addInstance(inst);
 }
