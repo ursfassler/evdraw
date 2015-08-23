@@ -142,28 +142,6 @@ void ComponentTest::portIndexUpdatedOnDel()
   ComponentFactory::cleanup(comp);
 }
 
-void ComponentTest::portIsLeft()
-{
-  Component     comp("", new NullImplementation());
-  Slot *port = new Slot("");
-  comp.addPort(port);
-
-  CPPUNIT_ASSERT_EQUAL(Side::Left, port->side());
-
-  ComponentFactory::cleanup(comp);
-}
-
-void ComponentTest::portIsRight()
-{
-  Component     comp("", new NullImplementation());
-  Signal *port = new Signal("");
-  comp.addPort(port);
-
-  CPPUNIT_ASSERT_EQUAL(Side::Right, port->side());
-
-  ComponentFactory::cleanup(comp);
-}
-
 void ComponentTest::getPort()
 {
   Component *comp = ComponentFactory::produce("", {"in"}, {});

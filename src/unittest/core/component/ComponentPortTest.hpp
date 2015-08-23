@@ -8,11 +8,15 @@ class ComponentPortTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( ComponentPortTest );
 
+    CPPUNIT_TEST(destructor_is_virtual);
+    CPPUNIT_TEST(name);
     CPPUNIT_TEST(setTopIndex);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
+    void destructor_is_virtual();
+    void name();
     void setTopIndex();
 };
 
@@ -23,11 +27,14 @@ class SignalTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( SignalTest );
 
     CPPUNIT_TEST(produce);
+    CPPUNIT_TEST(portIsRight);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void produce();
+    void portIsRight();
+
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SignalTest );
@@ -37,11 +44,13 @@ class SlotTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( SlotTest );
 
     CPPUNIT_TEST(produce);
+    CPPUNIT_TEST(portIsLeft);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void produce();
+    void portIsLeft();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( SlotTest );
