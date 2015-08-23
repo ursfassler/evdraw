@@ -18,6 +18,12 @@ class ComponentPortObserver
     {
       (void)(index);
     }
+
+    virtual void nameChanged(const std::string &name)
+    {
+      (void)(name);
+    }
+
 };
 
 class ComponentPort : public VisitorClient, public ObserverCollection<ComponentPortObserver>
@@ -26,6 +32,7 @@ class ComponentPort : public VisitorClient, public ObserverCollection<ComponentP
     ComponentPort(const std::string &name);
 
     const std::string &getName() const;
+    void setName(const std::string &name);
 
     size_t getTopIndex() const;
     void setTopIndex(size_t value);

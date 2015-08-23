@@ -11,7 +11,24 @@
 
 #include <vector>
 
-class InstancePort final : public AbstractPort, public RelativePosition, protected ComponentPortObserver
+class InstancePortObserver
+{
+  public:
+    virtual ~InstancePortObserver()
+    {
+    }
+
+    virtual void nameChanged(const std::string &name)
+    {
+      (void)(name);
+    }
+};
+
+class InstancePort final :
+    public AbstractPort,
+    public RelativePosition,
+    public ObserverCollection<InstancePortObserver>,
+    protected ComponentPortObserver
 {
   public:
     InstancePort(AbstractInstance *instance, ComponentPort *compPort, const Point &offset);
@@ -22,6 +39,7 @@ class InstancePort final : public AbstractPort, public RelativePosition, protect
 
     ComponentPort *getCompPort() const;
     Connector &getConnector();
+    void setName(const std::string &name);
     std::string getName() const;
     Point getPosition() const;
     AbstractInstance *getInstance() const;
@@ -35,6 +53,7 @@ class InstancePort final : public AbstractPort, public RelativePosition, protect
 
   protected:
     void topIndexChanged(size_t index);
+    void nameChanged(const std::string &name);
 
   private:
     AbstractInstance * const owner;

@@ -106,3 +106,17 @@ void InstancePortTest::portIsRight()
   InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
+
+void InstancePortTest::setName()
+{
+  Component *comp = ComponentFactory::produce("", {}, {"right"});
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = InstancePortFactory::produce(inst, comp->getPorts()[0]);
+
+  port->setName("test name");
+  CPPUNIT_ASSERT_EQUAL(std::string("test name"), port->getName());
+
+  InstancePortFactory::dispose(port);
+  InstanceFactory::dispose(inst);
+  ComponentFactory::dispose(comp);
+}

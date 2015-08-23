@@ -10,8 +10,6 @@ CONFIG -= qt
 
 TARGET = testapp
 
-CONFIG += c++11
-
 #QMAKE_CXX = clang
 QMAKE_CXXFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
 
@@ -123,7 +121,8 @@ HEADERS += \
     unittest/testtypes.hpp \
     unittest/core/instance/InstanceObserverTest.hpp \
     unittest/core/component/ComponentPortObserverTest.hpp \
-    unittest/core/instance/AbstractInstanceTest.hpp
+    unittest/core/instance/AbstractInstanceTest.hpp \
+    unittest/core/instance/InstancePortObserverTest.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -216,5 +215,6 @@ SOURCES += \
     unittest/testtypes.cpp \
     unittest/core/instance/InstanceObserverTest.cpp \
     unittest/core/component/ComponentPortObserverTest.cpp \
-    unittest/core/instance/AbstractInstanceTest.cpp
+    unittest/core/instance/AbstractInstanceTest.cpp \
+    unittest/core/instance/InstancePortObserverTest.cpp
 

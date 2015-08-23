@@ -27,7 +27,7 @@ InstancePort::~InstancePort()
 
 Connector &InstancePort::getConnector()
 {
-    return connector;
+  return connector;
 }
 
 ComponentPort *InstancePort::getCompPort() const
@@ -38,6 +38,11 @@ ComponentPort *InstancePort::getCompPort() const
 std::string InstancePort::getName() const
 {
   return compPort->getName();
+}
+
+void InstancePort::setName(const std::string &name)
+{
+  compPort->setName(name);
 }
 
 Point InstancePort::getPosition() const
@@ -79,6 +84,11 @@ void InstancePort::topIndexChanged(size_t)
 {
   const Point offset = calcOffset();
   setOffset(offset);
+}
+
+void InstancePort::nameChanged(const std::string &name)
+{
+  ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, name);
 }
 
 Point InstancePort::calcOffset() const

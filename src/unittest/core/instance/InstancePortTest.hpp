@@ -14,6 +14,7 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(positionChangeNotificationNotifiesConnector);
     CPPUNIT_TEST(portIsLeft);
     CPPUNIT_TEST(portIsRight);
+    CPPUNIT_TEST(setName);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -24,6 +25,7 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     void positionChangeNotificationNotifiesConnector();
     void portIsLeft();
     void portIsRight();
+    void setName();
 
 };
 

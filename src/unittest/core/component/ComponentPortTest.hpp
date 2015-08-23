@@ -12,12 +12,16 @@ class ComponentPortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(name);
     CPPUNIT_TEST(setTopIndex);
 
+    CPPUNIT_TEST(setName);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void destructor_is_virtual();
     void name();
     void setTopIndex();
+
+    void setName();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ComponentPortTest );

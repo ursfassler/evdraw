@@ -58,6 +58,15 @@ void ComponentPortTest::setTopIndex()
   CPPUNIT_ASSERT_EQUAL(size_t(42), port.getTopIndex());
 }
 
+void ComponentPortTest::setName()
+{
+  bool destructorCalled = false;
+  TestComponentPort port(destructorCalled);
+
+  port.setName("port test name");
+  CPPUNIT_ASSERT_EQUAL(std::string("port test name"), port.getName());
+}
+
 
 void SignalTest::produce()
 {

@@ -8,20 +8,26 @@ class ComponentPortObserverTest: public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( ComponentPortObserverTest );
 
-    CPPUNIT_TEST(destructorIsVirtual);
-    CPPUNIT_TEST(inheritsObserverCollection);
+    CPPUNIT_TEST(destructor_is_virtual);
+    CPPUNIT_TEST(inherits_ObserverCollection);
 
-    CPPUNIT_TEST(getInformedOnTopIndexChange);
-    CPPUNIT_TEST(doNotInformIfTopIndexIsTheSame);
+    CPPUNIT_TEST(get_informed_on_topIndex_change);
+    CPPUNIT_TEST(do_not_inform_if_topIndex_is_the_same);
+
+    CPPUNIT_TEST(get_informed_on_name_change);
+    CPPUNIT_TEST(do_not_inform_if_name_is_the_same);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void destructorIsVirtual();
-    void inheritsObserverCollection();
+    void destructor_is_virtual();
+    void inherits_ObserverCollection();
 
-    void getInformedOnTopIndexChange();
-    void doNotInformIfTopIndexIsTheSame();
+    void get_informed_on_topIndex_change();
+    void do_not_inform_if_topIndex_is_the_same();
+
+    void get_informed_on_name_change();
+    void do_not_inform_if_name_is_the_same();
 
 };
 

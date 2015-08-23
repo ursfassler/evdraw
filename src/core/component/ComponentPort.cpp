@@ -10,6 +10,14 @@ const std::string &ComponentPort::getName() const
   return name;
 }
 
+void ComponentPort::setName(const std::string &name)
+{
+  if (this->name != name) {
+    this->name = name;
+    notify<const std::string &>(&ComponentPortObserver::nameChanged, name);
+  }
+}
+
 size_t ComponentPort::getTopIndex() const
 {
   return topIndex;
