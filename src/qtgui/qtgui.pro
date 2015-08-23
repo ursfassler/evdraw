@@ -20,7 +20,6 @@ INCLUDEPATH += ../
 
 SOURCES += \
     CompifaceModel.cpp \
-    ComponentList.cpp \
     CompositionEditor.cpp \
     CompositionToGuiUpdater.cpp \
     ../core/base/Base.cpp \
@@ -70,11 +69,11 @@ SOURCES += \
     graphicItems/GiSegment.cpp \
     main.cpp\
     MainWindow.cpp \
-    Workspace.cpp
+    Workspace.cpp \
+    ComponentModel.cpp
 
 HEADERS  += \
     CompifaceModel.hpp \
-    ComponentList.hpp \
     CompositionEditor.hpp \
     CompositionToGuiUpdater.hpp \
     ../core/base/Base.hpp \
@@ -130,7 +129,8 @@ HEADERS  += \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiSegment.hpp \
     MainWindow.hpp \
-    Workspace.hpp
+    Workspace.hpp \
+    ComponentModel.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

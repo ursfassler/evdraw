@@ -1,7 +1,7 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
-#include "ComponentList.hpp"
+#include "ComponentModel.hpp"
 #include "CompositionEditor.hpp"
 #include "CompifaceModel.hpp"
 
@@ -37,8 +37,8 @@ class Workspace : public QWidget, private LibraryObserver
     void addInstance(Point position, Composition &composition);
 
   private:
-    ComponentList *componentModel = nullptr;
-    QListView compList;
+    ComponentModel *componentModel = nullptr;
+    QTreeView compView;
     CompifaceModel *portModel = nullptr;
     QTreeView portView;
     QTabWidget drawTabs;

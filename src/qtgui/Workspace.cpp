@@ -27,7 +27,7 @@ Workspace::Workspace(QWidget *parent) :
 
   QWidget *leftBar = new QWidget(this);
   QVBoxLayout *leftLayout = new QVBoxLayout;
-  leftLayout->addWidget(&compList);
+  leftLayout->addWidget(&compView);
   leftLayout->addWidget(&portView);
   leftBar->setLayout(leftLayout);
 
@@ -37,8 +37,8 @@ Workspace::Workspace(QWidget *parent) :
   layout->addWidget(&drawTabs);
   this->setLayout(layout);
 
-  connect(&compList, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
-  connect(&compList, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
+  connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
+  connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
 }
 
 void Workspace::addComponent()
@@ -53,7 +53,7 @@ void Workspace::addPort()
 
 void Workspace::delComponent()
 {
-  QModelIndex selected = compList.currentIndex();
+  QModelIndex selected = compView.currentIndex();
   componentModel->deleteComponent(selected);
 }
 
@@ -66,8 +66,8 @@ void Workspace::delPort()
 void Workspace::openFile(const QString &filename)
 {
   Library *lib = XmlReader::loadFile(filename.toStdString());
-  componentModel = new ComponentList(lib);
-  compList.setModel(componentModel);
+  componentModel = new ComponentModel(lib);
+  compView.setModel(componentModel);
   lib->registerObserver(this);
 }
 
