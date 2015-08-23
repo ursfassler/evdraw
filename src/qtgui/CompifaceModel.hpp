@@ -2,6 +2,7 @@
 #define COMPIFACEMODEL_HPP
 
 #include <core/component/Component.hpp>
+#include <core/visitor/NullConstVisitor.hpp>
 
 #include <QAbstractListModel>
 
@@ -27,7 +28,25 @@ class CompifaceModel : public QAbstractListModel, protected ComponentObserver
     void portDeleted(ComponentPort *port);
 
   private:
+    enum class ColumnType
+    {
+      Name = 0,
+      Type = 1
+    };
+
     Component &component;
+
+    QString getColumnString(const ComponentPort *port, ColumnType type) const;
+    QString getPortTypeName(const ComponentPort *port) const;
+};
+
+class PortTypeNameVisitor : public NullConstVisitor
+{
+  public:
+    void visit(const Slot &port);
+    void visit(const Signal &port);
+
+    QString name;
 
 };
 
