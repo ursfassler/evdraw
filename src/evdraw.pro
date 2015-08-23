@@ -215,5 +215,6 @@ SOURCES += \
     unittest/core/instance/InstancePortObserverTest.cpp
 
 DISTFILES += \
+    ../README.md \
     ../COPYING
 

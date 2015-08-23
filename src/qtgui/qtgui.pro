@@ -132,4 +132,5 @@ OTHER_FILES += \
     drawings/test1.evd
 
 DISTFILES += \
-    ../../COPYING
+    ../../COPYING \
+    ../../README.md
