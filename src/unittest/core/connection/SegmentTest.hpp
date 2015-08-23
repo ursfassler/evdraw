@@ -1,3 +1,6 @@
+// Copyright 2015 Urs Fässler, www.bitzgi.ch
+// SPDX-License-Identifier:	GPL-3.0+
+
 #ifndef SEGMENTTEST_HPP
 #define SEGMENTTEST_HPP
 

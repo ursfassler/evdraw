@@ -1,8 +1,6 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2015-05-22T19:57:48
-#
-#-------------------------------------------------
+# Copyright 2015 Urs Fässler, www.bitzgi.ch
+# SPDX-License-Identifier:	GPL-3.0+
+
 
 CONFIG -= console
 CONFIG -= app_bundle
@@ -64,7 +62,6 @@ HEADERS += \
     file/xmlreader/BaseParser.hpp \
     file/xmlreader/ConnectionParser.hpp \
     file/xmlreader/InstanceParser.hpp \
-    file/xmlreader/Parsers.h \
     file/xmlreader/XmlReader.hpp \
     file/xmlwriter/XmlNodeWriter.hpp \
     file/xmlwriter/XmlWriter.hpp \
@@ -161,7 +158,6 @@ SOURCES += \
     file/xmlreader/BaseParser.cpp \
     file/xmlreader/ConnectionParser.cpp \
     file/xmlreader/InstanceParser.cpp \
-    file/xmlreader/Parsers.cpp \
     file/xmlreader/XmlReader.cpp \
     file/xmlwriter/XmlNodeWriter.cpp \
     file/xmlwriter/XmlWriter.cpp \
@@ -217,4 +213,7 @@ SOURCES += \
     unittest/core/component/ComponentPortObserverTest.cpp \
     unittest/core/instance/AbstractInstanceTest.cpp \
     unittest/core/instance/InstancePortObserverTest.cpp
+
+DISTFILES += \
+    ../COPYING
 
