@@ -8,7 +8,10 @@
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsSceneMouseEvent>
 
-class GiInstancePort : public QGraphicsRectItem, protected PositionObserver
+class GiInstancePort :
+    public QGraphicsRectItem,
+    protected PositionObserver,
+    protected InstancePortObserver
 {
   public:
     explicit GiInstancePort(InstancePort *model, Composition *sheet, QGraphicsItem *parent);
@@ -27,10 +30,14 @@ class GiInstancePort : public QGraphicsRectItem, protected PositionObserver
     virtual void absolutePositionChanged(const RelativePosition *sender);
     virtual void offsetChanged(const RelativePosition *sender);
 
+    virtual void nameChanged(const std::string &name);
+
   private:
     InstancePort *model;
     Composition *sheet;
     QGraphicsSimpleTextItem label;
+
+    void setDisplayName(QString name);
 
 };
 

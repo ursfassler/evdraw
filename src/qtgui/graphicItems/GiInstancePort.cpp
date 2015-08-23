@@ -15,7 +15,8 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraph
   sheet(aSheet),
   label(this)
 {
-  model->registerObserver(this);
+  model->ObserverCollection<PositionObserver>::registerObserver(this);
+  model->ObserverCollection<InstancePortObserver>::registerObserver(this);
 
   setBrush(QBrush(QColor::fromRgb(0xff, 0xfa, 0x99)));
 
@@ -25,13 +26,13 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraph
   setRect(QRectF(puToScene(topLeft), puToScene(bottomRight)));
   setPos(puToScene(model->getOffset()));
 
-  label.setText(QString::fromStdString(model->getCompPort()->getName()));
-  label.setPos(-label.boundingRect().width()/2, -label.boundingRect().height()/2);
+  setDisplayName(QString::fromStdString(model->getName()));
 }
 
 GiInstancePort::~GiInstancePort()
 {
-  model->unregisterObserver(this);
+  model->ObserverCollection<InstancePortObserver>::unregisterObserver(this);
+  model->ObserverCollection<PositionObserver>::unregisterObserver(this);
 }
 
 InstancePort *GiInstancePort::getModel() const
@@ -50,12 +51,23 @@ void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
   sheet->startConnectionConstruction(model, end);
 }
 
-void GiInstancePort::absolutePositionChanged(const RelativePosition *sender)
+void GiInstancePort::absolutePositionChanged(const RelativePosition *)
 {
 
 }
 
-void GiInstancePort::offsetChanged(const RelativePosition *sender)
+void GiInstancePort::offsetChanged(const RelativePosition *)
 {
   setPos(puToScene(model->getOffset()));
+}
+
+void GiInstancePort::nameChanged(const std::string &name)
+{
+  setDisplayName(QString::fromStdString(name));
+}
+
+void GiInstancePort::setDisplayName(QString name)
+{
+  label.setText(name);
+  label.setPos(-label.boundingRect().width()/2, -label.boundingRect().height()/2);
 }

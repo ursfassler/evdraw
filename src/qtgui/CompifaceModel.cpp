@@ -12,6 +12,36 @@ CompifaceModel::~CompifaceModel()
   component.unregisterObserver(this);
 }
 
+Qt::ItemFlags CompifaceModel::flags(const QModelIndex &index) const
+{
+  const ColumnType type = ColumnType(index.column());
+  Qt::ItemFlags flags = QAbstractListModel::flags(index);
+  if (type == ColumnType::Name) {
+    flags |= Qt::ItemIsEditable;
+  }
+  return flags;
+}
+
+bool CompifaceModel::setData(const QModelIndex &index, const QVariant &value, int role)
+{
+  if (role != Qt::EditRole) {
+    return false;
+  }
+
+  const ColumnType type = ColumnType(index.column());
+  if (type != ColumnType::Name) {
+    return false;
+  }
+
+  const unsigned row = index.row();
+  ComponentPort *port = component.getPorts()[row];
+
+  port->setName(value.toString().toStdString());
+
+  dataChanged(index, index, {role});
+  return true;
+}
+
 QVariant CompifaceModel::headerData(int section, Qt::Orientation, int role) const
 {
   if (role != Qt::DisplayRole) {
