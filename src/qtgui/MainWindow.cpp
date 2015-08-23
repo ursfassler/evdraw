@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::createFileMenu()
 {
   QMenu *menu = menuBar()->addMenu("File");
+  menu->addAction("New", &workspace, SLOT(newFile()));
   menu->addAction("Open", this, SLOT(openFile()));
   menu->addAction("Save", this, SLOT(saveFile()));
   menu->addAction("Exit", QApplication::instance(), SLOT(quit()));

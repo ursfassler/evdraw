@@ -39,6 +39,13 @@ Workspace::Workspace(QWidget *parent) :
 
   connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
+
+  newFile();
+}
+
+Workspace::~Workspace()
+{
+  removeLibrary();
 }
 
 void Workspace::addComponent()
@@ -63,16 +70,22 @@ void Workspace::delPort()
   portModel->delPort(selected);
 }
 
+void Workspace::newFile()
+{
+  Library *lib = new Library();
+  newLibrary(lib);
+}
+
 void Workspace::openFile(const QString &filename)
 {
   Library *lib = XmlReader::loadFile(filename.toStdString());
-  componentModel = new ComponentModel(lib);
-  compView.setModel(componentModel);
-  lib->registerObserver(this);
+  newLibrary(lib);
 }
 
 void Workspace::saveFile(const QString &filename)
 {
+  Q_ASSERT(componentModel != nullptr);
+
   XmlWriter::saveFile(filename.toStdString(), *componentModel->getLibrary());
 }
 
@@ -112,6 +125,35 @@ void Workspace::addInstance(Point position, Composition &composition)
   Component *component = componentModel->getLibrary()->getComponents()[0];
   Instance *inst = InstanceFactory::produce(component, "?", position);
   composition.addInstance(inst);
+}
+
+void Workspace::removeLibrary()
+{
+  while (drawTabs.count() > 0) {
+    drawTabs.setCurrentIndex(0);
+    drawTabs.currentWidget()->deleteLater();
+    drawTabs.removeTab(0);
+  }
+
+  if (portModel != nullptr) {
+    portModel->deleteLater();
+    portModel = nullptr;
+  }
+
+  if (componentModel != nullptr) {
+    componentModel->getLibrary()->unregisterObserver(this);
+    componentModel->deleteLater();
+    componentModel = nullptr;
+  }
+}
+
+void Workspace::newLibrary(Library *library)
+{
+  removeLibrary();
+
+  componentModel = new ComponentModel(library);
+  compView.setModel(componentModel);
+  library->registerObserver(this);
 }
 
 ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWorkspace) :

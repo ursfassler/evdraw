@@ -18,6 +18,7 @@ class Workspace : public QWidget, private LibraryObserver
     Q_OBJECT
   public:
     explicit Workspace(QWidget *parent = 0);
+    ~Workspace();
 
   signals:
 
@@ -28,6 +29,7 @@ class Workspace : public QWidget, private LibraryObserver
     void delPort();
 
   public slots:
+    void newFile();
     void openFile(const QString &filename);
     void saveFile(const QString &filename);
     void openComponent(const QModelIndex &index);
@@ -43,6 +45,8 @@ class Workspace : public QWidget, private LibraryObserver
     QTreeView portView;
     QTabWidget drawTabs;
 
+    void removeLibrary();
+    void newLibrary(Library *library);
     void showComponent(Component *component);
     void componentDeleted(Component *component);
 };
