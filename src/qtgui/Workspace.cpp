@@ -3,6 +3,8 @@
 
 #include "Workspace.hpp"
 
+#include "CompositionEditor.hpp"
+
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/component/Component.hpp>
@@ -12,7 +14,6 @@
 #include <core/instance/Instance.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/implementation/Composition.hpp>
-
 
 #include <file/xmlreader/XmlReader.hpp>
 #include <file/xmlwriter/XmlWriter.hpp>
@@ -119,7 +120,7 @@ void Workspace::componentDeleted(Component *component)
 void Workspace::openImplementation(const QModelIndex &index)
 {
   Component *comp = componentModel->getComponent(index);
-  ImplementationOpener opener(drawTabs, this);
+  ImplementationOpener opener(drawTabs, this, QString::fromStdString(comp->getName()));
   comp->getImplementation()->accept(opener);
 }
 
@@ -165,16 +166,17 @@ void Workspace::newLibrary(Library *library)
   library->registerObserver(this);
 }
 
-ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWorkspace) :
+ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWorkspace, QString aName) :
   drawTabs(aDrawTabs),
-  workspace(aWorkspace)
+  workspace(aWorkspace),
+  name(aName)
 {
 }
 
 void ImplementationOpener::visit(Composition &composition)
 {
   CompositionEditor *editor = new CompositionEditor(composition);
-  drawTabs.addTab(editor, "lala");
+  drawTabs.addTab(editor, name);
   QObject::connect(editor, SIGNAL(addInstance(Point,Composition&)), workspace, SLOT(addInstance(Point,Composition&)));
 }
 

@@ -4,16 +4,14 @@
 #ifndef COMPOSITIONEDITOR_HPP
 #define COMPOSITIONEDITOR_HPP
 
-#include "CompositionToGuiUpdater.hpp"
-#include "graphicItems/CompositionScene.hpp"
-
-#include <core/implementation/Composition.hpp>
+#include "CompositionDraw.hpp"
+#include "InstanceListModel.hpp"
+#include "ConnectionListModel.hpp"
 
 #include <QWidget>
-#include <QGraphicsScene>
-#include <QGraphicsView>
+#include <QTreeView>
 
-class CompositionEditor : public QGraphicsView
+class CompositionEditor : public QWidget
 {
     Q_OBJECT
   public:
@@ -24,14 +22,13 @@ class CompositionEditor : public QGraphicsView
 
   public slots:
 
-  private slots:
-    void removeFromModel(QGraphicsItem *item);
-    void addInstance(Point position);
-
   private:
-    CompositionScene scene;
-    CompositionToGuiUpdater updater;
-    Composition &composition;
+    CompositionDraw draw;
+
+    InstanceListModel   instances;
+    QTreeView       instanceView;
+    ConnectionListModel connections;
+    QTreeView       connectionView;
 
 };
 

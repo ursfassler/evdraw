@@ -5,10 +5,10 @@
 #define WORKSPACE_HPP
 
 #include "ComponentModel.hpp"
-#include "CompositionEditor.hpp"
 #include "CompifaceModel.hpp"
 
 #include <core/visitor/NullVisitor.hpp>
+#include <core/Point.hpp>
 
 #include <QWidget>
 #include <QListView>
@@ -57,13 +57,14 @@ class Workspace : public QWidget, private LibraryObserver
 class ImplementationOpener : public NullVisitor
 {
   public:
-    ImplementationOpener(QTabWidget &drawTabs, Workspace *workspace);
+    ImplementationOpener(QTabWidget &drawTabs, Workspace *workspace, QString name);
 
     void visit(Composition &composition);
 
   private:
     QTabWidget &drawTabs;
     Workspace * const workspace;
+    QString name;
 };
 
 

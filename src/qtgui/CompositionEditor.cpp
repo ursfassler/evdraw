@@ -3,34 +3,25 @@
 
 #include "CompositionEditor.hpp"
 
-#include "graphicItems/convert.hpp"
+#include <QGridLayout>
 
-#include <core/component/InstanceAppearance.hpp>
-#include <core/instance/InstanceFactory.hpp>
-
-CompositionEditor::CompositionEditor(Composition &aComposition, QWidget *parent) :
-  QGraphicsView(parent),
-  scene(this),
-  updater(scene, aComposition),
-  composition(aComposition)
+CompositionEditor::CompositionEditor(Composition &composition, QWidget *parent) :
+  QWidget(parent),
+  draw(composition, this),
+  instances(composition, this),
+  connections(composition, this)
 {
-  setScene(&scene);
+  QGridLayout *layout = new QGridLayout();
 
-  QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
-  scene.setFont(font);
+  layout->addWidget(&draw, 0, 0, 2, 1);
+  layout->addWidget(&instanceView, 0, 1, 1, 1);
+  layout->addWidget(&connectionView, 1, 1, 1, 1);
 
-  connect(&scene, SIGNAL(removeFromModel(QGraphicsItem*)), this, SLOT(removeFromModel(QGraphicsItem*)));
-  connect(&scene, SIGNAL(addInstance(Point)), this, SLOT(addInstance(Point)));
+  this->setLayout(layout);
 
-  updater.init();
+  instanceView.setModel(&instances);
+  connectionView.setModel(&connections);
+
+  connect(&draw, SIGNAL(addInstance(Point,Composition&)), this, SIGNAL(addInstance(Point,Composition&)));
 }
 
-void CompositionEditor::removeFromModel(QGraphicsItem *item)
-{
-  updater.removeFromModel(item);
-}
-
-void CompositionEditor::addInstance(Point position)
-{
-  addInstance(position, updater.getComposition());
-}

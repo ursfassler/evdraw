@@ -18,7 +18,6 @@ INCLUDEPATH += ../
 
 SOURCES += \
     CompifaceModel.cpp \
-    CompositionEditor.cpp \
     CompositionToGuiUpdater.cpp \
     ../core/base/Base.cpp \
     ../core/base/Position.cpp \
@@ -67,11 +66,15 @@ SOURCES += \
     main.cpp\
     MainWindow.cpp \
     Workspace.cpp \
-    ComponentModel.cpp
+    ComponentModel.cpp \
+    CompositionDraw.cpp \
+    CompositionEditor.cpp \
+    NameTypeModel.cpp \
+    ConnectionListModel.cpp \
+    InstanceListModel.cpp
 
 HEADERS  += \
     CompifaceModel.hpp \
-    CompositionEditor.hpp \
     CompositionToGuiUpdater.hpp \
     ../core/base/Base.hpp \
     ../core/base/Position.hpp \
@@ -126,7 +129,12 @@ HEADERS  += \
     graphicItems/GiSegment.hpp \
     MainWindow.hpp \
     Workspace.hpp \
-    ComponentModel.hpp
+    ComponentModel.hpp \
+    CompositionDraw.hpp \
+    CompositionEditor.hpp \
+    NameTypeModel.hpp \
+    ConnectionListModel.hpp \
+    InstanceListModel.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

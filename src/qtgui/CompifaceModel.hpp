@@ -7,22 +7,18 @@
 #include <core/component/Component.hpp>
 #include <core/visitor/NullConstVisitor.hpp>
 
-#include <QAbstractListModel>
+#include "NameTypeModel.hpp"
 
-class CompifaceModel : public QAbstractListModel, protected ComponentObserver
+class CompifaceModel :
+    public NameTypeModel,
+    private ComponentObserver
 {
     Q_OBJECT
   public:
     explicit CompifaceModel(Component &component, QObject *parent = 0);
     ~CompifaceModel();
 
-    Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
-
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     void delPort(const QModelIndex &index);
     void addPort(const QString &name);
@@ -30,20 +26,18 @@ class CompifaceModel : public QAbstractListModel, protected ComponentObserver
     const Component *getComponent() const;
 
   protected:
-    void portAdded(ComponentPort *port);
-    void portDeleted(ComponentPort *port);
+    QString getName(uint row) const;
+    void setName(uint row, QString name);
+    QString getType(uint row) const;
 
   private:
-    enum class ColumnType
-    {
-      Name = 0,
-      Type = 1
-    };
-
     Component &component;
 
-    QString getColumnString(const ComponentPort *port, ColumnType type) const;
     QString getPortTypeName(const ComponentPort *port) const;
+    ComponentPort *getPort(uint row) const;
+
+    void portAdded(ComponentPort *port);
+    void portDeleted(ComponentPort *port);
 };
 
 class PortTypeNameVisitor : public NullConstVisitor

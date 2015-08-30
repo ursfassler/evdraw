@@ -8,9 +8,12 @@
 #include <core/component/Component.hpp>
 #include <core/visitor/NullConstVisitor.hpp>
 
-#include <QAbstractListModel>
+#include "NameTypeModel.hpp"
 
-class ComponentModel : public QAbstractListModel, public LibraryObserver
+//TODO make names editable
+class ComponentModel :
+    public NameTypeModel,
+    private LibraryObserver
 {
     Q_OBJECT
   public:
@@ -19,9 +22,6 @@ class ComponentModel : public QAbstractListModel, public LibraryObserver
     ~ComponentModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    int columnCount(const QModelIndex &parent) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
 
     void addComponent(const QString &name);
     Component *getComponent(const QModelIndex &index) const;
@@ -29,21 +29,21 @@ class ComponentModel : public QAbstractListModel, public LibraryObserver
 
     Library *getLibrary() const;
 
-    void componentAdded(Component *component);
-    void componentDeleted(Component *component);
-
   signals:
 
   public slots:
 
+  protected:
+    QString getName(uint row) const;
+    QString getType(uint row) const;
+
   private:
     Library * const library;
 
-    static const uint NAME_INDEX = 0;
-    static const uint TYPE_INDEX = 1;
-    static const uint COLUMN_COUNT = 2;
-
     QString getImplementationName(const Component *component) const;
+
+    void componentAdded(Component *component);
+    void componentDeleted(Component *component);
 };
 
 class ImplementationNameVisitor : public NullConstVisitor

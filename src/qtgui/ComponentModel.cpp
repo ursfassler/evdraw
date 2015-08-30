@@ -6,7 +6,7 @@
 #include "ComponentModel.hpp"
 
 ComponentModel::ComponentModel(Library *aLibrary, QObject *parent) :
-  QAbstractListModel(parent),
+  NameTypeModel(parent),
   library(aLibrary)
 {
   library->registerObserver(this);
@@ -21,45 +21,6 @@ ComponentModel::~ComponentModel()
 int ComponentModel::rowCount(const QModelIndex &) const
 {
   return library->getComponents().size();
-}
-
-int ComponentModel::columnCount(const QModelIndex &) const
-{
-  return COLUMN_COUNT;
-}
-
-QVariant ComponentModel::headerData(int section, Qt::Orientation, int role) const
-{
-  if (role != Qt::DisplayRole) {
-    return QVariant();
-  }
-
-  switch (section) {
-    case NAME_INDEX:
-      return "name";
-    case TYPE_INDEX:
-      return "type";
-  }
-
-  return QVariant();
-}
-
-QVariant ComponentModel::data(const QModelIndex &index, int role) const
-{
-  if (role != Qt::DisplayRole) {
-    return QVariant();
-  }
-
-  const Component *component = library->getComponents()[index.row()];
-  const uint column = index.column();
-  switch (column) {
-    case NAME_INDEX:
-      return QString::fromStdString(component->getName());
-    case TYPE_INDEX:
-      return getImplementationName(component);
-  }
-
-  return "<error>";
 }
 
 void ComponentModel::addComponent(const QString &name)
@@ -94,6 +55,18 @@ void ComponentModel::componentAdded(Component *)
 void ComponentModel::componentDeleted(Component *)
 {
   layoutChanged();
+}
+
+QString ComponentModel::getName(uint row) const
+{
+  const Component *component = library->getComponents()[row];
+  return QString::fromStdString(component->getName());
+}
+
+QString ComponentModel::getType(uint row) const
+{
+  const Component *component = library->getComponents()[row];
+  return getImplementationName(component);
 }
 
 QString ComponentModel::getImplementationName(const Component *component) const
