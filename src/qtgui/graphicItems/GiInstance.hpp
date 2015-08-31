@@ -13,7 +13,10 @@
 #include <QGraphicsSimpleTextItem>
 #include <QHash>
 
-class GiInstance final : public QGraphicsRectItem, public PositionObserver, public InstanceObserver
+class GiInstance final :
+    public QGraphicsRectItem,
+    private PositionObserver,
+    private InstanceObserver
 {
   public:
     GiInstance(Instance *aModel, Composition *composition, QGraphicsItem *parent);
@@ -23,11 +26,6 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
     void mousePressEvent(QGraphicsSceneMouseEvent * event);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent * event);
-    void absolutePositionChanged(const RelativePosition *sender);
-    void offsetChanged(const RelativePosition *sender);
-
-    void portAdded(InstancePort *port);
-    void portDeleted(InstancePort *port);
 
   private:
     Instance * const model;
@@ -39,9 +37,17 @@ class GiInstance final : public QGraphicsRectItem, public PositionObserver, publ
 
     void resize();
     void updatePosition();
-    void addText();
+    void updateText();
     void addPorts(Composition *composition);
     void addPort(InstancePort *port, Composition *composition);
+
+    void absolutePositionChanged(const RelativePosition *sender);
+    void offsetChanged(const RelativePosition *sender);
+
+    void portAdded(InstancePort *port);
+    void portDeleted(InstancePort *port);
+    void nameChanged(const Instance *);
+
 };
 
 #endif // GIINSTANCE_HPP

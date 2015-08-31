@@ -5,14 +5,15 @@
 #define INSTANCELISTMODEL_HPP
 
 #include <core/implementation/Composition.hpp>
+#include <core/instance/Instance.hpp>
 
 #include <QObject>
 #include "NameTypeModel.hpp"
 
-//TODO make names editable
 class InstanceListModel :
     public NameTypeModel,
-    private CompositionObserver
+    private CompositionObserver,
+    private InstanceObserver
 {
     Q_OBJECT
   public:
@@ -23,6 +24,7 @@ class InstanceListModel :
 
   protected:
     QString getName(uint row) const;
+    void setName(uint row, QString name);
     QString getType(uint row) const;
 
   private:
@@ -32,6 +34,8 @@ class InstanceListModel :
 
     void instanceAdded(Instance *instance);
     void instanceRemoved(Instance *instance);
+
+    void nameChanged(const Instance *instance);
 
 };
 

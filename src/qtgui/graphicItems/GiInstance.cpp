@@ -25,7 +25,7 @@ GiInstance::GiInstance(Instance *aModel, Composition *aComposition, QGraphicsIte
   resize();
   updatePosition();
 
-  addText();
+  updateText();
   addPorts(composition);
 }
 
@@ -50,11 +50,12 @@ void GiInstance::updatePosition()
   setPos(puToScene(model->getOffset()));
 }
 
-void GiInstance::addText()
+void GiInstance::updateText()
 {
   instanceText.setText(QString::fromStdString(model->getName()));
-  componentText.setText(QString::fromStdString(model->getComponent()->getName()));
   instanceText.setPos(calcTextPos(0, instanceText.boundingRect()));
+
+  componentText.setText(QString::fromStdString(model->getComponent()->getName()));
   componentText.setPos(calcTextPos(1, componentText.boundingRect()));
 }
 
@@ -82,6 +83,11 @@ void GiInstance::portDeleted(InstancePort *port)
   resize();
 
   postcondition(!childItems().contains(inst));
+}
+
+void GiInstance::nameChanged(const Instance *)
+{
+  updateText();
 }
 
 QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) const

@@ -10,7 +10,7 @@
 #include <QObject>
 #include <QAbstractListModel>
 
-//TODO make names editable
+//TODO make instances/ports editable
 //TODO update view when names changed
 class ConnectionListModel :
     public QAbstractListModel,
