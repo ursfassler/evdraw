@@ -25,6 +25,14 @@ const std::string &Instance::getName() const
   return name;
 }
 
+void Instance::setName(const std::string &name)
+{
+  if (this->name != name) {
+    this->name = name;
+    ObserverCollection<InstanceObserver>::notify<const Instance*>(&InstanceObserver::nameChanged, this);
+  }
+}
+
 Component *Instance::getComponent() const
 {
   return component;

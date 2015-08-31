@@ -69,7 +69,8 @@ class TestInstanceObserver : public InstanceObserver
   public:
     TestInstanceObserver() :
       addedPorts(),
-      deletedPorts()
+      deletedPorts(),
+      nameChanged_instance()
     {
     }
 
@@ -84,6 +85,12 @@ class TestInstanceObserver : public InstanceObserver
       deletedPorts.push_back(port);
     }
     std::vector<InstancePort*> deletedPorts;
+
+    void nameChanged(const Instance *instance)
+    {
+      nameChanged_instance.push_back(instance);
+    }
+    std::vector<const Instance *> nameChanged_instance;
 
 };
 
@@ -116,6 +123,29 @@ void InstanceObserverTest::notifyDelPort()
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.deletedPorts[0]);
   CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::notify_setName()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  instance->setName("new name");
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.nameChanged_instance.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(instance), observer.nameChanged_instance[0]);
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::no_notify_when_set_same_name()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  instance->setName(instance->getName());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.nameChanged_instance.size());
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }

@@ -20,6 +20,9 @@ class InstanceObserverTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(notifyAddPort);
     CPPUNIT_TEST(notifyDelPort);
 
+    CPPUNIT_TEST(notify_setName);
+    CPPUNIT_TEST(no_notify_when_set_same_name);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -31,6 +34,9 @@ class InstanceObserverTest: public CPPUNIT_NS::TestFixture
 
     void notifyAddPort();
     void notifyDelPort();
+
+    void notify_setName();
+    void no_notify_when_set_same_name();
 
   private:
     Component *component = nullptr;

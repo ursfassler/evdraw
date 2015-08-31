@@ -105,6 +105,12 @@ void InstanceTest::deletePortWhenComponentHasPortsWithSameName()
   CPPUNIT_ASSERT_EQUAL(port1, instance->getPorts()[2]);
 }
 
+void InstanceTest::setName()
+{
+  instance->setName("new name");
+  CPPUNIT_ASSERT_EQUAL(std::string("new name"), instance->getName());
+}
+
 void InstanceTest::updatePortPositionsOnPortDelete()
 {
   const Point pos0 = instance->getPort("in1")->getPosition();

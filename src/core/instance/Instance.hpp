@@ -33,9 +33,18 @@ class InstanceObserver
     {
       (void)(port);
     }
+
+    virtual void nameChanged(const Instance *instance)
+    {
+      (void)(instance);
+    }
+
 };
 
-class Instance final : public AbstractInstance, public ObserverCollection<InstanceObserver>, public ComponentObserver
+class Instance final :
+    public AbstractInstance,
+    public ObserverCollection<InstanceObserver>,
+    public ComponentObserver
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -44,6 +53,7 @@ class Instance final : public AbstractInstance, public ObserverCollection<Instan
     ~Instance();
 
     const std::string &getName() const;
+    void setName(const std::string &name);
     Component *getComponent() const;
 
     const std::vector<InstancePort *> &getPorts() const;
