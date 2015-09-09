@@ -76,7 +76,7 @@ void InstanceTest::getPortForNonExistingThrowsError()
 void InstanceTest::addPortWhenComponentPortIsAdded()
 {
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  component->addPort(new Slot("newSlot"));
+  component->addPort(new ComponentPort("newSlot", PortType::Slot));
   CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(std::string("newSlot"), instance->getPorts().back()->getName());
 }
@@ -93,7 +93,7 @@ void InstanceTest::deletePortWhenComponentHasPortsWithSameName()
 {
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
   InstancePort *port1 = instance->getPorts()[2];
-  Signal *sig = new Signal("out1");
+  ComponentPort *sig = new ComponentPort("out1", PortType::Signal);
   component->addPort(sig);
   CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
   InstancePort *port2 = instance->getPorts()[3];

@@ -50,7 +50,7 @@ void ComponentFactoryTest::canNotDisposeNullptr()
 void ComponentFactoryTest::cleanupComponentOnStack()
 {
   Component component("", new NullImplementation());
-  Slot *port = new Slot("");
+  ComponentPort *port = new ComponentPort("", PortType::Slot);
   component.addPort(port);
 
   ComponentFactory::cleanup(component);

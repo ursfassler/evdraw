@@ -4,102 +4,37 @@
 #include "ComponentPortTest.hpp"
 
 #include <core/component/ComponentPort.hpp>
+#include <core/component/PortType.hpp>
 
 #include <string>
 
-class TestComponentPort : public ComponentPort
+void ComponentPortTest::create()
 {
-  public:
-    TestComponentPort(bool &mDestructorCalled) :
-      ComponentPort(""),
-      destructorCalled(mDestructorCalled)
-    {
-    }
-
-    ~TestComponentPort()
-    {
-      destructorCalled = true;
-    }
-
-    Side side() const
-    {
-      return Side::Left;
-    }
-
-    virtual void accept(Visitor &)
-    {
-    }
-
-    virtual void accept(ConstVisitor &) const
-    {
-    }
-
-  private:
-    bool &destructorCalled;
-};
-
-void ComponentPortTest::destructor_is_virtual()
-{
-  bool destructorCalled = false;
-  ComponentPort *port = new TestComponentPort(destructorCalled);
-  delete port;
-
-  CPPUNIT_ASSERT(destructorCalled);
-}
-
-void ComponentPortTest::name()
-{
-  Signal port("hallo");
+  ComponentPort port("hallo", PortType::Signal);
   CPPUNIT_ASSERT_EQUAL(std::string("hallo"), port.getName());
+  CPPUNIT_ASSERT_EQUAL(PortType::Signal, port.getType());
   CPPUNIT_ASSERT_EQUAL(size_t(0), port.getTopIndex());
 }
 
 void ComponentPortTest::setTopIndex()
 {
-  Signal port("hallo");
+  ComponentPort port("hallo", PortType::Signal);
   port.setTopIndex(42);
   CPPUNIT_ASSERT_EQUAL(size_t(42), port.getTopIndex());
 }
 
 void ComponentPortTest::setName()
 {
-  bool destructorCalled = false;
-  TestComponentPort port(destructorCalled);
+  ComponentPort port("hallo", PortType::Signal);
 
   port.setName("port test name");
   CPPUNIT_ASSERT_EQUAL(std::string("port test name"), port.getName());
 }
 
-
-void SignalTest::produce()
+void ComponentPortTest::setType()
 {
-  Signal port("hallo");
+  ComponentPort port("", PortType::Signal);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("hallo"), port.getName());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), port.getTopIndex());
+  port.setType(PortType::Slot);
+  CPPUNIT_ASSERT_EQUAL(PortType::Slot, port.getType());
 }
-
-void SignalTest::portIsRight()
-{
-  Signal port("");
-
-  CPPUNIT_ASSERT_EQUAL(Side::Right, port.side());
-}
-
-
-
-void SlotTest::produce()
-{
-  Slot port("hallo");
-
-  CPPUNIT_ASSERT_EQUAL(std::string("hallo"), port.getName());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), port.getTopIndex());
-}
-
-void SlotTest::portIsLeft()
-{
-  Slot port("");
-
-  CPPUNIT_ASSERT_EQUAL(Side::Left, port.side());
-}
-

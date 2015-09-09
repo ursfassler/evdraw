@@ -101,10 +101,10 @@ void XmlNodeWriterTest::writeComponentWithSlotsAndSignals()
 void XmlNodeWriterTest::writeComponentWithSlotsAndSignalsKeepsOrder()
 {
   Component *comp = ComponentFactory::produce("Component");
-  comp->addPort(new Slot("in1"));
-  comp->addPort(new Signal("out1"));
-  comp->addPort(new Signal("out2"));
-  comp->addPort(new Slot("in2"));
+  comp->addPort(new ComponentPort("in1", PortType::Slot));
+  comp->addPort(new ComponentPort("out1", PortType::Signal));
+  comp->addPort(new ComponentPort("out2", PortType::Signal));
+  comp->addPort(new ComponentPort("in2", PortType::Slot));
 
   comp->accept(*writer);
 

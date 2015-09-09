@@ -14,27 +14,24 @@
 
 #include <vector>
 
+//TODO connector point position is not updated if point is removed
+
 class InstancePortObserver
 {
   public:
-    virtual ~InstancePortObserver()
-    {
-    }
+    virtual ~InstancePortObserver();
 
-    virtual void nameChanged(const std::string &name)
-    {
-      (void)(name);
-    }
+    virtual void nameChanged(const std::string &name);
 };
 
 class InstancePort final :
     public AbstractPort,
     public RelativePosition,
     public ObserverCollection<InstancePortObserver>,
-    protected ComponentPortObserver
+    private ComponentPortObserver
 {
   public:
-    InstancePort(AbstractInstance *instance, ComponentPort *compPort, const Point &offset);
+    InstancePort(AbstractInstance *instance, ComponentPort *compPort);
     ~InstancePort();
 
     InstancePort(const InstancePort &) = delete;
@@ -42,11 +39,10 @@ class InstancePort final :
 
     ComponentPort *getCompPort() const;
     Connector &getConnector();
-    void setName(const std::string &name);
     std::string getName() const;
     Point getPosition() const;
     AbstractInstance *getInstance() const;
-    Side side() const;
+    PortType getType() const;
 
     void addConnectionPoint(RelativePosition *point);
     void removeConnectionPoint(RelativePosition *point);
@@ -54,16 +50,19 @@ class InstancePort final :
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-  protected:
-    void topIndexChanged(size_t index);
-    void nameChanged(const std::string &name);
-
   private:
     AbstractInstance * const owner;
     ComponentPort * const compPort;
     Connector connector;
 
-    Point calcOffset() const;
+    static Point calcOffset(const ComponentPort *compPort);
+    void updateOffset();
+    void updateConnectorOffset();
+    Point connectorOffset(Side side) const;
+
+    void topIndexChanged(size_t index);
+    void typeChanged(PortType);
+    void nameChanged(const std::string &name);
 };
 
 #endif // INSTANCEPORT_HPP

@@ -10,8 +10,7 @@ class ConstVisitor
 {
   public:
     virtual ~ConstVisitor() {}
-    virtual void visit(const Slot &port) = 0;
-    virtual void visit(const Signal &port) = 0;
+    virtual void visit(const ComponentPort &port) = 0;
     virtual void visit(const Component &component) = 0;
     virtual void visit(const Instance &instance) = 0;
     virtual void visit(const InstancePort &port) = 0;

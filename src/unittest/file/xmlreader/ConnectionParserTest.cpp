@@ -9,8 +9,8 @@
 void ConnectionTestEnvironment::setUp()
 {
   compA = ComponentFactory::produce("CompA", {"thePort2"}, {"thePort1"});
-  theCompPort1 = dynamic_cast<Signal*>(compA->getPort("thePort1"));
-  theCompPort2 = dynamic_cast<Slot*>(compA->getPort("thePort2"));
+  theCompPort1 = compA->getPort("thePort1");
+  theCompPort2 = compA->getPort("thePort2");
 
   theInstance = InstanceFactory::produce(compA, "theInstance", Point(0,0));
   theInstPort1 = theInstance->getPort("thePort1");

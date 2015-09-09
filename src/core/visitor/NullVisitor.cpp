@@ -4,11 +4,7 @@
 #include "NullVisitor.hpp"
 
 
-void NullVisitor::visit(Slot &)
-{
-}
-
-void NullVisitor::visit(Signal &)
+void NullVisitor::visit(ComponentPort &)
 {
 }
 

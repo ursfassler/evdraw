@@ -3,8 +3,6 @@
 
 #include "InstanceFactory.hpp"
 
-#include "InstancePortFactory.hpp"
-
 #include "../util/contract.hpp"
 
 Instance *InstanceFactory::produce(Component *component, const std::string &name, const Point &position)
@@ -14,7 +12,7 @@ Instance *InstanceFactory::produce(Component *component, const std::string &name
   Instance *instance = new Instance(name, position, component);
 
   for (ComponentPort *compPort : component->getPorts()) {
-    InstancePort *instPort = InstancePortFactory::produce(instance, compPort);
+    InstancePort *instPort = new InstancePort(instance, compPort);
     instance->addPort(instPort);
   }
 
@@ -38,7 +36,7 @@ void InstanceFactory::dispose(Instance *instance)
 void InstanceFactory::cleanupPort(std::vector<InstancePort *> &ports)
 {
   for (InstancePort *port : ports) {
-    InstancePortFactory::dispose(port);
+    delete port;
   }
   ports.clear();
 }

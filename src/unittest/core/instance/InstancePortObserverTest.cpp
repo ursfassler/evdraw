@@ -5,9 +5,9 @@
 
 void InstancePortObserverTest::setUp()
 {
-  component = new Signal("");
+  component = new ComponentPort("", PortType::Signal);
   instance = new DummyInstance();
-  port = new InstancePort(instance, component, Point(0,0));
+  port = new InstancePort(instance, component);
 }
 
 void InstancePortObserverTest::tearDown()

@@ -24,14 +24,9 @@ class TestConstVisitor : public ConstVisitor
     {
     }
 
-    void visit(const Slot &port)
+    void visit(const ComponentPort &port)
     {
-      visited.push_back("Slot: " + port.getName());
-    }
-
-    void visit(const Signal &port)
-    {
-      visited.push_back("Signal: " + port.getName());
+      visited.push_back("ComponentPort: " + port.getName());
     }
 
     void visit(const Component &component)
@@ -72,26 +67,15 @@ class TestConstVisitor : public ConstVisitor
     std::vector<std::string> visited;
 };
 
-void ConstVisitorTest::slot()
+void ConstVisitorTest::componentPort()
 {
   TestConstVisitor visitor;
 
-  Slot port("theSlot");
+  ComponentPort port("theSlot", PortType::Slot);
   port.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("Slot: theSlot"), visitor.visited[0]);
-}
-
-void ConstVisitorTest::signal()
-{
-  TestConstVisitor visitor;
-
-  Signal port("theSignal");
-  port.accept(visitor);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("Signal: theSignal"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("ComponentPort: theSlot"), visitor.visited[0]);
 }
 
 void ConstVisitorTest::component()

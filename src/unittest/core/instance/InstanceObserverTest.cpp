@@ -70,7 +70,8 @@ class TestInstanceObserver : public InstanceObserver
     TestInstanceObserver() :
       addedPorts(),
       deletedPorts(),
-      nameChanged_instance()
+      nameChanged_instance(),
+      componentNameChanged_instance()
     {
     }
 
@@ -86,22 +87,34 @@ class TestInstanceObserver : public InstanceObserver
     }
     std::vector<InstancePort*> deletedPorts;
 
+    void heightChanged()
+    {
+      changedHeight++;
+    }
+    uint changedHeight = 0;
+
     void nameChanged(const Instance *instance)
     {
       nameChanged_instance.push_back(instance);
     }
     std::vector<const Instance *> nameChanged_instance;
 
+    void componentNameChanged(const Instance *instance)
+    {
+      componentNameChanged_instance.push_back(instance);
+    }
+    std::vector<const Instance *> componentNameChanged_instance;
+
 };
 
-void InstanceObserverTest::notifyAddPort()
+void InstanceObserverTest::notify_addPort()
 {
   TestInstanceObserver observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 
-  component->addPort(new Signal("sig"));
+  component->addPort(new ComponentPort("sig", PortType::Signal));
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.addedPorts.size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
@@ -110,7 +123,7 @@ void InstanceObserverTest::notifyAddPort()
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
 
-void InstanceObserverTest::notifyDelPort()
+void InstanceObserverTest::notify_delPort()
 {
   TestInstanceObserver observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
@@ -123,6 +136,44 @@ void InstanceObserverTest::notifyDelPort()
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.deletedPorts[0]);
   CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::notify_height_changed_on_port_type_change()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  InstancePort *port = instance->getPorts()[0];
+  port->getCompPort()->setType(PortType::Signal);
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::notify_height_changed_on_addPort()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  component->addPort(new ComponentPort("3", PortType::Signal));
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::notify_height_changed_on_deletePort()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  component->deletePort(component->getPorts()[0]);
+  CPPUNIT_ASSERT_EQUAL(uint(0), observer.changedHeight);
+  component->deletePort(component->getPorts()[0]);
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
@@ -146,6 +197,19 @@ void InstanceObserverTest::no_notify_when_set_same_name()
 
   instance->setName(instance->getName());
   CPPUNIT_ASSERT_EQUAL(size_t(0), observer.nameChanged_instance.size());
+
+  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
+}
+
+void InstanceObserverTest::notify_on_component_name_change()
+{
+  TestInstanceObserver observer;
+  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
+
+  component->setName("new name");
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.componentNameChanged_instance.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(instance), observer.componentNameChanged_instance[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("new name"), instance->getComponent()->getName());
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }

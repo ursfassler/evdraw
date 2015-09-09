@@ -4,8 +4,7 @@
 #ifndef VISITEDPROTOTYPES_HPP
 #define VISITEDPROTOTYPES_HPP
 
-class Slot;
-class Signal;
+class ComponentPort;
 class Component;
 class Instance;
 class InstancePort;

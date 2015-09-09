@@ -7,11 +7,7 @@
 #include "../implementation/Composition.hpp"
 #include "../component/Library.hpp"
 
-void DefaultVisitor::visit(Slot &)
-{
-}
-
-void DefaultVisitor::visit(Signal &)
+void DefaultVisitor::visit(ComponentPort &)
 {
 }
 

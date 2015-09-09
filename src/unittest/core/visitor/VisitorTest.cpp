@@ -33,19 +33,14 @@ class TestVisitor final : public Visitor
       ComponentFactory::dispose(component);
     }
 
-    void visit(Slot &port)
+    void visit(ComponentPort &port)
     {
       port.setTopIndex(2*port.getTopIndex());
     }
 
-    void visit(Signal &port)
-    {
-      port.setTopIndex(3*port.getTopIndex());
-    }
-
     void visit(Component &component)
     {
-      component.addPort(new Slot(""));
+      component.addPort(new ComponentPort("", PortType::Slot));
     }
 
     void visit(Instance &instance)
@@ -84,24 +79,14 @@ class TestVisitor final : public Visitor
     Component *component;
 };
 
-void VisitorTest::slot()
+void VisitorTest::componentPort()
 {
   TestVisitor visitor;
 
-  Slot port("");
+  ComponentPort port("", PortType::Slot);
   port.setTopIndex(10);
   port.accept(visitor);
   CPPUNIT_ASSERT_EQUAL(size_t(2*10), port.getTopIndex());
-}
-
-void VisitorTest::signal()
-{
-  TestVisitor visitor;
-
-  Signal port("");
-  port.setTopIndex(10);
-  port.accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(3*10), port.getTopIndex());
 }
 
 void VisitorTest::component()

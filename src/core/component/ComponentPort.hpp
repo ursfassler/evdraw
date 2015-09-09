@@ -4,6 +4,7 @@
 #ifndef COMPONENTPORT_HPP
 #define COMPONENTPORT_HPP
 
+#include "PortType.hpp"
 #include "../types.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../util/Observer.hpp"
@@ -13,26 +14,20 @@
 class ComponentPortObserver
 {
   public:
-    virtual ~ComponentPortObserver()
-    {
-    }
+    virtual ~ComponentPortObserver();
 
-    virtual void topIndexChanged(size_t index)
-    {
-      (void)(index);
-    }
-
-    virtual void nameChanged(const std::string &name)
-    {
-      (void)(name);
-    }
+    virtual void topIndexChanged(size_t index);
+    virtual void nameChanged(const std::string &name);
+    virtual void typeChanged(PortType type);
 
 };
 
-class ComponentPort : public VisitorClient, public ObserverCollection<ComponentPortObserver>
+class ComponentPort final :
+  public VisitorClient,
+  public ObserverCollection<ComponentPortObserver>
 {
   public:
-    ComponentPort(const std::string &name);
+    ComponentPort(const std::string &name, PortType type);
 
     const std::string &getName() const;
     void setName(const std::string &name);
@@ -40,35 +35,16 @@ class ComponentPort : public VisitorClient, public ObserverCollection<ComponentP
     size_t getTopIndex() const;
     void setTopIndex(size_t value);
 
-    virtual Side side() const = 0;
+    PortType getType() const;
+    void setType(PortType value);
+
+    void accept(Visitor &visitor);
+    void accept(ConstVisitor &visitor) const;
 
   private:
     std::string name;
+    PortType type;
     size_t topIndex = 0;
-};
-
-class Signal final : public ComponentPort
-{
-  public:
-    Signal(const std::string &name);
-
-    Side side() const;
-
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
-
-};
-
-class Slot final : public ComponentPort
-{
-  public:
-    Slot(const std::string &name);
-
-    Side side() const;
-
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
-
 };
 
 #endif // COMPONENTPORT_HPP

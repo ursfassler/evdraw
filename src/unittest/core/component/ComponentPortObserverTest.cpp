@@ -34,7 +34,7 @@ void ComponentPortObserverTest::destructor_is_virtual()
 
 void ComponentPortObserverTest::inherits_ObserverCollection()
 {
-  Signal port("");
+  ComponentPort port("", PortType::Signal);
   ObserverCollection<ComponentPortObserver> *observerCollection = dynamic_cast<ObserverCollection<ComponentPortObserver>*>(&port);
   CPPUNIT_ASSERT(observerCollection != nullptr);
 }
@@ -44,7 +44,8 @@ class ComponentPortTestObserver : public ComponentPortObserver
   public:
     ComponentPortTestObserver() :
       newIndex(),
-      newName()
+      newName(),
+      newType()
     {
     }
 
@@ -58,13 +59,19 @@ class ComponentPortTestObserver : public ComponentPortObserver
       newName.push_back(name);
     }
 
+    void typeChanged(PortType type)
+    {
+      newType.push_back(type);
+    }
+
     std::vector<size_t> newIndex;
     std::vector<std::string> newName;
+    std::vector<PortType> newType;
 };
 
 void ComponentPortObserverTest::get_informed_on_topIndex_change()
 {
-  Signal port("");
+  ComponentPort port("", PortType::Signal);
   ComponentPortTestObserver observer;
   port.registerObserver(&observer);
 
@@ -78,7 +85,7 @@ void ComponentPortObserverTest::get_informed_on_topIndex_change()
 
 void ComponentPortObserverTest::do_not_inform_if_topIndex_is_the_same()
 {
-  Signal port("");
+  ComponentPort port("", PortType::Signal);
   port.setTopIndex(42);
 
   ComponentPortTestObserver observer;
@@ -93,7 +100,7 @@ void ComponentPortObserverTest::do_not_inform_if_topIndex_is_the_same()
 
 void ComponentPortObserverTest::get_informed_on_name_change()
 {
-  Signal port("");
+  ComponentPort port("", PortType::Signal);
   ComponentPortTestObserver observer;
   port.registerObserver(&observer);
 
@@ -107,7 +114,7 @@ void ComponentPortObserverTest::get_informed_on_name_change()
 
 void ComponentPortObserverTest::do_not_inform_if_name_is_the_same()
 {
-  Signal port("old name");
+  ComponentPort port("old name", PortType::Signal);
   port.setTopIndex(42);
 
   ComponentPortTestObserver observer;
@@ -116,6 +123,33 @@ void ComponentPortObserverTest::do_not_inform_if_name_is_the_same()
   port.setName("old name");
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newName.size());
+
+  port.unregisterObserver(&observer);
+}
+
+void ComponentPortObserverTest::get_informed_on_type_change()
+{
+  ComponentPort port("", PortType::Signal);
+  ComponentPortTestObserver observer;
+  port.registerObserver(&observer);
+
+  port.setType(PortType::Slot);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newType.size());
+  CPPUNIT_ASSERT_EQUAL(PortType::Slot, observer.newType[0]);
+
+  port.unregisterObserver(&observer);
+}
+
+void ComponentPortObserverTest::do_not_inform_if_type_is_the_same()
+{
+  ComponentPort port("", PortType::Signal);
+  ComponentPortTestObserver observer;
+  port.registerObserver(&observer);
+
+  port.setType(PortType::Signal);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newType.size());
 
   port.unregisterObserver(&observer);
 }

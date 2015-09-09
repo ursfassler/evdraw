@@ -154,10 +154,11 @@ void Loader::componentExit()
 
 void Loader::slotEnter(const TiXmlElement &element)
 {
+  //TODO deduplicate
   precondition(component != nullptr);
 
   const std::string name = getAttribute(element, "name");
-  Slot *port = new Slot(name);
+  ComponentPort *port = new ComponentPort(name, PortType::Slot);
 
   component->addPort(port);
 }
@@ -167,7 +168,7 @@ void Loader::signalEnter(const TiXmlElement &element)
   precondition(component != nullptr);
 
   const std::string name = getAttribute(element, "name");
-  Signal *port = new Signal(name);
+  ComponentPort *port = new ComponentPort(name, PortType::Signal);
 
   component->addPort(port);
 }

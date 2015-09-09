@@ -11,8 +11,7 @@ class ConstVisitorTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( ConstVisitorTest );
 
-    CPPUNIT_TEST(slot);
-    CPPUNIT_TEST(signal);
+    CPPUNIT_TEST(componentPort);
     CPPUNIT_TEST(component);
     CPPUNIT_TEST(componentWithPorts);
 
@@ -29,8 +28,7 @@ class ConstVisitorTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void slot();
-    void signal();
+    void componentPort();
     void component();
     void componentWithPorts();
 

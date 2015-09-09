@@ -3,7 +3,6 @@
 
 #include "Instance.hpp"
 #include "../util/list.hpp"
-#include "InstancePortFactory.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
   AbstractInstance(aPosition),
@@ -78,7 +77,7 @@ void Instance::accept(ConstVisitor &visitor) const
 
 void Instance::portAdded(ComponentPort *port)
 {
-  InstancePort *instPort = InstancePortFactory::produce(this, port);
+  InstancePort *instPort = new InstancePort(this, port);
   addPort(instPort);
 }
 
@@ -90,4 +89,39 @@ void Instance::portDeleted(ComponentPort *port)
   auto idx = std::find_if(ports.begin(), ports.end(), predicate);
   precondition(idx != ports.end());
   deletePort(*idx);
+}
+
+void Instance::heightChanged()
+{
+  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::heightChanged);
+}
+
+void Instance::nameChanged(const std::string &)
+{
+  ObserverCollection<InstanceObserver>::notify<const Instance*>(&InstanceObserver::componentNameChanged, this);
+}
+
+
+InstanceObserver::~InstanceObserver()
+{
+}
+
+void InstanceObserver::portAdded(InstancePort *)
+{
+}
+
+void InstanceObserver::portDeleted(InstancePort *)
+{
+}
+
+void InstanceObserver::nameChanged(const Instance *)
+{
+}
+
+void InstanceObserver::componentNameChanged(const Instance *)
+{
+}
+
+void InstanceObserver::heightChanged()
+{
 }

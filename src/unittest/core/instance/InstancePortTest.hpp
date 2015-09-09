@@ -14,10 +14,12 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(createPort);
     CPPUNIT_TEST(offset);
     CPPUNIT_TEST(absolutePosition);
-    CPPUNIT_TEST(positionChangeNotificationNotifiesConnector);
-    CPPUNIT_TEST(portIsLeft);
-    CPPUNIT_TEST(portIsRight);
-    CPPUNIT_TEST(setName);
+    CPPUNIT_TEST(position_change_notification_notifies_connector);
+    CPPUNIT_TEST(port_is_Slot);
+    CPPUNIT_TEST(port_is_Signal);
+
+    CPPUNIT_TEST(type_change_changes_position);
+    CPPUNIT_TEST(type_change_notifies_connector);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -25,10 +27,13 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     void createPort();
     void offset();
     void absolutePosition();
-    void positionChangeNotificationNotifiesConnector();
-    void portIsLeft();
-    void portIsRight();
+    void position_change_notification_notifies_connector();
+    void port_is_Slot();
+    void port_is_Signal();
     void setName();
+
+    void type_change_changes_position();
+    void type_change_notifies_connector();
 
 };
 

@@ -13,6 +13,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(produce);
 
+    CPPUNIT_TEST(setName);
+
     CPPUNIT_TEST(addSlot);
     CPPUNIT_TEST(addSignal);
     CPPUNIT_TEST(delPort);
@@ -20,6 +22,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(rightPortIndexUpdatedOnAdd);
     CPPUNIT_TEST(leftPortIndexUpdatedOnAdd);
     CPPUNIT_TEST(portIndexUpdatedOnDel);
+    CPPUNIT_TEST(port_index_update_on_type_change);
+    CPPUNIT_TEST(port_index_update_on_type_change_with_signals_and_slots);
 
     CPPUNIT_TEST(getPort);
     CPPUNIT_TEST(getPortForNonExistingThrowsError);
@@ -40,6 +44,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
   public:
     void produce();
 
+    void setName();
+
     void addSlot();
     void addSignal();
     void delPort();
@@ -48,6 +54,8 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void rightPortIndexUpdatedOnAdd();
     void leftPortIndexUpdatedOnAdd();
     void portIndexUpdatedOnDel();
+    void port_index_update_on_type_change();
+    void port_index_update_on_type_change_with_signals_and_slots();
 
     void getPort();
     void getPortForNonExistingThrowsError();

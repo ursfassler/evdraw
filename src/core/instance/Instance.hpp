@@ -20,31 +20,19 @@ class InstanceFactory;
 class InstanceObserver
 {
   public:
-    virtual ~InstanceObserver()
-    {
-    }
+    virtual ~InstanceObserver();
 
-    virtual void portAdded(InstancePort *port)
-    {
-      (void)(port);
-    }
-
-    virtual void portDeleted(InstancePort *port)
-    {
-      (void)(port);
-    }
-
-    virtual void nameChanged(const Instance *instance)
-    {
-      (void)(instance);
-    }
-
+    virtual void portAdded(InstancePort *port);
+    virtual void portDeleted(InstancePort *port);
+    virtual void nameChanged(const Instance *instance);
+    virtual void componentNameChanged(const Instance *instance);
+    virtual void heightChanged();
 };
 
 class Instance final :
     public AbstractInstance,
     public ObserverCollection<InstanceObserver>,
-    public ComponentObserver
+    private ComponentObserver
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -62,10 +50,6 @@ class Instance final :
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-  protected:
-    void portAdded(ComponentPort *port);
-    void portDeleted(ComponentPort *port);
-
   private:
     std::string name;
     Component * const component;
@@ -73,6 +57,11 @@ class Instance final :
 
     void addPort(InstancePort *port);
     void deletePort(InstancePort *port);
+
+    void portAdded(ComponentPort *port);
+    void portDeleted(ComponentPort *port);
+    void heightChanged();
+    void nameChanged(const std::string &name);
 
     friend InstanceFactory;
 

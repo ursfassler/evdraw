@@ -9,8 +9,7 @@
 class NullVisitor : public Visitor
 {
   public:
-    void visit(Slot &port);
-    void visit(Signal &port);
+    void visit(ComponentPort &port);
     void visit(Component &component);
     void visit(Instance &instance);
     void visit(InstancePort &port);

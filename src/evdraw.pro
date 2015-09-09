@@ -39,7 +39,6 @@ HEADERS += \
     core/instance/InstanceFactory.hpp \
     core/instance/Instance.hpp \
     core/instance/InstanceOfSpecification.hpp \
-    core/instance/InstancePortFactory.hpp \
     core/instance/InstancePort.hpp \
     core/Point.hpp \
     core/specification/AlwaysSatisfiedSpecification.hpp \
@@ -119,7 +118,11 @@ HEADERS += \
     unittest/core/instance/InstanceObserverTest.hpp \
     unittest/core/component/ComponentPortObserverTest.hpp \
     unittest/core/instance/AbstractInstanceTest.hpp \
-    unittest/core/instance/InstancePortObserverTest.hpp
+    unittest/core/instance/InstancePortObserverTest.hpp \
+    unittest/core/component/PortTypeTest.h \
+    core/component/PortType.hpp \
+    unittest/core/implementation/ImplementationTypeTest.hpp \
+    core/implementation/ImplementationType.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -143,7 +146,6 @@ SOURCES += \
     core/instance/InstanceFactory.cpp \
     core/instance/InstanceOfSpecification.cpp \
     core/instance/InstancePort.cpp \
-    core/instance/InstancePortFactory.cpp \
     core/Point.cpp \
     core/specification/AlwaysSatisfiedSpecification.cpp \
     core/specification/DefaultSpecification.cpp \
@@ -212,7 +214,11 @@ SOURCES += \
     unittest/core/instance/InstanceObserverTest.cpp \
     unittest/core/component/ComponentPortObserverTest.cpp \
     unittest/core/instance/AbstractInstanceTest.cpp \
-    unittest/core/instance/InstancePortObserverTest.cpp
+    unittest/core/instance/InstancePortObserverTest.cpp \
+    unittest/core/component/PortTypeTest.cpp \
+    core/component/PortType.cpp \
+    unittest/core/implementation/ImplementationTypeTest.cpp \
+    core/implementation/ImplementationType.cpp
 
 DISTFILES += \
     ../README.md \

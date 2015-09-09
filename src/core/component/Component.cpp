@@ -22,19 +22,30 @@ Component::~Component()
 
 void Component::addPort(ComponentPort *port)
 {
+  const size_t oldHeight = height();
   ports.push_back(port);
+  port->registerObserver(this);
   updateTopIndex();
   notify(&ComponentObserver::portAdded, port);
+  if (height() != oldHeight) {
+    notify(&ComponentObserver::heightChanged);
+  }
 }
 
 void Component::deletePort(ComponentPort *port)
 {
   std::vector<ComponentPort*>::iterator idx = std::find(ports.begin(), ports.end(), port);
   precondition(idx != ports.end());
+
+  const size_t oldHeight = height();
+  port->unregisterObserver(this);
   ports.erase(idx);
   updateTopIndex();
   notify(&ComponentObserver::portDeleted, port);
   delete port;
+  if (height() != oldHeight) {
+    notify(&ComponentObserver::heightChanged);
+  }
 }
 
 const std::vector<ComponentPort *> &Component::getPorts() const
@@ -57,7 +68,8 @@ size_t Component::height() const
   index[Side::Right] = 0;
 
   for (ComponentPort *port : ports) {
-    index[port->side()]++;
+    const Side side = sideOf(port->getType());
+    index[side]++;
   }
 
   return std::max(index[Side::Left], index[Side::Right]);
@@ -66,6 +78,14 @@ size_t Component::height() const
 const std::string &Component::getName() const
 {
   return name;
+}
+
+void Component::setName(const std::string &value)
+{
+  if (name != value) {
+    name = value;
+    notify<const std::string &>(&ComponentObserver::nameChanged, value);
+  }
 }
 
 void Component::accept(Visitor &visitor)
@@ -98,8 +118,37 @@ void Component::updateTopIndex()
   index[Side::Right] = 0;
 
   for (ComponentPort *port : ports) {
-    size_t &portIndex = index[port->side()];
+    const Side side = sideOf(port->getType());
+    size_t &portIndex = index[side];
     port->setTopIndex(portIndex);
     portIndex++;
   }
+}
+
+void Component::typeChanged(PortType)
+{
+  updateTopIndex();
+  //TODO do only notify if height really changed
+  notify(&ComponentObserver::heightChanged);
+}
+
+
+ComponentObserver::~ComponentObserver()
+{
+}
+
+void ComponentObserver::portAdded(ComponentPort *)
+{
+}
+
+void ComponentObserver::portDeleted(ComponentPort *)
+{
+}
+
+void ComponentObserver::heightChanged()
+{
+}
+
+void ComponentObserver::nameChanged(const std::string &)
+{
 }

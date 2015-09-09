@@ -17,8 +17,7 @@ class XmlNodeWriter final : public ConstVisitor
     XmlNodeWriter(const XmlNodeWriter &) = delete;
     XmlNodeWriter operator=(const XmlNodeWriter &) = delete;
 
-    void visit(const Signal &port);
-    void visit(const Slot &port);
+    void visit(const ComponentPort &port);
     void visit(const Component &component);
     void visit(const Instance &instance);
     void visit(const InstancePort &port);

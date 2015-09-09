@@ -11,20 +11,30 @@ class ComponentObserverTest: public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( ComponentObserverTest );
 
-    CPPUNIT_TEST(destructorIsVirtual);
-    CPPUNIT_TEST(inheritsObserverCollection);
+    CPPUNIT_TEST(destructor_is_virtual);
+    CPPUNIT_TEST(inherits_ObserverCollection);
 
-    CPPUNIT_TEST(getInformedOnAdd);
-    CPPUNIT_TEST(getInformedOnDelete);
+    CPPUNIT_TEST(notify_nameChanged);
+    CPPUNIT_TEST(do_not_notify_if_name_is_the_same);
+    CPPUNIT_TEST(notify_portAdded);
+    CPPUNIT_TEST(notify_portDeleted);
+    CPPUNIT_TEST(notify_heightChanged_on_addPort);
+    CPPUNIT_TEST(notify_heightChanged_on_deletePort);
+    CPPUNIT_TEST(notify_heightChanged_on_portTypeChange);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void destructorIsVirtual();
-    void inheritsObserverCollection();
+    void destructor_is_virtual();
+    void inherits_ObserverCollection();
 
-    void getInformedOnAdd();
-    void getInformedOnDelete();
+    void notify_nameChanged();
+    void do_not_notify_if_name_is_the_same();
+    void notify_portAdded();
+    void notify_portDeleted();
+    void notify_heightChanged_on_addPort();
+    void notify_heightChanged_on_deletePort();
+    void notify_heightChanged_on_portTypeChange();
 
 };
 

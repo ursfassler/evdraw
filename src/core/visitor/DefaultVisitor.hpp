@@ -9,8 +9,7 @@
 class DefaultVisitor : public Visitor
 {
   public:
-    void visit(Slot &port);
-    void visit(Signal &port);
+    void visit(ComponentPort &port);
     void visit(InstancePort &port);
     void visit(Instance &instance);
     void visit(Connection &connection);

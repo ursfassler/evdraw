@@ -8,8 +8,8 @@
 
 #include <stdexcept>
 
-InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort, const Point &aOffset) :
-  RelativePosition(aOffset),
+InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort) :
+  RelativePosition(calcOffset(aCompPort)),
   owner(aInstance),
   compPort(aCompPort),
   connector(Point(0,0))
@@ -19,6 +19,7 @@ InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort
 
   replaceAnchor(aInstance);
   connector.replaceAnchor(this);
+  updateConnectorOffset();
 
   compPort->registerObserver(this);
 }
@@ -43,11 +44,6 @@ std::string InstancePort::getName() const
   return compPort->getName();
 }
 
-void InstancePort::setName(const std::string &name)
-{
-  compPort->setName(name);
-}
-
 Point InstancePort::getPosition() const
 {
   return getAbsolutePosition();
@@ -58,9 +54,9 @@ AbstractInstance *InstancePort::getInstance() const
   return owner;
 }
 
-Side InstancePort::side() const
+PortType InstancePort::getType() const
 {
-  return compPort->side();
+  return compPort->getType();
 }
 
 void InstancePort::addConnectionPoint(RelativePosition *point)
@@ -85,8 +81,13 @@ void InstancePort::accept(ConstVisitor &visitor) const
 
 void InstancePort::topIndexChanged(size_t)
 {
-  const Point offset = calcOffset();
-  setOffset(offset);
+  updateOffset();
+}
+
+void InstancePort::typeChanged(PortType)
+{
+  updateOffset();
+  updateConnectorOffset();
 }
 
 void InstancePort::nameChanged(const std::string &name)
@@ -94,9 +95,10 @@ void InstancePort::nameChanged(const std::string &name)
   ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, name);
 }
 
-Point InstancePort::calcOffset() const
+Point InstancePort::calcOffset(const ComponentPort *compPort)
 {
-  switch (compPort->side()) {
+  const Side side = sideOf(compPort->getType());
+  switch (side) {
     case Side::Left: {
         return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
       }
@@ -106,4 +108,33 @@ Point InstancePort::calcOffset() const
   }
 
   throw std::runtime_error("reached unreachable position");
+}
+
+void InstancePort::updateOffset()
+{
+  const Point offset = calcOffset(compPort);
+  setOffset(offset);
+}
+
+void InstancePort::updateConnectorOffset()
+{
+  const Side side = sideOf(compPort->getType());;
+  const Point conOfs = connectorOffset(side);
+  connector.setOffset(conOfs);
+}
+
+Point InstancePort::connectorOffset(Side side) const
+{
+  const int sideMul = side == Side::Left ? -1 : 1;
+  const PaperUnit offset = sideMul * InstanceAppearance::portWidth() / 2;
+  return Point(offset, 0);
+}
+
+
+InstancePortObserver::~InstancePortObserver()
+{
+}
+
+void InstancePortObserver::nameChanged(const std::string &)
+{
 }

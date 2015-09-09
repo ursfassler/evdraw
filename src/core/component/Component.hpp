@@ -18,22 +18,18 @@ class ComponentFactory;
 class ComponentObserver
 {
   public:
-    virtual ~ComponentObserver()
-    {
-    }
+    virtual ~ComponentObserver();
 
-    virtual void portAdded(ComponentPort *port)
-    {
-      (void)(port);
-    }
-
-    virtual void portDeleted(ComponentPort *port)
-    {
-      (void)(port);
-    }
+    virtual void portAdded(ComponentPort *port);
+    virtual void portDeleted(ComponentPort *port);
+    virtual void heightChanged();
+    virtual void nameChanged(const std::string &name);
 };
 
-class Component final : public VisitorClient, public ObserverCollection<ComponentObserver>
+class Component final :
+    public VisitorClient,
+    public ObserverCollection<ComponentObserver>,
+    private ComponentPortObserver
 {
   public:
     Component(const std::string &name, AbstractImplementation *implementation);
@@ -50,6 +46,7 @@ class Component final : public VisitorClient, public ObserverCollection<Componen
     size_t height() const;
 
     const std::string &getName() const;
+    void setName(const std::string &value);
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
@@ -64,6 +61,8 @@ class Component final : public VisitorClient, public ObserverCollection<Componen
     AbstractImplementation *implementation;
 
     void updateTopIndex();
+
+    void typeChanged(PortType);
 
     friend ComponentFactory;
 

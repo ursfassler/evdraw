@@ -19,8 +19,8 @@ class ConnectionTestEnvironment : public CPPUNIT_NS::TestFixture
 
   protected:
     Component *compA = nullptr;
-    Signal *theCompPort1 = nullptr;
-    Slot *theCompPort2 = nullptr;
+    ComponentPort *theCompPort1 = nullptr;
+    ComponentPort *theCompPort2 = nullptr;
     Instance *theInstance = nullptr;
     AbstractPort *theInstPort1 = nullptr;
     AbstractPort *theInstPort2 = nullptr;

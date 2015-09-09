@@ -14,10 +14,17 @@ void ComponentTest::produce()
   CPPUNIT_ASSERT_EQUAL(std::string("Lala"), comp.getName());
 }
 
+void ComponentTest::setName()
+{
+  Component comp("", new NullImplementation());
+  comp.setName("new name");
+  CPPUNIT_ASSERT_EQUAL(std::string("new name"), comp.getName());
+}
+
 void ComponentTest::addSlot()
 {
   Component     comp("", new NullImplementation());
-  ComponentPort *port = new Slot("left");
+  ComponentPort *port = new ComponentPort("left", PortType::Slot);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
   comp.addPort(port);
@@ -31,7 +38,7 @@ void ComponentTest::addSlot()
 void ComponentTest::addSignal()
 {
   Component     comp("", new NullImplementation());
-  ComponentPort *port = new Signal("right");
+  ComponentPort *port = new ComponentPort("right", PortType::Signal);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.getPorts().size());
   comp.addPort(port);
@@ -45,7 +52,7 @@ void ComponentTest::addSignal()
 void ComponentTest::delPort()
 {
   Component     comp("", new NullImplementation());
-  ComponentPort *port = new Signal("");
+  ComponentPort *port = new ComponentPort("", PortType::Signal);
 
   comp.addPort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(1), comp.getPorts().size());
@@ -59,9 +66,9 @@ void ComponentTest::delPort()
 void ComponentTest::signalSlotCanBeInterleaved()
 {
   Component     comp("", new NullImplementation());
-  ComponentPort *port1 = new Slot("");
-  ComponentPort *port2 = new Signal("");
-  ComponentPort *port3 = new Slot("");
+  ComponentPort *port1 = new ComponentPort("", PortType::Slot);
+  ComponentPort *port2 = new ComponentPort("", PortType::Signal);
+  ComponentPort *port3 = new ComponentPort("", PortType::Slot);
 
   comp.addPort(port1);
   comp.addPort(port2);
@@ -81,10 +88,10 @@ void ComponentTest::signalSlotCanBeInterleaved()
 void ComponentTest::rightPortIndexUpdatedOnAdd()
 {
   Component     comp("", new NullImplementation());
-  Signal *port1 = new Signal("1");
-  Signal *port2 = new Signal("2");
-  Signal *port3 = new Signal("3");
-  Signal *port4 = new Signal("4");
+  ComponentPort *port1 = new ComponentPort("1", PortType::Signal);
+  ComponentPort *port2 = new ComponentPort("2", PortType::Signal);
+  ComponentPort *port3 = new ComponentPort("3", PortType::Signal);
+  ComponentPort *port4 = new ComponentPort("4", PortType::Signal);
 
   comp.addPort(port1);
   comp.addPort(port2);
@@ -102,10 +109,10 @@ void ComponentTest::rightPortIndexUpdatedOnAdd()
 void ComponentTest::leftPortIndexUpdatedOnAdd()
 {
   Component     comp("", new NullImplementation());
-  Slot *port1 = new Slot("1");
-  Slot *port2 = new Slot("2");
-  Slot *port3 = new Slot("3");
-  Slot *port4 = new Slot("4");
+  ComponentPort *port1 = new ComponentPort("1", PortType::Slot);
+  ComponentPort *port2 = new ComponentPort("2", PortType::Slot);
+  ComponentPort *port3 = new ComponentPort("3", PortType::Slot);
+  ComponentPort *port4 = new ComponentPort("4", PortType::Slot);
 
   comp.addPort(port1);
   comp.addPort(port2);
@@ -123,10 +130,10 @@ void ComponentTest::leftPortIndexUpdatedOnAdd()
 void ComponentTest::portIndexUpdatedOnDel()
 {
   Component     comp("", new NullImplementation());
-  Slot *port1 = new Slot("1");
-  Slot *port2 = new Slot("2");
-  Slot *port3 = new Slot("3");
-  Slot *port4 = new Slot("4");
+  ComponentPort *port1 = new ComponentPort("1", PortType::Slot);
+  ComponentPort *port2 = new ComponentPort("2", PortType::Slot);
+  ComponentPort *port3 = new ComponentPort("3", PortType::Slot);
+  ComponentPort *port4 = new ComponentPort("4", PortType::Slot);
 
   comp.addPort(port1);
   comp.addPort(port2);
@@ -138,6 +145,54 @@ void ComponentTest::portIndexUpdatedOnDel()
   CPPUNIT_ASSERT_EQUAL(size_t(3), port4->getTopIndex());
 
   comp.deletePort(port1);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), port4->getTopIndex());
+
+  ComponentFactory::cleanup(comp);
+}
+
+void ComponentTest::port_index_update_on_type_change()
+{
+  Component     comp("", new NullImplementation());
+  ComponentPort *port1 = new ComponentPort("1", PortType::Slot);
+  ComponentPort *port2 = new ComponentPort("2", PortType::Slot);
+  ComponentPort *port3 = new ComponentPort("3", PortType::Slot);
+  ComponentPort *port4 = new ComponentPort("4", PortType::Slot);
+
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+  comp.addPort(port4);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), port3->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), port4->getTopIndex());
+
+  port1->setType(PortType::Signal);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), port4->getTopIndex());
+
+  ComponentFactory::cleanup(comp);
+}
+
+void ComponentTest::port_index_update_on_type_change_with_signals_and_slots()
+{
+  Component     comp("", new NullImplementation());
+  ComponentPort *port1 = new ComponentPort("1", PortType::Slot);
+  ComponentPort *port2 = new ComponentPort("2", PortType::Slot);
+  ComponentPort *port3 = new ComponentPort("3", PortType::Signal);
+  ComponentPort *port4 = new ComponentPort("4", PortType::Signal);
+
+  comp.addPort(port1);
+  comp.addPort(port2);
+  comp.addPort(port3);
+  comp.addPort(port4);
+
+  port1->setType(PortType::Signal);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), port1->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(0), port2->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(1), port3->getTopIndex());
   CPPUNIT_ASSERT_EQUAL(size_t(2), port4->getTopIndex());

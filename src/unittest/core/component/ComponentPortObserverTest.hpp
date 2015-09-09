@@ -20,6 +20,9 @@ class ComponentPortObserverTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(get_informed_on_name_change);
     CPPUNIT_TEST(do_not_inform_if_name_is_the_same);
 
+    CPPUNIT_TEST(get_informed_on_type_change);
+    CPPUNIT_TEST(do_not_inform_if_type_is_the_same);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -31,6 +34,9 @@ class ComponentPortObserverTest: public CPPUNIT_NS::TestFixture
 
     void get_informed_on_name_change();
     void do_not_inform_if_name_is_the_same();
+
+    void get_informed_on_type_change();
+    void do_not_inform_if_type_is_the_same();
 
 };
 

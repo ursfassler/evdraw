@@ -3,8 +3,9 @@
 
 #include "ComponentPort.hpp"
 
-ComponentPort::ComponentPort(const std::string &aName) :
-  name(aName)
+ComponentPort::ComponentPort(const std::string &aName, PortType aType) :
+  name(aName),
+  type(aType)
 {
 }
 
@@ -34,46 +35,42 @@ void ComponentPort::setTopIndex(size_t value)
   }
 }
 
-
-Signal::Signal(const std::string &name) :
-  ComponentPort(name)
+PortType ComponentPort::getType() const
 {
+  return type;
 }
 
-Side Signal::side() const
+void ComponentPort::setType(PortType value)
 {
-  return Side::Right;
+  if (type != value) {
+    type = value;
+    notify(&ComponentPortObserver::typeChanged, type);
+  }
 }
 
-void Signal::accept(Visitor &visitor)
-{
-  visitor.visit(*this);
-}
-
-void Signal::accept(ConstVisitor &visitor) const
+void ComponentPort::accept(Visitor &visitor)
 {
   visitor.visit(*this);
 }
 
-
-Slot::Slot(const std::string &name) :
-  ComponentPort(name)
-{
-}
-
-Side Slot::side() const
-{
-  return Side::Left;
-}
-
-void Slot::accept(Visitor &visitor)
-{
-  visitor.visit(*this);
-}
-
-void Slot::accept(ConstVisitor &visitor) const
+void ComponentPort::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }
 
 
+ComponentPortObserver::~ComponentPortObserver()
+{
+}
+
+void ComponentPortObserver::topIndexChanged(size_t)
+{
+}
+
+void ComponentPortObserver::nameChanged(const std::string &)
+{
+}
+
+void ComponentPortObserver::typeChanged(PortType)
+{
+}

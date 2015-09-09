@@ -15,16 +15,9 @@ XmlNodeWriter::XmlNodeWriter(TiXmlNode *aParent) :
 {
 }
 
-void XmlNodeWriter::visit(const Slot &port)
+void XmlNodeWriter::visit(const ComponentPort &port)
 {
-  TiXmlElement *element = new TiXmlElement("slot");
-  parent->LinkEndChild(element);
-  element->SetAttribute("name", port.getName());
-}
-
-void XmlNodeWriter::visit(const Signal &port)
-{
-  TiXmlElement *element = new TiXmlElement("signal");
+  TiXmlElement *element = new TiXmlElement(toString(port.getType()));
   parent->LinkEndChild(element);
   element->SetAttribute("name", port.getName());
 }

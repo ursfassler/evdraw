@@ -10,8 +10,7 @@ class Visitor
 {
   public:
     virtual ~Visitor() {}
-    virtual void visit(Slot &port) = 0;
-    virtual void visit(Signal &port) = 0;
+    virtual void visit(ComponentPort &port) = 0;
     virtual void visit(Component &component) = 0;
     virtual void visit(Instance &instance) = 0;
     virtual void visit(InstancePort &port) = 0;

@@ -13,11 +13,7 @@ void RizzlyPrint::print(const Composition &sheet)
   sheet.accept(*this);
 }
 
-void RizzlyPrint::visit(const Signal &)
-{
-}
-
-void RizzlyPrint::visit(const Slot &)
+void RizzlyPrint::visit(const ComponentPort &)
 {
 }
 

@@ -19,9 +19,9 @@ void DefaultVisitorTest::setUp()
   library = new Library();
 
   componentNullImpl = ComponentFactory::produce("componentNullImpl");
-  slot = new Slot("slot");
+  slot = new ComponentPort("slot", PortType::Slot);
   componentNullImpl->addPort(slot);
-  signal = new Signal("signal");
+  signal = new ComponentPort("signal", PortType::Signal);
   componentNullImpl->addPort(signal);
   library->addComponent(componentNullImpl);
 
@@ -59,15 +59,9 @@ class TestDefaultVisitor : public DefaultVisitor
     {
     }
 
-    void visit(Slot &port)
+    void visit(ComponentPort &port)
     {
-      visited.push_back("Slot:" + port.getName());
-      DefaultVisitor::visit(port);
-    }
-
-    void visit(Signal &port)
-    {
-      visited.push_back("Signal:" + port.getName());
+      visited.push_back("ComponentPort:" + port.getName());
       DefaultVisitor::visit(port);
     }
 
@@ -128,22 +122,13 @@ class TestDefaultVisitor : public DefaultVisitor
     }
 };
 
-void DefaultVisitorTest::slotVisitsOnlySlot()
+void DefaultVisitorTest::componentPortVisitsOnlyComponentPort()
 {
   TestDefaultVisitor tdv;
 
   slot->accept(tdv);
 
-  CPPUNIT_ASSERT_EQUAL(test::sl({"Slot:slot"}), tdv.visited);
-}
-
-void DefaultVisitorTest::signalVisitsOnlySignal()
-{
-  TestDefaultVisitor tdv;
-
-  signal->accept(tdv);
-
-  CPPUNIT_ASSERT_EQUAL(test::sl({"Signal:signal"}), tdv.visited);
+  CPPUNIT_ASSERT_EQUAL(test::sl({"ComponentPort:slot"}), tdv.visited);
 }
 
 void DefaultVisitorTest::instancePortVisitsOnlyInstancePort()
@@ -211,8 +196,8 @@ void DefaultVisitorTest::componentVisitsPorts()
   componentNullImpl->accept(tdv);
 
   CPPUNIT_ASSERT(tdv.hasVisited("Component:componentNullImpl"));
-  CPPUNIT_ASSERT(tdv.hasVisited("Signal:signal"));
-  CPPUNIT_ASSERT(tdv.hasVisited("Slot:slot"));
+  CPPUNIT_ASSERT(tdv.hasVisited("ComponentPort:signal"));
+  CPPUNIT_ASSERT(tdv.hasVisited("ComponentPort:slot"));
 }
 
 void DefaultVisitorTest::componentVisitsImplementation()

@@ -23,8 +23,7 @@ class DefaultVisitorTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(inheritsVisitor);
 
-    CPPUNIT_TEST(slotVisitsOnlySlot);
-    CPPUNIT_TEST(signalVisitsOnlySignal);
+    CPPUNIT_TEST(componentPortVisitsOnlyComponentPort);
     CPPUNIT_TEST(instancePortVisitsOnlyInstancePort);
     CPPUNIT_TEST(instanceVisitsPorts);
     CPPUNIT_TEST(connectionVisitsOnlyConnection);
@@ -43,8 +42,7 @@ class DefaultVisitorTest : public CPPUNIT_NS::TestFixture
     virtual void setUp();
     virtual void tearDown();
 
-    void slotVisitsOnlySlot();
-    void signalVisitsOnlySignal();
+    void componentPortVisitsOnlyComponentPort();
     void instancePortVisitsOnlyInstancePort();
     void instanceVisitsPorts();
     void connectionVisitsOnlyConnection();
@@ -57,8 +55,8 @@ class DefaultVisitorTest : public CPPUNIT_NS::TestFixture
 
   private:
     Library *library = nullptr;
-    Slot *slot = nullptr;
-    Signal *signal = nullptr;
+    ComponentPort *slot = nullptr;
+    ComponentPort *signal = nullptr;
     Component *componentNullImpl = nullptr;
     Composition *composition = nullptr;
     Component *componentComposition = nullptr;

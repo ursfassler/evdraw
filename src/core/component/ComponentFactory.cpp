@@ -16,12 +16,13 @@ Component *ComponentFactory::produce(const std::string &name, const std::vector<
 {
   Component *comp = produce(name);
 
+  //TODO: deduplicate code
   for (const std::string &portName : inPort) {
-    Slot *port = new Slot(portName);
+    ComponentPort *port = new ComponentPort(portName, PortType::Slot);
     comp->addPort(port);
   }
   for (const std::string &portName : outPort) {
-    Signal *port = new Signal(portName);
+    ComponentPort *port = new ComponentPort(portName, PortType::Signal);
     comp->addPort(port);
   }
 

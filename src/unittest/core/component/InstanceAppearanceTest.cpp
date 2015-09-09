@@ -21,19 +21,19 @@ void InstanceAppearanceTest::heightDependsOnPorts()
 
   PaperUnit height0 = InstanceAppearance::height(*component);
 
-  component->addPort(new Slot(""));
+  component->addPort(new ComponentPort("", PortType::Slot));
   PaperUnit height1 = InstanceAppearance::height(*component);
 
-  component->addPort(new Slot(""));
+  component->addPort(new ComponentPort("", PortType::Slot));
   PaperUnit height2 = InstanceAppearance::height(*component);
 
-  component->addPort(new Signal(""));
+  component->addPort(new ComponentPort("", PortType::Signal));
   PaperUnit height2a = InstanceAppearance::height(*component);
 
-  component->addPort(new Signal(""));
+  component->addPort(new ComponentPort("", PortType::Signal));
   PaperUnit height2b = InstanceAppearance::height(*component);
 
-  component->addPort(new Signal(""));
+  component->addPort(new ComponentPort("", PortType::Signal));
   PaperUnit height3 = InstanceAppearance::height(*component);
 
   CPPUNIT_ASSERT(height1 > height0);
