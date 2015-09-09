@@ -47,6 +47,8 @@ class GiInstance final :
     void portAdded(InstancePort *port);
     void portDeleted(InstancePort *port);
     void nameChanged(const Instance *);
+    void componentNameChanged(const Instance *);
+    void heightChanged();
 
 };
 

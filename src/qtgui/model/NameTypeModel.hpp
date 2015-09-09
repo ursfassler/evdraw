@@ -6,6 +6,8 @@
 
 #include <QObject>
 #include <QAbstractListModel>
+#include <QStyledItemDelegate>
+#include <QStringListModel>
 
 class NameTypeModel : public QAbstractListModel
 {
@@ -18,17 +20,31 @@ class NameTypeModel : public QAbstractListModel
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
-  protected:
+    virtual QAbstractListModel *getTypes() const = 0;
+
     static const uint NAME_INDEX = 0;
     static const uint TYPE_INDEX = 1;
     static const uint COLUMN_COUNT = 2;
 
-    bool nameEditable = false;
+  protected:
+
     void setNameEditable(bool editable);
+    void setTypeEditable(bool editable);
 
     virtual QString getName(uint row) const = 0;
-    virtual void setName(uint row, QString name);
-    virtual QString getType(uint row) const = 0;
+    virtual bool setName(uint row, QString name);
+    virtual QModelIndex getType(uint row) const = 0;
+    virtual bool setType(uint row, const QVariant &value);
+
+  private:
+    bool editable[COLUMN_COUNT] = { false, false };
+
+};
+
+auto modelFromTypeIndex = [](const QModelIndex &index) -> QAbstractListModel*
+{
+  const NameTypeModel *model = dynamic_cast<const NameTypeModel*>(index.model());
+  return model->getTypes();
 };
 
 #endif // NAMETYPEMODEL_HPP

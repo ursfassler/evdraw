@@ -5,9 +5,10 @@
 
 #include <core/util/list.hpp>
 
-InstanceListModel::InstanceListModel(Composition &aComposition, QObject *parent) :
+InstanceListModel::InstanceListModel(Composition &aComposition, Library &aLibrary, QObject *parent) :
   NameTypeModel(parent),
-  composition(aComposition)
+  composition(aComposition),
+  typeModel(new ComponentListModel(&aLibrary))
 {
   setNameEditable(true);
   composition.registerObserver(this);
@@ -35,16 +36,22 @@ QString InstanceListModel::getName(uint row) const
   return QString::fromStdString(inst->getName());
 }
 
-void InstanceListModel::setName(uint row, QString name)
+bool InstanceListModel::setName(uint row, QString name)
 {
   Instance *inst = getInstance(row);
   inst->setName(name.toStdString());
+  return true;
 }
 
-QString InstanceListModel::getType(uint row) const
+QAbstractListModel *InstanceListModel::getTypes() const
+{
+  return typeModel;
+}
+
+QModelIndex InstanceListModel::getType(uint row) const
 {
   const Instance *inst = getInstance(row);
-  return QString::fromStdString(inst->getComponent()->getName());
+  return typeModel->getIndex(inst->getComponent());
 }
 
 Instance *InstanceListModel::getInstance(uint row) const
@@ -66,9 +73,20 @@ void InstanceListModel::instanceRemoved(Instance *instance)
 
 void InstanceListModel::nameChanged(const Instance *instance)
 {
-  const auto &list = composition.getInstances();
-  size_t row = indexOf(list.begin(), list.end(), instance);
-
+  const size_t row = getRow(instance);
   const QModelIndex idx = index(row, NAME_INDEX);
   dataChanged(idx,idx);
+}
+
+void InstanceListModel::componentNameChanged(const Instance *instance)
+{
+  const size_t row = getRow(instance);
+  const QModelIndex idx = index(row, TYPE_INDEX);
+  dataChanged(idx,idx);
+}
+
+uint InstanceListModel::getRow(const Instance *instance) const
+{
+  const auto &list = composition.getInstances();
+  return indexOf(list.begin(), list.end(), instance);
 }

@@ -4,6 +4,7 @@
 #include "Workspace.hpp"
 
 #include "CompositionEditor.hpp"
+#include "view/ComboboxItemDelegate.hpp"
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
@@ -20,6 +21,7 @@
 
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QLabel>
 
 #include <QDebug>
 
@@ -27,11 +29,11 @@ Workspace::Workspace(QWidget *parent) :
   QWidget(parent),
   drawTabs(this)
 {
-
-
   QWidget *leftBar = new QWidget(this);
   QVBoxLayout *leftLayout = new QVBoxLayout;
+  leftLayout->addWidget(new QLabel("Components"));
   leftLayout->addWidget(&compView);
+  leftLayout->addWidget(new QLabel("Ports"));
   leftLayout->addWidget(&portView);
   leftBar->setLayout(leftLayout);
 
@@ -40,6 +42,9 @@ Workspace::Workspace(QWidget *parent) :
   layout->addWidget(leftBar);
   layout->addWidget(&drawTabs);
   this->setLayout(layout);
+
+  compView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  portView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
 
   connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
@@ -50,6 +55,11 @@ Workspace::Workspace(QWidget *parent) :
 Workspace::~Workspace()
 {
   removeLibrary();
+}
+
+Library *Workspace::getLibrary() const
+{
+  return library;
 }
 
 void Workspace::addComponent()
@@ -104,7 +114,7 @@ void Workspace::showComponent(Component *component)
   if (portModel != nullptr) {
     portModel->deleteLater();
   }
-  portModel = new CompifaceModel(*component);
+  portModel = new PortListModel(*component);
   portView.setModel(portModel);
 }
 
@@ -155,15 +165,18 @@ void Workspace::removeLibrary()
     componentModel->deleteLater();
     componentModel = nullptr;
   }
+  library = nullptr;
 }
 
 void Workspace::newLibrary(Library *library)
 {
   removeLibrary();
 
-  componentModel = new ComponentModel(library);
-  compView.setModel(componentModel);
+  componentModel = new ComponentListModel(library);
+  compView.setModel(componentModel); //FIXME memory leak
   library->registerObserver(this);
+
+  this->library = library;
 }
 
 ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWorkspace, QString aName) :
@@ -175,7 +188,7 @@ ImplementationOpener::ImplementationOpener(QTabWidget &aDrawTabs, Workspace *aWo
 
 void ImplementationOpener::visit(Composition &composition)
 {
-  CompositionEditor *editor = new CompositionEditor(composition);
+  CompositionEditor *editor = new CompositionEditor(composition, *workspace->getLibrary());
   drawTabs.addTab(editor, name);
   QObject::connect(editor, SIGNAL(addInstance(Point,Composition&)), workspace, SLOT(addInstance(Point,Composition&)));
 }

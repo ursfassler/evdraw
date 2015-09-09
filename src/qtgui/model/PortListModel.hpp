@@ -1,22 +1,23 @@
 // Copyright 2015 Urs Fässler, www.bitzgi.ch
 // SPDX-License-Identifier:	GPL-3.0+
 
-#ifndef COMPIFACEMODEL_HPP
-#define COMPIFACEMODEL_HPP
+#ifndef PORTLISTMODEL_HPP
+#define PORTLISTMODEL_HPP
 
 #include <core/component/Component.hpp>
 #include <core/visitor/NullConstVisitor.hpp>
 
 #include "NameTypeModel.hpp"
+#include "PortTypeModel.h"
 
-class CompifaceModel :
+class PortListModel :
     public NameTypeModel,
     private ComponentObserver
 {
     Q_OBJECT
   public:
-    explicit CompifaceModel(Component &component, QObject *parent = 0);
-    ~CompifaceModel();
+    explicit PortListModel(Component &component, QObject *parent = 0);
+    ~PortListModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -24,14 +25,17 @@ class CompifaceModel :
     void addPort(const QString &name);
 
     const Component *getComponent() const;
+    QAbstractListModel *getTypes() const;
 
   protected:
     QString getName(uint row) const;
-    void setName(uint row, QString name);
-    QString getType(uint row) const;
+    bool setName(uint row, QString name);
+    QModelIndex getType(uint row) const;
+    bool setType(uint row, const QVariant &value);
 
   private:
     Component &component;
+    PortTypeModel * const typeModel;
 
     QString getPortTypeName(const ComponentPort *port) const;
     ComponentPort *getPort(uint row) const;
@@ -40,14 +44,4 @@ class CompifaceModel :
     void portDeleted(ComponentPort *port);
 };
 
-class PortTypeNameVisitor : public NullConstVisitor
-{
-  public:
-    void visit(const Slot &port);
-    void visit(const Signal &port);
-
-    QString name;
-
-};
-
-#endif // COMPIFACEMODEL_HPP
+#endif

@@ -71,7 +71,6 @@ void GiInstance::offsetChanged(const RelativePosition *)
 void GiInstance::portAdded(InstancePort *port)
 {
   addPort(port, composition);
-  resize();
 }
 
 void GiInstance::portDeleted(InstancePort *port)
@@ -80,7 +79,6 @@ void GiInstance::portDeleted(InstancePort *port)
 
   GiInstancePort *inst = ports.take(port);
   delete inst;
-  resize();
 
   postcondition(!childItems().contains(inst));
 }
@@ -88,6 +86,16 @@ void GiInstance::portDeleted(InstancePort *port)
 void GiInstance::nameChanged(const Instance *)
 {
   updateText();
+}
+
+void GiInstance::componentNameChanged(const Instance *)
+{
+  updateText();
+}
+
+void GiInstance::heightChanged()
+{
+  resize();
 }
 
 QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) const

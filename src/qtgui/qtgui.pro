@@ -17,7 +17,6 @@ INCLUDEPATH += ../
 
 
 SOURCES += \
-    CompifaceModel.cpp \
     CompositionToGuiUpdater.cpp \
     ../core/base/Base.cpp \
     ../core/base/Position.cpp \
@@ -40,7 +39,6 @@ SOURCES += \
     ../core/instance/InstanceFactory.cpp \
     ../core/instance/InstanceOfSpecification.cpp \
     ../core/instance/InstancePort.cpp \
-    ../core/instance/InstancePortFactory.cpp \
     ../core/Point.cpp \
     ../core/specification/AlwaysSatisfiedSpecification.cpp \
     ../core/specification/DefaultSpecification.cpp \
@@ -57,6 +55,8 @@ SOURCES += \
     ../file/xmlreader/XmlReader.cpp \
     ../file/xmlwriter/XmlNodeWriter.cpp \
     ../file/xmlwriter/XmlWriter.cpp \
+    CompositionDraw.cpp \
+    CompositionEditor.cpp \
     graphicItems/CompositionScene.cpp \
     graphicItems/convert.cpp \
     graphicItems/GiConnectionCreation.cpp \
@@ -65,16 +65,19 @@ SOURCES += \
     graphicItems/GiSegment.cpp \
     main.cpp\
     MainWindow.cpp \
+    model/ConnectionListModel.cpp \
+    model/InstanceListModel.cpp \
+    model/NameTypeModel.cpp \
+    model/PortListModel.cpp \
     Workspace.cpp \
-    ComponentModel.cpp \
-    CompositionDraw.cpp \
-    CompositionEditor.cpp \
-    NameTypeModel.cpp \
-    ConnectionListModel.cpp \
-    InstanceListModel.cpp
+    ../core/component/PortType.cpp \
+    model/PortTypeModel.cpp \
+    model/ComponentListModel.cpp \
+    model/ImplementationTypeModel.cpp \
+    ../core/implementation/ImplementationType.cpp \
+    view/ComboboxItemDelegate.cpp
 
 HEADERS  += \
-    CompifaceModel.hpp \
     CompositionToGuiUpdater.hpp \
     ../core/base/Base.hpp \
     ../core/base/Position.hpp \
@@ -96,7 +99,6 @@ HEADERS  += \
     ../core/instance/InstanceFactory.hpp \
     ../core/instance/Instance.hpp \
     ../core/instance/InstanceOfSpecification.hpp \
-    ../core/instance/InstancePortFactory.hpp \
     ../core/instance/InstancePort.hpp \
     ../core/Point.hpp \
     ../core/specification/AlwaysSatisfiedSpecification.hpp \
@@ -121,6 +123,8 @@ HEADERS  += \
     ../file/xmlreader/XmlReader.hpp \
     ../file/xmlwriter/XmlNodeWriter.hpp \
     ../file/xmlwriter/XmlWriter.hpp \
+    CompositionDraw.hpp \
+    CompositionEditor.hpp \
     graphicItems/CompositionScene.hpp \
     graphicItems/convert.hpp \
     graphicItems/GiConnectionCreation.hpp \
@@ -128,13 +132,17 @@ HEADERS  += \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiSegment.hpp \
     MainWindow.hpp \
+    model/ConnectionListModel.hpp \
+    model/InstanceListModel.hpp \
+    model/NameTypeModel.hpp \
+    model/PortListModel.hpp \
     Workspace.hpp \
-    ComponentModel.hpp \
-    CompositionDraw.hpp \
-    CompositionEditor.hpp \
-    NameTypeModel.hpp \
-    ConnectionListModel.hpp \
-    InstanceListModel.hpp
+    ../core/component/PortType.hpp \
+    model/PortTypeModel.h \
+    model/ComponentListModel.hpp \
+    model/ImplementationTypeModel.hpp \
+    ../core/implementation/ImplementationType.hpp \
+    view/ComboboxItemDelegate.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

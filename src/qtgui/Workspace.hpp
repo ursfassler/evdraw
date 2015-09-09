@@ -4,8 +4,8 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
-#include "ComponentModel.hpp"
-#include "CompifaceModel.hpp"
+#include "model/ComponentListModel.hpp"
+#include "model/PortListModel.hpp"
 
 #include <core/visitor/NullVisitor.hpp>
 #include <core/Point.hpp>
@@ -13,7 +13,6 @@
 #include <QWidget>
 #include <QListView>
 #include <QTabWidget>
-#include <QListView>
 #include <QTreeView>
 
 class Workspace : public QWidget, private LibraryObserver
@@ -22,6 +21,8 @@ class Workspace : public QWidget, private LibraryObserver
   public:
     explicit Workspace(QWidget *parent = 0);
     ~Workspace();
+
+    Library *getLibrary() const;
 
   signals:
 
@@ -42,9 +43,10 @@ class Workspace : public QWidget, private LibraryObserver
     void addInstance(Point position, Composition &composition);
 
   private:
-    ComponentModel *componentModel = nullptr;
+    Library *library = nullptr;
+    ComponentListModel *componentModel = nullptr;
     QTreeView compView;
-    CompifaceModel *portModel = nullptr;
+    PortListModel *portModel = nullptr;
     QTreeView portView;
     QTabWidget drawTabs;
 

@@ -5,8 +5,10 @@
 #define COMPOSITIONEDITOR_HPP
 
 #include "CompositionDraw.hpp"
-#include "InstanceListModel.hpp"
-#include "ConnectionListModel.hpp"
+#include "model/InstanceListModel.hpp"
+#include "model/ConnectionListModel.hpp"
+
+#include <core/component/Library.hpp>
 
 #include <QWidget>
 #include <QTreeView>
@@ -15,7 +17,7 @@ class CompositionEditor : public QWidget
 {
     Q_OBJECT
   public:
-    explicit CompositionEditor(Composition &composition, QWidget *parent = 0);
+    explicit CompositionEditor(Composition &composition, Library &library, QWidget *parent = 0);
 
   signals:
     void addInstance(Point position, Composition &composition);

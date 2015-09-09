@@ -18,12 +18,10 @@ Qt::ItemFlags NameTypeModel::flags(const QModelIndex &index) const
 {
   Qt::ItemFlags flags = QAbstractListModel::flags(index);
 
-  switch (index.column()) {
-    case NAME_INDEX:
-      if (nameEditable) {
-        flags |= Qt::ItemIsEditable;
-      }
-      break;
+  if ((index.column() >= 0) && (uint(index.column()) < COLUMN_COUNT)) {
+    if (editable[index.column()]) {
+      flags |= Qt::ItemIsEditable;
+    }
   }
 
   return flags;
@@ -47,20 +45,22 @@ QVariant NameTypeModel::headerData(int section, Qt::Orientation, int role) const
 
 QVariant NameTypeModel::data(const QModelIndex &index, int role) const
 {
-  if (role != Qt::DisplayRole) {
-    return QVariant();
-  }
-
   const uint row = index.row();
   const uint column = index.column();
+
   switch (column) {
     case NAME_INDEX:
-      return getName(row);
+      switch (role) {
+        case Qt::DisplayRole:
+        case Qt::EditRole:
+          return getName(row);
+        default:
+          return QVariant();
+      }
     case TYPE_INDEX:
-      return getType(row);
+      return getType(row).data(role);
   }
-
-  return "<error>";
+  return QVariant();
 }
 
 bool NameTypeModel::setData(const QModelIndex &index, const QVariant &value, int role)
@@ -69,29 +69,41 @@ bool NameTypeModel::setData(const QModelIndex &index, const QVariant &value, int
     return false;
   }
 
-  if (index.column() != NAME_INDEX) {
-    return false;
-  }
-
   const unsigned row = index.row();
 
-  const QString newName = value.toString();
-  const QString oldName = getName(row);
-  if (newName == oldName) {
-    return false;
+  switch (index.column()) {
+    case NAME_INDEX: {
+      const QString newName = value.toString();
+      const QString oldName = getName(row);
+      if (newName == oldName) {
+        return false;
+      }
+      return setName(row, newName);
+    }
+    case TYPE_INDEX: {
+      return setType(row, value);
+    }
   }
 
-  setName(row, newName);
-
-  return true;
+  return false;
 }
 
 void NameTypeModel::setNameEditable(bool editable)
 {
-  nameEditable = editable;
+  this->editable[NAME_INDEX] = editable;
 }
 
-void NameTypeModel::setName(uint, QString)
+void NameTypeModel::setTypeEditable(bool editable)
 {
+  this->editable[TYPE_INDEX] = editable;
 }
 
+bool NameTypeModel::setName(uint, QString)
+{
+  return false;
+}
+
+bool NameTypeModel::setType(uint, const QVariant &)
+{
+  return false;
+}
