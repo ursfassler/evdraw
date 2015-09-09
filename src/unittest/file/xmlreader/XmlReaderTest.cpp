@@ -64,7 +64,7 @@ void XmlReaderTest::componentWithSlot()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"\">"
-      "    <slot name=\"in\" />"
+      "    <port type=\"slot\" name=\"in\" />"
       "  </component>"
       "</evdraw>";
 
@@ -85,7 +85,7 @@ void XmlReaderTest::componentWithSignal()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"\">"
-      "    <signal name=\"out\" />"
+      "    <port type=\"signal\" name=\"out\" />"
       "  </component>"
       "</evdraw>";
 
@@ -106,10 +106,10 @@ void XmlReaderTest::componentWithSignalAndSlotKeepsOrder()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"\">"
-      "    <signal name=\"out1\" />"
-      "    <slot name=\"in1\" />"
-      "    <slot name=\"in2\" />"
-      "    <signal name=\"out2\" />"
+      "    <port type=\"signal\" name=\"out1\" />"
+      "    <port type=\"slot\" name=\"in1\" />"
+      "    <port type=\"slot\" name=\"in2\" />"
+      "    <port type=\"signal\" name=\"out2\" />"
       "  </component>"
       "</evdraw>";
 
@@ -184,8 +184,8 @@ void XmlReaderTest::compositionWithConnection()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"empty\">"
-      "    <slot name=\"in\" />"
-      "    <signal name=\"out\" />"
+      "    <port type=\"slot\" name=\"in\" />"
+      "    <port type=\"signal\" name=\"out\" />"
       "  </component>"
       "  <component name=\"full\">"
       "    <composition>"
@@ -228,8 +228,8 @@ void XmlReaderTest::openFile()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"empty\">"
-      "    <slot name=\"in\" />"
-      "    <signal name=\"out\" />"
+      "    <port type=\"slot\" name=\"in\" />"
+      "    <port type=\"signal\" name=\"out\" />"
       "  </component>"
       "  <component name=\"full\">"
       "    <composition>"

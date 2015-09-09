@@ -60,6 +60,20 @@ void PortTypeTest::undefined_to_ostream_throws_exception()
   CPPUNIT_ASSERT_THROW(ss << PortType(-1), std::invalid_argument);
 }
 
+void PortTypeTest::portTypeFromString_matches_toString_for_all()
+{
+  for (uint idx = 0; idx < portTypeList().size(); idx++) {
+    const PortType type = portTypeList()[idx];
+    const std::string string = toString(type);
+    CPPUNIT_ASSERT_EQUAL(type, portTypeFromString(string));
+  }
+}
+
+void PortTypeTest::undefined_portTypeFromString_throws_exception()
+{
+  CPPUNIT_ASSERT_THROW(portTypeFromString("no type"), std::invalid_argument);
+}
+
 void PortTypeTest::signal_is_right()
 {
   CPPUNIT_ASSERT_EQUAL(Side::Right, sideOf(PortType::Signal));

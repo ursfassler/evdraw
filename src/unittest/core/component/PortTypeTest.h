@@ -22,6 +22,9 @@ class PortTypeTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(to_ostream_is_same_as_toString);
     CPPUNIT_TEST(undefined_to_ostream_throws_exception);
 
+    CPPUNIT_TEST(portTypeFromString_matches_toString_for_all);
+    CPPUNIT_TEST(undefined_portTypeFromString_throws_exception);
+
     CPPUNIT_TEST(signal_is_right);
     CPPUNIT_TEST(slot_is_left);
     CPPUNIT_TEST(sideOf_is_defined_for_all);
@@ -43,6 +46,9 @@ class PortTypeTest : public CPPUNIT_NS::TestFixture
 
     void to_ostream_is_same_as_toString();
     void undefined_to_ostream_throws_exception();
+
+    void portTypeFromString_matches_toString_for_all();
+    void undefined_portTypeFromString_throws_exception();
 
     void signal_is_right();
     void slot_is_left();

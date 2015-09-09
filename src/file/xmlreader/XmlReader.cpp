@@ -51,8 +51,7 @@ std::map<std::string, XmlVisitor::Handler> XmlVisitor::getLoader()
 
   ret["evdraw"] = Handler(&Loader::libraryEnter, &Loader::libraryExit);
   ret["component"] = Handler(&Loader::componentEnter, &Loader::componentExit);
-  ret["slot"] = Handler(&Loader::slotEnter, &Loader::nullExit);
-  ret["signal"] = Handler(&Loader::signalEnter, &Loader::nullExit);
+  ret["port"] = Handler(&Loader::portEnter, &Loader::nullExit);
   ret["composition"] = Handler(&Loader::compositionEnter, &Loader::compositionExit);
   ret["instance"] = Handler(&Loader::instanceEnter, &Loader::nullExit);
   ret["connection"] = Handler(&Loader::connectionEnter, &Loader::nullExit);
@@ -152,23 +151,15 @@ void Loader::componentExit()
   component = nullptr;
 }
 
-void Loader::slotEnter(const TiXmlElement &element)
-{
-  //TODO deduplicate
-  precondition(component != nullptr);
-
-  const std::string name = getAttribute(element, "name");
-  ComponentPort *port = new ComponentPort(name, PortType::Slot);
-
-  component->addPort(port);
-}
-
-void Loader::signalEnter(const TiXmlElement &element)
+void Loader::portEnter(const TiXmlElement &element)
 {
   precondition(component != nullptr);
 
   const std::string name = getAttribute(element, "name");
-  ComponentPort *port = new ComponentPort(name, PortType::Signal);
+  const std::string portTypeName = getAttribute(element, "type");
+  const PortType type = portTypeFromString(portTypeName);
+
+  ComponentPort *port = new ComponentPort(name, type);
 
   component->addPort(port);
 }

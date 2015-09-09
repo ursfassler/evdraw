@@ -1,11 +1,11 @@
 
 <evdraw>
   <component name="Component">
-    <slot name="in1" />
-    <slot name="in2" />
-    <signal name="out1" />
-    <signal name="out2" />
-    <signal name="out3" />
+    <port type="slot" name="in1" />
+    <port type="slot" name="in2" />
+    <port type="signal" name="out1" />
+    <port type="signal" name="out2" />
+    <port type="signal" name="out3" />
   </component>
   <component name="draw">
     <composition>

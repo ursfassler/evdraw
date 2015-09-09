@@ -16,6 +16,7 @@ std::vector<PortType> portTypeList();
 PortType portTypeFromUint(uint type);
 Side sideOf(PortType type);
 std::string toString(PortType type);
+PortType portTypeFromString(const std::string &value);
 std::ostream &operator <<(std::ostream &stream, PortType type);
 
 #endif // PORTTYPE_H

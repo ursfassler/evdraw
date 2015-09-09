@@ -27,8 +27,7 @@ class Loader final
     void libraryExit();
     void componentEnter(const TiXmlElement &element);
     void componentExit();
-    void slotEnter(const TiXmlElement &element);
-    void signalEnter(const TiXmlElement &element);
+    void portEnter(const TiXmlElement &element);
     void compositionEnter(const TiXmlElement &element);
     void compositionExit();
     void instanceEnter(const TiXmlElement &element);
