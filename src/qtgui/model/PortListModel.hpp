@@ -8,7 +8,7 @@
 #include <core/visitor/NullConstVisitor.hpp>
 
 #include "NameTypeModel.hpp"
-#include "PortTypeModel.h"
+#include "PortTypeModel.hpp"
 
 class PortListModel :
     public NameTypeModel,

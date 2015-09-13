@@ -3,7 +3,7 @@
 
 #include "PortListModel.hpp"
 
-#include "PortTypeModel.h"
+#include "PortTypeModel.hpp"
 
 #include <string>
 

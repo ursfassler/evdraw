@@ -139,12 +139,12 @@ HEADERS  += \
     model/PortListModel.hpp \
     Workspace.hpp \
     ../core/component/PortType.hpp \
-    model/PortTypeModel.h \
     model/ComponentListModel.hpp \
     model/ImplementationTypeModel.hpp \
     ../core/implementation/ImplementationType.hpp \
     view/ComboboxItemDelegate.hpp \
-    ../core/instance/ConnectorFactory.hpp
+    ../core/instance/ConnectorFactory.hpp \
+    model/PortTypeModel.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

@@ -119,12 +119,12 @@ HEADERS += \
     unittest/core/component/ComponentPortObserverTest.hpp \
     unittest/core/instance/AbstractInstanceTest.hpp \
     unittest/core/instance/InstancePortObserverTest.hpp \
-    unittest/core/component/PortTypeTest.h \
     core/component/PortType.hpp \
     unittest/core/implementation/ImplementationTypeTest.hpp \
     core/implementation/ImplementationType.hpp \
     unittest/core/instance/ConnectorFactoryTest.hpp \
-    core/instance/ConnectorFactory.hpp
+    core/instance/ConnectorFactory.hpp \
+    unittest/core/component/PortTypeTest.hpp
 
 SOURCES += \
     core/base/Base.cpp \
