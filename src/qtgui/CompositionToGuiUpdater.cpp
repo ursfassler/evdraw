@@ -78,8 +78,7 @@ void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
 {
   Connection *connection = findConnectionOf(item);
   if (connection != nullptr) {
-    composition.removeConnection(connection);
-    ConnectionFactory::dispose(connection);
+    composition.deleteConnection(connection);
   }
 }
 

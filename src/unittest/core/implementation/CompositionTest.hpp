@@ -14,23 +14,23 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(create);
     CPPUNIT_TEST(addInstance);
     CPPUNIT_TEST(addConnection);
-    CPPUNIT_TEST(inheritsImplementation);
+    CPPUNIT_TEST(inherits_implementation);
 
     CPPUNIT_TEST(getInstance);
 
-    CPPUNIT_TEST(removeInstance);
-    CPPUNIT_TEST(removeConnection);
+    CPPUNIT_TEST(deleteInstance);
+    CPPUNIT_TEST(deleteConnection);
 
-    CPPUNIT_TEST(removeInstanceRemovesDependantConnections);
-    CPPUNIT_TEST(deleteInstancePortRemovesDependantConnections);
+    CPPUNIT_TEST(deleteInstance_removes_dependant_connections);
+    CPPUNIT_TEST(deleteInstancePort_removes_dependant_connections);
 
 
-    CPPUNIT_TEST(notifyWhenAddInstance);
-    CPPUNIT_TEST(notifyWhenAddConnection);
-    CPPUNIT_TEST(notifyWhenRemoveInstance);
-    CPPUNIT_TEST(notifyWhenRemoveConnection);
-    CPPUNIT_TEST(addConnectionUnderConstructionNotifiesObserver);
-    CPPUNIT_TEST(canNotOverwriteConnectionUnderConstructio);
+    CPPUNIT_TEST(notify_when_addInstance);
+    CPPUNIT_TEST(notify_when_addConnection);
+    CPPUNIT_TEST(notify_when_deleteInstance);
+    CPPUNIT_TEST(notify_when_deleteConnection);
+    CPPUNIT_TEST(addConnectionUnderConstruction_notifies_observer);
+    CPPUNIT_TEST(can_not_overwrite_connectionUnderConstruction);
 
     CPPUNIT_TEST(finishConnectionCreation);
 
@@ -40,22 +40,22 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void create();
     void addInstance();
     void addConnection();
-    void inheritsImplementation();
+    void inherits_implementation();
 
     void getInstance();
 
-    void removeInstance();
-    void removeConnection();
+    void deleteInstance();
+    void deleteConnection();
 
-    void removeInstanceRemovesDependantConnections();
-    void deleteInstancePortRemovesDependantConnections();
+    void deleteInstance_removes_dependant_connections();
+    void deleteInstancePort_removes_dependant_connections();
 
-    void notifyWhenAddInstance();
-    void notifyWhenAddConnection();
-    void notifyWhenRemoveInstance();
-    void notifyWhenRemoveConnection();
-    void addConnectionUnderConstructionNotifiesObserver();
-    void canNotOverwriteConnectionUnderConstructio();
+    void notify_when_addInstance();
+    void notify_when_addConnection();
+    void notify_when_deleteInstance();
+    void notify_when_deleteConnection();
+    void addConnectionUnderConstruction_notifies_observer();
+    void can_not_overwrite_connectionUnderConstruction();
 
     void finishConnectionCreation();
 

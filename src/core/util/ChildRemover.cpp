@@ -4,7 +4,6 @@
 #include "ChildRemover.hpp"
 
 #include "../implementation/Composition.hpp"
-#include "../instance/InstanceFactory.hpp"
 #include "../connection/ConnectionFactory.hpp"
 
 #include <set>
@@ -16,28 +15,26 @@ ChildRemover::ChildRemover(const Specification &aSpecification) :
 
 void ChildRemover::visit(Composition &composition)
 {
-  removeConnections(composition);
-  removeInstances(composition);
+  deleteConnections(composition);
+  deleteInstances(composition);
 
   DefaultVisitor::visit(composition);
 }
 
-void ChildRemover::removeInstances(Composition &composition) const
+void ChildRemover::deleteInstances(Composition &composition) const
 {
   std::list<Instance*> removable = getSatisfied(composition.getInstances());
   for (Instance *instance : removable)
   {
-    composition.removeInstance(instance);
-    InstanceFactory::dispose(instance);
+    composition.deleteInstance(instance);
   }
 }
 
-void ChildRemover::removeConnections(Composition &composition) const
+void ChildRemover::deleteConnections(Composition &composition) const
 {
   std::list<Connection*> removable = getSatisfied(composition.getConnections());
   for (Connection *connection : removable)
   {
-    composition.removeConnection(connection);
-    ConnectionFactory::dispose(connection);
+    composition.deleteConnection(connection);
   }
 }

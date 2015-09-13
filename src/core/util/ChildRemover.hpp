@@ -19,8 +19,8 @@ class ChildRemover : public DefaultVisitor
   private:
     const Specification &specification;
 
-    void removeInstances(Composition &composition) const;
-    void removeConnections(Composition &composition) const;
+    void deleteInstances(Composition &composition) const;
+    void deleteConnections(Composition &composition) const;
 
     template<class T>
     std::list<T*> getSatisfied(const std::list<T*> &list) const

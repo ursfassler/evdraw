@@ -39,14 +39,12 @@ class Composition final :
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
-    ///TODO: change to delete
-    void removeInstance(Instance *instance);
+    void deleteInstance(Instance *instance);
     Instance *getInstance(const std::string &name) const;
 
     const std::list<Connection *> &getConnections() const;
     void addConnection(Connection *connection);
-    ///TODO: change to delete
-    void removeConnection(Connection *connection);
+    void deleteConnection(Connection *connection);
 
     void startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort);
     void finishConnectionConstruction(AbstractPort *end);

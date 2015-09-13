@@ -53,7 +53,7 @@ void Composition::addInstance(Instance *instance)
   notify(&CompositionObserver::instanceAdded, instance);
 }
 
-void Composition::removeInstance(Instance *instance)
+void Composition::deleteInstance(Instance *instance)
 {
   OrSpecification spec;
   for (AbstractPort *port : instance->getPorts()) {
@@ -66,6 +66,8 @@ void Composition::removeInstance(Instance *instance)
   instances.remove(instance);
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   notify(&CompositionObserver::instanceRemoved, instance);
+
+  InstanceFactory::dispose(instance);
 }
 
 Instance *Composition::getInstance(const std::string &name) const
@@ -87,10 +89,12 @@ void Composition::addConnection(Connection *connection)
   notify(&CompositionObserver::connectionAdded, connection);
 }
 
-void Composition::removeConnection(Connection *connection)
+void Composition::deleteConnection(Connection *connection)
 {
   connections.remove(connection);
   notify(&CompositionObserver::connectionRemoved, connection);
+
+  ConnectionFactory::dispose(connection);
 }
 
 void Composition::startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort)
