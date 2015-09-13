@@ -4,21 +4,24 @@
 #include "contract.hpp"
 
 
-ContractError::ContractError(const std::string &aContract, const std::string &aFunction) :
+ContractError::ContractError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine) :
   contract(aContract),
-  function(aFunction)
+  function(aFunction),
+  file(aFile),
+  line(aLine)
 {
 }
 
 const char *ContractError::what() const _GLIBCXX_USE_NOEXCEPT
 {
-  return (contractName() + " does not hold: " + contract + " (" + function + ")").c_str();
+  msg = file + ":" + std::to_string(line) + ": " + contractName() + " does not hold: " + contract + " (" + function + ")";
+  return msg.c_str();
 }
 
 
 
-PostconditionError::PostconditionError(const std::string &aContract, const std::string &aFunction) :
-  ContractError(aContract, aFunction)
+PostconditionError::PostconditionError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine) :
+  ContractError(aContract, aFunction, aFile, aLine)
 {
 }
 
@@ -29,8 +32,8 @@ const std::string PostconditionError::contractName() const
 
 
 
-PreconditionError::PreconditionError(const std::string &aContract, const std::string &aFunction) :
-  ContractError(aContract, aFunction)
+PreconditionError::PreconditionError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine) :
+  ContractError(aContract, aFunction, aFile, aLine)
 {
 }
 
@@ -41,8 +44,8 @@ const std::string PreconditionError::contractName() const
 
 
 
-InvariantError::InvariantError(const std::string &aContract, const std::string &aFunction) :
-  ContractError(aContract, aFunction)
+InvariantError::InvariantError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine) :
+  ContractError(aContract, aFunction, aFile, aLine)
 {
 }
 

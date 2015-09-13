@@ -10,20 +10,24 @@
 class ContractError : public std::exception
 {
   public:
-    ContractError(const std::string &aContract, const std::string &aFunction);
+    ContractError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine);
     virtual const char *what() const _GLIBCXX_USE_NOEXCEPT;
 
   protected:
+    virtual const std::string contractName() const = 0;
+
+  private:
     const std::string contract;
     const std::string function;
-
-    virtual const std::string contractName() const = 0;
+    const std::string file;
+    const int line;
+    mutable std::string msg = "";
 };
 
 class PreconditionError : public ContractError
 {
   public:
-    PreconditionError(const std::string &aContract, const std::string &aFunction);
+    PreconditionError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine);
 
   protected:
     const std::string contractName() const;
@@ -32,7 +36,7 @@ class PreconditionError : public ContractError
 #define precondition(p) \
   do { \
     if (!(p)) { \
-      throw PreconditionError(#p, __func__); \
+      throw PreconditionError(#p, __func__, __FILE__, __LINE__); \
     } \
   } while(0)
 
@@ -41,7 +45,7 @@ class PreconditionError : public ContractError
 class PostconditionError : public ContractError
 {
   public:
-    PostconditionError(const std::string &aContract, const std::string &aFunction);
+    PostconditionError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine);
 
   protected:
     const std::string contractName() const;
@@ -50,7 +54,7 @@ class PostconditionError : public ContractError
 #define postcondition(p) \
   do { \
     if (!(p)) { \
-      throw PostconditionError(#p, __func__); \
+      throw PostconditionError(#p, __func__, __FILE__, __LINE__); \
     } \
   } while(0)
 
@@ -59,7 +63,7 @@ class PostconditionError : public ContractError
 class InvariantError : public ContractError
 {
   public:
-    InvariantError(const std::string &aContract, const std::string &aFunction);
+    InvariantError(const std::string &aContract, const std::string &aFunction, const std::string &aFile, int aLine);
 
   protected:
     const std::string contractName() const;
@@ -68,7 +72,7 @@ class InvariantError : public ContractError
 #define invariant(p) \
   do { \
     if (!(p)) { \
-      throw InvariantError(#p, __func__); \
+      throw InvariantError(#p, __func__, __FILE__, __LINE__); \
     } \
   } while(0)
 
