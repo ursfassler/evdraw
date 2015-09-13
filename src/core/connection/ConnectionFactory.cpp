@@ -65,6 +65,11 @@ Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *en
 
 void ConnectionFactory::cleanup(Connection &connection)
 {
+  if (!connection.getPoints().empty()) {
+    connection.getStartPort()->removeConnectionPoint(connection.getPoints().front());
+    connection.getEndPort()->removeConnectionPoint(connection.getPoints().back());
+  }
+
   for (HorizontalSegment *seg : connection.horizontalSegments) {
     delete seg;
   }

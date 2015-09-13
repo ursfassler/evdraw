@@ -14,8 +14,6 @@
 
 #include <vector>
 
-//TODO connector point position is not updated if point is removed
-
 class InstancePortObserver
 {
   public:

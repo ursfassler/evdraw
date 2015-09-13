@@ -31,6 +31,9 @@ class ZeroPosition : public Position
 {
   public:
     Point getAbsolutePosition() const;
+
+    static ZeroPosition *singleton();
+
 };
 
 class RelativePosition : public Position, public PositionObserver
@@ -57,7 +60,6 @@ class RelativePosition : public Position, public PositionObserver
     virtual void offsetChanged(const RelativePosition *sender);
 
   private:
-    ZeroPosition zeroAnchor;
     Position *anchor;
     Point offset;
 };

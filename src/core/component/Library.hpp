@@ -13,22 +13,14 @@
 class LibraryObserver
 {
   public:
-    virtual ~LibraryObserver()
-    {
-    }
-
-    virtual void componentAdded(Component *component)
-    {
-      (void)(component);
-    }
-
-    virtual void componentDeleted(Component *component)
-    {
-      (void)(component);
-    }
+    virtual ~LibraryObserver();
+    virtual void componentAdded(Component *component);
+    virtual void componentDeleted(Component *component);
 };
 
-class Library final : public VisitorClient, public ObserverCollection<LibraryObserver>
+class Library final :
+    public VisitorClient,
+    public ObserverCollection<LibraryObserver>
 {
   public:
     Library();

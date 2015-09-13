@@ -161,3 +161,15 @@ void ConnectionFactoryTest::connectionIsRegisteredAtEndPort()
 
   ConnectionFactory::dispose(connection);
 }
+
+void ConnectionFactoryTest::dispose_removes_connection_from_ports()
+{
+  SimplePort startPort;
+  SimplePort endPort;
+
+  Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
+  ConnectionFactory::dispose(connection);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(0), startPort.ports.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), endPort.ports.size());
+}

@@ -122,7 +122,9 @@ HEADERS += \
     unittest/core/component/PortTypeTest.h \
     core/component/PortType.hpp \
     unittest/core/implementation/ImplementationTypeTest.hpp \
-    core/implementation/ImplementationType.hpp
+    core/implementation/ImplementationType.hpp \
+    unittest/core/instance/ConnectorFactoryTest.hpp \
+    core/instance/ConnectorFactory.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -218,7 +220,9 @@ SOURCES += \
     unittest/core/component/PortTypeTest.cpp \
     core/component/PortType.cpp \
     unittest/core/implementation/ImplementationTypeTest.cpp \
-    core/implementation/ImplementationType.cpp
+    core/implementation/ImplementationType.cpp \
+    unittest/core/instance/ConnectorFactoryTest.cpp \
+    core/instance/ConnectorFactory.cpp
 
 DISTFILES += \
     ../README.md \

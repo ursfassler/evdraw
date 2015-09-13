@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "CompositionToGuiUpdater.hpp"
+#include <core/connection/ConnectionFactory.hpp>
 
 
 CompositionToGuiUpdater::CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet) :
@@ -78,6 +79,7 @@ void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
   Connection *connection = findConnectionOf(item);
   if (connection != nullptr) {
     composition.removeConnection(connection);
+    ConnectionFactory::dispose(connection);
   }
 }
 

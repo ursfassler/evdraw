@@ -4,7 +4,6 @@
 #include "Connection.hpp"
 
 #include "../util/contract.hpp"
-#include <cassert>
 
 Connection::Connection(AbstractPort *aStartPort, AbstractPort *aEndPort) :
   points(),
@@ -17,9 +16,9 @@ Connection::Connection(AbstractPort *aStartPort, AbstractPort *aEndPort) :
 
 Connection::~Connection()
 {
-  assert(horizontalSegments.empty());
-  assert(verticalSegments.empty());
-  assert(points.empty());
+  precondition(horizontalSegments.empty());
+  precondition(verticalSegments.empty());
+  precondition(points.empty());
 }
 
 AbstractPort *Connection::getStartPort() const

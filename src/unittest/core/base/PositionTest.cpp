@@ -119,3 +119,15 @@ void PositionTest::setAnchorUpdatesPosition()
   base.removeAnchor();
   base.unregisterObserver(&observer);
 }
+
+void PositionTest::zeroPosition_get_singleton()
+{
+  ZeroPosition *singleton = ZeroPosition::singleton();
+  CPPUNIT_ASSERT(singleton != nullptr);
+}
+
+void PositionTest::zeroPosition_singleton_is_always_the_same()
+{
+  ZeroPosition *singleton = ZeroPosition::singleton();
+  CPPUNIT_ASSERT_EQUAL(singleton, ZeroPosition::singleton());
+}

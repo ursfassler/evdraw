@@ -27,6 +27,8 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(connectionIsRegisteredAtStartPort);
     CPPUNIT_TEST(connectionIsRegisteredAtEndPort);
 
+    CPPUNIT_TEST(dispose_removes_connection_from_ports);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -44,6 +46,8 @@ class ConnectionFactoryTest : public CPPUNIT_NS::TestFixture
 
     void connectionIsRegisteredAtStartPort();
     void connectionIsRegisteredAtEndPort();
+
+    void dispose_removes_connection_from_ports();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( ConnectionFactoryTest );

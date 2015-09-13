@@ -142,8 +142,6 @@ void Composition::checkInvariant()
 {
 }
 
-
-
 void Composition::accept(Visitor &visitor)
 {
   visitor.visit(*this);
@@ -152,4 +150,33 @@ void Composition::accept(Visitor &visitor)
 void Composition::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
+}
+
+
+CompositionObserver::~CompositionObserver()
+{
+}
+
+void CompositionObserver::instanceAdded(Instance *)
+{
+}
+
+void CompositionObserver::instanceRemoved(Instance *)
+{
+}
+
+void CompositionObserver::connectionAdded(Connection *)
+{
+}
+
+void CompositionObserver::connectionRemoved(Connection *)
+{
+}
+
+void CompositionObserver::addConnectionUnderConstruction(Connection *)
+{
+}
+
+void CompositionObserver::finishConnectionUnderConstruction(Connection *)
+{
 }

@@ -75,7 +75,8 @@ SOURCES += \
     model/ComponentListModel.cpp \
     model/ImplementationTypeModel.cpp \
     ../core/implementation/ImplementationType.cpp \
-    view/ComboboxItemDelegate.cpp
+    view/ComboboxItemDelegate.cpp \
+    ../core/instance/ConnectorFactory.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -142,7 +143,8 @@ HEADERS  += \
     model/ComponentListModel.hpp \
     model/ImplementationTypeModel.hpp \
     ../core/implementation/ImplementationType.hpp \
-    view/ComboboxItemDelegate.hpp
+    view/ComboboxItemDelegate.hpp \
+    ../core/instance/ConnectorFactory.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

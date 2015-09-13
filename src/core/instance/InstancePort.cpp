@@ -3,6 +3,7 @@
 
 #include "InstancePort.hpp"
 
+#include "ConnectorFactory.hpp"
 #include "../component/InstanceAppearance.hpp"
 #include "../util/list.hpp"
 
@@ -27,6 +28,7 @@ InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort
 InstancePort::~InstancePort()
 {
   compPort->unregisterObserver(this);
+  ConnectorFactory::cleanup(connector);
 }
 
 Connector &InstancePort::getConnector()
@@ -66,7 +68,7 @@ void InstancePort::addConnectionPoint(RelativePosition *point)
 
 void InstancePort::removeConnectionPoint(RelativePosition *point)
 {
-  (void)(point);
+  connector.removePoint(point);
 }
 
 void InstancePort::accept(Visitor &visitor)

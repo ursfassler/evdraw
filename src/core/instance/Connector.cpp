@@ -11,10 +11,25 @@ Connector::Connector(const Point &aOffset) :
 {
 }
 
+Connector::~Connector()
+{
+  precondition(points.empty());
+}
+
 void Connector::addPoint(RelativePosition *point)
 {
   points.push_back(point);
   point->replaceAnchor(this);
+  updateConnectionPosition();
+}
+
+void Connector::removePoint(RelativePosition *point)
+{
+  const auto idx = std::find(points.begin(), points.end(), point);
+  precondition(idx != points.end());
+
+  points.erase(idx);
+  point->removeAnchor();
   updateConnectionPosition();
 }
 

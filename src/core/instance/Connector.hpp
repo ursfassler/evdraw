@@ -12,8 +12,10 @@ class Connector final : public RelativePosition
 {
   public:
     Connector(const Point &offset);
+    ~Connector();
 
     void addPoint(RelativePosition *point);
+    void removePoint(RelativePosition *point);
     const std::vector<RelativePosition *> &getPoints() const;
 
   private:

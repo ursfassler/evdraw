@@ -21,6 +21,9 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(type_change_changes_position);
     CPPUNIT_TEST(type_change_notifies_connector);
 
+    CPPUNIT_TEST(addConnectionPoint_sets_position);
+    CPPUNIT_TEST(removeConnectionPoint_changes_position_of_others);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -34,6 +37,9 @@ class InstancePortTest : public CPPUNIT_NS::TestFixture
 
     void type_change_changes_position();
     void type_change_notifies_connector();
+
+    void addConnectionPoint_sets_position();
+    void removeConnectionPoint_changes_position_of_others();
 
 };
 

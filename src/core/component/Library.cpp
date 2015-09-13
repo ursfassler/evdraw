@@ -70,3 +70,16 @@ void Library::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
 }
+
+
+LibraryObserver::~LibraryObserver()
+{
+}
+
+void LibraryObserver::componentAdded(Component *)
+{
+}
+
+void LibraryObserver::componentDeleted(Component *)
+{
+}

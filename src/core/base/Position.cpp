@@ -18,10 +18,15 @@ Point ZeroPosition::getAbsolutePosition() const
   return Point(0,0);
 }
 
+ZeroPosition *ZeroPosition::singleton()
+{
+  static ZeroPosition zero;
+  return &zero;
+}
+
 
 RelativePosition::RelativePosition(const Point &aOffset) :
-  zeroAnchor(),
-  anchor(&zeroAnchor),
+  anchor(ZeroPosition::singleton()),
   offset(aOffset)
 {
   anchor->registerObserver(this);
@@ -34,7 +39,7 @@ RelativePosition::~RelativePosition()
 
 void RelativePosition::removeAnchor()
 {
-  replaceAnchor(&zeroAnchor);
+  replaceAnchor(ZeroPosition::singleton());
 }
 
 void RelativePosition::replaceAnchor(Position *newAnchor)
@@ -59,7 +64,7 @@ Position *RelativePosition::getAnchor() const
 
 bool RelativePosition::hasAnchor() const
 {
-  return anchor != &zeroAnchor;
+  return anchor != ZeroPosition::singleton();
 }
 
 const Point &RelativePosition::getOffset() const

@@ -4,6 +4,7 @@
 #include "ConnectorTest.hpp"
 
 #include <core/instance/Connector.hpp>
+#include <core/instance/ConnectorFactory.hpp>
 #include <core/component/InstanceAppearance.hpp>
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
@@ -13,6 +14,8 @@ void ConnectorTest::create()
   Connector connector(Point(42, 57));
   CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getOffset());
   CPPUNIT_ASSERT(connector.getPoints().empty());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::addPortPoint()
@@ -20,11 +23,12 @@ void ConnectorTest::addPortPoint()
   Connector connector(Point(42, 57));
   RelativePosition pp(Point(0, 0));
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), connector.getPoints().size());
-
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(size_t(1), connector.getPoints().size());
   CPPUNIT_ASSERT_EQUAL(&pp, connector.getPoints()[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<Position*>(&connector), pp.getAnchor());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::addPortPointUpdatesPosition()
@@ -34,6 +38,8 @@ void ConnectorTest::addPortPointUpdatesPosition()
   connector.addPoint(&pp);
 
   CPPUNIT_ASSERT_EQUAL(Point(-10,-20), pp.getAbsolutePosition());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::positionOfPortIsWithinHeight()
@@ -71,6 +77,36 @@ void ConnectorTest::positionOfPortIsWithinHeight()
   CPPUNIT_ASSERT(pp4.getAbsolutePosition().y > pp3.getAbsolutePosition().y);
   CPPUNIT_ASSERT(pp4.getAbsolutePosition().y < bottom);
 
+  ConnectorFactory::cleanup(connector);
+}
+
+void ConnectorTest::removePortPoint()
+{
+  Connector connector(Point(42, 57));
+  RelativePosition pp(Point(0, 0));
+
+  connector.addPoint(&pp);
+  connector.removePoint(&pp);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(0), connector.getPoints().size());
+
+  ConnectorFactory::cleanup(connector);
+}
+
+void ConnectorTest::removePortPointUpdatesPosition()
+{
+  Connector connector(Point(-10,-20));
+  RelativePosition pp1(Point(20, 30));
+  RelativePosition pp2(Point(20, 30));
+  connector.addPoint(&pp1);
+  const Point pos1 = pp1.getAbsolutePosition();
+  connector.addPoint(&pp2);
+  CPPUNIT_ASSERT(pos1 != pp1.getAbsolutePosition());
+  connector.removePoint(&pp2);
+
+  CPPUNIT_ASSERT_EQUAL(pos1, pp1.getAbsolutePosition());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::setNewOffset()
@@ -80,6 +116,8 @@ void ConnectorTest::setNewOffset()
 
   connector.setOffset(Point(42, 57));
   CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getOffset());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::setOffsetUpdatesPortPoint()
@@ -91,6 +129,8 @@ void ConnectorTest::setOffsetUpdatesPortPoint()
 
   connector.setOffset(Point(-4,15));
   CPPUNIT_ASSERT_EQUAL(Point(-4,15), pp.getAbsolutePosition());
+
+  ConnectorFactory::cleanup(connector);
 }
 
 void ConnectorTest::notificationUpdatesPortPoint()
@@ -105,4 +145,6 @@ void ConnectorTest::notificationUpdatesPortPoint()
   base.setOffset(Point(10,20));
 
   CPPUNIT_ASSERT_EQUAL(Point(10,20), pp.getAbsolutePosition());
+
+  ConnectorFactory::cleanup(connector);
 }

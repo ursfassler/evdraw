@@ -139,3 +139,37 @@ void InstancePortTest::type_change_notifies_connector()
   InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }
+
+void InstancePortTest::addConnectionPoint_sets_position()
+{
+  Component *comp = ComponentFactory::produce("", {"left"}, {});
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = inst->getPorts()[0];
+  RelativePosition pos(Point(0,0));
+
+  port->addConnectionPoint(&pos);
+
+  CPPUNIT_ASSERT(pos.getAbsolutePosition().x < 0);
+  CPPUNIT_ASSERT(pos.getAbsolutePosition().y > 0);
+
+  InstanceFactory::dispose(inst);
+  ComponentFactory::dispose(comp);
+}
+
+void InstancePortTest::removeConnectionPoint_changes_position_of_others()
+{
+  Component *comp = ComponentFactory::produce("", {"left"}, {});
+  Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
+  InstancePort *port = inst->getPorts()[0];
+  RelativePosition pos1(Point(0,0));
+  RelativePosition pos2(Point(0,0));
+  port->addConnectionPoint(&pos1);
+  const Point point1 = pos1.getAbsolutePosition();
+  port->addConnectionPoint(&pos2);
+  port->removeConnectionPoint(&pos2);
+
+  CPPUNIT_ASSERT_EQUAL(point1, pos1.getAbsolutePosition());
+
+  InstanceFactory::dispose(inst);
+  ComponentFactory::dispose(comp);
+}

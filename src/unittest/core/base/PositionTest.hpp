@@ -22,6 +22,9 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(notifyGrandchildOnChange);
     CPPUNIT_TEST(setAnchorUpdatesPosition);
 
+    CPPUNIT_TEST(zeroPosition_get_singleton);
+    CPPUNIT_TEST(zeroPosition_singleton_is_always_the_same);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -35,6 +38,9 @@ class PositionTest : public CPPUNIT_NS::TestFixture
     void notifyChildOnChange();
     void notifyGrandchildOnChange();
     void setAnchorUpdatesPosition();
+
+    void zeroPosition_get_singleton();
+    void zeroPosition_singleton_is_always_the_same();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( PositionTest );
