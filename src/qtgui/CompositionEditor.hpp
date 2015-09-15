@@ -12,8 +12,9 @@
 
 #include <QWidget>
 #include <QTreeView>
+#include <QSplitter>
 
-class CompositionEditor : public QWidget
+class CompositionEditor : public QSplitter
 {
     Q_OBJECT
   public:

@@ -19,14 +19,13 @@
 #include <file/xmlreader/XmlReader.hpp>
 #include <file/xmlwriter/XmlWriter.hpp>
 
-#include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
 
 #include <QDebug>
 
 Workspace::Workspace(QWidget *parent) :
-  QWidget(parent),
+  QSplitter(Qt::Horizontal, parent),
   drawTabs(this)
 {
   QWidget *leftBar = new QWidget(this);
@@ -37,11 +36,8 @@ Workspace::Workspace(QWidget *parent) :
   leftLayout->addWidget(&portView);
   leftBar->setLayout(leftLayout);
 
-
-  QHBoxLayout *layout = new QHBoxLayout;
-  layout->addWidget(leftBar);
-  layout->addWidget(&drawTabs);
-  this->setLayout(layout);
+  this->addWidget(leftBar);
+  this->addWidget(&drawTabs);
 
   compView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
   portView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak

@@ -14,8 +14,11 @@
 #include <QListView>
 #include <QTabWidget>
 #include <QTreeView>
+#include <QSplitter>
 
-class Workspace : public QWidget, private LibraryObserver
+class Workspace :
+    public QSplitter,
+    private LibraryObserver
 {
     Q_OBJECT
   public:

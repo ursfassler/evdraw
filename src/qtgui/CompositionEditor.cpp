@@ -4,24 +4,26 @@
 #include "CompositionEditor.hpp"
 #include "view/ComboboxItemDelegate.hpp"
 
-#include <QGridLayout>
+#include <QVBoxLayout>
 #include <QLabel>
 
 CompositionEditor::CompositionEditor(Composition &composition, Library &library, QWidget *parent) :
-  QWidget(parent),
+  QSplitter(Qt::Horizontal, parent),
   draw(composition, this),
   instances(composition, library, this),
   connections(composition, this)
 {
-  QGridLayout *layout = new QGridLayout();
+  this->addWidget(&draw);
 
-  layout->addWidget(&draw, 0, 0, 4, 1);
-  layout->addWidget(new QLabel("Instances"), 0, 1, 1, 1);
-  layout->addWidget(&instanceView, 1, 1, 1, 1);
-  layout->addWidget(new QLabel("Connections"), 2, 1, 1, 1);
-  layout->addWidget(&connectionView, 3, 1, 1, 1);
+  QVBoxLayout *layout = new QVBoxLayout();
+  layout->addWidget(new QLabel("Instances"));
+  layout->addWidget(&instanceView);
+  layout->addWidget(new QLabel("Connections"));
+  layout->addWidget(&connectionView);
 
-  this->setLayout(layout);
+  QWidget *rightPanel = new QWidget();
+  rightPanel->setLayout(layout);
+  this->addWidget(rightPanel);
 
   instanceView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
   instanceView.setModel(&instances);
