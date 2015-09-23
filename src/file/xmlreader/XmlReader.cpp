@@ -117,6 +117,7 @@ std::string Loader::getAttribute(const TiXmlElement &element, const std::string 
 {
   std::string value = "";
   if (element.QueryStringAttribute(attribute.c_str(), &value) != TIXML_SUCCESS) {
+    throw std::invalid_argument("attribute " + attribute + " not defined");
   }
   return value;
 }
@@ -164,11 +165,13 @@ void Loader::portEnter(const TiXmlElement &element)
   component->addPort(port);
 }
 
-void Loader::compositionEnter(const TiXmlElement &)
+void Loader::compositionEnter(const TiXmlElement &element)
 {
   precondition(composition == nullptr);
 
   composition = new Composition();
+  composition->setWidth(std::atoi(getAttribute(element, "width").c_str()));
+  composition->setHeight(std::atoi(getAttribute(element, "height").c_str()));
 }
 
 void Loader::compositionExit()

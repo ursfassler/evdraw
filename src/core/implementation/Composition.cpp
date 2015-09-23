@@ -41,6 +41,26 @@ Composition::~Composition()
   assert(connectionUnderConstruction == nullptr);
 }
 
+PaperUnit Composition::getHeight() const
+{
+  return height;
+}
+
+void Composition::setHeight(PaperUnit value)
+{
+  height = value;
+}
+
+PaperUnit Composition::getWidth() const
+{
+  return width;
+}
+
+void Composition::setWidth(PaperUnit value)
+{
+  width = value;
+}
+
 const std::list<Instance *> &Composition::getInstances() const
 {
   return instances;

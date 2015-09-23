@@ -16,6 +16,9 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(addConnection);
     CPPUNIT_TEST(inherits_implementation);
 
+    CPPUNIT_TEST(setWidth);
+    CPPUNIT_TEST(setHeight);
+
     CPPUNIT_TEST(getInstance);
 
     CPPUNIT_TEST(deleteInstance);
@@ -41,6 +44,9 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void addInstance();
     void addConnection();
     void inherits_implementation();
+
+    void setWidth();
+    void setHeight();
 
     void getInstance();
 

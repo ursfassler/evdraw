@@ -13,10 +13,12 @@
 
 void CompositionTest::create()
 {
-  Composition sheet;
+  Composition composition;
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getInstances().size());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), sheet.getConnections().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getInstances().size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getHeight());
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getWidth());
 }
 
 void CompositionTest::addInstance()
@@ -39,16 +41,34 @@ void CompositionTest::addConnection()
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
-  Composition sheet;
-  sheet.addConnection(connection);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), sheet.getConnections().size());
-  CPPUNIT_ASSERT_EQUAL(connection, sheet.getConnections().front());
+  Composition composition;
+  composition.addConnection(connection);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
+  CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
 }
 
 void CompositionTest::inherits_implementation()
 {
   Composition composition;
   CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
+}
+
+void CompositionTest::setWidth()
+{
+  Composition composition;
+  composition.setWidth(11111);
+
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getHeight());
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(11111), composition.getWidth());
+}
+
+void CompositionTest::setHeight()
+{
+  Composition composition;
+  composition.setHeight(9812);
+
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(9812), composition.getHeight());
+  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getWidth());
 }
 
 void CompositionTest::getInstance()

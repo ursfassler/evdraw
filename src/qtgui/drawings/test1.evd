@@ -8,7 +8,9 @@
     <port type="signal" name="out3" />
   </component>
   <component name="draw">
-    <composition>
+    <port type="slot" name="slot" />
+    <port type="signal" name="signal" />
+    <composition width="800000" height="400000">
       <instance name="instance1" component="Component" x="-150000" y="0" >
       <instance name="instance2" component="Component" x="150000" y="0">
       <connection path="20000">

@@ -7,6 +7,7 @@
 
 #include <core/component/InstanceAppearance.hpp>
 #include <core/instance/InstanceFactory.hpp>
+#include "graphicItems/convert.hpp"
 
 CompositionDraw::CompositionDraw(Composition &aComposition, QWidget *parent) :
   QGraphicsView(parent),
@@ -15,6 +16,10 @@ CompositionDraw::CompositionDraw(Composition &aComposition, QWidget *parent) :
   composition(aComposition)
 {
   setScene(&scene);
+
+  const qreal width = puToScene(composition.getWidth());
+  scene.setSceneRect(-width/2, 0, width, puToScene(composition.getHeight()));
+  scene.addRect(scene.sceneRect());
 
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);

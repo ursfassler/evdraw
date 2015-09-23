@@ -132,7 +132,7 @@ void XmlReaderTest::compositionEmpty()
   const std::string xml =
       "<evdraw>"
       "  <component name=\"\">"
-      "    <composition />"
+      "    <composition width=\"1234\" height=\"6543\"' />"
       "  </component>"
       "</evdraw>";
 
@@ -141,7 +141,10 @@ void XmlReaderTest::compositionEmpty()
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
   Component *comp = lib->getComponents().front();
-  CPPUNIT_ASSERT(dynamic_cast<Composition*>(comp->getImplementation()) != nullptr);
+  Composition *composition = dynamic_cast<Composition*>(comp->getImplementation());
+  CPPUNIT_ASSERT(composition != nullptr);
+  CPPUNIT_ASSERT_EQUAL(1234, composition->getWidth());
+  CPPUNIT_ASSERT_EQUAL(6543, composition->getHeight());
 
   delete lib;
 }
@@ -152,7 +155,7 @@ void XmlReaderTest::compositionWithInstance()
       "<evdraw>"
       "  <component name=\"empty\" />"
       "  <component name=\"full\">"
-      "    <composition>"
+      "    <composition width=\"1234\" height=\"6543\">"
       "      <instance name=\"instance\" component=\"empty\" x=\"10\" y=\"20\" >"
       "    </composition>"
       "  </component>"
@@ -188,7 +191,7 @@ void XmlReaderTest::compositionWithConnection()
       "    <port type=\"signal\" name=\"out\" />"
       "  </component>"
       "  <component name=\"full\">"
-      "    <composition>"
+      "    <composition width=\"1234\" height=\"6543\">"
       "      <instance name=\"instance\" component=\"empty\" x=\"0\" y=\"0\" >"
       "      <connection path=\"100 -135 -120\" >"
       "        <instanceport instance=\"instance\" port=\"out\" />"
@@ -232,7 +235,7 @@ void XmlReaderTest::openFile()
       "    <port type=\"signal\" name=\"out\" />"
       "  </component>"
       "  <component name=\"full\">"
-      "    <composition>"
+      "    <composition width=\"1234\" height=\"6543\">"
       "      <instance name=\"instance\" component=\"empty\" x=\"0\" y=\"0\" >"
       "      <connection path=\"100 -135 -120\" >"
       "        <instanceport instance=\"instance\" port=\"out\" />"

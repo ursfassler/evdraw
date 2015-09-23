@@ -87,6 +87,9 @@ std::string XmlNodeWriter::buildPath(const std::vector<PaperUnit> &path) const
 void XmlNodeWriter::visit(const Composition &composition)
 {
   TiXmlElement *element = new TiXmlElement("composition");
+  element->SetAttribute("width", std::to_string(composition.getWidth()));
+  element->SetAttribute("height", std::to_string(composition.getHeight()));
+
   parent->LinkEndChild(element);
   XmlNodeWriter writer(element);
 

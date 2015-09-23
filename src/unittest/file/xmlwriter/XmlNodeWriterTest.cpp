@@ -159,11 +159,15 @@ void XmlNodeWriterTest::writeInstance()
 void XmlNodeWriterTest::writeEmptyComposition()
 {
   Composition composition;
+  composition.setWidth(123);
+  composition.setHeight(456);
   composition.accept(*writer);
 
   CPPUNIT_ASSERT_EQUAL(std::string("composition"), name());
   CPPUNIT_ASSERT_EQUAL(0, childrenCount());
-  CPPUNIT_ASSERT_EQUAL(0, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(2, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("123"), attr("width"));
+  CPPUNIT_ASSERT_EQUAL(std::string("456"), attr("height"));
 }
 
 void XmlNodeWriterTest::writeCompositionWithInstances()
@@ -177,11 +181,13 @@ void XmlNodeWriterTest::writeCompositionWithInstances()
   composition.accept(*writer);
 
   CPPUNIT_ASSERT_EQUAL(std::string("composition"), name());
+  CPPUNIT_ASSERT_EQUAL(2, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("width"));
+  CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("height"));
   CPPUNIT_ASSERT_EQUAL(3, childrenCount());
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance1"), childAttr(0, "name"));
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance2"), childAttr(1, "name"));
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance3"), childAttr(2, "name"));
-  CPPUNIT_ASSERT_EQUAL(0, attributeCount());
 }
 
 void XmlNodeWriterTest::writeCompositionWithConnections()
@@ -198,6 +204,9 @@ void XmlNodeWriterTest::writeCompositionWithConnections()
   CPPUNIT_ASSERT_EQUAL(std::string("composition"), name());
   CPPUNIT_ASSERT_EQUAL(1, childrenCount());
   CPPUNIT_ASSERT_EQUAL(std::string("connection"), childName(0));
+  CPPUNIT_ASSERT_EQUAL(2, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("width"));
+  CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("height"));
 
   delete composition;
   InstanceFactory::dispose(inst2);
