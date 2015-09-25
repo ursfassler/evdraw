@@ -16,6 +16,9 @@ Instance::Instance(const std::string &aName, const Point &aPosition, Component *
 
 Instance::~Instance()
 {
+  precondition(!ObserverCollection<InstanceObserver>::hasObserver());
+  precondition(!ObserverCollection<PositionObserver>::hasObserver());
+
   component->unregisterObserver(this);
 }
 

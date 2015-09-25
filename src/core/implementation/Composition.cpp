@@ -21,23 +21,23 @@ Composition::Composition() :
 
 Composition::~Composition()
 {
+  const std::list<Connection *> connections = getConnections();
   for (Connection *connection : connections) {
-    ConnectionFactory::dispose(connection);
+    deleteConnection(connection);
   }
-  connections.clear();
 
   if (connectionUnderConstruction != nullptr) {
     ConnectionFactory::dispose(connectionUnderConstruction);
     connectionUnderConstruction = nullptr;
   }
 
+  const std::list<Instance *> instances = getInstances();
   for (Instance *instance : instances) {
-    InstanceFactory::dispose(instance);
+    deleteInstance(instance);
   }
-  instances.clear();
 
-  assert(instances.empty());
-  assert(connections.empty());
+  assert(getInstances().empty());
+  assert(getConnections().empty());
   assert(connectionUnderConstruction == nullptr);
 }
 

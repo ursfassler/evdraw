@@ -218,6 +218,7 @@ void CompositionTest::notify_when_deleteInstance()
   CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceRemoved);
 
   ComponentFactory::dispose(component);
+  composition->unregisterObserver(&observer);
   delete composition;
 }
 

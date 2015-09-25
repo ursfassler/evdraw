@@ -24,7 +24,7 @@ class ObserverCollection
 
     virtual ~ObserverCollection()
     {
-//      assert(observers.empty());
+      precondition(observers.empty());
     }
 
     bool hasObserver() const

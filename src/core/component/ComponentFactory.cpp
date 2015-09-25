@@ -33,10 +33,10 @@ Component *ComponentFactory::produce(const std::string &name, const std::vector<
 
 void ComponentFactory::cleanup(Component &component)
 {
-  for (ComponentPort *port : component.ports) {
-    delete port;
+  const std::vector<ComponentPort *> ports = component.getPorts();
+  for (ComponentPort *port : ports) {
+    component.deletePort(port);
   }
-  component.ports.clear();
 
   postcondition(component.ports.empty());
 }

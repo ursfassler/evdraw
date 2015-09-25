@@ -9,6 +9,11 @@ ComponentPort::ComponentPort(const std::string &aName, PortType aType) :
 {
 }
 
+ComponentPort::~ComponentPort()
+{
+  precondition(!hasObserver());
+}
+
 const std::string &ComponentPort::getName() const
 {
   return name;

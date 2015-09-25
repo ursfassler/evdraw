@@ -73,6 +73,8 @@ void LibraryObserverTest::getInformedOnAdd()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newComponents.size());
   CPPUNIT_ASSERT_EQUAL(component, observer.newComponents[0]);
+
+  library.unregisterObserver(&observer);
 }
 
 void LibraryObserverTest::getInformedOnDelete()
@@ -87,4 +89,6 @@ void LibraryObserverTest::getInformedOnDelete()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.delComponents.size());
   CPPUNIT_ASSERT_EQUAL(component, observer.delComponents[0]);
+
+  library.unregisterObserver(&observer);
 }

@@ -88,6 +88,8 @@ void ComponentObserverTest::notify_nameChanged()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newName.size());
   CPPUNIT_ASSERT_EQUAL(std::string("new name"), observer.newName[0]);
+
+  component.unregisterObserver(&observer);
 }
 
 void ComponentObserverTest::do_not_notify_if_name_is_the_same()
@@ -99,6 +101,8 @@ void ComponentObserverTest::do_not_notify_if_name_is_the_same()
   component.setName("theName");
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newName.size());
+
+  component.unregisterObserver(&observer);
 }
 
 void ComponentObserverTest::notify_portAdded()
@@ -113,7 +117,8 @@ void ComponentObserverTest::notify_portAdded()
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.newPorts[0]);
 
-  delete port;
+  component.unregisterObserver(&observer);
+  component.deletePort(port);
 }
 
 void ComponentObserverTest::notify_portDeleted()
@@ -128,6 +133,8 @@ void ComponentObserverTest::notify_portDeleted()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.delPorts.size());
   CPPUNIT_ASSERT_EQUAL(port, observer.delPorts[0]);
+
+  component.unregisterObserver(&observer);
 }
 
 void ComponentObserverTest::notify_heightChanged_on_addPort()
@@ -141,6 +148,7 @@ void ComponentObserverTest::notify_heightChanged_on_addPort()
 
   CPPUNIT_ASSERT_EQUAL(unsigned(1), observer.changedHeights);
 
+  component.unregisterObserver(&observer);
   ComponentFactory::cleanup(component);
 }
 
@@ -157,6 +165,7 @@ void ComponentObserverTest::notify_heightChanged_on_deletePort()
 
   CPPUNIT_ASSERT_EQUAL(unsigned(1), observer.changedHeights);
 
+  component.unregisterObserver(&observer);
   ComponentFactory::cleanup(component);
 }
 
@@ -175,5 +184,6 @@ void ComponentObserverTest::notify_heightChanged_on_portTypeChange()
 
   CPPUNIT_ASSERT_EQUAL(unsigned(1), observer.changedHeights);
 
+  component.unregisterObserver(&observer);
   ComponentFactory::cleanup(component);
 }

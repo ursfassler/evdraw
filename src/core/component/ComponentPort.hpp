@@ -28,6 +28,7 @@ class ComponentPort final :
 {
   public:
     ComponentPort(const std::string &name, PortType type);
+    ~ComponentPort();
 
     const std::string &getName() const;
     void setName(const std::string &name);
