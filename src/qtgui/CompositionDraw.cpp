@@ -17,8 +17,8 @@ CompositionDraw::CompositionDraw(Composition &aComposition, QWidget *parent) :
 {
   setScene(&scene);
 
-  const qreal width = puToScene(composition.getWidth());
-  scene.setSceneRect(-width/2, 0, width, puToScene(composition.getHeight()));
+  const qreal width = puToScene(composition.getSelfInstance()->getWidth());
+  scene.setSceneRect(-width/2, 0, width, puToScene(composition.getSelfInstance()->getHeight()));
   scene.addRect(scene.sceneRect());
 
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));

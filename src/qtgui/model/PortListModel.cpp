@@ -78,7 +78,7 @@ QAbstractListModel *PortListModel::getTypes() const
 QModelIndex PortListModel::getType(uint row) const
 {
   const ComponentPort *port = getPort(row);
-  return getTypes()->index(uint(port->getType()), 0);  //FIXME memory leak?
+  return typeModel->index(uint(port->getType()), 0);
 }
 
 bool PortListModel::setType(uint row, const QVariant &value)

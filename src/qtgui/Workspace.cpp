@@ -46,11 +46,15 @@ Workspace::Workspace(QWidget *parent) :
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
 
   newFile();
+
+  postcondition(componentModel != nullptr);
 }
 
 Workspace::~Workspace()
 {
   removeLibrary();
+
+  postcondition(componentModel == nullptr);
 }
 
 Library *Workspace::getLibrary() const
@@ -152,13 +156,14 @@ void Workspace::removeLibrary()
   }
 
   if (portModel != nullptr) {
-    portModel->deleteLater();
+    delete portModel;
     portModel = nullptr;
   }
 
   if (componentModel != nullptr) {
+    compView.setModel(nullptr);
     componentModel->getLibrary()->unregisterObserver(this);
-    componentModel->deleteLater();
+    delete componentModel;
     componentModel = nullptr;
   }
   library = nullptr;
@@ -168,8 +173,10 @@ void Workspace::newLibrary(Library *library)
 {
   removeLibrary();
 
+  precondition(componentModel == nullptr);
+
   componentModel = new ComponentListModel(library);
-  compView.setModel(componentModel); //FIXME memory leak
+  compView.setModel(componentModel);
   library->registerObserver(this);
 
   this->library = library;

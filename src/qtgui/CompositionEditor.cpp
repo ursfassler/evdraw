@@ -32,3 +32,9 @@ CompositionEditor::CompositionEditor(Composition &composition, Library &library,
   connect(&draw, SIGNAL(addInstance(Point,Composition&)), this, SIGNAL(addInstance(Point,Composition&)));
 }
 
+CompositionEditor::~CompositionEditor()
+{
+  connectionView.setModel(nullptr);
+  instanceView.setModel(nullptr);
+}
+

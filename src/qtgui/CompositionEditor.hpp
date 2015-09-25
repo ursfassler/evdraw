@@ -19,6 +19,7 @@ class CompositionEditor : public QSplitter
     Q_OBJECT
   public:
     explicit CompositionEditor(Composition &composition, Library &library, QWidget *parent = 0);
+    ~CompositionEditor();
 
   signals:
     void addInstance(Point position, Composition &composition);

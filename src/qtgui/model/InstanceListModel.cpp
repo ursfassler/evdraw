@@ -23,6 +23,7 @@ InstanceListModel::~InstanceListModel()
     instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   }
   composition.unregisterObserver(this);
+  delete typeModel;
 }
 
 int InstanceListModel::rowCount(const QModelIndex &) const
