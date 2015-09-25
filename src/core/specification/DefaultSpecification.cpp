@@ -3,7 +3,7 @@
 
 #include "DefaultSpecification.hpp"
 
-#include <core/specification/OrSpecification.hpp>
+#include "OrSpecification.hpp"
 
 Specification *DefaultSpecification::or_(const Specification *right) const
 {
