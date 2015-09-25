@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "CompositionTest.hpp"
+#include "CompositionInstanceMock.hpp"
 
 #include <core/implementation/Composition.hpp>
 #include <core/component/Component.hpp>
@@ -13,17 +14,17 @@
 
 void CompositionTest::create()
 {
-  Composition composition;
+  ICompositionInstance *instance = new CompositionInstanceMock();
+  Composition composition(instance);
 
+  CPPUNIT_ASSERT_EQUAL(instance, composition.getSelfInstance());
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getInstances().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getHeight());
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getWidth());
 }
 
 void CompositionTest::addInstance()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
@@ -41,7 +42,7 @@ void CompositionTest::addConnection()
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
@@ -49,31 +50,13 @@ void CompositionTest::addConnection()
 
 void CompositionTest::inherits_implementation()
 {
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
-}
-
-void CompositionTest::setWidth()
-{
-  Composition composition;
-  composition.setWidth(11111);
-
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getHeight());
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(11111), composition.getWidth());
-}
-
-void CompositionTest::setHeight()
-{
-  Composition composition;
-  composition.setHeight(9812);
-
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(9812), composition.getHeight());
-  CPPUNIT_ASSERT_EQUAL(PaperUnit(0), composition.getWidth());
 }
 
 void CompositionTest::getInstance()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
@@ -86,7 +69,7 @@ void CompositionTest::getInstance()
 
 void CompositionTest::deleteInstance()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
@@ -104,7 +87,7 @@ void CompositionTest::deleteConnection()
   SimplePort endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   composition.deleteConnection(connection);
@@ -113,7 +96,7 @@ void CompositionTest::deleteConnection()
 
 void CompositionTest::deleteInstance_removes_dependant_connections()
 {
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
 
   Component *component = ComponentFactory::produce("Component", {"in"}, {"out"});
   Instance *instance = InstanceFactory::produce(component, "Instance", Point(0,0));
@@ -171,7 +154,7 @@ class SheetObserverTest : public CompositionObserver
 
 void CompositionTest::notify_when_addInstance()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   SheetObserverTest observer;
   composition->registerObserver(&observer);
 
@@ -189,7 +172,7 @@ void CompositionTest::notify_when_addInstance()
 
 void CompositionTest::notify_when_addConnection()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   SheetObserverTest observer;
   composition->registerObserver(&observer);
 
@@ -206,7 +189,7 @@ void CompositionTest::notify_when_addConnection()
 
 void CompositionTest::notify_when_deleteInstance()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   SheetObserverTest observer;
   composition->registerObserver(&observer);
   Component *component = ComponentFactory::produce("Component", {}, {});
@@ -224,7 +207,7 @@ void CompositionTest::notify_when_deleteInstance()
 
 void CompositionTest::notify_when_deleteConnection()
 {
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   SheetObserverTest observer;
   composition->registerObserver(&observer);
 
@@ -246,7 +229,7 @@ void CompositionTest::addConnectionUnderConstruction_notifies_observer()
   SimplePort endPort;
 
   SheetObserverTest observer;
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.registerObserver(&observer);
 
   composition.startConnectionConstruction(&startPort, &endPort);
@@ -260,7 +243,7 @@ void CompositionTest::can_not_overwrite_connectionUnderConstruction()
   SimplePort startPort;
   SimplePort endPort;
 
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.startConnectionConstruction(&startPort, &endPort);
 
   CPPUNIT_ASSERT_THROW(composition.startConnectionConstruction(&startPort, &endPort), PreconditionError);
@@ -272,7 +255,7 @@ void CompositionTest::finishConnectionCreation()
   SimplePort tmpEnd;
   SimplePort endPort;
 
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.startConnectionConstruction(&startPort, &tmpEnd);
   Connection *connection = composition.getConnectionUnderConstruction();
 
@@ -284,10 +267,20 @@ void CompositionTest::finishConnectionCreation()
   CPPUNIT_ASSERT(!composition.hasConnectionUnderConstruction());
 }
 
+void CompositionTest::has_instance_with_his_parent_component()
+{
+  ICompositionInstance *compInstance = new CompositionInstanceMock();
+  Composition *composition = new Composition(compInstance);
+
+  CPPUNIT_ASSERT_EQUAL(compInstance, composition->getSelfInstance());
+
+  delete composition;
+}
+
 void CompositionTest::deleteInstancePort_removes_dependant_connections()
 {
   Component *comp1 = ComponentFactory::produce("comp1", {"in"}, {"out"});
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   Instance *inst = InstanceFactory::produce(comp1, "inst", Point(0,0));
   composition->addInstance(inst);
   InstancePort *portOut = inst->getPort("out");

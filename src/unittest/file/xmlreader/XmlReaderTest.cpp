@@ -143,8 +143,9 @@ void XmlReaderTest::compositionEmpty()
   Component *comp = lib->getComponents().front();
   Composition *composition = dynamic_cast<Composition*>(comp->getImplementation());
   CPPUNIT_ASSERT(composition != nullptr);
-  CPPUNIT_ASSERT_EQUAL(1234, composition->getWidth());
-  CPPUNIT_ASSERT_EQUAL(6543, composition->getHeight());
+  ICompositionInstance *selfInst = composition->getSelfInstance();
+  CPPUNIT_ASSERT_EQUAL(1234, selfInst->getWidth());
+  CPPUNIT_ASSERT_EQUAL(6543, selfInst->getHeight());
 
   delete lib;
 }

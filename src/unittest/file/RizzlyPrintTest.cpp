@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "RizzlyPrintTest.hpp"
+#include "../core/implementation/CompositionInstanceMock.hpp"
 
 #include <file/RizzlyPrint.hpp>
 #include <core/component/ComponentFactory.hpp>
@@ -24,9 +25,9 @@ void RizzlyPrintTest::printEmpty()
 {
   std::stringstream ss;
   RizzlyPrint printer(ss);
-  Composition sheet;
+  Composition composition{new CompositionInstanceMock()};
 
-  printer.print(sheet);
+  printer.print(composition);
 
   CPPUNIT_ASSERT_EQUAL(std::string(""), ss.str());
 }
@@ -37,7 +38,7 @@ void RizzlyPrintTest::onlyInstance()
   RizzlyPrint printer(ss);
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   composition->addInstance(instance);
 
   printer.print(*composition);
@@ -58,7 +59,7 @@ void RizzlyPrintTest::connection()
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   Connection *connection = ConnectionFactory::produce(instance->getPorts().front(), instance->getPorts().back());
 
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   composition->addInstance(instance);
   composition->addConnection(connection);
 

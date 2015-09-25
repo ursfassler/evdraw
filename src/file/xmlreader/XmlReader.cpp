@@ -168,10 +168,12 @@ void Loader::portEnter(const TiXmlElement &element)
 void Loader::compositionEnter(const TiXmlElement &element)
 {
   precondition(composition == nullptr);
+  precondition(component != nullptr);
 
-  composition = new Composition();
-  composition->setWidth(std::atoi(getAttribute(element, "width").c_str()));
-  composition->setHeight(std::atoi(getAttribute(element, "height").c_str()));
+  CompositionInstance *instance = new CompositionInstance(component);
+  instance->setWidth(std::atoi(getAttribute(element, "width").c_str()));
+  instance->setHeight(std::atoi(getAttribute(element, "height").c_str()));
+  composition = new Composition(instance);
 }
 
 void Loader::compositionExit()

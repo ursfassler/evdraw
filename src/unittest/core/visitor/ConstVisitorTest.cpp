@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ConstVisitorTest.hpp"
+#include "../implementation/CompositionInstanceMock.hpp"
 
 #include <core/visitor/ConstVisitor.hpp>
 
@@ -152,7 +153,7 @@ void ConstVisitorTest::composition()
 {
   TestConstVisitor visitor;
 
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());

@@ -124,7 +124,12 @@ HEADERS += \
     core/implementation/ImplementationType.hpp \
     unittest/core/instance/ConnectorFactoryTest.hpp \
     core/instance/ConnectorFactory.hpp \
-    unittest/core/component/PortTypeTest.hpp
+    unittest/core/component/PortTypeTest.hpp \
+    unittest/core/implementation/CompositionInstanceTest.hpp \
+    core/implementation/CompositionInstance.hpp \
+    unittest/core/implementation/CompositionInstanceMock.hpp \
+    unittest/core/implementation/CompositionMock.hpp \
+    unittest/core/component/ComponentMock.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -222,7 +227,9 @@ SOURCES += \
     unittest/core/implementation/ImplementationTypeTest.cpp \
     core/implementation/ImplementationType.cpp \
     unittest/core/instance/ConnectorFactoryTest.cpp \
-    core/instance/ConnectorFactory.cpp
+    core/instance/ConnectorFactory.cpp \
+    unittest/core/implementation/CompositionInstanceTest.cpp \
+    core/implementation/CompositionInstance.cpp
 
 DISTFILES += \
     ../README.md \

@@ -60,11 +60,6 @@ void AbstractInstanceTest::destructorIsVirtual()
   CPPUNIT_ASSERT(destroyed);
 }
 
-void AbstractInstanceTest::inheritsVisitorClient()
-{
-  CPPUNIT_ASSERT(dynamic_cast<VisitorClient*>(instance) != nullptr);
-}
-
 void AbstractInstanceTest::inheritsPosition()
 {
   CPPUNIT_ASSERT(dynamic_cast<Position*>(instance) != nullptr);

@@ -16,9 +16,6 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(addConnection);
     CPPUNIT_TEST(inherits_implementation);
 
-    CPPUNIT_TEST(setWidth);
-    CPPUNIT_TEST(setHeight);
-
     CPPUNIT_TEST(getInstance);
 
     CPPUNIT_TEST(deleteInstance);
@@ -37,6 +34,8 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(finishConnectionCreation);
 
+    CPPUNIT_TEST(has_instance_with_his_parent_component);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -44,9 +43,6 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void addInstance();
     void addConnection();
     void inherits_implementation();
-
-    void setWidth();
-    void setHeight();
 
     void getInstance();
 
@@ -64,6 +60,8 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void can_not_overwrite_connectionUnderConstruction();
 
     void finishConnectionCreation();
+
+    void has_instance_with_his_parent_component();
 
 };
 

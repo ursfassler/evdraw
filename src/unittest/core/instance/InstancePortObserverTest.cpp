@@ -8,6 +8,7 @@ void InstancePortObserverTest::setUp()
   component = new ComponentPort("", PortType::Signal);
   instance = new DummyInstance();
   port = new InstancePort(instance, component);
+  port->replaceAnchor(instance);
 }
 
 void InstancePortObserverTest::tearDown()

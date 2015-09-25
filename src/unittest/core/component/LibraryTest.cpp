@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "LibraryTest.hpp"
+#include "../implementation/CompositionInstanceMock.hpp"
 
 #include <core/component/Library.hpp>
 #include <core/component/Component.hpp>
@@ -61,7 +62,7 @@ void LibraryTest::deleteComponent()
 void LibraryTest::deleteComponentRemovesDepdantInstances()
 {
   Component *comp1 = ComponentFactory::produce("comp1");
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   Instance *inst = new Instance("inst", Point(0,0), comp1);
   composition->addInstance(inst);
   Component *comp2 = new Component("comp2", composition);

@@ -14,7 +14,6 @@ class AbstractInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( AbstractInstanceTest );
 
     CPPUNIT_TEST(destructorIsVirtual);
-    CPPUNIT_TEST(inheritsVisitorClient);
     CPPUNIT_TEST(inheritsPosition);
     CPPUNIT_TEST(hasGetName);
 
@@ -25,7 +24,6 @@ class AbstractInstanceTest: public CPPUNIT_NS::TestFixture
     void tearDown();
 
     void destructorIsVirtual();
-    void inheritsVisitorClient();
     void inheritsPosition();
     void hasGetName();
 

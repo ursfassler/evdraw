@@ -13,10 +13,12 @@
 #include <algorithm>
 #include <cassert>
 
-Composition::Composition() :
-  instances(),
-  connections()
+Composition::Composition(ICompositionInstance *aSelfInstance) :
+  selfInstance{aSelfInstance},
+  instances{},
+  connections{}
 {
+  precondition(aSelfInstance != nullptr);
 }
 
 Composition::~Composition()
@@ -36,29 +38,16 @@ Composition::~Composition()
     deleteInstance(instance);
   }
 
+  delete selfInstance;
+
   assert(getInstances().empty());
   assert(getConnections().empty());
   assert(connectionUnderConstruction == nullptr);
 }
 
-PaperUnit Composition::getHeight() const
+ICompositionInstance *Composition::getSelfInstance() const
 {
-  return height;
-}
-
-void Composition::setHeight(PaperUnit value)
-{
-  height = value;
-}
-
-PaperUnit Composition::getWidth() const
-{
-  return width;
-}
-
-void Composition::setWidth(PaperUnit value)
-{
-  width = value;
+  return selfInstance;
 }
 
 const std::list<Instance *> &Composition::getInstances() const

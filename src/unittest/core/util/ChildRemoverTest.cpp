@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ChildRemoverTest.hpp"
+#include "../implementation/CompositionInstanceMock.hpp"
 
 #include <core/util/ChildRemover.hpp>
 #include <core/specification/AlwaysSatisfiedSpecification.hpp>
@@ -24,7 +25,7 @@ void ChildRemoverTest::compositionRemovesInstance()
 {
   Component *component = ComponentFactory::produce("component");
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.addInstance(instance);
 
   AlwaysSatisfiedSpecification alwaysTrue;
@@ -39,7 +40,7 @@ void ChildRemoverTest::compositionRemovesInstance()
 
 void ChildRemoverTest::compositionRemovesConnection()
 {
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   SimplePort portA;
   SimplePort portB;
   Connection *connection = ConnectionFactory::produce(&portA, &portB);

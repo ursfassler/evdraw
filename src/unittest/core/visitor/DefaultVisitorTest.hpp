@@ -5,6 +5,7 @@
 #define DEFAULTVISITORTEST_HPP
 
 #include "unittest/testtypes.hpp"
+#include "../implementation/CompositionInstanceMock.hpp"
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

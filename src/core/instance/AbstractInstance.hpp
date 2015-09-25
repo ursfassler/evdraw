@@ -8,7 +8,18 @@
 #include "../base/Position.hpp"
 #include "../visitor/VisitorClient.hpp"
 
-class AbstractInstance : public VisitorClient, public RelativePosition
+class IInstance :
+    public VisitorClient
+{
+  public:
+    virtual ~IInstance(){}
+
+    virtual const std::string &getName() const = 0;
+};
+
+class AbstractInstance :
+    public IInstance,
+    public RelativePosition
 {
   public:
     AbstractInstance(const Point &offset) :
@@ -20,7 +31,6 @@ class AbstractInstance : public VisitorClient, public RelativePosition
     {
     }
 
-    virtual const std::string &getName() const = 0;
 };
 
 #endif // ABSTRACTINSTANCE_HPP

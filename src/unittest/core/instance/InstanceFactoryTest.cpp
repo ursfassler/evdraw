@@ -63,7 +63,7 @@ void InstanceFactoryTest::produceWithPorts()
     return dynamic_cast<InstancePort*>(instance->getPorts()[i]);
   };
 
-  AbstractInstance *ainst = dynamic_cast<AbstractInstance*>(instance);
+  IInstance *ainst = instance;
   CPPUNIT_ASSERT(ainst != nullptr);
   CPPUNIT_ASSERT_EQUAL(ainst, ip(0)->getInstance());
   CPPUNIT_ASSERT_EQUAL(ainst, ip(1)->getInstance());

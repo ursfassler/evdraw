@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ConnectionParserTest.hpp"
+#include "../../core/implementation/CompositionInstanceMock.hpp"
 
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
@@ -15,7 +16,7 @@ void ConnectionTestEnvironment::setUp()
   theInstance = InstanceFactory::produce(compA, "theInstance", Point(0,0));
   theInstPort1 = theInstance->getPort("thePort1");
   theInstPort2 = theInstance->getPort("thePort2");
-  composition = new Composition();
+  composition = new Composition(new CompositionInstanceMock());
   composition->addInstance(theInstance);
   compB = new Component("CompB", composition);
 

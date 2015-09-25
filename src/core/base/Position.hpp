@@ -36,7 +36,9 @@ class ZeroPosition : public Position
 
 };
 
-class RelativePosition : public Position, public PositionObserver
+class RelativePosition :
+    public Position,
+    public PositionObserver
 {
   public:
     RelativePosition(const Point &offset);

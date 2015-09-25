@@ -47,8 +47,8 @@ class Instance final :
     const std::vector<InstancePort *> &getPorts() const;
     InstancePort *getPort(const std::string &name) const;
 
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
+    void accept(Visitor &visitor) override;
+    void accept(ConstVisitor &visitor) const override;
 
   private:
     std::string name;

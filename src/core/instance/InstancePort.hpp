@@ -29,7 +29,7 @@ class InstancePort final :
     private ComponentPortObserver
 {
   public:
-    InstancePort(AbstractInstance *instance, ComponentPort *compPort);
+    InstancePort(IInstance *instance, ComponentPort *compPort);
     ~InstancePort();
 
     InstancePort(const InstancePort &) = delete;
@@ -39,17 +39,17 @@ class InstancePort final :
     Connector &getConnector();
     std::string getName() const;
     Point getPosition() const;
-    AbstractInstance *getInstance() const;
+    IInstance *getInstance() const;
     PortType getType() const;
 
     void addConnectionPoint(RelativePosition *point);
     void removeConnectionPoint(RelativePosition *point);
 
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
+    void accept(Visitor &visitor) override;
+    void accept(ConstVisitor &visitor) const override;
 
   private:
-    AbstractInstance * const owner;
+    IInstance * const owner;
     ComponentPort * const compPort;
     Connector connector;
 

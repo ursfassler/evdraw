@@ -22,7 +22,8 @@ void InstancePortTest::createPort()
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort()->getName());
   CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
   CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getOffset().y);
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractInstance*>(inst), port->getInstance());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IInstance*>(inst), port->getInstance());
+  CPPUNIT_ASSERT(!port->hasAnchor());
 
   delete port;
   InstanceFactory::dispose(inst);
@@ -72,6 +73,7 @@ void InstancePortTest::position_change_notification_notifies_connector()
   Component *comp = ComponentFactory::produce("", {"left"}, {});
   Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
   InstancePort *port = new InstancePort(inst, comp->getPorts()[0]);
+  port->replaceAnchor(inst);
 
   Point pos = port->getConnector().getAbsolutePosition();
   inst->setOffset(Point(10,20));

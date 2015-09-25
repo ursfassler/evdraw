@@ -4,6 +4,7 @@
 #ifndef COMPOSITION_HPP
 #define COMPOSITION_HPP
 
+#include "CompositionInstance.hpp"
 #include "../instance/Instance.hpp"
 #include "../instance/InstancePort.hpp"
 #include "../connection/Connection.hpp"
@@ -25,22 +26,26 @@ class CompositionObserver
     virtual void finishConnectionUnderConstruction(Connection *connection);
 };
 
+class IComposition
+{
+  public:
+    virtual ~IComposition(){}
+};
+
 class Composition final :
+    public IComposition,
     public AbstractImplementation,
     public ObserverCollection<CompositionObserver>,
     public InstanceObserver
 {
   public:
-    Composition();
+    Composition(ICompositionInstance *selfInstance);
     ~Composition();
 
     Composition(const Composition &) = delete;
     bool operator=(const Composition &) = delete;
 
-    PaperUnit getHeight() const;
-    void setHeight(PaperUnit value);
-    PaperUnit getWidth() const;
-    void setWidth(PaperUnit value);
+    ICompositionInstance *getSelfInstance() const;
 
     const std::list<Instance *> &getInstances() const;
     void addInstance(Instance *instance);
@@ -63,9 +68,8 @@ class Composition final :
     void portDeleted(InstancePort *port);
 
   private:
-    PaperUnit height = 0;
-    PaperUnit width = 0;
     Connection  *connectionUnderConstruction = nullptr;
+    ICompositionInstance *selfInstance;
     std::list<Instance *> instances;
     std::list<Connection *> connections;
 

@@ -2,6 +2,9 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "XmlNodeWriterTest.hpp"
+#include "../../core/implementation/CompositionMock.hpp"
+#include "../../core/implementation/CompositionInstanceMock.hpp"
+#include "../../core/component/ComponentMock.hpp"
 
 #include <core/component/Library.hpp>
 #include <core/component/Component.hpp>
@@ -119,7 +122,8 @@ void XmlNodeWriterTest::writeComponentWithSlotsAndSignalsKeepsOrder()
 
 void XmlNodeWriterTest::writeComponentWithComposition()
 {
-  Component component("Compo", new Composition());
+  Composition *composition = new Composition(new CompositionInstanceMock());
+  Component component("Compo", composition);
 
   component.accept(*writer);
 
@@ -158,9 +162,11 @@ void XmlNodeWriterTest::writeInstance()
 
 void XmlNodeWriterTest::writeEmptyComposition()
 {
-  Composition composition;
-  composition.setWidth(123);
-  composition.setHeight(456);
+  ComponentMock component;
+  CompositionInstance *selfInst = new CompositionInstance(&component);
+  Composition composition{selfInst};
+  selfInst->setWidth(123);
+  selfInst->setHeight(456);
   composition.accept(*writer);
 
   CPPUNIT_ASSERT_EQUAL(std::string("composition"), name());
@@ -173,7 +179,7 @@ void XmlNodeWriterTest::writeEmptyComposition()
 void XmlNodeWriterTest::writeCompositionWithInstances()
 {
   Component component("Component", new NullImplementation());
-  Composition composition;
+  Composition composition{new CompositionInstanceMock()};
   composition.addInstance(new Instance("theInstance1", Point(0,0), &component));
   composition.addInstance(new Instance("theInstance2", Point(0,0), &component));
   composition.addInstance(new Instance("theInstance3", Point(0,0), &component));
@@ -196,7 +202,7 @@ void XmlNodeWriterTest::writeCompositionWithConnections()
   Instance *inst1 = InstanceFactory::produce(comp, "inst1", Point(0,0));
   Instance *inst2 = InstanceFactory::produce(comp, "inst2", Point(0,0));
   Connection *con = ConnectionFactory::produce(inst1->getPorts().back(), inst2->getPorts().front());
-  Composition *composition = new Composition();
+  Composition *composition = new Composition(new CompositionInstanceMock());
   composition->addConnection(con);
 
   composition->accept(*writer);

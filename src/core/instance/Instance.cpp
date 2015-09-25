@@ -5,10 +5,10 @@
 #include "../util/list.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
-  AbstractInstance(aPosition),
-  name(aName),
-  component(aComponent),
-  ports()
+  AbstractInstance{aPosition},
+  name{aName},
+  component{aComponent},
+  ports{}
 {
   precondition(component != nullptr);
   component->registerObserver(this);
@@ -81,6 +81,7 @@ void Instance::accept(ConstVisitor &visitor) const
 void Instance::portAdded(ComponentPort *port)
 {
   InstancePort *instPort = new InstancePort(this, port);
+  instPort->replaceAnchor(this);
   addPort(instPort);
 }
 

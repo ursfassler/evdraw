@@ -9,7 +9,7 @@
 
 #include <stdexcept>
 
-InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort) :
+InstancePort::InstancePort(IInstance *aInstance, ComponentPort *aCompPort) :
   RelativePosition(calcOffset(aCompPort)),
   owner(aInstance),
   compPort(aCompPort),
@@ -18,7 +18,6 @@ InstancePort::InstancePort(AbstractInstance *aInstance, ComponentPort *aCompPort
   precondition(aInstance != nullptr);
   precondition(aCompPort != nullptr);
 
-  replaceAnchor(aInstance);
   connector.replaceAnchor(this);
   updateConnectorOffset();
 
@@ -51,7 +50,7 @@ Point InstancePort::getPosition() const
   return getAbsolutePosition();
 }
 
-AbstractInstance *InstancePort::getInstance() const
+IInstance *InstancePort::getInstance() const
 {
   return owner;
 }

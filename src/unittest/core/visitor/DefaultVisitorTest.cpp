@@ -25,7 +25,7 @@ void DefaultVisitorTest::setUp()
   componentNullImpl->addPort(signal);
   library->addComponent(componentNullImpl);
 
-  composition = new Composition();
+  composition = new Composition(new CompositionInstanceMock());
   instance = InstanceFactory::produce(componentNullImpl, "instance", Point(0,0));
   instanceSlot = instance->getPort("slot");
   instanceSignal = instance->getPort("signal");

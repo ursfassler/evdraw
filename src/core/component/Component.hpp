@@ -26,9 +26,21 @@ class ComponentObserver
     virtual void nameChanged(const std::string &name);
 };
 
+class IComponent:
+    //TODO move ObserverCollection out of interface
+    public ObserverCollection<ComponentObserver>
+{
+  public:
+    virtual ~IComponent(){}
+
+    virtual const std::vector<ComponentPort *> &getPorts() const = 0;
+
+};
+
 class Component final :
+    public IComponent,
     public VisitorClient,
-    public ObserverCollection<ComponentObserver>,
+//    public ObserverCollection<ComponentObserver>,
     private ComponentPortObserver
 {
   public:
@@ -40,7 +52,7 @@ class Component final :
 
     void addPort(ComponentPort *port);
     void deletePort(ComponentPort *port);
-    const std::vector<ComponentPort *> &getPorts() const;
+    const std::vector<ComponentPort *> &getPorts() const override;
     ComponentPort *getPort(const std::string &name) const;
 
     size_t height() const;
