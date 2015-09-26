@@ -4,6 +4,7 @@
 #include "Instance.hpp"
 #include "../util/list.hpp"
 #include "../util/error.hpp"
+#include "../component/InstanceAppearance.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
   AbstractInstance{aPosition},
@@ -77,6 +78,19 @@ Side Instance::portSide(PortType type) const
 Side Instance::connectorSide(PortType type) const
 {
   return portSide(type);
+}
+
+PaperUnit Instance::getWidth() const
+{
+  return InstanceAppearance::componentWidth();
+}
+
+PaperUnit Instance::getHeight() const
+{
+  const size_t count = getComponent()->height();
+  return (count-1) * InstanceAppearance::verticalPortDistance() +
+      InstanceAppearance::topPortDistance() +
+      InstanceAppearance::bottomPortDistance();
 }
 
 void Instance::accept(Visitor &visitor)

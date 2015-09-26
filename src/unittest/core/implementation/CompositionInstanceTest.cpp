@@ -38,6 +38,22 @@ void CompositionInstanceTest::can_change_height()
   CPPUNIT_ASSERT_EQUAL(PaperUnit(1234), testee.getHeight());
 }
 
+void CompositionInstanceTest::change_of_width_updates_port_positions()
+{
+  Component *component = ComponentFactory::produce("", {}, {"out"});
+  CompositionInstance *testee = new CompositionInstance(component);
+  InstancePort *port = testee->getPorts()[0];
+
+  const auto oldPos = port->getAbsolutePosition().x;
+  testee->setWidth(100);
+  const auto newPos = port->getAbsolutePosition().x;
+
+  CPPUNIT_ASSERT(newPos > oldPos);
+
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
 void CompositionInstanceTest::create_from_component_with_ports()
 {
   Component *component = ComponentFactory::produce("", {"in1", "in2"}, {"out"});

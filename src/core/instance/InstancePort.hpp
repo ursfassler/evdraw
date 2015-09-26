@@ -42,6 +42,8 @@ class InstancePort :
     IInstance *getInstance() const;
     PortType getType() const;
 
+    void updateOffset();
+
     void addConnectionPoint(RelativePosition *point) override;
     void removeConnectionPoint(RelativePosition *point) override;
 
@@ -54,7 +56,6 @@ class InstancePort :
     Connector connector;
 
     Point calcOffset(const ComponentPort *compPort) const;
-    void updateOffset();
     void updateConnectorOffset();
     Point connectorOffset(Side side) const;
 

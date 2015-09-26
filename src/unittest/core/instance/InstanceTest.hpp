@@ -34,6 +34,9 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(connector_side_of_slot_is_left);
     CPPUNIT_TEST(connector_side_of_signal_is_right);
 
+    CPPUNIT_TEST(dimension_is_not_zero);
+    CPPUNIT_TEST(height_depends_on_ports);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -59,6 +62,9 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
 
     void connector_side_of_slot_is_left();
     void connector_side_of_signal_is_right();
+
+    void dimension_is_not_zero();
+    void height_depends_on_ports();
 
   private:
     Component *component = nullptr;

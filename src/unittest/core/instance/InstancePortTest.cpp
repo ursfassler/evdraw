@@ -32,22 +32,20 @@ void InstancePortTest::createPort()
 
 void InstancePortTest::offset()
 {
-  Component *comp = ComponentFactory::produce("", {"1", "2"}, {});
-  ComponentPort *cport1 = comp->getPorts()[0];
-  ComponentPort *cport2 = comp->getPorts()[1];
-
+  Component *comp = ComponentFactory::produce("", {"1", "2"}, {"3"});
   Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
-  InstancePort *port1 = new InstancePort(inst, cport1);
-  InstancePort *port2 = new InstancePort(inst, cport2);
+  InstancePort *port1 = inst->getPorts()[0];
+  InstancePort *port2 = inst->getPorts()[1];
+  InstancePort *port3 = inst->getPorts()[2];
 
   CPPUNIT_ASSERT(port1->getOffset().x < 0);
   CPPUNIT_ASSERT(port1->getOffset().y > 0);
+  CPPUNIT_ASSERT(port3->getOffset().x > 0);
 
   CPPUNIT_ASSERT_EQUAL(port2->getOffset().x, port1->getOffset().x);
   CPPUNIT_ASSERT(port2->getOffset().y > port1->getOffset().y);
+  CPPUNIT_ASSERT_EQUAL(port1->getOffset().y, port3->getOffset().y);
 
-  delete port2;
-  delete port1;
   InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
 }

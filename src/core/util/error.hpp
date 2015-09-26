@@ -2,11 +2,16 @@
 #define ERROR_HPP
 
 #include <stdexcept>
+#include <string>
 
 #define unreachableCode() \
-  throw std::runtime_error("reached unreachablle code");
+  do { \
+    throw std::runtime_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + ": reached unreachable code in function " + std::string(__func__)); \
+  } while(0)
 
 #define notYetImplemented() \
-  throw std::runtime_error("not yet implemented");
+  do { \
+    throw std::runtime_error(std::string(__FILE__) + ":" + std::to_string(__LINE__) + ": not yet implemented: " + std::string(__func__)); \
+  } while(0)
 
 #endif // ERROR_HPP

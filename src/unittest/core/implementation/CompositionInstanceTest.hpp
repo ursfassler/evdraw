@@ -12,6 +12,7 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(can_change_width);
     CPPUNIT_TEST(can_change_height);
+    CPPUNIT_TEST(change_of_width_updates_port_positions);
 
     CPPUNIT_TEST(create_from_component_with_ports);
     CPPUNIT_TEST(syncs_with_new_ports_in_composition);
@@ -29,6 +30,7 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
 
     void can_change_width();
     void can_change_height();
+    void change_of_width_updates_port_positions();
 
     void create_from_component_with_ports();
     void syncs_with_new_ports_in_composition();

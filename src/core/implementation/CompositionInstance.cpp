@@ -46,6 +46,7 @@ PaperUnit CompositionInstance::getWidth() const
 void CompositionInstance::setWidth(PaperUnit value)
 {
   width = value;
+  updatePortOffsets();
 }
 
 PaperUnit CompositionInstance::getHeight() const
@@ -109,4 +110,11 @@ void CompositionInstance::portDeleted(ComponentPort *port)
   InstancePort *instPort = *idx;
   delete instPort;
   ports.erase(idx);
+}
+
+void CompositionInstance::updatePortOffsets() const
+{
+  for (const auto &itr : getPorts()) {
+    itr->updateOffset();
+  }
 }

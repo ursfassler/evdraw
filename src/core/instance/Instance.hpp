@@ -50,6 +50,9 @@ class Instance final :
     Side portSide(PortType type) const override;
     Side connectorSide(PortType type) const override;
 
+    PaperUnit getWidth() const override final;
+    PaperUnit getHeight() const override final;
+
     void accept(Visitor &visitor) override;
     void accept(ConstVisitor &visitor) const override;
 

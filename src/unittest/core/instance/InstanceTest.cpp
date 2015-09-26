@@ -127,3 +127,40 @@ void InstanceTest::connector_side_of_signal_is_right()
 {
   CPPUNIT_ASSERT_EQUAL(Side::Right, instance->connectorSide(PortType::Signal));
 }
+
+void InstanceTest::dimension_is_not_zero()
+{
+  CPPUNIT_ASSERT(instance->getWidth() > 0);
+  CPPUNIT_ASSERT(instance->getHeight() > 0);
+}
+
+void InstanceTest::height_depends_on_ports()
+{
+  Component *component = ComponentFactory::produce("Component", {}, {});
+  Instance *instance = InstanceFactory::produce(component, "instance", Point(3, 7));
+
+  PaperUnit height0 = instance->getHeight();
+
+  component->addPort(new ComponentPort("", PortType::Slot));
+  PaperUnit height1 = instance->getHeight();
+  CPPUNIT_ASSERT(height1 > height0);
+
+  component->addPort(new ComponentPort("", PortType::Slot));
+  PaperUnit height2 = instance->getHeight();
+  CPPUNIT_ASSERT(height2 > height1);
+
+  component->addPort(new ComponentPort("", PortType::Signal));
+  PaperUnit height2a = instance->getHeight();
+  CPPUNIT_ASSERT_EQUAL(height2, height2a);
+
+  component->addPort(new ComponentPort("", PortType::Signal));
+  PaperUnit height2b = instance->getHeight();
+  CPPUNIT_ASSERT_EQUAL(height2, height2b);
+
+  component->addPort(new ComponentPort("", PortType::Signal));
+  PaperUnit height3 = instance->getHeight();
+  CPPUNIT_ASSERT(height3 > height2);
+
+  InstanceFactory::dispose(instance);
+  ComponentFactory::dispose(component);
+}

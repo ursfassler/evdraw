@@ -34,6 +34,16 @@ class DummyInstance : public AbstractInstance
       return Side::Left;
     }
 
+    PaperUnit getWidth() const override
+    {
+      return {};
+    }
+
+    PaperUnit getHeight() const override
+    {
+      return {};
+    }
+
     void accept(Visitor &)
     {
     }

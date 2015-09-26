@@ -37,10 +37,10 @@ GiInstance::~GiInstance()
 
 void GiInstance::resize()
 {
-  qreal x = puToScene(-InstanceAppearance::width() / 2);
-  qreal w = puToScene(InstanceAppearance::width());
+  qreal x = puToScene(-model->getWidth() / 2);
+  qreal w = puToScene(model->getWidth());
   qreal y = puToScene(0);
-  qreal h = puToScene(InstanceAppearance::height(*model->getComponent()));
+  qreal h = puToScene(model->getHeight());
 
   setRect(x, y, w, h);
 }

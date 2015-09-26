@@ -89,17 +89,12 @@ void InstancePort::nameChanged(const std::string &name)
 
 Point InstancePort::calcOffset(const ComponentPort *compPort) const
 {
-  const Side side = getInstance()->portSide(compPort->getType());
-  switch (side) {
-    case Side::Left: {
-        return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
-      }
-    case Side::Right: {
-        return InstanceAppearance::rightPortPosition(compPort->getTopIndex());
-      }
-  }
-
-  throw std::runtime_error("reached unreachable position");
+  const auto width = getInstance()->getWidth();
+  const auto xDist = InstanceAppearance::portOverlap() + (width - InstanceAppearance::portWidth()) / 2;
+  const auto side = getInstance()->portSide(compPort->getType());
+  const auto xOffset = side == Side::Left ? -xDist : xDist;
+  const auto yOffset = InstanceAppearance::portVerticalOffset(compPort->getTopIndex());
+  return Point(xOffset, yOffset);
 }
 
 void InstancePort::updateOffset()

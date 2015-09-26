@@ -56,6 +56,7 @@ class CompositionInstance final :
 
     void portAdded(ComponentPort *port) override;
     void portDeleted(ComponentPort *port) override;
+    void updatePortOffsets() const;
 };
 
 #endif // COMPOSITIONINSTANCE_HPP
