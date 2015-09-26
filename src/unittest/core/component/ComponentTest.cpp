@@ -270,6 +270,20 @@ void ComponentTest::setImplementationDeletesOldOne()
   CPPUNIT_ASSERT(deleted);
 }
 
+void ComponentTest::port_side_of_slot_is_left()
+{
+  Component comp("", new NullImplementation());
+
+  CPPUNIT_ASSERT_EQUAL(Side::Left, comp.portSide(PortType::Slot));
+}
+
+void ComponentTest::port_side_of_signal_is_right()
+{
+  Component comp("", new NullImplementation());
+
+  CPPUNIT_ASSERT_EQUAL(Side::Right, comp.portSide(PortType::Signal));
+}
+
 void ComponentTest::heightOfEmptyComponent()
 {
   Component     comp("", new NullImplementation());

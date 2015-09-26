@@ -3,6 +3,7 @@
 
 #include "Instance.hpp"
 #include "../util/list.hpp"
+#include "../util/error.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
   AbstractInstance{aPosition},
@@ -66,6 +67,16 @@ InstancePort *Instance::getPort(const std::string &name) const
     return itr->getName() == name;
   };
   return listGet<InstancePort*>(ports.begin(), ports.end(), predicate);
+}
+
+Side Instance::portSide(PortType type) const
+{
+  return getComponent()->portSide(type);
+}
+
+Side Instance::connectorSide(PortType type) const
+{
+  return portSide(type);
 }
 
 void Instance::accept(Visitor &visitor)

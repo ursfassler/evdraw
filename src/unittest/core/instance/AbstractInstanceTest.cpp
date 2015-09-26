@@ -27,6 +27,16 @@ class TestAbstractInstance : public AbstractInstance
       return name;
     }
 
+    Side portSide(PortType) const override
+    {
+      return Side::Left;
+    }
+
+    Side connectorSide(PortType) const override
+    {
+      return Side::Left;
+    }
+
     void accept(Visitor &)
     {
     }

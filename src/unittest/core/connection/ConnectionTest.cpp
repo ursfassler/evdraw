@@ -12,29 +12,6 @@
 #include <core/instance/AbstractInstance.hpp>
 #include <core/util/contract.hpp>
 
-class Instance : public AbstractInstance
-{
-  public:
-    Instance(const std::string &aName) :
-      AbstractInstance(Point(0,0)),
-      name(aName)
-    {
-    }
-
-    const std::string &getName() const
-    {
-      return name;
-    }
-
-    const AbstractPort *findPort(const std::string &) const
-    {
-      return nullptr;
-    }
-
-  private:
-    std::string name;
-};
-
 void ConnectionTest::create()
 {
   SimplePort startPort;

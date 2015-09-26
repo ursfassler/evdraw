@@ -34,6 +34,7 @@ class IComponent:
     virtual ~IComponent(){}
 
     virtual const std::vector<ComponentPort *> &getPorts() const = 0;
+    virtual Side portSide(PortType type) const = 0;
 
 };
 
@@ -55,6 +56,9 @@ class Component final :
     const std::vector<ComponentPort *> &getPorts() const override;
     ComponentPort *getPort(const std::string &name) const;
 
+    Side portSide(PortType type) const override final;
+
+    //TODO move height to Instance
     size_t height() const;
 
     const std::string &getName() const;

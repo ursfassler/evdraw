@@ -7,6 +7,8 @@
 #include <string>
 #include "../base/Position.hpp"
 #include "../visitor/VisitorClient.hpp"
+#include "../types.hpp"
+#include "../component/PortType.hpp"
 
 class IInstance :
     public VisitorClient
@@ -15,6 +17,9 @@ class IInstance :
     virtual ~IInstance(){}
 
     virtual const std::string &getName() const = 0;
+    virtual Side portSide(PortType type) const = 0;
+    virtual Side connectorSide(PortType type) const = 0;
+
 };
 
 class AbstractInstance :

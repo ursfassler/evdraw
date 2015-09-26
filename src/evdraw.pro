@@ -129,7 +129,9 @@ HEADERS += \
     core/implementation/CompositionInstance.hpp \
     unittest/core/implementation/CompositionInstanceMock.hpp \
     unittest/core/implementation/CompositionMock.hpp \
-    unittest/core/component/ComponentMock.hpp
+    unittest/core/component/ComponentMock.hpp \
+    unittest/core/util/errorTest.hpp \
+    core/util/error.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -229,7 +231,9 @@ SOURCES += \
     unittest/core/instance/ConnectorFactoryTest.cpp \
     core/instance/ConnectorFactory.cpp \
     unittest/core/implementation/CompositionInstanceTest.cpp \
-    core/implementation/CompositionInstance.cpp
+    core/implementation/CompositionInstance.cpp \
+    unittest/core/util/errorTest.cpp \
+    core/util/error.cpp
 
 DISTFILES += \
     ../README.md \

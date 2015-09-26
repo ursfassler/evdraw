@@ -31,19 +31,22 @@ class CompositionInstance final :
     CompositionInstance(IComponent *component);
     ~CompositionInstance();
 
-    const std::string &getName() const override;
+    const std::string &getName() const override final;
 
-    IComponent *getComponent() const override;
+    IComponent *getComponent() const override final;
 
-    PaperUnit getWidth() const override;
-    void setWidth(PaperUnit value) override;
-    PaperUnit getHeight() const override;
-    void setHeight(PaperUnit value) override;
+    PaperUnit getWidth() const override final;
+    void setWidth(PaperUnit value) override final;
+    PaperUnit getHeight() const override final;
+    void setHeight(PaperUnit value) override final;
 
-    const std::vector<InstancePort *> &getPorts() const override;
+    const std::vector<InstancePort *> &getPorts() const override final;
 
-    void accept(Visitor &visitor) override;
-    void accept(ConstVisitor &visitor) const override;
+    Side portSide(PortType type) const override final;
+    Side connectorSide(PortType type) const override final;
+
+    void accept(Visitor &visitor) override final;
+    void accept(ConstVisitor &visitor) const override final;
 
   private:
     IComponent * const component;

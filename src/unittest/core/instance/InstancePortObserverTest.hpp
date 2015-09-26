@@ -18,11 +18,21 @@ class DummyInstance : public AbstractInstance
     {
     }
 
-    virtual const std::string &getName() const
+    const std::string &getName() const override
     {
       return name;
     }
     const std::string name = "";
+
+    Side portSide(PortType) const override
+    {
+      return Side::Left;
+    }
+
+    Side connectorSide(PortType) const override
+    {
+      return Side::Left;
+    }
 
     void accept(Visitor &)
     {

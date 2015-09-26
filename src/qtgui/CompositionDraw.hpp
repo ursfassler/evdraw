@@ -33,6 +33,8 @@ class CompositionDraw : public QGraphicsView
     CompositionToGuiUpdater updater;
     Composition &composition;
 
+    void addPorts(const std::vector<InstancePort *> &ports);
+    void addPort(InstancePort *port);
 };
 
 #endif

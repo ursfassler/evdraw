@@ -22,7 +22,7 @@ class InstancePortObserver
     virtual void nameChanged(const std::string &name);
 };
 
-class InstancePort final :
+class InstancePort :
     public AbstractPort,
     public RelativePosition,
     public ObserverCollection<InstancePortObserver>,
@@ -37,23 +37,23 @@ class InstancePort final :
 
     ComponentPort *getCompPort() const;
     Connector &getConnector();
-    std::string getName() const;
-    Point getPosition() const;
+    std::string getName() const override;
+    Point getPosition() const override;
     IInstance *getInstance() const;
     PortType getType() const;
 
-    void addConnectionPoint(RelativePosition *point);
-    void removeConnectionPoint(RelativePosition *point);
+    void addConnectionPoint(RelativePosition *point) override;
+    void removeConnectionPoint(RelativePosition *point) override;
 
-    void accept(Visitor &visitor) override;
-    void accept(ConstVisitor &visitor) const override;
+    void accept(Visitor &visitor) override final;
+    void accept(ConstVisitor &visitor) const override final;
 
   private:
     IInstance * const owner;
     ComponentPort * const compPort;
     Connector connector;
 
-    static Point calcOffset(const ComponentPort *compPort);
+    Point calcOffset(const ComponentPort *compPort) const;
     void updateOffset();
     void updateConnectorOffset();
     Point connectorOffset(Side side) const;
@@ -61,6 +61,13 @@ class InstancePort final :
     void topIndexChanged(size_t index);
     void typeChanged(PortType);
     void nameChanged(const std::string &name);
+};
+
+class SubInstancePort final : public InstancePort
+{
+  public:
+    SubInstancePort(IInstance *instance, ComponentPort *compPort);
+
 };
 
 #endif // INSTANCEPORT_HPP

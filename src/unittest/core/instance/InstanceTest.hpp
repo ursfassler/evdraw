@@ -31,6 +31,9 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(updatePortPositionsOnPortDelete);
 
+    CPPUNIT_TEST(connector_side_of_slot_is_left);
+    CPPUNIT_TEST(connector_side_of_signal_is_right);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -53,6 +56,9 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     void setName();
 
     void updatePortPositionsOnPortDelete();
+
+    void connector_side_of_slot_is_left();
+    void connector_side_of_signal_is_right();
 
   private:
     Component *component = nullptr;

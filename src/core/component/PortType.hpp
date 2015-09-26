@@ -7,7 +7,6 @@
 #include <string>
 #include <ostream>
 #include <vector>
-#include "../types.hpp"
 
 enum class PortType
 {
@@ -17,7 +16,6 @@ enum class PortType
 
 std::vector<PortType> portTypeList();
 PortType portTypeFromUint(uint type);
-Side sideOf(PortType type);
 std::string toString(PortType type);
 PortType portTypeFromString(const std::string &value);
 std::ostream &operator <<(std::ostream &stream, PortType type);

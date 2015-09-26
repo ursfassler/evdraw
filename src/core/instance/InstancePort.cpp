@@ -10,7 +10,7 @@
 #include <stdexcept>
 
 InstancePort::InstancePort(IInstance *aInstance, ComponentPort *aCompPort) :
-  RelativePosition(calcOffset(aCompPort)),
+  RelativePosition(Point(0,0)),
   owner(aInstance),
   compPort(aCompPort),
   connector(Point(0,0))
@@ -19,6 +19,7 @@ InstancePort::InstancePort(IInstance *aInstance, ComponentPort *aCompPort) :
   precondition(aCompPort != nullptr);
 
   connector.replaceAnchor(this);
+  setOffset(calcOffset(compPort));
   updateConnectorOffset();
 
   compPort->registerObserver(this);
@@ -70,16 +71,6 @@ void InstancePort::removeConnectionPoint(RelativePosition *point)
   connector.removePoint(point);
 }
 
-void InstancePort::accept(Visitor &visitor)
-{
-  visitor.visit(*this);
-}
-
-void InstancePort::accept(ConstVisitor &visitor) const
-{
-  visitor.visit(*this);
-}
-
 void InstancePort::topIndexChanged(size_t)
 {
   updateOffset();
@@ -96,9 +87,9 @@ void InstancePort::nameChanged(const std::string &name)
   ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, name);
 }
 
-Point InstancePort::calcOffset(const ComponentPort *compPort)
+Point InstancePort::calcOffset(const ComponentPort *compPort) const
 {
-  const Side side = sideOf(compPort->getType());
+  const Side side = getInstance()->portSide(compPort->getType());
   switch (side) {
     case Side::Left: {
         return InstanceAppearance::leftPortPosition(compPort->getTopIndex());
@@ -119,7 +110,7 @@ void InstancePort::updateOffset()
 
 void InstancePort::updateConnectorOffset()
 {
-  const Side side = sideOf(compPort->getType());;
+  const Side side = getInstance()->connectorSide(compPort->getType());;
   const Point conOfs = connectorOffset(side);
   connector.setOffset(conOfs);
 }
@@ -130,6 +121,24 @@ Point InstancePort::connectorOffset(Side side) const
   const PaperUnit offset = sideMul * InstanceAppearance::portWidth() / 2;
   return Point(offset, 0);
 }
+
+void InstancePort::accept(Visitor &visitor)
+{
+  visitor.visit(*this);
+}
+
+void InstancePort::accept(ConstVisitor &visitor) const
+{
+  visitor.visit(*this);
+}
+
+
+
+SubInstancePort::SubInstancePort(IInstance *instance, ComponentPort *compPort) :
+  InstancePort(instance, compPort)
+{
+}
+
 
 
 InstancePortObserver::~InstancePortObserver()

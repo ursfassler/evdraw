@@ -47,6 +47,9 @@ class Instance final :
     const std::vector<InstancePort *> &getPorts() const;
     InstancePort *getPort(const std::string &name) const;
 
+    Side portSide(PortType type) const override;
+    Side connectorSide(PortType type) const override;
+
     void accept(Visitor &visitor) override;
     void accept(ConstVisitor &visitor) const override;
 

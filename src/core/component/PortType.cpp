@@ -18,25 +18,11 @@ std::string toString(PortType type)
   throw std::invalid_argument("Unknown port type: " + std::to_string(int(type)));
 }
 
-
 std::ostream &operator <<(std::ostream &stream, PortType type)
 {
   stream << toString(type);
   return stream;
 }
-
-Side sideOf(PortType type)
-{
-    switch (type) {
-    case PortType::Signal:
-      return Side::Right;
-    case PortType::Slot:
-      return Side::Left;
-    }
-
-    throw std::invalid_argument("Unknown port type: " + std::to_string(int(type)));
-}
-
 
 std::vector<PortType> portTypeList()
 {

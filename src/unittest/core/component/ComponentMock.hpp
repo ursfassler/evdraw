@@ -11,6 +11,11 @@ class ComponentMock: public IComponent
       static std::vector<ComponentPort *> ports;
       return ports;
     }
+
+    Side portSide(PortType) const override
+    {
+      return Side::Left;
+    }
 };
 
 #endif // COMPONENTMOCK

@@ -3,6 +3,7 @@
 
 #include <core/implementation/CompositionInstance.hpp>
 #include <core/component/ComponentFactory.hpp>
+#include <core/implementation/NullImplementation.hpp>
 
 void CompositionInstanceTest::create()
 {
@@ -82,4 +83,36 @@ void CompositionInstanceTest::syncs_with_deleted_ports_in_composition()
 
   delete testee;
   ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::port_side_of_slot_is_left()
+{
+  Component component{"", new NullImplementation()};
+  CompositionInstance testee(&component);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Left, testee.portSide(PortType::Slot));
+}
+
+void CompositionInstanceTest::port_side_of_signal_is_right()
+{
+  Component component{"", new NullImplementation()};
+  CompositionInstance testee(&component);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Right, testee.portSide(PortType::Signal));
+}
+
+void CompositionInstanceTest::connector_side_of_slot_is_right()
+{
+  ComponentMock component;
+  CompositionInstance testee(&component);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Right, testee.connectorSide(PortType::Slot));
+}
+
+void CompositionInstanceTest::connector_side_of_signal_is_left()
+{
+  ComponentMock component;
+  CompositionInstance testee(&component);
+
+  CPPUNIT_ASSERT_EQUAL(Side::Left, testee.connectorSide(PortType::Signal));
 }

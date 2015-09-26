@@ -33,6 +33,9 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(setImplementation);
     CPPUNIT_TEST(setImplementationDeletesOldOne);
 
+    CPPUNIT_TEST(port_side_of_slot_is_left);
+    CPPUNIT_TEST(port_side_of_signal_is_right);
+
     CPPUNIT_TEST(heightOfEmptyComponent);
     CPPUNIT_TEST(heightOf2Slots);
     CPPUNIT_TEST(heightOf2Signals);
@@ -64,6 +67,9 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void componentDeletesImplementationWhenDeleted();
     void setImplementation();
     void setImplementationDeletesOldOne();
+
+    void port_side_of_slot_is_left();
+    void port_side_of_signal_is_right();
 
     void heightOfEmptyComponent();
     void heightOf2Slots();

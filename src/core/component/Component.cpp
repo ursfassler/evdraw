@@ -5,6 +5,7 @@
 
 #include "../util/list.hpp"
 #include "../util/contract.hpp"
+#include "../util/error.hpp"
 
 #include <map>
 
@@ -68,7 +69,7 @@ size_t Component::height() const
   index[Side::Right] = 0;
 
   for (ComponentPort *port : ports) {
-    const Side side = sideOf(port->getType());
+    const Side side = portSide(port->getType());
     index[side]++;
   }
 
@@ -118,7 +119,7 @@ void Component::updateTopIndex()
   index[Side::Right] = 0;
 
   for (ComponentPort *port : ports) {
-    const Side side = sideOf(port->getType());
+    const Side side = portSide(port->getType());
     size_t &portIndex = index[side];
     port->setTopIndex(portIndex);
     portIndex++;
@@ -131,6 +132,19 @@ void Component::typeChanged(PortType)
   //TODO do only notify if height really changed
   notify(&ComponentObserver::heightChanged);
 }
+
+Side Component::portSide(PortType type) const
+{
+  switch (type) {
+    case PortType::Signal:
+      return Side::Right;
+    case PortType::Slot:
+      return Side::Left;
+  }
+
+  unreachableCode();
+}
+
 
 
 ComponentObserver::~ComponentObserver()

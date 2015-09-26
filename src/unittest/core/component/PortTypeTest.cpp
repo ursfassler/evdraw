@@ -74,28 +74,6 @@ void PortTypeTest::undefined_portTypeFromString_throws_exception()
   CPPUNIT_ASSERT_THROW(portTypeFromString("no type"), std::invalid_argument);
 }
 
-void PortTypeTest::signal_is_right()
-{
-  CPPUNIT_ASSERT_EQUAL(Side::Right, sideOf(PortType::Signal));
-}
-
-void PortTypeTest::slot_is_left()
-{
-  CPPUNIT_ASSERT_EQUAL(Side::Left, sideOf(PortType::Slot));
-}
-
-void PortTypeTest::sideOf_is_defined_for_all()
-{
-  for (PortType type : portTypeList()) {
-    CPPUNIT_ASSERT_NO_THROW(sideOf(type));
-  }
-}
-
-void PortTypeTest::undefined_sideOf_throws_exception()
-{
-  CPPUNIT_ASSERT_THROW(sideOf(PortType(-1)), std::invalid_argument);
-}
-
 void PortTypeTest::portTypeFromUint_matches_portTypeList_index()
 {
   for (uint idx = 0; idx < portTypeList().size(); idx++) {

@@ -117,3 +117,13 @@ void InstanceTest::updatePortPositionsOnPortDelete()
   component->deletePort(component->getPort("in1"));
   CPPUNIT_ASSERT_EQUAL(pos0, instance->getPort("in2")->getPosition());
 }
+
+void InstanceTest::connector_side_of_slot_is_left()
+{
+  CPPUNIT_ASSERT_EQUAL(Side::Left, instance->connectorSide(PortType::Slot));
+}
+
+void InstanceTest::connector_side_of_signal_is_right()
+{
+  CPPUNIT_ASSERT_EQUAL(Side::Right, instance->connectorSide(PortType::Signal));
+}

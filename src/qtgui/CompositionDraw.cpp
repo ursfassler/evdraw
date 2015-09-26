@@ -17,9 +17,13 @@ CompositionDraw::CompositionDraw(Composition &aComposition, QWidget *parent) :
 {
   setScene(&scene);
 
-  const qreal width = puToScene(composition.getSelfInstance()->getWidth());
-  scene.setSceneRect(-width/2, 0, width, puToScene(composition.getSelfInstance()->getHeight()));
+  ICompositionInstance *self = composition.getSelfInstance();
+
+  const qreal width = puToScene(self->getWidth());
+  scene.setSceneRect(-width/2, 0, width, puToScene(self->getHeight()));
   scene.addRect(scene.sceneRect());
+
+  addPorts(self->getPorts());
 
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
@@ -39,3 +43,19 @@ void CompositionDraw::addInstance(Point position)
 {
   addInstance(position, updater.getComposition());
 }
+
+void CompositionDraw::addPorts(const std::vector<InstancePort *> &ports)
+{
+  for (InstancePort *port : ports) {
+    addPort(port);
+  }
+}
+
+void CompositionDraw::addPort(InstancePort *port)
+{
+  InstancePort *ip = dynamic_cast<InstancePort*>(port);
+  GiInstancePort *gipo = new GiInstancePort(ip, &composition, nullptr);
+  scene.addItem(gipo);
+//  ports[ip] = gipo;
+}
+

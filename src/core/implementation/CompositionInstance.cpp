@@ -2,6 +2,7 @@
 
 #include "../util/contract.hpp"
 #include "../util/list.hpp"
+#include "../util/error.hpp"
 
 CompositionInstance::CompositionInstance(IComponent *aComponent) :
   component{aComponent},
@@ -29,9 +30,7 @@ CompositionInstance::~CompositionInstance()
 
 const std::string &CompositionInstance::getName() const
 {
-  //TODO return correct name
-  static std::string name;
-  return name;
+  notYetImplemented();
 }
 
 IComponent *CompositionInstance::getComponent() const
@@ -64,18 +63,33 @@ const std::vector<InstancePort *> &CompositionInstance::getPorts() const
   return ports;
 }
 
+Side CompositionInstance::portSide(PortType type) const
+{
+  return getComponent()->portSide(type);
+}
+
+Side CompositionInstance::connectorSide(PortType type) const
+{
+  switch (type) {
+    case PortType::Signal:
+      return Side::Left;
+    case PortType::Slot:
+      return Side::Right;
+  }
+
+  unreachableCode();
+}
+
 void CompositionInstance::accept(Visitor &visitor)
 {
-  //TODO implement
   (void)(visitor);
-  throw std::runtime_error("not yet implemented");
+  notYetImplemented();
 }
 
 void CompositionInstance::accept(ConstVisitor &visitor) const
 {
-  //TODO implement
   (void)(visitor);
-  throw std::runtime_error("not yet implemented");
+  notYetImplemented();
 }
 
 void CompositionInstance::portAdded(ComponentPort *port)

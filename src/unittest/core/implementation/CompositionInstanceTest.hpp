@@ -17,6 +17,11 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(syncs_with_new_ports_in_composition);
     CPPUNIT_TEST(syncs_with_deleted_ports_in_composition);
 
+    CPPUNIT_TEST(port_side_of_slot_is_left);
+    CPPUNIT_TEST(port_side_of_signal_is_right);
+    CPPUNIT_TEST(connector_side_of_slot_is_right);
+    CPPUNIT_TEST(connector_side_of_signal_is_left);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -28,6 +33,11 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     void create_from_component_with_ports();
     void syncs_with_new_ports_in_composition();
     void syncs_with_deleted_ports_in_composition();
+
+    void port_side_of_slot_is_left();
+    void port_side_of_signal_is_right();
+    void connector_side_of_slot_is_right();
+    void connector_side_of_signal_is_left();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( CompositionInstanceTest );
