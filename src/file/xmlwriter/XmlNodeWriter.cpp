@@ -48,6 +48,10 @@ void XmlNodeWriter::visit(const Instance &instance)
   element->SetAttribute("y", instance.getAbsolutePosition().y);
 }
 
+void XmlNodeWriter::visit(const CompositionInstance &)
+{
+}
+
 void XmlNodeWriter::visit(const InstancePort &port)
 {
   TiXmlElement *element = new TiXmlElement("instanceport");

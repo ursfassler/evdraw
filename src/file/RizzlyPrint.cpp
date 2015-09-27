@@ -29,6 +29,10 @@ void RizzlyPrint::visit(const Instance &instance)
   stream << ";" << std::endl;
 }
 
+void RizzlyPrint::visit(const CompositionInstance &)
+{
+}
+
 void RizzlyPrint::visit(const InstancePort &port)
 {
   stream << port.getInstance()->getName();

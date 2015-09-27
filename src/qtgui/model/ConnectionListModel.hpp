@@ -48,6 +48,7 @@ class ConnectionEndpointNameVisitor : public NullConstVisitor
 {
   public:
     void visit(const Instance &instance);
+    void visit(const CompositionInstance &instance);
     void visit(const InstancePort &port);
 
     QString instance;

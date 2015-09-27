@@ -17,14 +17,15 @@ class XmlNodeWriter final : public ConstVisitor
     XmlNodeWriter(const XmlNodeWriter &) = delete;
     XmlNodeWriter operator=(const XmlNodeWriter &) = delete;
 
-    void visit(const ComponentPort &port);
-    void visit(const Component &component);
-    void visit(const Instance &instance);
-    void visit(const InstancePort &port);
-    void visit(const Connection &connection);
-    void visit(const Composition &composition);
-    void visit(const NullImplementation &nullImplementation);
-    void visit(const Library &library);
+    void visit(const ComponentPort &port) override final;
+    void visit(const Component &component) override final;
+    void visit(const Instance &instance) override final;
+    void visit(const CompositionInstance &instance) override final;
+    void visit(const InstancePort &port) override final;
+    void visit(const Connection &connection) override final;
+    void visit(const Composition &composition) override final;
+    void visit(const NullImplementation &nullImplementation) override final;
+    void visit(const Library &library) override final;
 
   private:
     TiXmlNode * const parent;

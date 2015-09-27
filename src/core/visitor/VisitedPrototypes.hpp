@@ -7,6 +7,7 @@
 class ComponentPort;
 class Component;
 class Instance;
+class CompositionInstance;
 class InstancePort;
 class Connection;
 class Composition;

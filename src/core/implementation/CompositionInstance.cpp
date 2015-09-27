@@ -89,8 +89,7 @@ void CompositionInstance::accept(Visitor &visitor)
 
 void CompositionInstance::accept(ConstVisitor &visitor) const
 {
-  (void)(visitor);
-  notYetImplemented();
+  visitor.visit(*this);
 }
 
 void CompositionInstance::portAdded(ComponentPort *port)

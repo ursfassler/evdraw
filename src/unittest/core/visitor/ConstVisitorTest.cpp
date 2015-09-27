@@ -2,7 +2,10 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ConstVisitorTest.hpp"
+
+#include "ConstVisitorMock.hpp"
 #include "../implementation/CompositionInstanceMock.hpp"
+#include "../component/ComponentMock.hpp"
 
 #include <core/visitor/ConstVisitor.hpp>
 
@@ -16,61 +19,12 @@
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/implementation/Composition.hpp>
 #include <core/implementation/NullImplementation.hpp>
+#include <core/implementation/CompositionInstance.hpp>
 
-class TestConstVisitor : public ConstVisitor
-{
-  public:
-    TestConstVisitor() :
-      visited()
-    {
-    }
-
-    void visit(const ComponentPort &port)
-    {
-      visited.push_back("ComponentPort: " + port.getName());
-    }
-
-    void visit(const Component &component)
-    {
-      visited.push_back(component.getName());
-    }
-
-    void visit(const Instance &instance)
-    {
-      visited.push_back(instance.getName());
-    }
-
-    void visit(const InstancePort &port)
-    {
-      visited.push_back(port.getName());
-    }
-
-    void visit(const Connection &)
-    {
-      visited.push_back("connection");
-    }
-
-    void visit(const Composition &)
-    {
-      visited.push_back("composition");
-    }
-
-    void visit(const NullImplementation &)
-    {
-      visited.push_back("nullImplementation");
-    }
-
-    void visit(const Library &)
-    {
-      visited.push_back("library");
-    }
-
-    std::vector<std::string> visited;
-};
 
 void ConstVisitorTest::componentPort()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   ComponentPort port("theSlot", PortType::Slot);
   port.accept(visitor);
@@ -81,33 +35,33 @@ void ConstVisitorTest::componentPort()
 
 void ConstVisitorTest::component()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component");
   component->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("component"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Component: component"), visitor.visited[0]);
 
   ComponentFactory::dispose(component);
 }
 
 void ConstVisitorTest::componentWithPorts()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component", {"in1", "in2"}, {"out1"});
   component->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("component"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Component: component"), visitor.visited[0]);
 
   ComponentFactory::dispose(component);
 }
 
 void ConstVisitorTest::instance()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
@@ -115,15 +69,28 @@ void ConstVisitorTest::instance()
   instance->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("instance"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Instance: instance"), visitor.visited[0]);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
 }
 
+void ConstVisitorTest::compositionInstance()
+{
+  ConstVisitorMock visitor;
+
+  ComponentMock component;
+  CompositionInstance instance{&component};
+
+  instance.accept(visitor);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
+  CPPUNIT_ASSERT_EQUAL(std::string("CompositionInstance"), visitor.visited[0]);
+}
+
 void ConstVisitorTest::instancePort()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component", {"port"}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
@@ -132,7 +99,7 @@ void ConstVisitorTest::instancePort()
   port->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("port"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("InstancePort: port"), visitor.visited[0]);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -140,44 +107,44 @@ void ConstVisitorTest::instancePort()
 
 void ConstVisitorTest::connection()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Connection connection(nullptr, nullptr);
   connection.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("connection"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Connection"), visitor.visited[0]);
 }
 
 void ConstVisitorTest::composition()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Composition composition{new CompositionInstanceMock()};
   composition.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("composition"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Composition"), visitor.visited[0]);
 }
 
 void ConstVisitorTest::nullImplementation()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   NullImplementation nullImpl;
   nullImpl.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("nullImplementation"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("NullImplementation"), visitor.visited[0]);
 }
 
 void ConstVisitorTest::library()
 {
-  TestConstVisitor visitor;
+  ConstVisitorMock visitor;
 
   Library library;
   library.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("library"), visitor.visited[0]);
+  CPPUNIT_ASSERT_EQUAL(std::string("Library"), visitor.visited[0]);
 }

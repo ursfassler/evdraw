@@ -117,8 +117,14 @@ void ConnectionEndpointNameVisitor::visit(const Instance &instance)
   this->instance = QString::fromStdString(instance.getName());
 }
 
+void ConnectionEndpointNameVisitor::visit(const CompositionInstance &instance)
+{
+  this->instance = "self";
+}
+
 void ConnectionEndpointNameVisitor::visit(const InstancePort &port)
 {
   port.getInstance()->accept(*this);
   this->port = QString::fromStdString(port.getName());
 }
+

@@ -16,6 +16,10 @@ void NullConstVisitor::visit(const Instance &)
 {
 }
 
+void NullConstVisitor::visit(const CompositionInstance &)
+{
+}
+
 void NullConstVisitor::visit(const InstancePort &)
 {
 }

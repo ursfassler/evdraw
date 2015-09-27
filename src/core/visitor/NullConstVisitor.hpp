@@ -9,14 +9,15 @@
 class NullConstVisitor : public ConstVisitor
 {
   public:
-    void visit(const ComponentPort &port);
-    void visit(const Component &component);
-    void visit(const Instance &instance);
-    void visit(const InstancePort &port);
-    void visit(const Connection &connection);
-    void visit(const Composition &composition);
-    void visit(const NullImplementation &nullImplementation) ;
-    void visit(const Library &library);
+    void visit(const ComponentPort &port) override;
+    void visit(const Component &component) override;
+    void visit(const Instance &instance) override;
+    void visit(const CompositionInstance &instance) override;
+    void visit(const InstancePort &port) override;
+    void visit(const Connection &connection) override;
+    void visit(const Composition &composition) override;
+    void visit(const NullImplementation &nullImplementation) override;
+    void visit(const Library &library) override;
 };
 
 #endif

@@ -13,6 +13,7 @@ class ConstVisitor
     virtual void visit(const ComponentPort &port) = 0;
     virtual void visit(const Component &component) = 0;
     virtual void visit(const Instance &instance) = 0;
+    virtual void visit(const CompositionInstance &instance) = 0;
     virtual void visit(const InstancePort &port) = 0;
     virtual void visit(const Connection &connection) = 0;
     virtual void visit(const Composition &composition) = 0;
