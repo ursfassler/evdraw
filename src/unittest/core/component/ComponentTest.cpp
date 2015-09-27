@@ -12,6 +12,8 @@ void ComponentTest::produce()
 {
   Component comp("Lala", new NullImplementation());
   CPPUNIT_ASSERT_EQUAL(std::string("Lala"), comp.getName());
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::setName()
@@ -19,6 +21,8 @@ void ComponentTest::setName()
   Component comp("", new NullImplementation());
   comp.setName("new name");
   CPPUNIT_ASSERT_EQUAL(std::string("new name"), comp.getName());
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::addSlot()
@@ -220,6 +224,8 @@ void ComponentTest::constructWithOwnImplementation()
   NullImplementation *impl = new NullImplementation();
   Component     component("", impl);
   CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), component.getImplementation());
+
+  ComponentFactory::cleanup(component);
 }
 
 class DeleteTest : public AbstractImplementation
@@ -246,7 +252,7 @@ void ComponentTest::componentDeletesImplementationWhenDeleted()
   bool deleted = false;
   DeleteTest *test = new DeleteTest(deleted);
   Component *comp = new Component("", test);
-  delete comp;
+  ComponentFactory::dispose(comp);
   CPPUNIT_ASSERT(deleted);
 }
 
@@ -258,6 +264,8 @@ void ComponentTest::setImplementation()
   CPPUNIT_ASSERT(static_cast<AbstractImplementation*>(impl) != comp.getImplementation());
   comp.setImplementation(impl);
   CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), comp.getImplementation());
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::setImplementationDeletesOldOne()
@@ -268,6 +276,8 @@ void ComponentTest::setImplementationDeletesOldOne()
 
   comp.setImplementation(new NullImplementation());
   CPPUNIT_ASSERT(deleted);
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::port_side_of_slot_is_left()
@@ -275,6 +285,8 @@ void ComponentTest::port_side_of_slot_is_left()
   Component comp("", new NullImplementation());
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, comp.portSide(PortType::Slot));
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::port_side_of_signal_is_right()
@@ -282,12 +294,16 @@ void ComponentTest::port_side_of_signal_is_right()
   Component comp("", new NullImplementation());
 
   CPPUNIT_ASSERT_EQUAL(Side::Right, comp.portSide(PortType::Signal));
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::heightOfEmptyComponent()
 {
   Component     comp("", new NullImplementation());
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp.height());
+
+  ComponentFactory::cleanup(comp);
 }
 
 void ComponentTest::heightOf2Slots()

@@ -5,6 +5,7 @@
 #include "CompositionInstanceMock.hpp"
 
 #include <core/implementation/Composition.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 #include <core/component/Component.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/Instance.hpp>
@@ -20,6 +21,8 @@ void CompositionTest::create()
   CPPUNIT_ASSERT_EQUAL(instance, composition.getSelfInstance());
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getInstances().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::addInstance()
@@ -32,7 +35,8 @@ void CompositionTest::addInstance()
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getInstances().size());
   CPPUNIT_ASSERT_EQUAL(instance, composition->getInstances().front());
 
-  delete composition;
+
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }
 
@@ -46,12 +50,16 @@ void CompositionTest::addConnection()
   composition.addConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::inherits_implementation()
 {
   Composition composition{new CompositionInstanceMock()};
   CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
+
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::getInstance()
@@ -63,7 +71,7 @@ void CompositionTest::getInstance()
   composition->addInstance(instance);
   CPPUNIT_ASSERT_EQUAL(instance, composition->getInstance("instance"));
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }
 
@@ -77,7 +85,7 @@ void CompositionTest::deleteInstance()
   composition->deleteInstance(instance);
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getInstances().size());
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }
 
@@ -92,6 +100,8 @@ void CompositionTest::deleteConnection()
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   composition.deleteConnection(connection);
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::deleteInstance_removes_dependant_connections()
@@ -109,6 +119,7 @@ void CompositionTest::deleteInstance_removes_dependant_connections()
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
 
   ComponentFactory::dispose(component);
+  CompositionFactory::cleanup(composition);
 }
 
 class SheetObserverTest : public CompositionObserver
@@ -166,7 +177,7 @@ void CompositionTest::notify_when_addInstance()
   CPPUNIT_ASSERT_EQUAL(instance, observer.lastInstanceAdded);
 
   composition->unregisterObserver(&observer);
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }
 
@@ -184,7 +195,7 @@ void CompositionTest::notify_when_addConnection()
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionAdded);
 
   composition->unregisterObserver(&observer);
-  delete composition;
+  CompositionFactory::dispose(composition);
 }
 
 void CompositionTest::notify_when_deleteInstance()
@@ -202,7 +213,7 @@ void CompositionTest::notify_when_deleteInstance()
 
   ComponentFactory::dispose(component);
   composition->unregisterObserver(&observer);
-  delete composition;
+  CompositionFactory::dispose(composition);
 }
 
 void CompositionTest::notify_when_deleteConnection()
@@ -220,7 +231,7 @@ void CompositionTest::notify_when_deleteConnection()
   CPPUNIT_ASSERT_EQUAL(connection, observer.lastConnectionRemoved);
 
   composition->unregisterObserver(&observer);
-  delete composition;
+  CompositionFactory::dispose(composition);
 }
 
 void CompositionTest::addConnectionUnderConstruction_notifies_observer()
@@ -236,6 +247,7 @@ void CompositionTest::addConnectionUnderConstruction_notifies_observer()
   CPPUNIT_ASSERT_EQUAL(composition.getConnectionUnderConstruction(), observer.lastAddConnectionUnderConstruction);
 
   composition.unregisterObserver(&observer);
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::can_not_overwrite_connectionUnderConstruction()
@@ -247,6 +259,7 @@ void CompositionTest::can_not_overwrite_connectionUnderConstruction()
   composition.startConnectionConstruction(&startPort, &endPort);
 
   CPPUNIT_ASSERT_THROW(composition.startConnectionConstruction(&startPort, &endPort), PreconditionError);
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::finishConnectionCreation()
@@ -265,6 +278,8 @@ void CompositionTest::finishConnectionCreation()
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
   CPPUNIT_ASSERT(!composition.hasConnectionUnderConstruction());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void CompositionTest::has_instance_with_his_parent_component()
@@ -274,7 +289,7 @@ void CompositionTest::has_instance_with_his_parent_component()
 
   CPPUNIT_ASSERT_EQUAL(compInstance, composition->getSelfInstance());
 
-  delete composition;
+  CompositionFactory::dispose(composition);
 }
 
 void CompositionTest::deleteInstancePort_removes_dependant_connections()
@@ -293,6 +308,6 @@ void CompositionTest::deleteInstancePort_removes_dependant_connections()
   comp1->deletePort(port);
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getConnections().size());
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(comp1);
 }

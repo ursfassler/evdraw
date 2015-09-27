@@ -227,6 +227,37 @@ void XmlReaderTest::compositionWithConnection()
   delete lib;
 }
 
+void XmlReaderTest::CompositionInstance_with_connection()
+{
+  const std::string xml =
+      "<evdraw>"
+      "  <component name=\"test\">"
+      "    <port type=\"slot\" name=\"in\" />"
+      "    <port type=\"signal\" name=\"out\" />"
+      "    <composition width=\"1234\" height=\"6543\">"
+      "      <connection path=\"0\" >"
+      "        <instanceport port=\"in\" />"
+      "        <instanceport port=\"out\" />"
+      "      </connection>"
+      "    </composition>"
+      "  </component>"
+      "</evdraw>";
+
+  Library *lib = XmlReader::parse(xml);
+
+  CPPUNIT_ASSERT(lib != nullptr);
+
+  CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
+  Component *empty = lib->getComponents().front();
+  CPPUNIT_ASSERT_EQUAL(std::string("test"), empty->getName());
+
+  Composition *composition = dynamic_cast<Composition*>(empty->getImplementation());
+  CPPUNIT_ASSERT(composition != nullptr);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
+
+  delete lib;
+}
+
 void XmlReaderTest::openFile()
 {
   const std::string xml =

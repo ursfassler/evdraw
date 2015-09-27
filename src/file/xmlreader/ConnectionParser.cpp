@@ -4,6 +4,7 @@
 #include "ConnectionParser.hpp"
 
 #include <core/implementation/Composition.hpp>
+#include <core/util/list.hpp>
 
 #include <regex>
 
@@ -15,16 +16,24 @@ ConnectionPortParser::ConnectionPortParser(const Library &library, const TiXmlEl
   (void)(composition);
 }
 
-Instance *ConnectionPortParser::instance() const
+IInstance *ConnectionPortParser::instance() const
 {
-  const std::string instanceName = getAttribute("instance");
-  return composition.getInstance(instanceName);
+  if (hasAttribute("instance")) {
+    const std::string instanceName = getAttribute("instance");
+    return composition.getInstance(instanceName);
+  } else {
+    return composition.getSelfInstance();
+  }
 }
 
 AbstractPort *ConnectionPortParser::port() const
 {
   const std::string portName = getAttribute("port");
-  return instance()->getPort(portName);
+  const auto list = instance()->getPorts();
+  auto predicate = [&portName](InstancePort *itr){
+    return itr->getName() == portName;
+  };
+  return listGet<InstancePort*>(list.begin(), list.end(), predicate);
 }
 
 

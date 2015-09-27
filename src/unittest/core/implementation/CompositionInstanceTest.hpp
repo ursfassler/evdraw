@@ -9,6 +9,7 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( CompositionInstanceTest );
 
     CPPUNIT_TEST(create);
+    CPPUNIT_TEST(name_is_self);
 
     CPPUNIT_TEST(can_change_width);
     CPPUNIT_TEST(can_change_height);
@@ -23,10 +24,13 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(connector_side_of_slot_is_right);
     CPPUNIT_TEST(connector_side_of_signal_is_left);
 
+    CPPUNIT_TEST(cleanup_with_connected_ports);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
     void create();
+    void name_is_self();
 
     void can_change_width();
     void can_change_height();
@@ -40,6 +44,8 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     void port_side_of_signal_is_right();
     void connector_side_of_slot_is_right();
     void connector_side_of_signal_is_left();
+
+    void cleanup_with_connected_ports();
 };
 
 CPPUNIT_TEST_SUITE_REGISTRATION( CompositionInstanceTest );

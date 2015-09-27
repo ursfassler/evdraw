@@ -28,7 +28,6 @@ class AbstractInstanceTest: public CPPUNIT_NS::TestFixture
     void hasGetName();
 
   private:
-    bool destroyed = false;
     AbstractInstance *instance = nullptr;
 
 };

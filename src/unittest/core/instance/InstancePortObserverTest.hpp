@@ -4,56 +4,13 @@
 #ifndef INSTANCEPORTOBSERVERTEST_HPP
 #define INSTANCEPORTOBSERVERTEST_HPP
 
+#include "InstanceMock.hpp"
+
 #include <core/instance/InstancePort.hpp>
 #include <core/component/ComponentPort.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
-
-class DummyInstance : public AbstractInstance
-{
-  public:
-    DummyInstance() :
-      AbstractInstance(Point(0,0))
-    {
-    }
-
-    const std::string &getName() const override
-    {
-      return name;
-    }
-    const std::string name = "";
-
-    Side portSide(PortType) const override
-    {
-      return Side::Left;
-    }
-
-    Side connectorSide(PortType) const override
-    {
-      return Side::Left;
-    }
-
-    PaperUnit getWidth() const override
-    {
-      return {};
-    }
-
-    PaperUnit getHeight() const override
-    {
-      return {};
-    }
-
-    void accept(Visitor &)
-    {
-    }
-
-    void accept(ConstVisitor &) const
-    {
-    }
-
-};
-
 
 class InstancePortObserverTest: public CPPUNIT_NS::TestFixture
 {
@@ -77,7 +34,7 @@ class InstancePortObserverTest: public CPPUNIT_NS::TestFixture
 
   private:
     ComponentPort *component = nullptr;
-    DummyInstance *instance = nullptr;
+    InstanceMock *instance = nullptr;
     InstancePort *port = nullptr;
 
 };

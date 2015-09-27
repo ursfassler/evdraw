@@ -32,6 +32,8 @@ class IComposition
     virtual ~IComposition(){}
 };
 
+class CompositionFactory;
+
 class Composition final :
     public IComposition,
     public AbstractImplementation,
@@ -74,6 +76,8 @@ class Composition final :
     std::list<Connection *> connections;
 
     void checkInvariant();
+
+    friend CompositionFactory;
 
 };
 

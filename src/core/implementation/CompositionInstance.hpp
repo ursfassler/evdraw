@@ -4,7 +4,8 @@
 #include "../component/Component.hpp"
 #include "../instance/InstancePort.hpp"
 
-class ICompositionInstance
+class ICompositionInstance :
+    public virtual IInstance
 {
   public:
     virtual ~ICompositionInstance(){}
@@ -20,7 +21,6 @@ class ICompositionInstance
 };
 
 class CompositionInstance final :
-    public IInstance,
     public ICompositionInstance,
     private ComponentObserver
 {
@@ -52,7 +52,8 @@ class CompositionInstance final :
     IComponent * const component;
     PaperUnit width = 0;
     PaperUnit height = 0;
-    std::vector<InstancePort *> ports;
+    std::vector<InstancePort *> ports{};
+    const std::string name{"self"};
 
     void portAdded(ComponentPort *port) override;
     void portDeleted(ComponentPort *port) override;

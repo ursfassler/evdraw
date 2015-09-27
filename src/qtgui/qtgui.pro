@@ -77,7 +77,9 @@ SOURCES += \
     ../core/implementation/ImplementationType.cpp \
     view/ComboboxItemDelegate.cpp \
     ../core/instance/ConnectorFactory.cpp \
-    ../core/implementation/CompositionInstance.cpp
+    ../core/implementation/CompositionInstance.cpp \
+    ../core/implementation/CompositionFactory.cpp \
+    ../core/implementation/ImplementationFactory.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -146,7 +148,9 @@ HEADERS  += \
     view/ComboboxItemDelegate.hpp \
     ../core/instance/ConnectorFactory.hpp \
     model/PortTypeModel.hpp \
-    ../core/implementation/CompositionInstance.hpp
+    ../core/implementation/CompositionInstance.hpp \
+    ../core/implementation/CompositionFactory.hpp \
+    ../core/implementation/ImplementationFactory.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

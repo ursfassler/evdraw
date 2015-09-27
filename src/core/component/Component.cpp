@@ -18,7 +18,7 @@ Component::Component(const std::string &aName, AbstractImplementation *aImplemen
 
 Component::~Component()
 {
-  delete implementation;
+  precondition(implementation == nullptr);
 }
 
 void Component::addPort(ComponentPort *port)

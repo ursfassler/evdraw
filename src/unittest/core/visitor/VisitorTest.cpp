@@ -16,6 +16,7 @@
 #include <core/connection/DrawPort.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/implementation/Composition.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 #include <core/implementation/NullImplementation.hpp>
 
 class TestVisitor final : public Visitor
@@ -154,6 +155,8 @@ void VisitorTest::composition()
   composition.accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getInstances().size());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void VisitorTest::nullImplementation()

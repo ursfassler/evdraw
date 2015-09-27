@@ -6,6 +6,7 @@
 
 #include "BaseParser.hpp"
 #include <core/connection/AbstractPort.hpp>
+#include <core/instance/Instance.hpp>
 
 class ConnectionPortParserTest;
 
@@ -14,7 +15,7 @@ class ConnectionPortParser final : protected BaseParser
   public:
     ConnectionPortParser(const Library &library, const TiXmlElement &element, const Composition &composition);
 
-    Instance *instance() const;
+    IInstance *instance() const;
     AbstractPort *port() const;
 
   private:

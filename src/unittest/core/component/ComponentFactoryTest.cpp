@@ -55,5 +55,3 @@ void ComponentFactoryTest::cleanupComponentOnStack()
 
   ComponentFactory::cleanup(component);
 }
-
-

@@ -2,68 +2,15 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "AbstractInstanceTest.hpp"
+#include "InstanceMock.hpp"
 
 #include <core/instance/AbstractInstance.hpp>
 #include <core/base/Base.hpp>
 #include <core/base/Position.hpp>
 
-class TestAbstractInstance : public AbstractInstance
-{
-  public:
-    TestAbstractInstance(bool &aDestroyed) :
-      AbstractInstance(Point(0,0)),
-      destroyed(aDestroyed)
-    {
-    }
-
-    ~TestAbstractInstance()
-    {
-      destroyed = true;
-    }
-
-    const std::string &getName() const
-    {
-      static const std::string name("test");
-      return name;
-    }
-
-    Side portSide(PortType) const override
-    {
-      return Side::Left;
-    }
-
-    Side connectorSide(PortType) const override
-    {
-      return Side::Left;
-    }
-
-    PaperUnit getWidth() const override
-    {
-      return {};
-    }
-
-    PaperUnit getHeight() const override
-    {
-      return {};
-    }
-
-    void accept(Visitor &)
-    {
-    }
-
-    void accept(ConstVisitor &) const
-    {
-    }
-
-  private:
-    bool &destroyed;
-
-};
-
 void AbstractInstanceTest::setUp()
 {
-  destroyed = false;
-  instance = new TestAbstractInstance(destroyed);
+  instance = new InstanceMock();
 }
 
 void AbstractInstanceTest::tearDown()
@@ -75,7 +22,7 @@ void AbstractInstanceTest::tearDown()
 void AbstractInstanceTest::destructorIsVirtual()
 {
   bool destroyed = false;
-  AbstractInstance *instance = new TestAbstractInstance(destroyed);
+  AbstractInstance *instance = new InstanceMock(&destroyed);
   delete instance;
   CPPUNIT_ASSERT(destroyed);
 }

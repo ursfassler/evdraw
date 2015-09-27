@@ -34,6 +34,7 @@ class BaseParser
   public:
     BaseParser(const Library &library, const TiXmlElement &element);
 
+    bool hasAttribute(const std::string &attribute) const;
     std::string getAttribute(const std::string &attribute) const;
 
     const Library &library;

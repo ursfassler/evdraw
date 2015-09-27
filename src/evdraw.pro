@@ -132,7 +132,12 @@ HEADERS += \
     unittest/core/component/ComponentMock.hpp \
     unittest/core/util/errorTest.hpp \
     core/util/error.hpp \
-    unittest/core/visitor/ConstVisitorMock.hpp
+    unittest/core/visitor/ConstVisitorMock.hpp \
+    unittest/core/instance/InstanceMock.hpp \
+    core/implementation/ImplementationFactory.hpp \
+    unittest/core/implementation/ImplementationFactoryTest.hpp \
+    unittest/core/implementation/CompositionFactoryTest.hpp \
+    core/implementation/CompositionFactory.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -235,7 +240,13 @@ SOURCES += \
     core/implementation/CompositionInstance.cpp \
     unittest/core/util/errorTest.cpp \
     core/util/error.cpp \
-    unittest/core/visitor/ConstVisitorMock.cpp
+    unittest/core/visitor/ConstVisitorMock.cpp \
+    unittest/core/instance/InstanceMock.cpp \
+    core/implementation/ImplementationFactory.cpp \
+    unittest/core/implementation/ImplementationFactoryTest.cpp \
+    unittest/core/implementation/CompositionMock.cpp \
+    unittest/core/implementation/CompositionFactoryTest.cpp \
+    core/implementation/CompositionFactory.cpp
 
 DISTFILES += \
     ../README.md \

@@ -4,6 +4,8 @@
 #include <core/implementation/CompositionInstance.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/implementation/NullImplementation.hpp>
+#include <core/implementation/Composition.hpp>
+#include <core/connection/ConnectionFactory.hpp>
 
 void CompositionInstanceTest::create()
 {
@@ -14,6 +16,13 @@ void CompositionInstanceTest::create()
   CPPUNIT_ASSERT_EQUAL(PaperUnit(0), testee.getWidth());
   CPPUNIT_ASSERT_EQUAL(PaperUnit(0), testee.getHeight());
   CPPUNIT_ASSERT_EQUAL(size_t(0), testee.getPorts().size());
+}
+
+void CompositionInstanceTest::name_is_self()
+{
+  ComponentMock component;
+  CompositionInstance testee(&component);
+  CPPUNIT_ASSERT_EQUAL(std::string("self"), testee.getName());
 }
 
 void CompositionInstanceTest::can_change_width()
@@ -107,6 +116,8 @@ void CompositionInstanceTest::port_side_of_slot_is_left()
   CompositionInstance testee(&component);
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, testee.portSide(PortType::Slot));
+
+  ComponentFactory::cleanup(component);
 }
 
 void CompositionInstanceTest::port_side_of_signal_is_right()
@@ -115,6 +126,8 @@ void CompositionInstanceTest::port_side_of_signal_is_right()
   CompositionInstance testee(&component);
 
   CPPUNIT_ASSERT_EQUAL(Side::Right, testee.portSide(PortType::Signal));
+
+  ComponentFactory::cleanup(component);
 }
 
 void CompositionInstanceTest::connector_side_of_slot_is_right()
@@ -131,4 +144,17 @@ void CompositionInstanceTest::connector_side_of_signal_is_left()
   CompositionInstance testee(&component);
 
   CPPUNIT_ASSERT_EQUAL(Side::Left, testee.connectorSide(PortType::Signal));
+}
+
+void CompositionInstanceTest::cleanup_with_connected_ports()
+{
+  Component *component = ComponentFactory::produce("", {"in"}, {"out"});
+  CompositionInstance *instance = new CompositionInstance(component);
+  Composition *composition = new Composition(instance);
+  component->setImplementation(composition);
+
+  Connection *connection = ConnectionFactory::produce(instance->getPorts().front(), instance->getPorts().back());
+  composition->addConnection(connection);
+
+  ComponentFactory::dispose(component);
 }

@@ -29,6 +29,10 @@ std::string BaseParser::getAttribute(const std::string &attribute) const
   return value;
 }
 
+bool BaseParser::hasAttribute(const std::string &attribute) const
+{
+  return element.Attribute(attribute.c_str()) != nullptr;
+}
 
 const char *NoSuchElementException::what() const _GLIBCXX_USE_NOEXCEPT
 {

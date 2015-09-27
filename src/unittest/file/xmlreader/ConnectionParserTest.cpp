@@ -48,7 +48,7 @@ void ConnectionPortParserTest::tearDown()
 void ConnectionPortParserTest::getInstance()
 {
   element->SetAttribute("instance", "theInstance");
-  CPPUNIT_ASSERT_EQUAL(theInstance, parser->instance());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IInstance*>(theInstance), parser->instance());
 }
 
 void ConnectionPortParserTest::getPort()

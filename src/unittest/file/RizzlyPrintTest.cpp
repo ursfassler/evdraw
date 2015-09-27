@@ -8,6 +8,7 @@
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/connection/ConnectionFactory.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 
 #include <sstream>
 
@@ -30,6 +31,8 @@ void RizzlyPrintTest::printEmpty()
   printer.print(composition);
 
   CPPUNIT_ASSERT_EQUAL(std::string(""), ss.str());
+
+  CompositionFactory::cleanup(composition);
 }
 
 void RizzlyPrintTest::onlyInstance()
@@ -47,7 +50,7 @@ void RizzlyPrintTest::onlyInstance()
   CPPUNIT_ASSERT_EQUAL(size_t(1), listing.size());
   CPPUNIT_ASSERT_EQUAL(std::string("instance: Component;"), listing[0]);
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }
 
@@ -70,6 +73,6 @@ void RizzlyPrintTest::connection()
   CPPUNIT_ASSERT_EQUAL(std::string("inst: Component;"), listing[0]);
   CPPUNIT_ASSERT_EQUAL(std::string("inst.a -> inst.b;"), listing[1]);
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   ComponentFactory::dispose(component);
 }

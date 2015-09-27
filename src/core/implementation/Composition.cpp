@@ -23,26 +23,10 @@ Composition::Composition(ICompositionInstance *aSelfInstance) :
 
 Composition::~Composition()
 {
-  const std::list<Connection *> connections = getConnections();
-  for (Connection *connection : connections) {
-    deleteConnection(connection);
-  }
-
-  if (connectionUnderConstruction != nullptr) {
-    ConnectionFactory::dispose(connectionUnderConstruction);
-    connectionUnderConstruction = nullptr;
-  }
-
-  const std::list<Instance *> instances = getInstances();
-  for (Instance *instance : instances) {
-    deleteInstance(instance);
-  }
-
-  delete selfInstance;
-
-  assert(getInstances().empty());
-  assert(getConnections().empty());
-  assert(connectionUnderConstruction == nullptr);
+  precondition(connections.empty());
+  precondition(connectionUnderConstruction == nullptr);
+  precondition(instances.empty());
+  precondition(selfInstance == nullptr);
 }
 
 ICompositionInstance *Composition::getSelfInstance() const

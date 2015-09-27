@@ -16,6 +16,8 @@
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/util/contract.hpp>
+#include <core/implementation/CompositionInstance.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 
 #include <map>
 
@@ -129,6 +131,8 @@ void XmlNodeWriterTest::writeComponentWithComposition()
 
   CPPUNIT_ASSERT_EQUAL(1, childrenCount());
   CPPUNIT_ASSERT_EQUAL(std::string("composition"), childName(0));
+
+  ComponentFactory::cleanup(component);
 }
 
 void XmlNodeWriterTest::writeLibraryWithComponents()
@@ -158,6 +162,8 @@ void XmlNodeWriterTest::writeInstance()
   CPPUNIT_ASSERT_EQUAL(std::string("Component"), attr("component"));
   CPPUNIT_ASSERT_EQUAL(-2, std::stoi(attr("x")));
   CPPUNIT_ASSERT_EQUAL(67, std::stoi(attr("y")));
+
+  ComponentFactory::cleanup(component);
 }
 
 void XmlNodeWriterTest::writeEmptyComposition()
@@ -174,6 +180,8 @@ void XmlNodeWriterTest::writeEmptyComposition()
   CPPUNIT_ASSERT_EQUAL(2, attributeCount());
   CPPUNIT_ASSERT_EQUAL(std::string("123"), attr("width"));
   CPPUNIT_ASSERT_EQUAL(std::string("456"), attr("height"));
+
+  CompositionFactory::cleanup(composition);
 }
 
 void XmlNodeWriterTest::writeCompositionWithInstances()
@@ -194,6 +202,9 @@ void XmlNodeWriterTest::writeCompositionWithInstances()
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance1"), childAttr(0, "name"));
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance2"), childAttr(1, "name"));
   CPPUNIT_ASSERT_EQUAL(std::string("theInstance3"), childAttr(2, "name"));
+
+  ComponentFactory::cleanup(component);
+  CompositionFactory::cleanup(composition);
 }
 
 void XmlNodeWriterTest::writeCompositionWithConnections()
@@ -214,7 +225,7 @@ void XmlNodeWriterTest::writeCompositionWithConnections()
   CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("width"));
   CPPUNIT_ASSERT_EQUAL(std::string("0"), attr("height"));
 
-  delete composition;
+  CompositionFactory::dispose(composition);
   InstanceFactory::dispose(inst2);
   InstanceFactory::dispose(inst1);
   ComponentFactory::dispose(comp);
@@ -256,6 +267,23 @@ void XmlNodeWriterTest::writeInstanceOutPort()
   ComponentFactory::dispose(comp);
 }
 
+void XmlNodeWriterTest::CompositionInstance_does_not_write_instance_in_port()
+{
+  Component *component = ComponentFactory::produce("Component", {"in"}, {});
+  CompositionInstance *instance = new CompositionInstance(component);
+  AbstractPort *port = instance->getPorts().at(0);
+
+  port->accept(*writer);
+
+  CPPUNIT_ASSERT_EQUAL(std::string("instanceport"), name());
+  CPPUNIT_ASSERT_EQUAL(0, childrenCount());
+  CPPUNIT_ASSERT_EQUAL(1, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("in"), attr("port"));
+
+  delete instance;
+  ComponentFactory::dispose(component);
+}
+
 void XmlNodeWriterTest::writeComponentInPort()
 {
   Component *comp = ComponentFactory::produce("Component", {"in"}, {});
@@ -263,9 +291,10 @@ void XmlNodeWriterTest::writeComponentInPort()
 
   port->accept(*writer);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("slot"), name());
+  CPPUNIT_ASSERT_EQUAL(std::string("port"), name());
   CPPUNIT_ASSERT_EQUAL(0, childrenCount());
-  CPPUNIT_ASSERT_EQUAL(1, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(2, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("slot"), attr("type"));
   CPPUNIT_ASSERT_EQUAL(std::string("in"), attr("name"));
 
   ComponentFactory::dispose(comp);
@@ -278,15 +307,16 @@ void XmlNodeWriterTest::writeComponentOutPort()
 
   port->accept(*writer);
 
-  CPPUNIT_ASSERT_EQUAL(std::string("signal"), name());
+  CPPUNIT_ASSERT_EQUAL(std::string("port"), name());
   CPPUNIT_ASSERT_EQUAL(0, childrenCount());
-  CPPUNIT_ASSERT_EQUAL(1, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(2, attributeCount());
+  CPPUNIT_ASSERT_EQUAL(std::string("signal"), attr("type"));
   CPPUNIT_ASSERT_EQUAL(std::string("out"), attr("name"));
 
   ComponentFactory::dispose(comp);
 }
 
-void XmlNodeWriterTest::writeConnectionPorts()
+void XmlNodeWriterTest::write_Instance_Ports()
 {
   Component *comp = ComponentFactory::produce("Component", {"in"}, {"out"});
   Instance *inst1 = InstanceFactory::produce(comp, "inst1", Point(0,0));

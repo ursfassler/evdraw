@@ -1,9 +1,13 @@
 #ifndef COMPOSITIONINSTANCEMOCK
 #define COMPOSITIONINSTANCEMOCK
 
+#include "../instance/InstanceMock.hpp"
+
 #include <core/implementation/CompositionInstance.hpp>
 
-class CompositionInstanceMock : public ICompositionInstance
+class CompositionInstanceMock :
+    public ICompositionInstance,
+    public InstanceMock
 {
   public:
     IComponent *getComponent() const override
@@ -36,6 +40,15 @@ class CompositionInstanceMock : public ICompositionInstance
       static std::vector<InstancePort *> ports;
       return ports;
     }
+
+    void accept(Visitor &) override
+    {
+    }
+
+    void accept(ConstVisitor &) const override
+    {
+    }
+
 
 };
 

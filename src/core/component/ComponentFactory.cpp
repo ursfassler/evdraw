@@ -6,6 +6,7 @@
 #include "ComponentPort.hpp"
 #include "../implementation/NullImplementation.hpp"
 #include "../util/contract.hpp"
+#include "../implementation/ImplementationFactory.hpp"
 
 Component *ComponentFactory::produce(const std::string &name)
 {
@@ -33,12 +34,16 @@ Component *ComponentFactory::produce(const std::string &name, const std::vector<
 
 void ComponentFactory::cleanup(Component &component)
 {
+  ImplementationFactory::dispose(component.implementation);
+  component.implementation = nullptr;
+
   const std::vector<ComponentPort *> ports = component.getPorts();
   for (ComponentPort *port : ports) {
     component.deletePort(port);
   }
 
   postcondition(component.ports.empty());
+  postcondition(component.implementation == nullptr);
 }
 
 void ComponentFactory::dispose(Component *component)

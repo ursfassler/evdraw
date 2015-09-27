@@ -21,11 +21,12 @@ class IInstance :
     virtual Side connectorSide(PortType type) const = 0;
     virtual PaperUnit getWidth() const = 0;
     virtual PaperUnit getHeight() const = 0;
+    virtual const std::vector<InstancePort *> &getPorts() const = 0;
 
 };
 
 class AbstractInstance :
-    public IInstance,
+    public virtual IInstance,
     public RelativePosition
 {
   public:

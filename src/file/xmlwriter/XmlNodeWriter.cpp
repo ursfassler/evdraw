@@ -3,12 +3,41 @@
 
 #include "XmlNodeWriter.hpp"
 
+#include "../../core/visitor/NullConstVisitor.hpp"
+
 #include <core/component/Library.hpp>
 #include <core/instance/Instance.hpp>
 #include <core/component/Component.hpp>
 #include <core/implementation/Composition.hpp>
 #include <core/util/contract.hpp>
 #include <core/implementation/NullImplementation.hpp>
+
+
+class EndpointInstanceWriter : public NullConstVisitor
+{
+  public:
+    EndpointInstanceWriter(TiXmlElement *aElement) :
+      element{aElement}
+    {
+    }
+
+    EndpointInstanceWriter(const EndpointInstanceWriter &) = delete;
+    EndpointInstanceWriter operator=(const EndpointInstanceWriter &) = delete;
+
+    void visit(const Instance &instance) override
+    {
+      element->SetAttribute("instance", instance.getName());
+    }
+
+    void visit(const CompositionInstance &) override
+    {
+    }
+
+  private:
+    TiXmlElement * const element;
+};
+
+
 
 XmlNodeWriter::XmlNodeWriter(TiXmlNode *aParent) :
   parent(aParent)
@@ -17,8 +46,9 @@ XmlNodeWriter::XmlNodeWriter(TiXmlNode *aParent) :
 
 void XmlNodeWriter::visit(const ComponentPort &port)
 {
-  TiXmlElement *element = new TiXmlElement(toString(port.getType()));
+  TiXmlElement *element = new TiXmlElement("port");
   parent->LinkEndChild(element);
+  element->SetAttribute("type", toString(port.getType()));
   element->SetAttribute("name", port.getName());
 }
 
@@ -57,7 +87,9 @@ void XmlNodeWriter::visit(const InstancePort &port)
   TiXmlElement *element = new TiXmlElement("instanceport");
   parent->LinkEndChild(element);
 
-  element->SetAttribute("instance", port.getInstance()->getName());
+  EndpointInstanceWriter writer(element);
+
+  port.getInstance()->accept(writer);
   element->SetAttribute("port", port.getName());
 }
 

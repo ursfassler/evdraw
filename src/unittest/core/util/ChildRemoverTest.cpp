@@ -7,6 +7,7 @@
 #include <core/util/ChildRemover.hpp>
 #include <core/specification/AlwaysSatisfiedSpecification.hpp>
 #include <core/implementation/Composition.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 #include <core/instance/Instance.hpp>
 #include <core/visitor/DefaultVisitor.hpp>
 #include <core/instance/InstanceFactory.hpp>
@@ -36,6 +37,7 @@ void ChildRemoverTest::compositionRemovesInstance()
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getInstances().size());
 
   ComponentFactory::dispose(component);
+  CompositionFactory::cleanup(composition);
 }
 
 void ChildRemoverTest::compositionRemovesConnection()
@@ -52,4 +54,6 @@ void ChildRemoverTest::compositionRemovesConnection()
   composition.accept(remover);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), composition.getConnections().size());
+
+  CompositionFactory::cleanup(composition);
 }

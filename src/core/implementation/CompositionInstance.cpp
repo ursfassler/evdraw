@@ -5,8 +5,7 @@
 #include "../util/error.hpp"
 
 CompositionInstance::CompositionInstance(IComponent *aComponent) :
-  component{aComponent},
-  ports{}
+  component{aComponent}
 {
   precondition(component != nullptr);
 
@@ -30,7 +29,7 @@ CompositionInstance::~CompositionInstance()
 
 const std::string &CompositionInstance::getName() const
 {
-  notYetImplemented();
+  return name;
 }
 
 IComponent *CompositionInstance::getComponent() const

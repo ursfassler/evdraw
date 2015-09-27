@@ -18,6 +18,7 @@
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/implementation/Composition.hpp>
+#include <core/implementation/CompositionFactory.hpp>
 #include <core/implementation/NullImplementation.hpp>
 #include <core/implementation/CompositionInstance.hpp>
 
@@ -125,6 +126,8 @@ void ConstVisitorTest::composition()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());
   CPPUNIT_ASSERT_EQUAL(std::string("Composition"), visitor.visited[0]);
+
+  CompositionFactory::cleanup(composition);
 }
 
 void ConstVisitorTest::nullImplementation()

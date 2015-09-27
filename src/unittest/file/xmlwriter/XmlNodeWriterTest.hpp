@@ -32,10 +32,11 @@ class XmlNodeWriterTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(writeInstanceInPort);
     CPPUNIT_TEST(writeInstanceOutPort);
+    CPPUNIT_TEST(CompositionInstance_does_not_write_instance_in_port);
     CPPUNIT_TEST(writeComponentInPort);
     CPPUNIT_TEST(writeComponentOutPort);
 
-    CPPUNIT_TEST(writeConnectionPorts);
+    CPPUNIT_TEST(write_Instance_Ports);
     CPPUNIT_TEST(writeConnectionPath);
 
     CPPUNIT_TEST_SUITE_END();
@@ -62,10 +63,11 @@ class XmlNodeWriterTest : public CPPUNIT_NS::TestFixture
 
     void writeInstanceInPort();
     void writeInstanceOutPort();
+    void CompositionInstance_does_not_write_instance_in_port();
     void writeComponentInPort();
     void writeComponentOutPort();
 
-    void writeConnectionPorts();
+    void write_Instance_Ports();
     void writeConnectionPath();
 
   private:
