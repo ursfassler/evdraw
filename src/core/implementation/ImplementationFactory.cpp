@@ -19,7 +19,7 @@ class CompositionDisposer :
 
 };
 
-void ImplementationFactory::dispose(AbstractImplementation *implementation)
+void ImplementationFactory::dispose(IImplementation *implementation)
 {
   precondition(implementation != nullptr);
 

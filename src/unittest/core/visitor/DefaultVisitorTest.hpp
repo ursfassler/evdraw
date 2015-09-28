@@ -62,8 +62,8 @@ class DefaultVisitorTest : public CPPUNIT_NS::TestFixture
     Composition *composition = nullptr;
     Component *componentComposition = nullptr;
     Instance *instance = nullptr;
-    AbstractPort *instanceSlot = nullptr;
-    AbstractPort *instanceSignal = nullptr;
+    IPort *instanceSlot = nullptr;
+    IPort *instanceSignal = nullptr;
     Connection *connection = nullptr;
 
 };

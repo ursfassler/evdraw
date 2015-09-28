@@ -8,7 +8,7 @@
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
 
-#include "AbstractInstance.hpp"
+#include "IInstance.hpp"
 #include "InstancePort.hpp"
 #include "../visitor/VisitorClient.hpp"
 
@@ -30,7 +30,8 @@ class InstanceObserver
 };
 
 class Instance final :
-    public AbstractInstance,
+    public virtual IInstance,
+    public RelativePosition,
     public ObserverCollection<InstanceObserver>,
     private ComponentObserver
 {

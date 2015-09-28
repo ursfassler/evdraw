@@ -3,9 +3,9 @@
 
 #include "AbstractImplementationTest.hpp"
 
-#include <core/component/AbstractImplementation.hpp>
+#include <core/component/IImplementation.hpp>
 
-class Implementation : public AbstractImplementation
+class Implementation : public IImplementation
 {
   public:
     Implementation(bool &aDestructorCalled) :
@@ -32,7 +32,7 @@ class Implementation : public AbstractImplementation
 void AbstractImplementationTest::destructorIsVirtual()
 {
   bool destructorCalled = false;
-  AbstractImplementation *impl = new Implementation(destructorCalled);
+  IImplementation *impl = new Implementation(destructorCalled);
   delete impl;
   CPPUNIT_ASSERT(destructorCalled);
 }

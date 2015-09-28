@@ -4,12 +4,12 @@
 #ifndef IMPLEMENTATIONFACTORY_HPP
 #define IMPLEMENTATIONFACTORY_HPP
 
-#include "../component/AbstractImplementation.hpp"
+#include "../component/IImplementation.hpp"
 
 class ImplementationFactory
 {
   public:
-    static void dispose(AbstractImplementation *implementation);
+    static void dispose(IImplementation *implementation);
 };
 
 #endif // IMPLEMENTATIONFACTORY_HPP

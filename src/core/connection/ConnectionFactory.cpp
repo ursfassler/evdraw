@@ -8,7 +8,7 @@
 #include <iterator>
 #include <map>
 
-Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort)
+Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort)
 {
   const PaperUnit center = (startPort->getPosition().x + endPort->getPosition().x) / 2;
 
@@ -18,7 +18,7 @@ Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *en
   return produce(startPort, endPort, path);
 }
 
-Connection *ConnectionFactory::produceConstruction(AbstractPort *startPort, AbstractPort *endPort)
+Connection *ConnectionFactory::produceConstruction(IPort *startPort, IPort *endPort)
 {
   const Point start = startPort->getPosition();
   const Point end = endPort->getPosition();
@@ -32,7 +32,7 @@ Connection *ConnectionFactory::produceConstruction(AbstractPort *startPort, Abst
   return produce(startPort, endPort, pointlist);
 }
 
-Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<PaperUnit> &path)
+Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort, const std::vector<PaperUnit> &path)
 {
   precondition(path.size() >= 1);
 
@@ -46,7 +46,7 @@ Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *en
   return produce(startPort, endPort, createPointList(fullpath));
 }
 
-Connection *ConnectionFactory::produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<Endpoint *> &points)
+Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort, const std::vector<Endpoint *> &points)
 {
   precondition(points.size() >= 3);
 

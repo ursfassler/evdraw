@@ -26,7 +26,7 @@ void LibraryTest::addComponent()
   CPPUNIT_ASSERT(lib.contains(comp));
 }
 
-class Implementation : public AbstractImplementation
+class Implementation : public IImplementation
 {
   public:
     Implementation(bool &aDestructorCalled) :

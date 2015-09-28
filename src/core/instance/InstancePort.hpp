@@ -4,9 +4,9 @@
 #ifndef INSTANCEPORT_HPP
 #define INSTANCEPORT_HPP
 
-#include "AbstractInstance.hpp"
+#include "IInstance.hpp"
 #include "Connector.hpp"
-#include "../connection/AbstractPort.hpp"
+#include "../connection/IPort.hpp"
 
 #include "../component/ComponentPort.hpp"
 #include "../types.hpp"
@@ -23,7 +23,7 @@ class InstancePortObserver
 };
 
 class InstancePort :
-    public AbstractPort,
+    public IPort,
     public RelativePosition,
     public ObserverCollection<InstancePortObserver>,
     private ComponentPortObserver

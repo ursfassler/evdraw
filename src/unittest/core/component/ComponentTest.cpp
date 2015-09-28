@@ -223,12 +223,12 @@ void ComponentTest::constructWithOwnImplementation()
 {
   NullImplementation *impl = new NullImplementation();
   Component     component("", impl);
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), component.getImplementation());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IImplementation*>(impl), component.getImplementation());
 
   ComponentFactory::cleanup(component);
 }
 
-class DeleteTest : public AbstractImplementation
+class DeleteTest : public IImplementation
 {
   public:
     DeleteTest(bool &aDeleted) :
@@ -261,9 +261,9 @@ void ComponentTest::setImplementation()
   Component comp("", new NullImplementation());
   NullImplementation *impl = new NullImplementation();
 
-  CPPUNIT_ASSERT(static_cast<AbstractImplementation*>(impl) != comp.getImplementation());
+  CPPUNIT_ASSERT(static_cast<IImplementation*>(impl) != comp.getImplementation());
   comp.setImplementation(impl);
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractImplementation*>(impl), comp.getImplementation());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IImplementation*>(impl), comp.getImplementation());
 
   ComponentFactory::cleanup(comp);
 }

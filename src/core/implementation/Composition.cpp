@@ -49,7 +49,7 @@ void Composition::addInstance(Instance *instance)
 void Composition::deleteInstance(Instance *instance)
 {
   OrSpecification spec;
-  for (AbstractPort *port : instance->getPorts()) {
+  for (IPort *port : instance->getPorts()) {
     spec.add(new ConnectionWithPortSpecification(port));
   }
 
@@ -90,7 +90,7 @@ void Composition::deleteConnection(Connection *connection)
   ConnectionFactory::dispose(connection);
 }
 
-void Composition::startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort)
+void Composition::startConnectionConstruction(IPort *startPort, IPort *endPort)
 {
   precondition(!hasConnectionUnderConstruction());
   precondition(startPort != nullptr);
@@ -102,7 +102,7 @@ void Composition::startConnectionConstruction(AbstractPort *startPort, AbstractP
   notify(&CompositionObserver::addConnectionUnderConstruction, connectionUnderConstruction);
 }
 
-void Composition::finishConnectionConstruction(AbstractPort *end)
+void Composition::finishConnectionConstruction(IPort *end)
 {
   precondition(hasConnectionUnderConstruction());
   precondition(end != nullptr);

@@ -5,7 +5,7 @@
 #define CONNECTIONPARSER_HPP
 
 #include "BaseParser.hpp"
-#include <core/connection/AbstractPort.hpp>
+#include <core/connection/IPort.hpp>
 #include <core/instance/Instance.hpp>
 
 class ConnectionPortParserTest;
@@ -16,7 +16,7 @@ class ConnectionPortParser final : protected BaseParser
     ConnectionPortParser(const Library &library, const TiXmlElement &element, const Composition &composition);
 
     IInstance *instance() const;
-    AbstractPort *port() const;
+    IPort *port() const;
 
   private:
     const Composition &composition;
@@ -33,12 +33,12 @@ class ConnectionParser final : protected BaseParser
     ConnectionParser(const Library &library, const TiXmlElement &element, const Composition &composition);
 
     std::vector<PaperUnit> path() const;
-    AbstractPort *startPort() const;
-    AbstractPort *endPort() const;
+    IPort *startPort() const;
+    IPort *endPort() const;
 
   private:
     const Composition &composition;
-    AbstractPort *port(unsigned index) const;
+    IPort *port(unsigned index) const;
     std::vector<std::string> splitString(const std::string value) const;
     std::vector<PaperUnit> parsePath(const std::string &path) const;
     const TiXmlElement *childElement(unsigned index) const;

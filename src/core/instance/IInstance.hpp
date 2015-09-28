@@ -1,8 +1,8 @@
 // Copyright 2015 Urs Fässler, www.bitzgi.ch
 // SPDX-License-Identifier:	GPL-3.0+
 
-#ifndef ABSTRACTINSTANCE_HPP
-#define ABSTRACTINSTANCE_HPP
+#ifndef IINSTANCE_HPP
+#define IINSTANCE_HPP
 
 #include <string>
 #include "../base/Position.hpp"
@@ -25,20 +25,4 @@ class IInstance :
 
 };
 
-class AbstractInstance :
-    public virtual IInstance,
-    public RelativePosition
-{
-  public:
-    AbstractInstance(const Point &offset) :
-      RelativePosition(offset)
-    {
-    }
-
-    virtual ~AbstractInstance()
-    {
-    }
-
-};
-
-#endif // ABSTRACTINSTANCE_HPP
+#endif

@@ -18,13 +18,11 @@ INCLUDEPATH += .
 HEADERS += \
     core/base/Base.hpp \
     core/base/Position.hpp \
-    core/component/AbstractImplementation.hpp \
     core/component/ComponentFactory.hpp \
     core/component/Component.hpp \
     core/component/ComponentPort.hpp \
     core/component/InstanceAppearance.hpp \
     core/component/Library.hpp \
-    core/connection/AbstractPort.hpp \
     core/connection/ConnectionFactory.hpp \
     core/connection/Connection.hpp \
     core/connection/ConnectionWithPortSpecification.hpp \
@@ -34,7 +32,6 @@ HEADERS += \
     core/connection/SimplePort.hpp \
     core/implementation/Composition.hpp \
     core/implementation/NullImplementation.hpp \
-    core/instance/AbstractInstance.hpp \
     core/instance/Connector.hpp \
     core/instance/InstanceFactory.hpp \
     core/instance/Instance.hpp \
@@ -117,7 +114,6 @@ HEADERS += \
     unittest/testtypes.hpp \
     unittest/core/instance/InstanceObserverTest.hpp \
     unittest/core/component/ComponentPortObserverTest.hpp \
-    unittest/core/instance/AbstractInstanceTest.hpp \
     unittest/core/instance/InstancePortObserverTest.hpp \
     core/component/PortType.hpp \
     unittest/core/implementation/ImplementationTypeTest.hpp \
@@ -137,7 +133,10 @@ HEADERS += \
     core/implementation/ImplementationFactory.hpp \
     unittest/core/implementation/ImplementationFactoryTest.hpp \
     unittest/core/implementation/CompositionFactoryTest.hpp \
-    core/implementation/CompositionFactory.hpp
+    core/implementation/CompositionFactory.hpp \
+    core/instance/IInstance.hpp \
+    core/connection/IPort.hpp \
+    core/component/IImplementation.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -228,7 +227,6 @@ SOURCES += \
     unittest/testtypes.cpp \
     unittest/core/instance/InstanceObserverTest.cpp \
     unittest/core/component/ComponentPortObserverTest.cpp \
-    unittest/core/instance/AbstractInstanceTest.cpp \
     unittest/core/instance/InstancePortObserverTest.cpp \
     unittest/core/component/PortTypeTest.cpp \
     core/component/PortType.cpp \

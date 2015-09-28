@@ -4,12 +4,12 @@
 #ifndef SIMPLEPORT_HPP
 #define SIMPLEPORT_HPP
 
-#include "AbstractPort.hpp"
+#include "IPort.hpp"
 #include "../base/Position.hpp"
 
 #include <set>
 
-class SimplePort : public AbstractPort
+class SimplePort : public IPort
 {
   public:
     SimplePort();

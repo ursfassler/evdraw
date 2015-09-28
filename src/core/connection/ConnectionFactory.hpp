@@ -12,15 +12,15 @@ class ConnectionFactoryTest;
 class ConnectionFactory
 {
   public:
-    static Connection *produce(AbstractPort *startPort, AbstractPort *endPort);
-    static Connection *produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<PaperUnit> &path);
-    static Connection *produceConstruction(AbstractPort *startPort, AbstractPort *endPort);
+    static Connection *produce(IPort *startPort, IPort *endPort);
+    static Connection *produce(IPort *startPort, IPort *endPort, const std::vector<PaperUnit> &path);
+    static Connection *produceConstruction(IPort *startPort, IPort *endPort);
     static void cleanup(Connection &connection);
     static void dispose(Connection *connection);
 
   private:
     static void addSegments(Connection *con);
-    static Connection *produce(AbstractPort *startPort, AbstractPort *endPort, const std::vector<Endpoint *> &points);
+    static Connection *produce(IPort *startPort, IPort *endPort, const std::vector<Endpoint *> &points);
     static std::vector<Endpoint *> createPointList(const std::vector<PaperUnit> &path);
 
     friend ConnectionFactoryTest;

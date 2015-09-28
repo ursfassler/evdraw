@@ -57,7 +57,7 @@ void CompositionTest::addConnection()
 void CompositionTest::inherits_implementation()
 {
   Composition composition{new CompositionInstanceMock()};
-  CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&composition) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<IImplementation*>(&composition) != nullptr);
 
   CompositionFactory::cleanup(composition);
 }
@@ -274,7 +274,7 @@ void CompositionTest::finishConnectionCreation()
 
   composition.finishConnectionConstruction(&endPort);
 
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&endPort), connection->getEndPort());
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getConnections().size());
   CPPUNIT_ASSERT_EQUAL(connection, composition.getConnections().front());
   CPPUNIT_ASSERT(!composition.hasConnectionUnderConstruction());

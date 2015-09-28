@@ -57,7 +57,7 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
   const uint column = index.column();
   const Connection *con = getConnection(row);
 
-  AbstractPort *port = nullptr;
+  IPort *port = nullptr;
 
   switch (column) {
     case SRC_INST_INDEX:
@@ -93,7 +93,7 @@ Connection *ConnectionListModel::getConnection(uint row) const
   return *std::next(composition.getConnections().begin(), row);
 }
 
-QPair<QString,QString> ConnectionListModel::endpointName(const AbstractPort &port) const
+QPair<QString,QString> ConnectionListModel::endpointName(const IPort &port) const
 {
   ConnectionEndpointNameVisitor visitor;
   port.accept(visitor);

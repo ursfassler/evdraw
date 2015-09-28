@@ -9,7 +9,7 @@
 
 #include <map>
 
-Component::Component(const std::string &aName, AbstractImplementation *aImplementation) :
+Component::Component(const std::string &aName, IImplementation *aImplementation) :
   name(aName),
   ports(),
   implementation(aImplementation)
@@ -99,12 +99,12 @@ void Component::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-AbstractImplementation *Component::getImplementation() const
+IImplementation *Component::getImplementation() const
 {
   return implementation;
 }
 
-void Component::setImplementation(AbstractImplementation *value)
+void Component::setImplementation(IImplementation *value)
 {
   precondition(value != nullptr);
 

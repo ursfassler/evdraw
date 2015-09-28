@@ -8,7 +8,7 @@
 #include <core/Point.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/InstanceFactory.hpp>
-#include <core/instance/AbstractInstance.hpp>
+#include <core/instance/IInstance.hpp>
 
 void InstanceTest::setUp()
 {
@@ -27,7 +27,7 @@ void InstanceTest::produce()
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
   CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance->getOffset());
   CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
-  CPPUNIT_ASSERT(dynamic_cast<AbstractInstance*>(instance) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<IInstance*>(instance) != nullptr);
 }
 
 void InstanceTest::setPosition()

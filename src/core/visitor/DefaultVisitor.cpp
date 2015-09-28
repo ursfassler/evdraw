@@ -22,7 +22,7 @@ void DefaultVisitor::visit(Component &component)
 
 void DefaultVisitor::visit(Instance &instance)
 {
-  for (AbstractPort *port : instance.getPorts())
+  for (IPort *port : instance.getPorts())
   {
     port->accept(*this);
   }

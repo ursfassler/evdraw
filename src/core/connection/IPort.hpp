@@ -1,16 +1,17 @@
 // Copyright 2015 Urs Fässler, www.bitzgi.ch
 // SPDX-License-Identifier:	GPL-3.0+
 
-#ifndef ABSTRACTPORT_HPP
-#define ABSTRACTPORT_HPP
+#ifndef IPORT_HPP
+#define IPORT_HPP
 
 #include "../base/Position.hpp"
 #include "../visitor/VisitorClient.hpp"
 
-class AbstractPort : public VisitorClient
+class IPort :
+    public VisitorClient
 {
   public:
-    virtual ~AbstractPort(){}
+    virtual ~IPort(){}
     virtual void addConnectionPoint(RelativePosition *point) = 0;
     virtual void removeConnectionPoint(RelativePosition *point) = 0;
     virtual std::string getName() const = 0;
@@ -18,4 +19,4 @@ class AbstractPort : public VisitorClient
 };
 
 
-#endif // ABSTRACTPORT_HPP
+#endif

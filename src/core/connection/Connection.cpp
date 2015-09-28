@@ -5,7 +5,7 @@
 
 #include "../util/contract.hpp"
 
-Connection::Connection(AbstractPort *aStartPort, AbstractPort *aEndPort) :
+Connection::Connection(IPort *aStartPort, IPort *aEndPort) :
   points(),
   horizontalSegments(),
   verticalSegments(),
@@ -21,24 +21,24 @@ Connection::~Connection()
   precondition(points.empty());
 }
 
-AbstractPort *Connection::getStartPort() const
+IPort *Connection::getStartPort() const
 {
   return startPort;
 }
 
-void Connection::replaceStartPort(AbstractPort *port)
+void Connection::replaceStartPort(IPort *port)
 {
   startPort->removeConnectionPoint(points.front());
   startPort = port;
   startPort->addConnectionPoint(points.front());
 }
 
-AbstractPort *Connection::getEndPort() const
+IPort *Connection::getEndPort() const
 {
   return endPort;
 }
 
-void Connection::replaceEndPort(AbstractPort *port)
+void Connection::replaceEndPort(IPort *port)
 {
   endPort->removeConnectionPoint(points.back());
   endPort = port;

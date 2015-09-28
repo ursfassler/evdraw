@@ -4,9 +4,9 @@
 #ifndef NULLIMPLEMENTATION_HPP
 #define NULLIMPLEMENTATION_HPP
 
-#include "../component/AbstractImplementation.hpp"
+#include "../component/IImplementation.hpp"
 
-class NullImplementation : public AbstractImplementation
+class NullImplementation : public IImplementation
 {
   public:
     NullImplementation();

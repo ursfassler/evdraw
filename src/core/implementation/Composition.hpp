@@ -10,7 +10,7 @@
 #include "../connection/Connection.hpp"
 #include "../util/Observer.hpp"
 #include "../visitor/ConstVisitor.hpp"
-#include "../component/AbstractImplementation.hpp"
+#include "../component/IImplementation.hpp"
 
 #include <list>
 
@@ -36,7 +36,7 @@ class CompositionFactory;
 
 class Composition final :
     public IComposition,
-    public AbstractImplementation,
+    public IImplementation,
     public ObserverCollection<CompositionObserver>,
     public InstanceObserver
 {
@@ -58,8 +58,8 @@ class Composition final :
     void addConnection(Connection *connection);
     void deleteConnection(Connection *connection);
 
-    void startConnectionConstruction(AbstractPort *startPort, AbstractPort *endPort);
-    void finishConnectionConstruction(AbstractPort *end);
+    void startConnectionConstruction(IPort *startPort, IPort *endPort);
+    void finishConnectionConstruction(IPort *end);
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
 

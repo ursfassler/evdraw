@@ -2,7 +2,6 @@
 
 
 InstanceMock::InstanceMock(bool *aDestroyed) :
-  AbstractInstance{Point(0,0)},
   destroyed{aDestroyed}
 {
 }

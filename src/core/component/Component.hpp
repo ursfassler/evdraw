@@ -5,7 +5,7 @@
 #define COMPONENT_HPP
 
 #include "ComponentPort.hpp"
-#include "AbstractImplementation.hpp"
+#include "IImplementation.hpp"
 #include "../types.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../util/Observer.hpp"
@@ -45,7 +45,7 @@ class Component final :
     private ComponentPortObserver
 {
   public:
-    Component(const std::string &name, AbstractImplementation *implementation);
+    Component(const std::string &name, IImplementation *implementation);
     ~Component();
 
     Component(const Component &) = delete;
@@ -67,14 +67,14 @@ class Component final :
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-    AbstractImplementation *getImplementation() const;
-    void setImplementation(AbstractImplementation *value);
+    IImplementation *getImplementation() const;
+    void setImplementation(IImplementation *value);
 
   private:
     std::string name;
     std::vector<ComponentPort *> ports;
 
-    AbstractImplementation *implementation;
+    IImplementation *implementation;
 
     void updateTopIndex();
 

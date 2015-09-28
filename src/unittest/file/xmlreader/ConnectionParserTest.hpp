@@ -22,8 +22,8 @@ class ConnectionTestEnvironment : public CPPUNIT_NS::TestFixture
     ComponentPort *theCompPort1 = nullptr;
     ComponentPort *theCompPort2 = nullptr;
     Instance *theInstance = nullptr;
-    AbstractPort *theInstPort1 = nullptr;
-    AbstractPort *theInstPort2 = nullptr;
+    IPort *theInstPort1 = nullptr;
+    IPort *theInstPort2 = nullptr;
     Composition *composition = nullptr;
     Component *compB = nullptr;
     Library *library = nullptr;

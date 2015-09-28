@@ -96,7 +96,7 @@ void ConstVisitorTest::instancePort()
   Component *component = ComponentFactory::produce("component", {"port"}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  AbstractPort *port = instance->getPorts().front();
+  IPort *port = instance->getPorts().front();
   port->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), visitor.visited.size());

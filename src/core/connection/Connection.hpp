@@ -6,7 +6,7 @@
 
 #include "Endpoint.hpp"
 #include "Segment.hpp"
-#include "AbstractPort.hpp"
+#include "IPort.hpp"
 #include "../util/Observer.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include <vector>
@@ -38,16 +38,16 @@ class ConnectionObserver
 class Connection final : public ObserverCollection<ConnectionObserver>, public VisitorClient
 {
   public:
-    Connection(AbstractPort *startPort, AbstractPort *endPort);
+    Connection(IPort *startPort, IPort *endPort);
     virtual ~Connection();
 
     Connection(const Connection &) = delete;
     Connection operator=(const Connection &) = delete;
 
-    AbstractPort *getStartPort() const;
-    void replaceStartPort(AbstractPort *port);
-    AbstractPort *getEndPort() const;
-    void replaceEndPort(AbstractPort *port);
+    IPort *getStartPort() const;
+    void replaceStartPort(IPort *port);
+    IPort *getEndPort() const;
+    void replaceEndPort(IPort *port);
 
     const std::vector<HorizontalSegment *> &getHorizontalSegment() const;
     const std::vector<VerticalSegment *> &getVerticalSegment() const;
@@ -70,8 +70,8 @@ class Connection final : public ObserverCollection<ConnectionObserver>, public V
     std::vector<VerticalSegment *>   verticalSegments;
 
   private:
-    AbstractPort *startPort;
-    AbstractPort *endPort;
+    IPort *startPort;
+    IPort *endPort;
     void insertHorizontalSegment();
     void insertVerticalSegment();
     Segment *getSegment(size_t index) const;

@@ -37,7 +37,7 @@ class ConnectionListModel :
     Composition &composition;
 
     Connection *getConnection(uint row) const;
-    QPair<QString,QString> endpointName(const AbstractPort &port) const;
+    QPair<QString,QString> endpointName(const IPort &port) const;
 
     void connectionAdded(Connection *connection);
     void connectionRemoved(Connection *connection);

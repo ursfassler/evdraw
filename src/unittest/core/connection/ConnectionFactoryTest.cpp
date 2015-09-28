@@ -72,8 +72,8 @@ void ConnectionFactoryTest::createConnection()
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(30, connection->getVerticalSegment().front()->getX());
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&startPort), connection->getStartPort());
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&startPort), connection->getStartPort());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&endPort), connection->getEndPort());
   CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
   CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
 
@@ -115,8 +115,8 @@ void ConnectionFactoryTest::createConstruction()
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&startPort), connection->getStartPort());
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<AbstractPort*>(&endPort), connection->getEndPort());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&startPort), connection->getStartPort());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&endPort), connection->getEndPort());
 
   ConnectionFactory::dispose(connection);
 }

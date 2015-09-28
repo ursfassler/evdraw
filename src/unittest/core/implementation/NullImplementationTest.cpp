@@ -15,5 +15,5 @@ void NullImplementationTest::construct()
 void NullImplementationTest::inheritsAbstractImplementation()
 {
   NullImplementation  implementation;
-  CPPUNIT_ASSERT(dynamic_cast<AbstractImplementation*>(&implementation) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<IImplementation*>(&implementation) != nullptr);
 }

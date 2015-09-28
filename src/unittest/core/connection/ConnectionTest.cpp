@@ -9,7 +9,7 @@
 #include <core/connection/SimplePort.hpp>
 #include <core/connection/DrawPort.hpp>
 
-#include <core/instance/AbstractInstance.hpp>
+#include <core/instance/IInstance.hpp>
 #include <core/util/contract.hpp>
 
 void ConnectionTest::create()
@@ -21,8 +21,8 @@ void ConnectionTest::create()
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&startPort), connection.getStartPort());
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&endPort), connection.getEndPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&startPort), connection.getStartPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&endPort), connection.getEndPort());
 }
 
 void ConnectionTest::instanceStart()

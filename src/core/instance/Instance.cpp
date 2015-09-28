@@ -7,7 +7,7 @@
 #include "../component/InstanceAppearance.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
-  AbstractInstance{aPosition},
+  RelativePosition{aPosition},
   name{aName},
   component{aComponent},
   ports{}

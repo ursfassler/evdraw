@@ -5,7 +5,7 @@
 
 #include "Connection.hpp"
 
-ConnectionWithPortSpecification::ConnectionWithPortSpecification(const AbstractPort *aPort) :
+ConnectionWithPortSpecification::ConnectionWithPortSpecification(const IPort *aPort) :
   port(aPort)
 {
 }

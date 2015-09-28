@@ -57,8 +57,8 @@ class TestVisitor final : public Visitor
 
     void visit(Connection &connection)
     {
-      AbstractPort *start = connection.getStartPort();
-      AbstractPort *end = connection.getEndPort();
+      IPort *start = connection.getStartPort();
+      IPort *end = connection.getEndPort();
       connection.replaceStartPort(end);
       connection.replaceEndPort(start);
     }
@@ -125,7 +125,7 @@ void VisitorTest::instancePort()
   Component *component = ComponentFactory::produce("component", {"port"}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  AbstractPort *port = instance->getPorts().front();
+  IPort *port = instance->getPorts().front();
   port->accept(visitor);
   CPPUNIT_ASSERT_EQUAL(Point(100,200), port->getPosition());
 
@@ -141,8 +141,8 @@ void VisitorTest::connection()
   Connection *connection = ConnectionFactory::produce(&start, &end);
 
   connection->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&end), connection->getStartPort());
-  CPPUNIT_ASSERT_EQUAL(static_cast<AbstractPort*>(&start), connection->getEndPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&end), connection->getStartPort());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&start), connection->getEndPort());
 
   ConnectionFactory::dispose(connection);
 }

@@ -235,7 +235,7 @@ void XmlNodeWriterTest::writeInstanceInPort()
 {
   Component *comp = ComponentFactory::produce("Component", {"in"}, {});
   Instance *inst = InstanceFactory::produce(comp, "inst", Point(0,0));
-  AbstractPort *port = inst->getPorts().front();
+  IPort *port = inst->getPorts().front();
 
   port->accept(*writer);
 
@@ -253,7 +253,7 @@ void XmlNodeWriterTest::writeInstanceOutPort()
 {
   Component *comp = ComponentFactory::produce("Component", {}, {"out"});
   Instance *inst = InstanceFactory::produce(comp, "inst", Point(0,0));
-  AbstractPort *port = inst->getPorts().front();
+  IPort *port = inst->getPorts().front();
 
   port->accept(*writer);
 
@@ -271,7 +271,7 @@ void XmlNodeWriterTest::CompositionInstance_does_not_write_instance_in_port()
 {
   Component *component = ComponentFactory::produce("Component", {"in"}, {});
   CompositionInstance *instance = new CompositionInstance(component);
-  AbstractPort *port = instance->getPorts().at(0);
+  IPort *port = instance->getPorts().at(0);
 
   port->accept(*writer);
 

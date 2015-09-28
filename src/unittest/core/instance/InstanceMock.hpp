@@ -1,9 +1,10 @@
 #ifndef INSTANCEMOCK_HPP
 #define INSTANCEMOCK_HPP
 
-#include <core/instance/AbstractInstance.hpp>
+#include <core/instance/IInstance.hpp>
 
-class InstanceMock : public AbstractInstance
+class InstanceMock :
+    public virtual IInstance
 {
   public:
     InstanceMock(const InstanceMock &copy) = delete;

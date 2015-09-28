@@ -4,7 +4,7 @@
 #include "DrawPortTest.hpp"
 
 #include <core/connection/DrawPort.hpp>
-#include <core/connection/AbstractPort.hpp>
+#include <core/connection/IPort.hpp>
 #include <core/base/Position.hpp>
 
 class Observer : public PositionObserver
@@ -27,7 +27,7 @@ class Observer : public PositionObserver
 void DrawPortTest::inheritsAbstractPort()
 {
   DrawPort port(Point(0,0));
-  CPPUNIT_ASSERT(dynamic_cast<AbstractPort*>(&port) != nullptr);
+  CPPUNIT_ASSERT(dynamic_cast<IPort*>(&port) != nullptr);
 }
 
 void DrawPortTest::inheritsPosition()

@@ -26,7 +26,7 @@ IInstance *ConnectionPortParser::instance() const
   }
 }
 
-AbstractPort *ConnectionPortParser::port() const
+IPort *ConnectionPortParser::port() const
 {
   const std::string portName = getAttribute("port");
   const auto list = instance()->getPorts();
@@ -51,21 +51,21 @@ std::vector<PaperUnit> ConnectionParser::path() const
   return parsePath(getAttribute("path"));
 }
 
-AbstractPort *ConnectionParser::startPort() const
+IPort *ConnectionParser::startPort() const
 {
   const TiXmlElement *child = childElement(0);
   ConnectionPortParser pp(library, *child, composition);
   return pp.port();
 }
 
-AbstractPort *ConnectionParser::endPort() const
+IPort *ConnectionParser::endPort() const
 {
   const TiXmlElement *child = childElement(1);
   ConnectionPortParser pp(library, *child, composition);
   return pp.port();
 }
 
-AbstractPort *ConnectionParser::port(unsigned index) const
+IPort *ConnectionParser::port(unsigned index) const
 {
   const TiXmlElement *child = childElement(index);
   ConnectionPortParser pp(library, *child, composition);
