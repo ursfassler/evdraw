@@ -9,7 +9,6 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( CompositionInstanceTest );
 
     CPPUNIT_TEST(create);
-    CPPUNIT_TEST(name_is_self);
 
     CPPUNIT_TEST(can_change_width);
     CPPUNIT_TEST(can_change_height);
@@ -30,7 +29,6 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
 
   public:
     void create();
-    void name_is_self();
 
     void can_change_width();
     void can_change_height();

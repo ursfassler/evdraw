@@ -18,13 +18,6 @@ void CompositionInstanceTest::create()
   CPPUNIT_ASSERT_EQUAL(size_t(0), testee.getPorts().size());
 }
 
-void CompositionInstanceTest::name_is_self()
-{
-  ComponentMock component;
-  CompositionInstance testee(&component);
-  CPPUNIT_ASSERT_EQUAL(std::string("self"), testee.getName());
-}
-
 void CompositionInstanceTest::can_change_width()
 {
   ComponentMock component;

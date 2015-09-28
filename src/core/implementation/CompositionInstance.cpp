@@ -27,11 +27,6 @@ CompositionInstance::~CompositionInstance()
   ports.clear();
 }
 
-const std::string &CompositionInstance::getName() const
-{
-  return name;
-}
-
 IComponent *CompositionInstance::getComponent() const
 {
   return component;

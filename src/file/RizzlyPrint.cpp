@@ -3,6 +3,8 @@
 
 #include "RizzlyPrint.hpp"
 
+#include "../core/visitor/NullConstVisitor.hpp"
+
 RizzlyPrint::RizzlyPrint(std::ostream &aStream) :
   stream(aStream)
 {
@@ -33,10 +35,34 @@ void RizzlyPrint::visit(const CompositionInstance &)
 {
 }
 
+class InstancePrefixPrinter :
+    public NullConstVisitor
+{
+  public:
+    InstancePrefixPrinter(std::ostream &aStream) :
+      stream(aStream)
+    {
+    }
+
+    void visit(const Instance &instance) override
+    {
+      stream << instance.getName();
+      stream << ".";
+    }
+
+    void visit(const CompositionInstance &) override
+    {
+    }
+
+  private:
+    std::ostream &stream;
+};
+
 void RizzlyPrint::visit(const InstancePort &port)
 {
-  stream << port.getInstance()->getName();
-  stream << ".";
+  InstancePrefixPrinter prefixer(stream);
+
+  port.getInstance()->accept(prefixer);
   stream << port.getName();
 }
 

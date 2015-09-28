@@ -13,12 +13,6 @@ InstanceMock::~InstanceMock()
   }
 }
 
-const std::string &InstanceMock::getName() const
-{
-  static const std::string name("test");
-  return name;
-}
-
 const std::vector<InstancePort *> &InstanceMock::getPorts() const
 {
   static const std::vector<InstancePort *> ports;

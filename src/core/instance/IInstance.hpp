@@ -16,7 +16,6 @@ class IInstance :
   public:
     virtual ~IInstance(){}
 
-    virtual const std::string &getName() const = 0;
     virtual Side portSide(PortType type) const = 0;
     virtual Side connectorSide(PortType type) const = 0;
     virtual PaperUnit getWidth() const = 0;

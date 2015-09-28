@@ -31,8 +31,6 @@ class CompositionInstance final :
     CompositionInstance(IComponent *component);
     ~CompositionInstance();
 
-    const std::string &getName() const override final;
-
     IComponent *getComponent() const override final;
 
     PaperUnit getWidth() const override final;
@@ -53,7 +51,6 @@ class CompositionInstance final :
     PaperUnit width = 0;
     PaperUnit height = 0;
     std::vector<InstancePort *> ports{};
-    const std::string name{"self"};
 
     void portAdded(ComponentPort *port) override;
     void portDeleted(ComponentPort *port) override;

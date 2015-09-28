@@ -13,7 +13,6 @@ class InstanceMock :
     InstanceMock(bool *aDestroyed = nullptr);
     ~InstanceMock();
 
-    const std::string &getName() const override;
     const std::vector<InstancePort *> &getPorts() const override;
     Side portSide(PortType) const override;
     Side connectorSide(PortType) const override;
