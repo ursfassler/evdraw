@@ -6,12 +6,14 @@
 
 #include "CompositionToGuiUpdater.hpp"
 #include "graphicItems/CompositionScene.hpp"
+#include "graphicItems/GiSelfInstance.hpp"
 
 #include <core/implementation/Composition.hpp>
 
 #include <QWidget>
 #include <QGraphicsScene>
 #include <QGraphicsView>
+#include <QGraphicsSimpleTextItem>
 
 class CompositionDraw : public QGraphicsView
 {
@@ -30,11 +32,10 @@ class CompositionDraw : public QGraphicsView
 
   private:
     CompositionScene scene;
+    GiSelfInstance selfInst;
     CompositionToGuiUpdater updater;
     Composition &composition;
 
-    void addPorts(const std::vector<InstancePort *> &ports);
-    void addPort(InstancePort *port);
 };
 
 #endif

@@ -79,7 +79,8 @@ SOURCES += \
     ../core/instance/ConnectorFactory.cpp \
     ../core/implementation/CompositionInstance.cpp \
     ../core/implementation/CompositionFactory.cpp \
-    ../core/implementation/ImplementationFactory.cpp
+    ../core/implementation/ImplementationFactory.cpp \
+    graphicItems/GiSelfInstance.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -150,7 +151,8 @@ HEADERS  += \
     model/PortTypeModel.hpp \
     ../core/implementation/CompositionInstance.hpp \
     ../core/implementation/CompositionFactory.hpp \
-    ../core/implementation/ImplementationFactory.hpp
+    ../core/implementation/ImplementationFactory.hpp \
+    graphicItems/GiSelfInstance.hpp
 
 OTHER_FILES += \
     drawings/test1.evd
