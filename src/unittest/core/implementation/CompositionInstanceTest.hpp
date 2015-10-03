@@ -11,10 +11,13 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(create);
 
     CPPUNIT_TEST(can_change_width);
-    CPPUNIT_TEST(can_change_height);
     CPPUNIT_TEST(change_of_width_notifies_observers);
     CPPUNIT_TEST(setWidth_does_not_notifies_observers_when_new_value_is_the_same);
     CPPUNIT_TEST(change_of_width_updates_port_positions);
+
+    CPPUNIT_TEST(can_change_height);
+    CPPUNIT_TEST(setHeight_notifies_observers);
+    CPPUNIT_TEST(setHeight_does_not_notifies_observers_when_new_value_is_the_same);
 
     CPPUNIT_TEST(create_from_component_with_ports);
     CPPUNIT_TEST(syncs_with_new_ports_in_composition);
@@ -33,10 +36,13 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     void create();
 
     void can_change_width();
-    void can_change_height();
     void change_of_width_notifies_observers();
     void setWidth_does_not_notifies_observers_when_new_value_is_the_same();
     void change_of_width_updates_port_positions();
+
+    void can_change_height();
+    void setHeight_notifies_observers();
+    void setHeight_does_not_notifies_observers_when_new_value_is_the_same();
 
     void create_from_component_with_ports();
     void syncs_with_new_ports_in_composition();

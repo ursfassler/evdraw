@@ -23,16 +23,36 @@ void VerticalLine::moveTo(const Point &pos)
 }
 
 
+
+HorizontallLine::HorizontallLine(ICompositionInstance &aInstance, QGraphicsItem *parent) :
+  MoveableLine{parent},
+  instance{aInstance}
+{
+}
+
+void HorizontallLine::moveTo(const Point &pos)
+{
+  const auto height = pos.y;
+  instance.setHeight(height);
+}
+
+
+
 GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aComposition) :
   type{this},
   leftLine{aInstance, this},
   rightLine{aInstance, this},
+  bottomLine{aInstance, this},
   instance{aInstance},
   composition{aComposition}
 {
   instance.registerObserver(this);
 
   updateSize();
+
+  leftLine.setCursor(QCursor(Qt::SizeHorCursor));
+  rightLine.setCursor(QCursor(Qt::SizeHorCursor));
+  bottomLine.setCursor(QCursor(Qt::SizeVerCursor));
 
   addPorts(instance.getPorts());
 
@@ -65,18 +85,26 @@ void GiSelfInstance::widthChanged()
   updateSize();
 }
 
+void GiSelfInstance::heightChanged()
+{
+  updateSize();
+}
+
 void GiSelfInstance::updateSize()
 {
   const auto width = puToScene(instance.getWidth());
   const auto height = puToScene(instance.getHeight());
+  const auto newRect = QRectF{-width/2, 0, width, height};
 
-  setRect(-width/2, 0, width, height);
+  prepareGeometryChange();
+
+  setRect(newRect);
+
   leftLine.setLine(-width/2, 0, -width/2, height);
-  leftLine.setCursor(QCursor(Qt::SizeHorCursor));
   rightLine.setLine(width/2, 0, width/2, height);
-  rightLine.setCursor(QCursor(Qt::SizeHorCursor));
+  bottomLine.setLine(-width/2, height, width/2, height);
 
-  //TODO notify ithers about boundingBox change
+  update();
 }
 
 

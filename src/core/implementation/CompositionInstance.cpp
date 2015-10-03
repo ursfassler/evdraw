@@ -39,6 +39,7 @@ PaperUnit CompositionInstance::getWidth() const
 
 void CompositionInstance::setWidth(PaperUnit value)
 {
+  //TODO use a minimum width (size as if normal instances)
   if (width != value) {
     width = value;
     notify(&InstanceObserver::widthChanged);
@@ -52,7 +53,11 @@ PaperUnit CompositionInstance::getHeight() const
 
 void CompositionInstance::setHeight(PaperUnit value)
 {
-  height = value;
+  //TODO use a minimum height (size as if normal instances)
+  if (height != value) {
+    height = value;
+    notify(&InstanceObserver::heightChanged);
+  }
 }
 
 const std::vector<InstancePort *> &CompositionInstance::getPorts() const

@@ -41,6 +41,41 @@ void CompositionInstanceTest::can_change_height()
   CPPUNIT_ASSERT_EQUAL(PaperUnit(1234), testee.getHeight());
 }
 
+void CompositionInstanceTest::setHeight_notifies_observers()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  testee->setHeight(100);
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::setHeight_does_not_notifies_observers_when_new_value_is_the_same()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  testee->setHeight(100);
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  testee->setHeight(100);
+
+  CPPUNIT_ASSERT_EQUAL(uint(0), observer.changedHeight);
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
 void CompositionInstanceTest::change_of_width_notifies_observers()
 {
   Component *component = ComponentFactory::produce("", {}, {});
