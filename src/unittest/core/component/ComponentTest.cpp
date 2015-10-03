@@ -298,38 +298,38 @@ void ComponentTest::port_side_of_signal_is_right()
   ComponentFactory::cleanup(comp);
 }
 
-void ComponentTest::heightOfEmptyComponent()
+void ComponentTest::empty_component_has_0_ports()
 {
   Component     comp("", new NullImplementation());
-  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.height());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), comp.maxPortCount());
 
   ComponentFactory::cleanup(comp);
 }
 
-void ComponentTest::heightOf2Slots()
+void ComponentTest::two_slots_result_in_2_max_port_count()
 {
   Component     *comp = ComponentFactory::produce("", {"", ""}, {});
-  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->height());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->maxPortCount());
   ComponentFactory::dispose(comp);
 }
 
-void ComponentTest::heightOf2Signals()
+void ComponentTest::two_signals_result_in_2_max_port_count()
 {
   Component     *comp = ComponentFactory::produce("", {}, {"", ""});
-  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->height());
+  CPPUNIT_ASSERT_EQUAL(size_t(2), comp->maxPortCount());
   ComponentFactory::dispose(comp);
 }
 
-void ComponentTest::heightOf2SlotsAnd3Signals()
+void ComponentTest::two_slots_and_three_signals_result_in_3_max_port_count()
 {
   Component     *comp = ComponentFactory::produce("", {"", ""}, {"", "", ""});
-  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->height());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->maxPortCount());
   ComponentFactory::dispose(comp);
 }
 
-void ComponentTest::heightOf2SignalsAnd3Slots()
+void ComponentTest::thre_slots_and_two_signals_result_in_3_max_port_count()
 {
   Component     *comp = ComponentFactory::produce("", {"", "", ""}, {"", ""});
-  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->height());
+  CPPUNIT_ASSERT_EQUAL(size_t(3), comp->maxPortCount());
   ComponentFactory::dispose(comp);
 }

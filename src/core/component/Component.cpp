@@ -23,13 +23,13 @@ Component::~Component()
 
 void Component::addPort(ComponentPort *port)
 {
-  const size_t oldHeight = height();
+  const auto oldCount = maxPortCount();
   ports.push_back(port);
   port->registerObserver(this);
   updateTopIndex();
   notify(&ComponentObserver::portAdded, port);
-  if (height() != oldHeight) {
-    notify(&ComponentObserver::heightChanged);
+  if (maxPortCount() != oldCount) {
+    notify(&ComponentObserver::maxPortCountChanged);
   }
 }
 
@@ -38,14 +38,14 @@ void Component::deletePort(ComponentPort *port)
   std::vector<ComponentPort*>::iterator idx = std::find(ports.begin(), ports.end(), port);
   precondition(idx != ports.end());
 
-  const size_t oldHeight = height();
+  const auto oldCount = maxPortCount();
   port->unregisterObserver(this);
   ports.erase(idx);
   updateTopIndex();
   notify(&ComponentObserver::portDeleted, port);
   delete port;
-  if (height() != oldHeight) {
-    notify(&ComponentObserver::heightChanged);
+  if (maxPortCount() != oldCount) {
+    notify(&ComponentObserver::maxPortCountChanged);
   }
 }
 
@@ -62,7 +62,7 @@ ComponentPort *Component::getPort(const std::string &name) const
   return listGet<ComponentPort*>(ports.begin(), ports.end(), predicate);
 }
 
-size_t Component::height() const
+size_t Component::maxPortCount() const
 {
   std::map<Side,size_t> index;
   index[Side::Left] = 0;
@@ -130,7 +130,7 @@ void Component::typeChanged(PortType)
 {
   updateTopIndex();
   //TODO do only notify if height really changed
-  notify(&ComponentObserver::heightChanged);
+  notify(&ComponentObserver::maxPortCountChanged);
 }
 
 Side Component::portSide(PortType type) const
@@ -159,7 +159,7 @@ void ComponentObserver::portDeleted(ComponentPort *)
 {
 }
 
-void ComponentObserver::heightChanged()
+void ComponentObserver::maxPortCountChanged()
 {
 }
 

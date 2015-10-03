@@ -1,5 +1,6 @@
 #include "CompositionInstanceTest.hpp"
 #include "../component/ComponentMock.hpp"
+#include "../instance/InstanceObserverMock.h"
 
 #include <core/implementation/CompositionInstance.hpp>
 #include <core/component/ComponentFactory.hpp>
@@ -38,6 +39,41 @@ void CompositionInstanceTest::can_change_height()
 
   CPPUNIT_ASSERT_EQUAL(PaperUnit(0), testee.getWidth());
   CPPUNIT_ASSERT_EQUAL(PaperUnit(1234), testee.getHeight());
+}
+
+void CompositionInstanceTest::change_of_width_notifies_observers()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  testee->setWidth(100);
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedWidth);
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::setWidth_does_not_notifies_observers_when_new_value_is_the_same()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  testee->setWidth(100);
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  testee->setWidth(100);
+
+  CPPUNIT_ASSERT_EQUAL(uint(0), observer.changedWidth);
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
 }
 
 void CompositionInstanceTest::change_of_width_updates_port_positions()

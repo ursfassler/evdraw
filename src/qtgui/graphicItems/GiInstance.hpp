@@ -33,22 +33,22 @@ class GiInstance final :
     QGraphicsSimpleTextItem instanceText;
     QGraphicsSimpleTextItem componentText;
     QPointF calcTextPos(unsigned index, const QRectF &boundingRect) const;
-    QHash<InstancePort*,GiInstancePort*> ports;
+    QHash<IPort*,GiInstancePort*> ports;
 
     void resize();
     void updatePosition();
     void updateText();
     void addPorts(Composition *composition);
-    void addPort(InstancePort *port, Composition *composition);
+    void addPort(IPort *port, Composition *composition);
 
-    void absolutePositionChanged(const RelativePosition *sender);
-    void offsetChanged(const RelativePosition *sender);
+    void absolutePositionChanged(const RelativePosition *sender) override;
+    void offsetChanged(const RelativePosition *sender) override;
 
-    void portAdded(InstancePort *port);
-    void portDeleted(InstancePort *port);
-    void nameChanged(const Instance *);
-    void componentNameChanged(const Instance *);
-    void heightChanged();
+    void portAdded(IPort *port) override;
+    void portDeleted(IPort *port) override;
+    void nameChanged(const IInstance *) override;
+    void componentNameChanged(const IInstance *) override;
+    void heightChanged() override;
 
 };
 

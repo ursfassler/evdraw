@@ -3,6 +3,7 @@
 
 #include "../component/Component.hpp"
 #include "../instance/InstancePort.hpp"
+#include "../instance/InstanceObserver.h"
 
 class ICompositionInstance :
     public virtual IInstance
@@ -54,7 +55,6 @@ class CompositionInstance final :
 
     void portAdded(ComponentPort *port) override;
     void portDeleted(ComponentPort *port) override;
-    void updatePortOffsets() const;
 };
 
 #endif // COMPOSITIONINSTANCE_HPP

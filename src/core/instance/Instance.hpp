@@ -9,6 +9,7 @@
 #include "../Point.hpp"
 
 #include "IInstance.hpp"
+#include "InstanceObserver.h"
 #include "InstancePort.hpp"
 #include "../visitor/VisitorClient.hpp"
 
@@ -17,22 +18,10 @@
 
 class InstanceFactory;
 
-class InstanceObserver
-{
-  public:
-    virtual ~InstanceObserver();
-
-    virtual void portAdded(InstancePort *port);
-    virtual void portDeleted(InstancePort *port);
-    virtual void nameChanged(const Instance *instance);
-    virtual void componentNameChanged(const Instance *instance);
-    virtual void heightChanged();
-};
 
 class Instance final :
     public virtual IInstance,
     public RelativePosition,
-    public ObserverCollection<InstanceObserver>,
     private ComponentObserver
 {
   public:
@@ -67,7 +56,7 @@ class Instance final :
 
     void portAdded(ComponentPort *port);
     void portDeleted(ComponentPort *port);
-    void heightChanged();
+    void maxPortCountChanged();
     void nameChanged(const std::string &name);
 
     friend InstanceFactory;

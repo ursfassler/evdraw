@@ -68,12 +68,12 @@ void GiInstance::offsetChanged(const RelativePosition *)
   updatePosition();
 }
 
-void GiInstance::portAdded(InstancePort *port)
+void GiInstance::portAdded(IPort *port)
 {
   addPort(port, composition);
 }
 
-void GiInstance::portDeleted(InstancePort *port)
+void GiInstance::portDeleted(IPort *port)
 {
   precondition(ports.contains(port));
 
@@ -83,12 +83,12 @@ void GiInstance::portDeleted(InstancePort *port)
   postcondition(!childItems().contains(inst));
 }
 
-void GiInstance::nameChanged(const Instance *)
+void GiInstance::nameChanged(const IInstance *)
 {
   updateText();
 }
 
-void GiInstance::componentNameChanged(const Instance *)
+void GiInstance::componentNameChanged(const IInstance *)
 {
   updateText();
 }
@@ -113,7 +113,7 @@ void GiInstance::addPorts(Composition *composition)
   }
 }
 
-void GiInstance::addPort(InstancePort *port, Composition *composition)
+void GiInstance::addPort(IPort *port, Composition *composition)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
   GiInstancePort *gipo = new GiInstancePort(ip, composition, this);

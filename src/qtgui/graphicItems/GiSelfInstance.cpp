@@ -8,19 +8,42 @@
 
 #include <core/component/InstanceAppearance.hpp>
 
-GiSelfInstance::GiSelfInstance(ICompositionInstance &instance, Composition &aComposition) :
+#include <QCursor>
+
+VerticalLine::VerticalLine(ICompositionInstance &aInstance, QGraphicsItem *parent) :
+  MoveableLine{parent},
+  instance{aInstance}
+{
+}
+
+void VerticalLine::moveTo(const Point &pos)
+{
+  const auto width = 2 * std::fabs(pos.x);
+  instance.setWidth(width);
+}
+
+
+GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aComposition) :
   type{this},
+  leftLine{aInstance, this},
+  rightLine{aInstance, this},
+  instance{aInstance},
   composition{aComposition}
 {
-  const qreal width = puToScene(instance.getWidth());
-  setRect(-width/2, 0, width, puToScene(instance.getHeight()));
+  instance.registerObserver(this);
+
+  updateSize();
 
   addPorts(instance.getPorts());
 
   const auto text = QString::fromStdString(instance.getComponent()->getName());
   type.setText(text);
   type.setPos(0, 0.5 * puToScene(InstanceAppearance::textHeight()) - type.boundingRect().height()/2);
+}
 
+GiSelfInstance::~GiSelfInstance()
+{
+  instance.unregisterObserver(this);
 }
 
 void GiSelfInstance::addPorts(const std::vector<InstancePort *> &ports)
@@ -34,6 +57,26 @@ void GiSelfInstance::addPort(InstancePort *port)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
   GiInstancePort *gipo = new GiInstancePort(ip, &composition, this);
-//  ports[ip] = gipo;
+  //  ports[ip] = gipo;
 }
+
+void GiSelfInstance::widthChanged()
+{
+  updateSize();
+}
+
+void GiSelfInstance::updateSize()
+{
+  const auto width = puToScene(instance.getWidth());
+  const auto height = puToScene(instance.getHeight());
+
+  setRect(-width/2, 0, width, height);
+  leftLine.setLine(-width/2, 0, -width/2, height);
+  leftLine.setCursor(QCursor(Qt::SizeHorCursor));
+  rightLine.setLine(width/2, 0, width/2, height);
+  rightLine.setCursor(QCursor(Qt::SizeHorCursor));
+
+  //TODO notify ithers about boundingBox change
+}
+
 

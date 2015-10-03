@@ -4,14 +4,18 @@
 #ifndef IINSTANCE_HPP
 #define IINSTANCE_HPP
 
-#include <string>
+#include "InstanceObserver.h"
+
 #include "../base/Position.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../types.hpp"
 #include "../component/PortType.hpp"
 
+#include <string>
+
 class IInstance :
-    public VisitorClient
+    public VisitorClient,
+    public ObserverCollection<InstanceObserver>
 {
   public:
     virtual ~IInstance(){}

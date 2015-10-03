@@ -38,7 +38,7 @@ class Composition final :
     public IComposition,
     public IImplementation,
     public ObserverCollection<CompositionObserver>,
-    public InstanceObserver
+    private InstanceObserver
 {
   public:
     Composition(ICompositionInstance *selfInstance);
@@ -66,9 +66,6 @@ class Composition final :
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-  protected:
-    void portDeleted(InstancePort *port);
-
   private:
     Connection  *connectionUnderConstruction = nullptr;
     ICompositionInstance *selfInstance;
@@ -76,6 +73,8 @@ class Composition final :
     std::list<Connection *> connections;
 
     void checkInvariant();
+
+    void portDeleted(IPort *port) override;
 
     friend CompositionFactory;
 

@@ -19,19 +19,19 @@ class PortListModel :
     explicit PortListModel(Component &component, QObject *parent = 0);
     ~PortListModel();
 
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
     void delPort(const QModelIndex &index);
     void addPort(const QString &name);
 
     const Component *getComponent() const;
-    QAbstractListModel *getTypes() const;
+    QAbstractListModel *getTypes() const override;
 
   protected:
-    QString getName(uint row) const;
-    bool setName(uint row, QString name);
-    QModelIndex getType(uint row) const;
-    bool setType(uint row, const QVariant &value);
+    QString getName(uint row) const override;
+    bool setName(uint row, QString name) override;
+    QModelIndex getType(uint row) const override;
+    bool setType(uint row, const QVariant &value) override;
 
   private:
     Component &component;
@@ -40,8 +40,8 @@ class PortListModel :
     QString getPortTypeName(const ComponentPort *port) const;
     ComponentPort *getPort(uint row) const;
 
-    void portAdded(ComponentPort *port);
-    void portDeleted(ComponentPort *port);
+    void portAdded(ComponentPort *port) override;
+    void portDeleted(ComponentPort *port) override;
 };
 
 #endif

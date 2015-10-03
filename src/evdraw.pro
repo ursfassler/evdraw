@@ -136,7 +136,9 @@ HEADERS += \
     core/implementation/CompositionFactory.hpp \
     core/instance/IInstance.hpp \
     core/connection/IPort.hpp \
-    core/component/IImplementation.hpp
+    core/component/IImplementation.hpp \
+    unittest/core/instance/InstanceObserverMock.h \
+    core/instance/InstanceObserver.h
 
 SOURCES += \
     core/base/Base.cpp \
@@ -244,7 +246,9 @@ SOURCES += \
     unittest/core/implementation/ImplementationFactoryTest.cpp \
     unittest/core/implementation/CompositionMock.cpp \
     unittest/core/implementation/CompositionFactoryTest.cpp \
-    core/implementation/CompositionFactory.cpp
+    core/implementation/CompositionFactory.cpp \
+    unittest/core/instance/InstanceObserverMock.cpp \
+    core/instance/InstanceObserver.cpp
 
 DISTFILES += \
     ../README.md \

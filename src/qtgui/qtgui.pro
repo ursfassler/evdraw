@@ -80,7 +80,9 @@ SOURCES += \
     ../core/implementation/CompositionInstance.cpp \
     ../core/implementation/CompositionFactory.cpp \
     ../core/implementation/ImplementationFactory.cpp \
-    graphicItems/GiSelfInstance.cpp
+    graphicItems/GiSelfInstance.cpp \
+    graphicItems/MoveableLine.cpp \
+    ../core/instance/InstanceObserver.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -152,7 +154,9 @@ HEADERS  += \
     ../core/implementation/CompositionInstance.hpp \
     ../core/implementation/CompositionFactory.hpp \
     ../core/implementation/ImplementationFactory.hpp \
-    graphicItems/GiSelfInstance.hpp
+    graphicItems/GiSelfInstance.hpp \
+    graphicItems/MoveableLine.hpp \
+    ../core/instance/InstanceObserver.h
 
 OTHER_FILES += \
     drawings/test1.evd

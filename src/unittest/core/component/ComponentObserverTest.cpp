@@ -64,7 +64,7 @@ class ComponentTestObserver : public ComponentObserver
       delPorts.push_back(port);
     }
 
-    void heightChanged()
+    void maxPortCountChanged()
     {
       changedHeights++;
     }

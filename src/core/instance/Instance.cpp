@@ -33,7 +33,7 @@ void Instance::setName(const std::string &name)
 {
   if (this->name != name) {
     this->name = name;
-    ObserverCollection<InstanceObserver>::notify<const Instance*>(&InstanceObserver::nameChanged, this);
+    ObserverCollection<InstanceObserver>::notify<const IInstance*>(&InstanceObserver::nameChanged, this);
   }
 }
 
@@ -45,7 +45,7 @@ Component *Instance::getComponent() const
 void Instance::addPort(InstancePort *port)
 {
   ports.push_back(port);
-  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, port);
+  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, static_cast<IPort*>(port));
 }
 
 void Instance::deletePort(InstancePort *port)
@@ -53,7 +53,7 @@ void Instance::deletePort(InstancePort *port)
   const auto itr = std::find(ports.begin(), ports.end(), port);
   precondition(itr != ports.end());
   ports.erase(itr);
-  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portDeleted, port);
+  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portDeleted, static_cast<IPort*>(port));
   delete port;
 }
 
@@ -87,7 +87,7 @@ PaperUnit Instance::getWidth() const
 
 PaperUnit Instance::getHeight() const
 {
-  const size_t count = getComponent()->height();
+  const size_t count = getComponent()->maxPortCount();
   return (count-1) * InstanceAppearance::verticalPortDistance() +
       InstanceAppearance::topPortDistance() +
       InstanceAppearance::bottomPortDistance();
@@ -120,37 +120,12 @@ void Instance::portDeleted(ComponentPort *port)
   deletePort(*idx);
 }
 
-void Instance::heightChanged()
+void Instance::maxPortCountChanged()
 {
   ObserverCollection<InstanceObserver>::notify(&InstanceObserver::heightChanged);
 }
 
 void Instance::nameChanged(const std::string &)
 {
-  ObserverCollection<InstanceObserver>::notify<const Instance*>(&InstanceObserver::componentNameChanged, this);
-}
-
-
-InstanceObserver::~InstanceObserver()
-{
-}
-
-void InstanceObserver::portAdded(InstancePort *)
-{
-}
-
-void InstanceObserver::portDeleted(InstancePort *)
-{
-}
-
-void InstanceObserver::nameChanged(const Instance *)
-{
-}
-
-void InstanceObserver::componentNameChanged(const Instance *)
-{
-}
-
-void InstanceObserver::heightChanged()
-{
+  ObserverCollection<InstanceObserver>::notify<const IInstance*>(&InstanceObserver::componentNameChanged, this);
 }

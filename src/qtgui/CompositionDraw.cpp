@@ -22,7 +22,7 @@ CompositionDraw::CompositionDraw(Composition &aComposition, QWidget *parent) :
   QFont font("Sans", 0.6 * puToScene(InstanceAppearance::textHeight()));
   scene.setFont(font);
 
-  scene.setSceneRect(selfInst.boundingRect());
+  scene.setSceneRect(selfInst.boundingRect() | selfInst.childrenBoundingRect());
 
   scene.addItem(&selfInst);
 

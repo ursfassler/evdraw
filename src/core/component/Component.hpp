@@ -22,7 +22,7 @@ class ComponentObserver
 
     virtual void portAdded(ComponentPort *port);
     virtual void portDeleted(ComponentPort *port);
-    virtual void heightChanged();
+    virtual void maxPortCountChanged();
     virtual void nameChanged(const std::string &name);
 };
 
@@ -60,8 +60,7 @@ class Component final :
 
     Side portSide(PortType type) const override final;
 
-    //TODO move height to Instance
-    size_t height() const;
+    size_t maxPortCount() const;
 
     const std::string &getName() const override;
     void setName(const std::string &value);

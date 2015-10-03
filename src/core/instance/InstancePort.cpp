@@ -23,10 +23,12 @@ InstancePort::InstancePort(IInstance *aInstance, ComponentPort *aCompPort) :
   updateConnectorOffset();
 
   compPort->registerObserver(this);
+  owner->registerObserver(this);
 }
 
 InstancePort::~InstancePort()
 {
+  owner->unregisterObserver(this);
   compPort->unregisterObserver(this);
   ConnectorFactory::cleanup(connector);
 }
@@ -87,6 +89,11 @@ void InstancePort::nameChanged(const std::string &name)
   ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, name);
 }
 
+void InstancePort::widthChanged()
+{
+  updateOffset();
+}
+
 Point InstancePort::calcOffset(const ComponentPort *compPort) const
 {
   const auto width = getInstance()->getWidth();
@@ -125,13 +132,6 @@ void InstancePort::accept(Visitor &visitor)
 void InstancePort::accept(ConstVisitor &visitor) const
 {
   visitor.visit(*this);
-}
-
-
-
-SubInstancePort::SubInstancePort(IInstance *instance, ComponentPort *compPort) :
-  InstancePort(instance, compPort)
-{
 }
 
 

@@ -3,6 +3,8 @@
 
 #include "InstanceObserverTest.hpp"
 
+#include "InstanceObserverMock.h"
+
 #include <core/util/Observer.hpp>
 #include <core/implementation/NullImplementation.hpp>
 #include <core/component/ComponentFactory.hpp>
@@ -32,28 +34,10 @@ void InstanceObserverTest::tearDown()
   component = nullptr;
 }
 
-class TestVirtualInstanceObserver : public InstanceObserver
-{
-  public:
-    TestVirtualInstanceObserver(bool &aDestroyed) :
-      destroyed(aDestroyed)
-    {
-    }
-
-    ~TestVirtualInstanceObserver()
-    {
-      destroyed = true;
-    }
-
-  private:
-    bool &destroyed;
-
-};
-
 void InstanceObserverTest::destructorIsVirtual()
 {
   bool destroyed = false;
-  InstanceObserver *observer = new TestVirtualInstanceObserver(destroyed);
+  InstanceObserver *observer = new InstanceObserverMock(&destroyed);
   delete observer;
   CPPUNIT_ASSERT(destroyed);
 }
@@ -64,52 +48,9 @@ void InstanceObserverTest::inheritsObserverCollection()
   CPPUNIT_ASSERT(observerCollection != nullptr);
 }
 
-class TestInstanceObserver : public InstanceObserver
-{
-  public:
-    TestInstanceObserver() :
-      addedPorts(),
-      deletedPorts(),
-      nameChanged_instance(),
-      componentNameChanged_instance()
-    {
-    }
-
-    void portAdded(InstancePort *port)
-    {
-      addedPorts.push_back(port);
-    }
-    std::vector<InstancePort*> addedPorts;
-
-    void portDeleted(InstancePort *port)
-    {
-      deletedPorts.push_back(port);
-    }
-    std::vector<InstancePort*> deletedPorts;
-
-    void heightChanged()
-    {
-      changedHeight++;
-    }
-    uint changedHeight = 0;
-
-    void nameChanged(const Instance *instance)
-    {
-      nameChanged_instance.push_back(instance);
-    }
-    std::vector<const Instance *> nameChanged_instance;
-
-    void componentNameChanged(const Instance *instance)
-    {
-      componentNameChanged_instance.push_back(instance);
-    }
-    std::vector<const Instance *> componentNameChanged_instance;
-
-};
-
 void InstanceObserverTest::notify_addPort()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
@@ -118,19 +59,19 @@ void InstanceObserverTest::notify_addPort()
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.addedPorts.size());
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  CPPUNIT_ASSERT_EQUAL(instance->getPorts()[2], observer.addedPorts[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(instance->getPorts()[2]), observer.addedPorts[0]);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
 
 void InstanceObserverTest::notify_delPort()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 
-  InstancePort *port = instance->getPorts()[0];
+  IPort *port = instance->getPorts()[0];
   component->deletePort(component->getPorts()[0]);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
@@ -142,7 +83,7 @@ void InstanceObserverTest::notify_delPort()
 
 void InstanceObserverTest::notify_height_changed_on_port_type_change()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   InstancePort *port = instance->getPorts()[0];
@@ -155,7 +96,7 @@ void InstanceObserverTest::notify_height_changed_on_port_type_change()
 
 void InstanceObserverTest::notify_height_changed_on_addPort()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   component->addPort(new ComponentPort("3", PortType::Signal));
@@ -167,7 +108,7 @@ void InstanceObserverTest::notify_height_changed_on_addPort()
 
 void InstanceObserverTest::notify_height_changed_on_deletePort()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   component->deletePort(component->getPorts()[0]);
@@ -180,19 +121,19 @@ void InstanceObserverTest::notify_height_changed_on_deletePort()
 
 void InstanceObserverTest::notify_setName()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   instance->setName("new name");
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.nameChanged_instance.size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(instance), observer.nameChanged_instance[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const IInstance*>(instance), observer.nameChanged_instance[0]);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
 
 void InstanceObserverTest::no_notify_when_set_same_name()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   instance->setName(instance->getName());
@@ -203,12 +144,12 @@ void InstanceObserverTest::no_notify_when_set_same_name()
 
 void InstanceObserverTest::notify_on_component_name_change()
 {
-  TestInstanceObserver observer;
+  InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
   component->setName("new name");
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.componentNameChanged_instance.size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Instance*>(instance), observer.componentNameChanged_instance[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const IInstance*>(instance), observer.componentNameChanged_instance[0]);
   CPPUNIT_ASSERT_EQUAL(std::string("new name"), instance->getComponent()->getName());
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);

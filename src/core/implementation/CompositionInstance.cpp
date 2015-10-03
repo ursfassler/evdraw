@@ -39,8 +39,10 @@ PaperUnit CompositionInstance::getWidth() const
 
 void CompositionInstance::setWidth(PaperUnit value)
 {
-  width = value;
-  updatePortOffsets();
+  if (width != value) {
+    width = value;
+    notify(&InstanceObserver::widthChanged);
+  }
 }
 
 PaperUnit CompositionInstance::getHeight() const
@@ -66,10 +68,10 @@ Side CompositionInstance::portSide(PortType type) const
 Side CompositionInstance::connectorSide(PortType type) const
 {
   switch (type) {
-    case PortType::Signal:
-      return Side::Left;
-    case PortType::Slot:
-      return Side::Right;
+  case PortType::Signal:
+    return Side::Left;
+  case PortType::Slot:
+    return Side::Right;
   }
 
   unreachableCode();
@@ -103,11 +105,4 @@ void CompositionInstance::portDeleted(ComponentPort *port)
   InstancePort *instPort = *idx;
   delete instPort;
   ports.erase(idx);
-}
-
-void CompositionInstance::updatePortOffsets() const
-{
-  for (const auto &itr : getPorts()) {
-    itr->updateOffset();
-  }
 }

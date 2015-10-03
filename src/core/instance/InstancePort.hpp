@@ -5,6 +5,7 @@
 #define INSTANCEPORT_HPP
 
 #include "IInstance.hpp"
+#include "InstanceObserver.h"
 #include "Connector.hpp"
 #include "../connection/IPort.hpp"
 
@@ -26,7 +27,8 @@ class InstancePort :
     public IPort,
     public RelativePosition,
     public ObserverCollection<InstancePortObserver>,
-    private ComponentPortObserver
+    private ComponentPortObserver,
+    private InstanceObserver
 {
   public:
     InstancePort(IInstance *instance, ComponentPort *compPort);
@@ -59,16 +61,11 @@ class InstancePort :
     void updateConnectorOffset();
     Point connectorOffset(Side side) const;
 
-    void topIndexChanged(size_t index);
-    void typeChanged(PortType);
-    void nameChanged(const std::string &name);
-};
+    void topIndexChanged(size_t index) override;
+    void typeChanged(PortType) override;
+    void nameChanged(const std::string &name) override;
 
-class SubInstancePort final : public InstancePort
-{
-  public:
-    SubInstancePort(IInstance *instance, ComponentPort *compPort);
-
+    void widthChanged() override;
 };
 
 #endif // INSTANCEPORT_HPP

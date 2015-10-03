@@ -37,13 +37,13 @@ class InstanceListModel :
     ComponentListModel * const typeModel;
 
     Instance *getInstance(uint row) const;
-    uint getRow(const Instance *instance) const;
+    uint getRow(const IInstance *instance) const;
 
-    void instanceAdded(Instance *instance);
-    void instanceRemoved(Instance *instance);
+    void instanceAdded(Instance *instance) override;
+    void instanceRemoved(Instance *instance) override;
 
-    void nameChanged(const Instance *instance);
-    void componentNameChanged(const Instance *instance);
+    void nameChanged(const IInstance *instance) override;
+    void componentNameChanged(const IInstance *instance) override;
 };
 
 #endif

@@ -72,21 +72,21 @@ void InstanceListModel::instanceRemoved(Instance *instance)
   layoutChanged();
 }
 
-void InstanceListModel::nameChanged(const Instance *instance)
+void InstanceListModel::nameChanged(const IInstance *instance)
 {
   const size_t row = getRow(instance);
   const QModelIndex idx = index(row, NAME_INDEX);
   dataChanged(idx,idx);
 }
 
-void InstanceListModel::componentNameChanged(const Instance *instance)
+void InstanceListModel::componentNameChanged(const IInstance *instance)
 {
   const size_t row = getRow(instance);
   const QModelIndex idx = index(row, TYPE_INDEX);
   dataChanged(idx,idx);
 }
 
-uint InstanceListModel::getRow(const Instance *instance) const
+uint InstanceListModel::getRow(const IInstance *instance) const
 {
   const auto &list = composition.getInstances();
   return indexOf(list.begin(), list.end(), instance);

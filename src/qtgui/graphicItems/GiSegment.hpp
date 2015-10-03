@@ -10,7 +10,9 @@
 #include <QGraphicsSceneMouseEvent>
 
 
-class GiSegment : public QGraphicsLineItem, public SegmentObserver
+class GiSegment :
+    public QGraphicsLineItem,
+    public SegmentObserver
 {
   public:
     explicit GiSegment(Segment *model, QGraphicsItem *parent);

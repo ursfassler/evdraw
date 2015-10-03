@@ -36,11 +36,11 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(port_side_of_slot_is_left);
     CPPUNIT_TEST(port_side_of_signal_is_right);
 
-    CPPUNIT_TEST(heightOfEmptyComponent);
-    CPPUNIT_TEST(heightOf2Slots);
-    CPPUNIT_TEST(heightOf2Signals);
-    CPPUNIT_TEST(heightOf2SlotsAnd3Signals);
-    CPPUNIT_TEST(heightOf2SignalsAnd3Slots);
+    CPPUNIT_TEST(empty_component_has_0_ports);
+    CPPUNIT_TEST(two_slots_result_in_2_max_port_count);
+    CPPUNIT_TEST(two_signals_result_in_2_max_port_count);
+    CPPUNIT_TEST(two_slots_and_three_signals_result_in_3_max_port_count);
+    CPPUNIT_TEST(thre_slots_and_two_signals_result_in_3_max_port_count);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -71,11 +71,11 @@ class ComponentTest : public CPPUNIT_NS::TestFixture
     void port_side_of_slot_is_left();
     void port_side_of_signal_is_right();
 
-    void heightOfEmptyComponent();
-    void heightOf2Slots();
-    void heightOf2Signals();
-    void heightOf2SlotsAnd3Signals();
-    void heightOf2SignalsAnd3Slots();
+    void empty_component_has_0_ports();
+    void two_slots_result_in_2_max_port_count();
+    void two_signals_result_in_2_max_port_count();
+    void two_slots_and_three_signals_result_in_3_max_port_count();
+    void thre_slots_and_two_signals_result_in_3_max_port_count();
 
 };
 
