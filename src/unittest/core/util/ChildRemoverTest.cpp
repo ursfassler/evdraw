@@ -3,6 +3,7 @@
 
 #include "ChildRemoverTest.hpp"
 #include "../implementation/CompositionInstanceMock.hpp"
+#include "../connection/PortMock.hpp"
 
 #include <core/util/ChildRemover.hpp>
 #include <core/specification/AlwaysSatisfiedSpecification.hpp>
@@ -13,7 +14,6 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/connection/ConnectionFactory.hpp>
-#include <core/connection/SimplePort.hpp>
 
 void ChildRemoverTest::inheritsDefaultVisitor()
 {
@@ -43,8 +43,8 @@ void ChildRemoverTest::compositionRemovesInstance()
 void ChildRemoverTest::compositionRemovesConnection()
 {
   Composition composition{new CompositionInstanceMock()};
-  SimplePort portA;
-  SimplePort portB;
+  PortMock portA;
+  PortMock portB;
   Connection *connection = ConnectionFactory::produce(&portA, &portB);
   composition.addConnection(connection);
 

@@ -2,11 +2,11 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ConnectionFactoryTest.hpp"
+#include "PortMock.hpp"
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/connection/Segment.hpp>
-#include <core/connection/SimplePort.hpp>
 #include <core/connection/DrawPort.hpp>
 
 #include <core/util/contract.hpp>
@@ -44,8 +44,8 @@ void ConnectionFactoryTest::createSimplePointList()
 
 void ConnectionFactoryTest::cleanup()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   ConnectionFactory::cleanup(connection);
 }
@@ -57,16 +57,16 @@ void ConnectionFactoryTest::canNotDisposeNullptr()
 
 void ConnectionFactoryTest::createEmptyConnection()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   std::vector<PaperUnit> empty;
   CPPUNIT_ASSERT_THROW(ConnectionFactory::produce(&startPort, &endPort, empty), PreconditionError);
 }
 
 void ConnectionFactoryTest::createConnection()
 {
-  SimplePort startPort(Point(10,20));
-  SimplePort endPort(Point(50,70));
+  PortMock startPort(Point(10,20));
+  PortMock endPort(Point(50,70));
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getHorizontalSegment().size());
@@ -82,8 +82,8 @@ void ConnectionFactoryTest::createConnection()
 
 void ConnectionFactoryTest::createPathConnection()
 {
-  SimplePort startPort(Point(-10, 3));
-  SimplePort endPort(Point(7, -2));
+  PortMock startPort(Point(-10, 3));
+  PortMock endPort(Point(7, -2));
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {-5, 4, 1});
 
   CPPUNIT_ASSERT_EQUAL(size_t(6), connection->getPoints().size());
@@ -108,8 +108,8 @@ void ConnectionFactoryTest::createPathConnection()
 
 void ConnectionFactoryTest::createConstruction()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produceConstruction(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
@@ -138,8 +138,8 @@ void ConnectionFactoryTest::constructionPlaceIntermediatePointAtSanePositions()
 
 void ConnectionFactoryTest::connectionIsRegisteredAtStartPort()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), startPort.ports.size());
@@ -151,8 +151,8 @@ void ConnectionFactoryTest::connectionIsRegisteredAtStartPort()
 
 void ConnectionFactoryTest::connectionIsRegisteredAtEndPort()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), endPort.ports.size());
@@ -164,8 +164,8 @@ void ConnectionFactoryTest::connectionIsRegisteredAtEndPort()
 
 void ConnectionFactoryTest::dispose_removes_connection_from_ports()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
 
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
   ConnectionFactory::dispose(connection);

@@ -4,32 +4,23 @@
 #include "VisitorMock.h"
 
 
-//TODO simplify, like DefaultVisitorMock
-
-VisitorMock::VisitorMock() :
-  visited{},
-  component(ComponentFactory::produce("Component"))
+VisitorMock::VisitorMock()
 {
-}
-
-VisitorMock::~VisitorMock()
-{
-  ComponentFactory::dispose(component);
 }
 
 void VisitorMock::visit(ComponentPort &port)
 {
-  port.setTopIndex(2*port.getTopIndex());
+  visited.push_back("ComponentPort:" + port.getName());
 }
 
 void VisitorMock::visit(Component &component)
 {
-  component.addPort(new ComponentPort("", PortType::Slot));
+  visited.push_back("Component:" + component.getName());
 }
 
 void VisitorMock::visit(Instance &instance)
 {
-  instance.setOffset(Point(42,57));
+  visited.push_back("Instance:" + instance.getName());
 }
 
 void VisitorMock::visit(CompositionInstance &)
@@ -39,27 +30,25 @@ void VisitorMock::visit(CompositionInstance &)
 
 void VisitorMock::visit(InstancePort &port)
 {
-  port.setOffset(Point(100,200));
+  visited.push_back("InstancePort:" + port.getName());
 }
 
 void VisitorMock::visit(Connection &connection)
 {
-  IPort *start = connection.getStartPort();
-  IPort *end = connection.getEndPort();
-  connection.replaceStartPort(end);
-  connection.replaceEndPort(start);
+  visited.push_back("Connection:" + connection.getStartPort()->getName() + "->" + connection.getEndPort()->getName());
 }
 
-void VisitorMock::visit(Composition &composition)
+void VisitorMock::visit(Composition &)
 {
-  composition.addInstance(new Instance("", Point(0,0), component));
+  visited.push_back("Composition");
 }
 
 void VisitorMock::visit(NullImplementation &)
 {
+  visited.push_back("NullImplementation");
 }
 
-void VisitorMock::visit(Library &library)
+void VisitorMock::visit(Library &)
 {
-  library.addComponent(ComponentFactory::produce(""));
+  visited.push_back("Library");
 }

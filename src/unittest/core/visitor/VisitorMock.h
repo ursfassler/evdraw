@@ -29,7 +29,6 @@ class VisitorMock :
     VisitorMock *operator =(const VisitorMock &) = delete;
 
     VisitorMock();
-    ~VisitorMock();
 
     void visit(ComponentPort &port) override;
     void visit(Component &component) override;
@@ -41,10 +40,7 @@ class VisitorMock :
     void visit(NullImplementation &) override;
     void visit(Library &library) override;
 
-    test::sl visited;
-
-  private:
-    Component *component;
+    test::sl visited{};
 };
 
 #endif // VISITORMOCK_H

@@ -3,6 +3,7 @@
 
 #include "CompositionTest.hpp"
 #include "CompositionInstanceMock.hpp"
+#include "../connection/PortMock.hpp"
 
 #include <core/implementation/Composition.hpp>
 #include <core/implementation/CompositionFactory.hpp>
@@ -11,7 +12,6 @@
 #include <core/instance/Instance.hpp>
 #include <core/instance/InstanceFactory.hpp>
 #include <core/connection/ConnectionFactory.hpp>
-#include <core/connection/SimplePort.hpp>
 
 void CompositionTest::create()
 {
@@ -42,8 +42,8 @@ void CompositionTest::addInstance()
 
 void CompositionTest::addConnection()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
   Composition composition{new CompositionInstanceMock()};
@@ -91,8 +91,8 @@ void CompositionTest::deleteInstance()
 
 void CompositionTest::deleteConnection()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
 
   Composition composition{new CompositionInstanceMock()};
@@ -187,8 +187,8 @@ void CompositionTest::notify_when_addConnection()
   SheetObserverTest observer;
   composition->registerObserver(&observer);
 
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
   composition->addConnection(connection);
 
@@ -222,8 +222,8 @@ void CompositionTest::notify_when_deleteConnection()
   SheetObserverTest observer;
   composition->registerObserver(&observer);
 
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {10, 20, 30, 40, 50});
   composition->addConnection(connection);
   composition->deleteConnection(connection);
@@ -236,8 +236,8 @@ void CompositionTest::notify_when_deleteConnection()
 
 void CompositionTest::addConnectionUnderConstruction_notifies_observer()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
 
   SheetObserverTest observer;
   Composition composition{new CompositionInstanceMock()};
@@ -252,8 +252,8 @@ void CompositionTest::addConnectionUnderConstruction_notifies_observer()
 
 void CompositionTest::can_not_overwrite_connectionUnderConstruction()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
 
   Composition composition{new CompositionInstanceMock()};
   composition.startConnectionConstruction(&startPort, &endPort);
@@ -264,9 +264,9 @@ void CompositionTest::can_not_overwrite_connectionUnderConstruction()
 
 void CompositionTest::finishConnectionCreation()
 {
-  SimplePort startPort;
-  SimplePort tmpEnd;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock tmpEnd;
+  PortMock endPort;
 
   Composition composition{new CompositionInstanceMock()};
   composition.startConnectionConstruction(&startPort, &tmpEnd);

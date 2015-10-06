@@ -3,10 +3,11 @@
 
 #include "ConnectionWithPortSpecificationTest.hpp"
 
+#include "PortMock.hpp"
+
 #include <core/connection/ConnectionWithPortSpecification.hpp>
 #include <core/specification/Specification.hpp>
 #include <core/connection/ConnectionFactory.hpp>
-#include <core/connection/SimplePort.hpp>
 
 void ConnectionWithPortSpecificationTest::inheritsSpecification()
 {
@@ -16,8 +17,8 @@ void ConnectionWithPortSpecificationTest::inheritsSpecification()
 
 void ConnectionWithPortSpecificationTest::satisfiedWithStartPort()
 {
-  SimplePort start;
-  SimplePort end;
+  PortMock start;
+  PortMock end;
   Connection *connection = ConnectionFactory::produce(&start, &end);
 
   ConnectionWithPortSpecification spec(&start);
@@ -29,8 +30,8 @@ void ConnectionWithPortSpecificationTest::satisfiedWithStartPort()
 
 void ConnectionWithPortSpecificationTest::satisfiedWithEndPort()
 {
-  SimplePort start;
-  SimplePort end;
+  PortMock start;
+  PortMock end;
   Connection *connection = ConnectionFactory::produce(&start, &end);
 
   ConnectionWithPortSpecification spec(&end);
@@ -42,11 +43,11 @@ void ConnectionWithPortSpecificationTest::satisfiedWithEndPort()
 
 void ConnectionWithPortSpecificationTest::notSatisfiedWithOtherPort()
 {
-  SimplePort start;
-  SimplePort end;
+  PortMock start;
+  PortMock end;
   Connection *connection = ConnectionFactory::produce(&start, &end);
 
-  SimplePort other;
+  PortMock other;
   ConnectionWithPortSpecification spec(&other);
 
   CPPUNIT_ASSERT(!spec.isSatisfiedBy(connection));

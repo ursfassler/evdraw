@@ -4,7 +4,6 @@
 #include "DefaultVisitorMock.h"
 
 
-
 DefaultVisitorMock::DefaultVisitorMock() :
   visited()
 {
@@ -64,7 +63,7 @@ void DefaultVisitorMock::visit(Library &library)
   DefaultVisitor::visit(library);
 }
 
-bool DefaultVisitorMock::hasVisited(const std::__cxx11::string &value) const
+bool DefaultVisitorMock::hasVisited(const std::string &value) const
 {
   for (const std::string &itr : visited)
   {

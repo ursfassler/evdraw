@@ -31,7 +31,6 @@ SOURCES += \
     ../core/connection/DrawPort.cpp \
     ../core/connection/Endpoint.cpp \
     ../core/connection/Segment.cpp \
-    ../core/connection/SimplePort.cpp \
     ../core/implementation/Composition.cpp \
     ../core/implementation/NullImplementation.cpp \
     ../core/instance/Connector.cpp \
@@ -99,7 +98,6 @@ HEADERS  += \
     ../core/connection/DrawPort.hpp \
     ../core/connection/Endpoint.hpp \
     ../core/connection/Segment.hpp \
-    ../core/connection/SimplePort.hpp \
     ../core/implementation/Composition.hpp \
     ../core/implementation/NullImplementation.hpp \
     ../core/instance/Connector.hpp \

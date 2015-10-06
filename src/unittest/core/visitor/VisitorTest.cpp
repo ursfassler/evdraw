@@ -5,6 +5,7 @@
 #include "../implementation/CompositionInstanceMock.hpp"
 #include "../component/ComponentMock.hpp"
 #include "VisitorMock.h"
+#include "../connection/PortMock.hpp"
 
 #include <core/visitor/Visitor.hpp>
 
@@ -24,35 +25,34 @@
 void VisitorTest::componentPort()
 {
   VisitorMock visitor;
+  ComponentPort port("thePort", PortType::Slot);
 
-  ComponentPort port("", PortType::Slot);
-  port.setTopIndex(10);
   port.accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(2*10), port.getTopIndex());
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"ComponentPort:thePort"}, visitor.visited);
 }
 
 void VisitorTest::component()
 {
   VisitorMock visitor;
+  Component component{"component", new NullImplementation()};
 
-  Component *component = ComponentFactory::produce("component");
-  CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPorts().size());
-  component->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), component->getPorts().size());
+  component.accept(visitor);
 
-  ComponentFactory::dispose(component);
+  CPPUNIT_ASSERT_EQUAL(test::sl{"Component:component"}, visitor.visited);
+
+  ComponentFactory::cleanup(component);
 }
 
 void VisitorTest::instance()
 {
   VisitorMock visitor;
-
   Component *component = ComponentFactory::produce("component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), instance->getOffset());
   instance->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(Point(42,57), instance->getOffset());
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"Instance:instance"}, visitor.visited);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -61,13 +61,13 @@ void VisitorTest::instance()
 void VisitorTest::instancePort()
 {
   VisitorMock visitor;
-
   Component *component = ComponentFactory::produce("component", {"port"}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
-
   IPort *port = instance->getPorts().front();
+
   port->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(Point(100,200), port->getPosition());
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"InstancePort:port"}, visitor.visited);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -76,13 +76,13 @@ void VisitorTest::instancePort()
 void VisitorTest::connection()
 {
   VisitorMock visitor;
-  DrawPort start(Point(0,0));
-  DrawPort end(Point(0,0));
+  PortMock start{"a"};
+  PortMock end{"b"};
   Connection *connection = ConnectionFactory::produce(&start, &end);
 
   connection->accept(visitor);
-  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&end), connection->getStartPort());
-  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(&start), connection->getEndPort());
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"Connection:a->b"}, visitor.visited);
 
   ConnectionFactory::dispose(connection);
 }
@@ -90,11 +90,11 @@ void VisitorTest::connection()
 void VisitorTest::composition()
 {
   VisitorMock visitor;
-
   Composition composition{new CompositionInstanceMock()};
+
   composition.accept(visitor);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), composition.getInstances().size());
+  CPPUNIT_ASSERT_EQUAL(test::sl{"Composition"}, visitor.visited);
 
   CompositionFactory::cleanup(composition);
 }
@@ -102,14 +102,15 @@ void VisitorTest::composition()
 void VisitorTest::compositionInstance()
 {
   VisitorMock visitor;
-
   IComponent *component = new ComponentMock();
-  CompositionInstance instance{component};
-  instance.accept(visitor);
+  CompositionInstance *instance = new CompositionInstance(component);
+
+  instance->accept(visitor);
 
   CPPUNIT_ASSERT_EQUAL(test::sl{"CompositionInstance"}, visitor.visited);
 
-//  delete component;
+  delete instance;
+  delete component;
 }
 
 void VisitorTest::nullImplementation()
@@ -118,14 +119,16 @@ void VisitorTest::nullImplementation()
 
   NullImplementation nullImpl;
   nullImpl.accept(visitor);
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"NullImplementation"}, visitor.visited);
 }
 
 void VisitorTest::library()
 {
   VisitorMock visitor;
-
   Library library;
+
   library.accept(visitor);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), library.getComponents().size());
+  CPPUNIT_ASSERT_EQUAL(test::sl{"Library"}, visitor.visited);
 }

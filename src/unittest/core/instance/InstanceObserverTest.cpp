@@ -9,7 +9,6 @@
 #include <core/implementation/NullImplementation.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
-#include <core/connection/SimplePort.hpp>
 
 #include <core/util/contract.hpp>
 

@@ -10,7 +10,6 @@
 #include <core/component/ComponentFactory.hpp>
 #include <core/component/InstanceAppearance.hpp>
 #include <core/implementation/NullImplementation.hpp>
-#include <core/connection/SimplePort.hpp>
 
 #include <functional>
 

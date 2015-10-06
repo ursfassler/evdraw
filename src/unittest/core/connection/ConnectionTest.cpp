@@ -2,11 +2,11 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ConnectionTest.hpp"
+#include "PortMock.hpp"
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
 #include <core/connection/Segment.hpp>
-#include <core/connection/SimplePort.hpp>
 #include <core/connection/DrawPort.hpp>
 
 #include <core/instance/IInstance.hpp>
@@ -14,8 +14,8 @@
 
 void ConnectionTest::create()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
@@ -27,8 +27,8 @@ void ConnectionTest::create()
 
 void ConnectionTest::instanceStart()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), connection.getHorizontalSegment().size());
@@ -38,8 +38,8 @@ void ConnectionTest::instanceStart()
 
 void ConnectionTest::addHorizontalSegment()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   Endpoint a(Point(0,0));
   Endpoint b(Point(0,0));
@@ -53,8 +53,8 @@ void ConnectionTest::addHorizontalSegment()
 
 void ConnectionTest::addVerticalSegment()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   Endpoint a(Point(0,0));
   Endpoint b(Point(0,0));
@@ -68,8 +68,8 @@ void ConnectionTest::addVerticalSegment()
 
 void ConnectionTest::addPoint()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   Endpoint *ip = new Endpoint(Point(0,0));
 
@@ -81,8 +81,8 @@ void ConnectionTest::addPoint()
 
 void ConnectionTest::constructAndInsertSegment()
 {
-  SimplePort a;
-  SimplePort b;
+  PortMock a;
+  PortMock b;
   Connection *connection = ConnectionFactory::produceConstruction(&a, &b);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), connection->getHorizontalSegment().size());
@@ -165,8 +165,8 @@ class ConnectionObserverTest : public ConnectionObserver
 
 void ConnectionTest::notifyWhenAddVerticalSegment()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
@@ -183,8 +183,8 @@ void ConnectionTest::notifyWhenAddVerticalSegment()
 
 void ConnectionTest::notifyWhenAddHorizontalSegment()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection connection(&startPort, &endPort);
   ConnectionObserverTest observer;
   connection.registerObserver(&observer);
@@ -201,11 +201,11 @@ void ConnectionTest::notifyWhenAddHorizontalSegment()
 
 void ConnectionTest::replaceStartPort()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
-  SimplePort startPort2;
+  PortMock startPort2;
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), startPort.ports.size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), startPort2.ports.size());
@@ -218,11 +218,11 @@ void ConnectionTest::replaceStartPort()
 
 void ConnectionTest::replaceEndPort()
 {
-  SimplePort startPort;
-  SimplePort endPort;
+  PortMock startPort;
+  PortMock endPort;
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
-  SimplePort endPort2;
+  PortMock endPort2;
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), endPort.ports.size());
   CPPUNIT_ASSERT_EQUAL(size_t(0), endPort2.ports.size());

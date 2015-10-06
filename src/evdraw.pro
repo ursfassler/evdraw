@@ -29,7 +29,6 @@ HEADERS += \
     core/connection/DrawPort.hpp \
     core/connection/Endpoint.hpp \
     core/connection/Segment.hpp \
-    core/connection/SimplePort.hpp \
     core/implementation/Composition.hpp \
     core/implementation/NullImplementation.hpp \
     core/instance/Connector.hpp \
@@ -140,7 +139,8 @@ HEADERS += \
     unittest/core/instance/InstanceObserverMock.h \
     core/instance/InstanceObserver.h \
     unittest/core/visitor/DefaultVisitorMock.h \
-    unittest/core/visitor/VisitorMock.h
+    unittest/core/visitor/VisitorMock.h \
+    unittest/core/connection/PortMock.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -156,7 +156,6 @@ SOURCES += \
     core/connection/DrawPort.cpp \
     core/connection/Endpoint.cpp \
     core/connection/Segment.cpp \
-    core/connection/SimplePort.cpp \
     core/implementation/Composition.cpp \
     core/implementation/NullImplementation.cpp \
     core/instance/Connector.cpp \
@@ -252,7 +251,8 @@ SOURCES += \
     unittest/core/instance/InstanceObserverMock.cpp \
     core/instance/InstanceObserver.cpp \
     unittest/core/visitor/DefaultVisitorMock.cpp \
-    unittest/core/visitor/VisitorMock.cpp
+    unittest/core/visitor/VisitorMock.cpp \
+    unittest/core/connection/PortMock.cpp
 
 DISTFILES += \
     ../README.md \
