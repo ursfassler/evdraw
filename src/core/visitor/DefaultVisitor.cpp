@@ -28,6 +28,14 @@ void DefaultVisitor::visit(Instance &instance)
   }
 }
 
+void DefaultVisitor::visit(CompositionInstance &instance)
+{
+  for (IPort *port : instance.getPorts())
+  {
+    port->accept(*this);
+  }
+}
+
 void DefaultVisitor::visit(InstancePort &)
 {
 }
@@ -38,6 +46,7 @@ void DefaultVisitor::visit(Connection &)
 
 void DefaultVisitor::visit(Composition &composition)
 {
+  composition.getSelfInstance()->accept(*this);
   for (Instance *instance : composition.getInstances())
   {
     instance->accept(*this);

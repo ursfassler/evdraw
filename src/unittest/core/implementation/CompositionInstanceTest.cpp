@@ -76,6 +76,80 @@ void CompositionInstanceTest::setHeight_does_not_notifies_observers_when_new_val
   ComponentFactory::dispose(component);
 }
 
+void CompositionInstanceTest::name_change_of_component_notifies_observer()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  component->setName("Hallo");
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.nameChanged_instance.size());
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::add_port_notifies_observer()
+{
+  Component *component = ComponentFactory::produce("", {}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  component->addPort(new ComponentPort("", PortType::Slot));
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.addedPorts.size());
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::delete_port_notifies_observer()
+{
+  Component *component = ComponentFactory::produce("", {""}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  component->deletePort(component->getPorts().front());
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.deletedPorts.size());
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
+void CompositionInstanceTest::delete_port_works_with_2_ports()
+{
+  Component *component = ComponentFactory::produce("", {"", ""}, {});
+  CompositionInstance *testee = new CompositionInstance(component);
+
+  InstanceObserverMock observer;
+  testee->registerObserver(&observer);
+
+  IPort *port1 = testee->getPorts()[0];
+  IPort *port2 = testee->getPorts()[1];
+
+  component->deletePort(component->getPorts().front());
+
+  CPPUNIT_ASSERT_EQUAL(uint(1), observer.deletedPorts.size());
+  CPPUNIT_ASSERT_EQUAL(port1, observer.deletedPorts[0]);
+  CPPUNIT_ASSERT_EQUAL(uint(1), testee->getPorts().size());
+  CPPUNIT_ASSERT_EQUAL(port2, static_cast<IPort*>(testee->getPorts()[0]));
+
+  testee->unregisterObserver(&observer);
+  delete testee;
+  ComponentFactory::dispose(component);
+}
+
 void CompositionInstanceTest::change_of_width_notifies_observers()
 {
   Component *component = ComponentFactory::produce("", {}, {});

@@ -3,6 +3,8 @@
 
 #include "VisitorTest.hpp"
 #include "../implementation/CompositionInstanceMock.hpp"
+#include "../component/ComponentMock.hpp"
+#include "VisitorMock.h"
 
 #include <core/visitor/Visitor.hpp>
 
@@ -19,71 +21,9 @@
 #include <core/implementation/CompositionFactory.hpp>
 #include <core/implementation/NullImplementation.hpp>
 
-class TestVisitor final : public Visitor
-{
-  public:
-    TestVisitor() :
-      component(ComponentFactory::produce("Component"))
-    {
-    }
-
-    TestVisitor(const TestVisitor &) = delete;
-    TestVisitor *operator =(const TestVisitor &) = delete;
-
-    ~TestVisitor()
-    {
-      ComponentFactory::dispose(component);
-    }
-
-    void visit(ComponentPort &port)
-    {
-      port.setTopIndex(2*port.getTopIndex());
-    }
-
-    void visit(Component &component)
-    {
-      component.addPort(new ComponentPort("", PortType::Slot));
-    }
-
-    void visit(Instance &instance)
-    {
-      instance.setOffset(Point(42,57));
-    }
-
-    void visit(InstancePort &port)
-    {
-      port.setOffset(Point(100,200));
-    }
-
-    void visit(Connection &connection)
-    {
-      IPort *start = connection.getStartPort();
-      IPort *end = connection.getEndPort();
-      connection.replaceStartPort(end);
-      connection.replaceEndPort(start);
-    }
-
-    void visit(Composition &composition)
-    {
-      composition.addInstance(new Instance("", Point(0,0), component));
-    }
-
-    void visit(NullImplementation &)
-    {
-    }
-
-    void visit(Library &library)
-    {
-      library.addComponent(ComponentFactory::produce(""));
-    }
-
-  private:
-    Component *component;
-};
-
 void VisitorTest::componentPort()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   ComponentPort port("", PortType::Slot);
   port.setTopIndex(10);
@@ -93,7 +33,7 @@ void VisitorTest::componentPort()
 
 void VisitorTest::component()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component");
   CPPUNIT_ASSERT_EQUAL(size_t(0), component->getPorts().size());
@@ -105,7 +45,7 @@ void VisitorTest::component()
 
 void VisitorTest::instance()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
@@ -120,7 +60,7 @@ void VisitorTest::instance()
 
 void VisitorTest::instancePort()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   Component *component = ComponentFactory::produce("component", {"port"}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
@@ -135,7 +75,7 @@ void VisitorTest::instancePort()
 
 void VisitorTest::connection()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
   DrawPort start(Point(0,0));
   DrawPort end(Point(0,0));
   Connection *connection = ConnectionFactory::produce(&start, &end);
@@ -149,7 +89,7 @@ void VisitorTest::connection()
 
 void VisitorTest::composition()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   Composition composition{new CompositionInstanceMock()};
   composition.accept(visitor);
@@ -159,9 +99,22 @@ void VisitorTest::composition()
   CompositionFactory::cleanup(composition);
 }
 
+void VisitorTest::compositionInstance()
+{
+  VisitorMock visitor;
+
+  IComponent *component = new ComponentMock();
+  CompositionInstance instance{component};
+  instance.accept(visitor);
+
+  CPPUNIT_ASSERT_EQUAL(test::sl{"CompositionInstance"}, visitor.visited);
+
+//  delete component;
+}
+
 void VisitorTest::nullImplementation()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   NullImplementation nullImpl;
   nullImpl.accept(visitor);
@@ -169,7 +122,7 @@ void VisitorTest::nullImplementation()
 
 void VisitorTest::library()
 {
-  TestVisitor visitor;
+  VisitorMock visitor;
 
   Library library;
   library.accept(visitor);

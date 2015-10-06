@@ -84,8 +84,7 @@ Side CompositionInstance::connectorSide(PortType type) const
 
 void CompositionInstance::accept(Visitor &visitor)
 {
-  (void)(visitor);
-  notYetImplemented();
+  visitor.visit(*this);
 }
 
 void CompositionInstance::accept(ConstVisitor &visitor) const
@@ -97,6 +96,7 @@ void CompositionInstance::portAdded(ComponentPort *port)
 {
   InstancePort *iport = new InstancePort(this, port);
   ports.push_back(iport);
+  notify<IPort*>(&InstanceObserver::portAdded, iport);
 }
 
 void CompositionInstance::portDeleted(ComponentPort *port)
@@ -108,6 +108,13 @@ void CompositionInstance::portDeleted(ComponentPort *port)
   precondition(idx != ports.end());
 
   InstancePort *instPort = *idx;
-  delete instPort;
   ports.erase(idx);
+  notify<IPort*>(&InstanceObserver::portDeleted, instPort);
+
+  delete instPort;
+}
+
+void CompositionInstance::nameChanged(const std::string &)
+{
+  notify<const IInstance *>(&InstanceObserver::nameChanged, this);
 }

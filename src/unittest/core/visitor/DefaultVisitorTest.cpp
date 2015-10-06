@@ -3,6 +3,9 @@
 
 #include "DefaultVisitorTest.hpp"
 
+#include "DefaultVisitorMock.h"
+#include "../component/ComponentMock.hpp"
+
 #include <core/visitor/DefaultVisitor.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
@@ -25,7 +28,8 @@ void DefaultVisitorTest::setUp()
   componentNullImpl->addPort(signal);
   library->addComponent(componentNullImpl);
 
-  composition = new Composition(new CompositionInstanceMock());
+  compositionInstance = new CompositionInstanceMock();
+  composition = new Composition(compositionInstance);
   instance = InstanceFactory::produce(componentNullImpl, "instance", Point(0,0));
   instanceSlot = instance->getPort("slot");
   instanceSignal = instance->getPort("signal");
@@ -45,86 +49,16 @@ void DefaultVisitorTest::tearDown()
   componentNullImpl = nullptr;
   componentComposition = nullptr;
   composition = nullptr;
+  compositionInstance = nullptr;
   instance = nullptr;
   instanceSlot = nullptr;
   instanceSignal = nullptr;
   connection = nullptr;
 }
 
-class TestDefaultVisitor : public DefaultVisitor
-{
-  public:
-    TestDefaultVisitor() :
-      visited()
-    {
-    }
-
-    void visit(ComponentPort &port)
-    {
-      visited.push_back("ComponentPort:" + port.getName());
-      DefaultVisitor::visit(port);
-    }
-
-    void visit(InstancePort &port)
-    {
-      visited.push_back("InstancePort:" + port.getName());
-      DefaultVisitor::visit(port);
-    }
-
-    void visit(Instance &instance)
-    {
-      visited.push_back("Instance:" + instance.getName());
-      DefaultVisitor::visit(instance);
-    }
-
-    void visit(Connection &connection)
-    {
-      visited.push_back("Connection:" + connection.getStartPort()->getName() + "->" + connection.getEndPort()->getName());
-      DefaultVisitor::visit(connection);
-    }
-
-    void visit(Composition &composition)
-    {
-      visited.push_back("Composition");
-      DefaultVisitor::visit(composition);
-    }
-
-    void visit(NullImplementation &nullImplementation)
-    {
-      visited.push_back("NullImplementation");
-      DefaultVisitor::visit(nullImplementation);
-    }
-
-    void visit(Component &component)
-    {
-      visited.push_back("Component:" + component.getName());
-      DefaultVisitor::visit(component);
-    }
-
-    void visit(Library &library)
-    {
-      visited.push_back("Library");
-      DefaultVisitor::visit(library);
-    }
-
-    test::sl visited;
-
-    bool hasVisited(const std::string &value) const
-    {
-      for (const std::string &itr : visited)
-      {
-        if (itr == value)
-        {
-          return true;
-        }
-      }
-      return false;
-    }
-};
-
 void DefaultVisitorTest::componentPortVisitsOnlyComponentPort()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   slot->accept(tdv);
 
@@ -133,7 +67,7 @@ void DefaultVisitorTest::componentPortVisitsOnlyComponentPort()
 
 void DefaultVisitorTest::instancePortVisitsOnlyInstancePort()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   instanceSlot->accept(tdv);
 
@@ -142,7 +76,7 @@ void DefaultVisitorTest::instancePortVisitsOnlyInstancePort()
 
 void DefaultVisitorTest::instanceVisitsPorts()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   instance->accept(tdv);
 
@@ -153,16 +87,27 @@ void DefaultVisitorTest::instanceVisitsPorts()
 
 void DefaultVisitorTest::connectionVisitsOnlyConnection()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   connection->accept(tdv);
 
   CPPUNIT_ASSERT_EQUAL(test::sl({"Connection:signal->slot"}), tdv.visited);
 }
 
+void DefaultVisitorTest::compositionVisitsSelfInstance()
+{
+  DefaultVisitorMock tdv;
+
+  composition->accept(tdv);
+
+  CPPUNIT_ASSERT(tdv.hasVisited("Composition"));
+  CPPUNIT_ASSERT_EQUAL(size_t(1), compositionInstance->visitors.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<Visitor*>(&tdv), compositionInstance->visitors[0]);
+}
+
 void DefaultVisitorTest::compositionVisitsInstance()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   composition->accept(tdv);
 
@@ -172,7 +117,7 @@ void DefaultVisitorTest::compositionVisitsInstance()
 
 void DefaultVisitorTest::compositionVisitsConnection()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   composition->accept(tdv);
 
@@ -182,16 +127,28 @@ void DefaultVisitorTest::compositionVisitsConnection()
 
 void DefaultVisitorTest::nullImplementationVisitsOnlyNullImplementation()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   componentNullImpl->getImplementation()->accept(tdv);
 
   CPPUNIT_ASSERT_EQUAL(test::sl({"NullImplementation"}), tdv.visited);
 }
 
+void DefaultVisitorTest::compositionInstance_visits_ports()
+{
+  DefaultVisitorMock tdv;
+
+  CompositionInstance instance{componentNullImpl};
+  instance.accept(tdv);
+
+  CPPUNIT_ASSERT(tdv.hasVisited("CompositionInstance"));
+  CPPUNIT_ASSERT(tdv.hasVisited("InstancePort:slot"));
+  CPPUNIT_ASSERT(tdv.hasVisited("InstancePort:signal"));
+}
+
 void DefaultVisitorTest::componentVisitsPorts()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   componentNullImpl->accept(tdv);
 
@@ -202,7 +159,7 @@ void DefaultVisitorTest::componentVisitsPorts()
 
 void DefaultVisitorTest::componentVisitsImplementation()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   componentNullImpl->accept(tdv);
 
@@ -212,7 +169,7 @@ void DefaultVisitorTest::componentVisitsImplementation()
 
 void DefaultVisitorTest::libraryVisitsComponents()
 {
-  TestDefaultVisitor tdv;
+  DefaultVisitorMock tdv;
 
   library->accept(tdv);
 

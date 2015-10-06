@@ -13,6 +13,7 @@ class Visitor
     virtual void visit(ComponentPort &port) = 0;
     virtual void visit(Component &component) = 0;
     virtual void visit(Instance &instance) = 0;
+    virtual void visit(CompositionInstance &instance) = 0;
     virtual void visit(InstancePort &port) = 0;
     virtual void visit(Connection &connection) = 0;
     virtual void visit(Composition &composition) = 0;

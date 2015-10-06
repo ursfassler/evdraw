@@ -311,3 +311,23 @@ void CompositionTest::deleteInstancePort_removes_dependant_connections()
   CompositionFactory::dispose(composition);
   ComponentFactory::dispose(comp1);
 }
+
+void CompositionTest::delete_selfInstance_port_removes_dependant_connections()
+{
+  Component *comp1 = ComponentFactory::produce("comp1", {"in"}, {"out"});
+  Composition *composition = new Composition(new CompositionInstance(comp1));
+  comp1->setImplementation(composition);
+
+  const auto inst = composition->getSelfInstance();
+  auto portIn = inst->getPorts()[0];
+  auto portOut = inst->getPorts()[1];
+  auto connection = ConnectionFactory::produce(portIn, portOut);
+  composition->addConnection(connection);
+
+  ComponentPort *port = comp1->getPorts()[0];
+  CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
+  comp1->deletePort(port);
+  CPPUNIT_ASSERT_EQUAL(size_t(0), composition->getConnections().size());
+
+  ComponentFactory::dispose(comp1);
+}

@@ -9,14 +9,15 @@
 class NullVisitor : public Visitor
 {
   public:
-    void visit(ComponentPort &port);
-    void visit(Component &component);
-    void visit(Instance &instance);
-    void visit(InstancePort &port);
-    void visit(Connection &connection);
-    void visit(Composition &composition);
-    void visit(NullImplementation &nullImplementation) ;
-    void visit(Library &library);
+    void visit(ComponentPort &port) override;
+    void visit(Component &component) override;
+    void visit(Instance &instance) override;
+    void visit(CompositionInstance &instance) override;
+    void visit(InstancePort &port) override;
+    void visit(Connection &connection) override;
+    void visit(Composition &composition) override;
+    void visit(NullImplementation &nullImplementation) override;
+    void visit(Library &library) override;
 };
 
 #endif

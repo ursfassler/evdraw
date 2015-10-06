@@ -20,6 +20,7 @@ class VisitorTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(connection);
 
     CPPUNIT_TEST(composition);
+    CPPUNIT_TEST(compositionInstance);
     CPPUNIT_TEST(nullImplementation);
 
     CPPUNIT_TEST(library);
@@ -37,6 +38,7 @@ class VisitorTest : public CPPUNIT_NS::TestFixture
     void connection();
 
     void composition();
+    void compositionInstance();
     void nullImplementation();
 
     void library();

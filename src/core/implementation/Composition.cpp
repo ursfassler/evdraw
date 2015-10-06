@@ -19,6 +19,7 @@ Composition::Composition(ICompositionInstance *aSelfInstance) :
   connections{}
 {
   precondition(aSelfInstance != nullptr);
+  selfInstance->registerObserver(this);
 }
 
 Composition::~Composition()

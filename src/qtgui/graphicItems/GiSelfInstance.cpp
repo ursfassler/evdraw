@@ -4,7 +4,6 @@
 #include "GiSelfInstance.hpp"
 
 #include "convert.hpp"
-#include "GiInstancePort.hpp"
 
 #include <core/component/InstanceAppearance.hpp>
 
@@ -38,6 +37,7 @@ void HorizontallLine::moveTo(const Point &pos)
 
 
 
+
 GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aComposition) :
   type{this},
   leftLine{aInstance, this},
@@ -56,9 +56,7 @@ GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aCo
 
   addPorts(instance.getPorts());
 
-  const auto text = QString::fromStdString(instance.getComponent()->getName());
-  type.setText(text);
-  type.setPos(0, 0.5 * puToScene(InstanceAppearance::textHeight()) - type.boundingRect().height()/2);
+  updateText();
 }
 
 GiSelfInstance::~GiSelfInstance()
@@ -73,11 +71,11 @@ void GiSelfInstance::addPorts(const std::vector<InstancePort *> &ports)
   }
 }
 
-void GiSelfInstance::addPort(InstancePort *port)
+void GiSelfInstance::addPort(IPort *port)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
   GiInstancePort *gipo = new GiInstancePort(ip, &composition, this);
-  //  ports[ip] = gipo;
+  ports[ip] = gipo;
 }
 
 void GiSelfInstance::widthChanged()
@@ -88,6 +86,26 @@ void GiSelfInstance::widthChanged()
 void GiSelfInstance::heightChanged()
 {
   updateSize();
+}
+
+void GiSelfInstance::portAdded(IPort *port)
+{
+  addPort(port);
+}
+
+void GiSelfInstance::portDeleted(IPort *port)
+{
+  precondition(ports.contains(port));
+
+  GiInstancePort *inst = ports.take(port);
+  delete inst;
+
+  postcondition(!childItems().contains(inst));
+}
+
+void GiSelfInstance::nameChanged(const IInstance *)
+{
+  updateText();
 }
 
 void GiSelfInstance::updateSize()
@@ -106,5 +124,13 @@ void GiSelfInstance::updateSize()
 
   update();
 }
+
+void GiSelfInstance::updateText()
+{
+  const auto text = QString::fromStdString(instance.getComponent()->getName());
+  type.setText(text);
+  type.setPos(0, 0.5 * puToScene(InstanceAppearance::textHeight()) - type.boundingRect().height()/2);
+}
+
 
 

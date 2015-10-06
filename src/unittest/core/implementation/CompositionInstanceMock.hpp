@@ -41,9 +41,11 @@ class CompositionInstanceMock :
       return ports;
     }
 
-    void accept(Visitor &) override
+    void accept(Visitor &visitor) override
     {
+      visitors.push_back(&visitor);
     }
+    std::vector<Visitor*> visitors{};
 
     void accept(ConstVisitor &) const override
     {

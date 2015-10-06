@@ -55,6 +55,7 @@ class CompositionInstance final :
 
     void portAdded(ComponentPort *port) override;
     void portDeleted(ComponentPort *port) override;
+    void nameChanged(const std::string &name) override;
 };
 
 #endif // COMPOSITIONINSTANCE_HPP

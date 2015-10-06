@@ -6,6 +6,8 @@
 
 #include "MoveableLine.hpp"
 
+#include "GiInstancePort.hpp"
+
 #include <core/implementation/Composition.hpp>
 
 #include <QGraphicsSimpleTextItem>
@@ -56,14 +58,19 @@ class GiSelfInstance :
     HorizontallLine bottomLine;
     ICompositionInstance &instance;
     Composition &composition;
+    QHash<IPort*,GiInstancePort*> ports;
 
     void addPorts(const std::vector<InstancePort *> &ports);
-    void addPort(InstancePort *port);
+    void addPort(IPort *port);
 
     void widthChanged() override;
     void heightChanged() override;
+    void portAdded(IPort *port) override;
+    void portDeleted(IPort *port) override;
+    void nameChanged(const IInstance *) override;
 
     void updateSize();
+    void updateText();
 };
 
 #endif // GISELFINSTANCE_H

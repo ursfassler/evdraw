@@ -10,6 +10,7 @@
 void CompositionFactory::cleanup(Composition &composition)
 {
   precondition(composition.selfInstance != nullptr);
+  precondition(composition.selfInstance->containsObserver(&composition));
 
   while (!composition.connections.empty()) {
     composition.deleteConnection(composition.connections.back());
@@ -24,6 +25,7 @@ void CompositionFactory::cleanup(Composition &composition)
     composition.deleteInstance(composition.instances.back());
   }
 
+  composition.selfInstance->unregisterObserver(&composition);
   delete composition.selfInstance;
   composition.selfInstance = nullptr;
 
