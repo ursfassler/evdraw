@@ -8,19 +8,26 @@
 
 #include <core/instance/Instance.hpp>
 
+#include <QObject>
 #include <QGraphicsRectItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsSimpleTextItem>
 #include <QHash>
 
 class GiInstance final :
+    public QObject,
     public QGraphicsRectItem,
     private PositionObserver,
     private InstanceObserver
 {
+    Q_OBJECT
+
   public:
-    GiInstance(Instance *aModel, Composition *composition, QGraphicsItem *parent);
+    GiInstance(Instance *aModel, QGraphicsItem *parent);
     ~GiInstance();
+
+  signals:
+    void startConnection(InstancePort *port, const Point &pos);
 
   protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent * event);
@@ -29,7 +36,6 @@ class GiInstance final :
 
   private:
     Instance * const model;
-    Composition * const composition;
     QGraphicsSimpleTextItem instanceText;
     QGraphicsSimpleTextItem componentText;
     QPointF calcTextPos(unsigned index, const QRectF &boundingRect) const;
@@ -38,8 +44,8 @@ class GiInstance final :
     void resize();
     void updatePosition();
     void updateText();
-    void addPorts(Composition *composition);
-    void addPort(IPort *port, Composition *composition);
+    void addPorts();
+    void addPort(IPort *port);
 
     void absolutePositionChanged(const RelativePosition *sender) override;
     void offsetChanged(const RelativePosition *sender) override;

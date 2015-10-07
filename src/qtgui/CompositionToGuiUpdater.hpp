@@ -10,10 +10,12 @@
 
 #include <core/implementation/Composition.hpp>
 
+#include <QObject>
 #include <QGraphicsScene>
 #include <QHash>
 
-class ConnectionItem : public ConnectionObserver
+class ConnectionItem final :
+    private ConnectionObserver
 {
   public:
     ConnectionItem(Connection *connection, QGraphicsScene &scene);
@@ -21,34 +23,33 @@ class ConnectionItem : public ConnectionObserver
 
     bool hasItem(QGraphicsItem *item) const;
 
-  protected:
-    virtual void verticalSegmentAdded(VerticalSegment *segment);
-    virtual void horizontalSegmentAdded(HorizontalSegment *segment);
-
   private:
     Connection * const connection;
     QGraphicsScene &scene;
     QSet<QGraphicsItem*> items;
+
+    void verticalSegmentAdded(VerticalSegment *segment) override;
+    void horizontalSegmentAdded(HorizontalSegment *segment) override;
 };
 
-class CompositionToGuiUpdater : public CompositionObserver
+class CompositionToGuiUpdater :
+    public QObject,
+    private CompositionObserver
 {
-  public:
-    CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet);
-    ~CompositionToGuiUpdater();
+    Q_OBJECT
 
-    virtual void instanceAdded(Instance *instance);
-    virtual void instanceRemoved(Instance *instance);
-    virtual void connectionAdded(Connection *connection);
-    virtual void connectionRemoved(Connection *connection);
-    virtual void addConnectionUnderConstruction(Connection *connection);
-    virtual void finishConnectionUnderConstruction(Connection *connection);
+  public:
+    CompositionToGuiUpdater(QGraphicsScene &scene, Composition &composition);
+    ~CompositionToGuiUpdater();
 
     void init();
 
     void removeFromModel(QGraphicsItem *item);
 
     Composition &getComposition();
+
+  private slots:
+    void startConnection(InstancePort *port, const Point &pos);
 
   private:
     QGraphicsScene &scene;
@@ -60,6 +61,14 @@ class CompositionToGuiUpdater : public CompositionObserver
 
     void addConnection(Connection *connection);
     Connection *findConnectionOf(QGraphicsItem *item) const;
+
+    void instanceAdded(Instance *instance) override;
+    void instanceRemoved(Instance *instance) override;
+    void connectionAdded(Connection *connection) override;
+    void connectionRemoved(Connection *connection) override;
+    void addConnectionUnderConstruction(Connection *connection) override;
+    void finishConnectionUnderConstruction(Connection *connection) override;
+
 
 };
 

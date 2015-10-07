@@ -4,8 +4,8 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
-#include "model/ComponentListModel.hpp"
-#include "model/PortListModel.hpp"
+#include <qtmodel/ComponentListModel.hpp>
+#include <qtmodel/PortListModel.hpp>
 
 #include <core/visitor/NullVisitor.hpp>
 #include <core/Point.hpp>

@@ -64,15 +64,8 @@ SOURCES += \
     graphicItems/GiSegment.cpp \
     main.cpp\
     MainWindow.cpp \
-    model/ConnectionListModel.cpp \
-    model/InstanceListModel.cpp \
-    model/NameTypeModel.cpp \
-    model/PortListModel.cpp \
     Workspace.cpp \
     ../core/component/PortType.cpp \
-    model/PortTypeModel.cpp \
-    model/ComponentListModel.cpp \
-    model/ImplementationTypeModel.cpp \
     ../core/implementation/ImplementationType.cpp \
     view/ComboboxItemDelegate.cpp \
     ../core/instance/ConnectorFactory.cpp \
@@ -81,7 +74,14 @@ SOURCES += \
     ../core/implementation/ImplementationFactory.cpp \
     graphicItems/GiSelfInstance.cpp \
     graphicItems/MoveableLine.cpp \
-    ../core/instance/InstanceObserver.cpp
+    ../core/instance/InstanceObserver.cpp \
+    ../qtmodel/ComponentListModel.cpp \
+    ../qtmodel/ConnectionListModel.cpp \
+    ../qtmodel/ImplementationTypeModel.cpp \
+    ../qtmodel/InstanceListModel.cpp \
+    ../qtmodel/NameTypeModel.cpp \
+    ../qtmodel/PortListModel.cpp \
+    ../qtmodel/PortTypeModel.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -137,24 +137,24 @@ HEADERS  += \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiSegment.hpp \
     MainWindow.hpp \
-    model/ConnectionListModel.hpp \
-    model/InstanceListModel.hpp \
-    model/NameTypeModel.hpp \
-    model/PortListModel.hpp \
     Workspace.hpp \
     ../core/component/PortType.hpp \
-    model/ComponentListModel.hpp \
-    model/ImplementationTypeModel.hpp \
     ../core/implementation/ImplementationType.hpp \
     view/ComboboxItemDelegate.hpp \
     ../core/instance/ConnectorFactory.hpp \
-    model/PortTypeModel.hpp \
     ../core/implementation/CompositionInstance.hpp \
     ../core/implementation/CompositionFactory.hpp \
     ../core/implementation/ImplementationFactory.hpp \
     graphicItems/GiSelfInstance.hpp \
     graphicItems/MoveableLine.hpp \
-    ../core/instance/InstanceObserver.h
+    ../core/instance/InstanceObserver.h \
+    ../qtmodel/ComponentListModel.hpp \
+    ../qtmodel/ConnectionListModel.hpp \
+    ../qtmodel/ImplementationTypeModel.hpp \
+    ../qtmodel/InstanceListModel.hpp \
+    ../qtmodel/NameTypeModel.hpp \
+    ../qtmodel/PortListModel.hpp \
+    ../qtmodel/PortTypeModel.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

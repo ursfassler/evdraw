@@ -11,12 +11,17 @@
 #include "NameTypeModel.hpp"
 #include "ImplementationTypeModel.hpp"
 
+//TODO add tests
+
 class ComponentListModel :
     public NameTypeModel,
     private LibraryObserver
 {
     Q_OBJECT
   public:
+    ComponentListModel(const ComponentListModel &) = delete;
+    ComponentListModel &operator =(const ComponentListModel&) = delete;
+
 
     explicit ComponentListModel(Library *library, QObject *parent = 0);
     ~ComponentListModel();
@@ -51,15 +56,5 @@ class ComponentListModel :
     void componentAdded(Component *component);
     void componentDeleted(Component *component);
 };
-
-class ImplementationNameVisitor : public NullConstVisitor
-{
-  public:
-    void visit(const Composition &composition);
-    void visit(const NullImplementation &nullImplementation) ;
-
-    ImplementationType type;
-};
-
 
 #endif

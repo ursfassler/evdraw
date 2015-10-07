@@ -74,7 +74,7 @@ void GiSelfInstance::addPorts(const std::vector<InstancePort *> &ports)
 void GiSelfInstance::addPort(IPort *port)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
-  GiInstancePort *gipo = new GiInstancePort(ip, &composition, this);
+  GiInstancePort *gipo = new GiInstancePort(ip, this);
   ports[ip] = gipo;
 }
 

@@ -19,13 +19,18 @@ class ConnectionListModel :
     Q_OBJECT
 
   public:
-    explicit ConnectionListModel(Composition &composition, QObject *parent);
+    ConnectionListModel(const ConnectionListModel&) = delete;
+    ConnectionListModel &operator =(const ConnectionListModel&) = delete;
+
+
+    //TODO use connection list interface instead composition
+    explicit ConnectionListModel(Composition &composition, QObject *parent = 0);
     ~ConnectionListModel();
 
-    int columnCount(const QModelIndex &parent) const;
-    int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant headerData(int section, Qt::Orientation orientation, int role) const;
-    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    int columnCount(const QModelIndex &parent) const override;
+    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
+    QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
+    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
 
   private:
     static const uint SRC_INST_INDEX = 0;
@@ -37,22 +42,11 @@ class ConnectionListModel :
     Composition &composition;
 
     Connection *getConnection(uint row) const;
-    QPair<QString,QString> endpointName(const IPort &port) const;
+    QString instanceName(const IPort &port) const;
 
-    void connectionAdded(Connection *connection);
-    void connectionRemoved(Connection *connection);
+    void connectionAdded(Connection *connection) override;
+    void connectionRemoved(Connection *connection) override;
 
-};
-
-class ConnectionEndpointNameVisitor : public NullConstVisitor
-{
-  public:
-    void visit(const Instance &instance);
-    void visit(const CompositionInstance &instance);
-    void visit(const InstancePort &port);
-
-    QString instance;
-    QString port;
 };
 
 #endif // CONNECTIONLISTMODEL_HPP

@@ -8,7 +8,8 @@
 
 #include <QAbstractListModel>
 
-class PortTypeModel : public QAbstractListModel
+class PortTypeModel :
+    public QAbstractListModel
 {
   public:
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

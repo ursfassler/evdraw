@@ -5,6 +5,33 @@
 
 #include <core/instance/InstancePort.hpp>
 
+
+class ConnectionEndpointNameVisitor :
+    public NullConstVisitor
+{
+  public:
+    void visit(const Instance &instance) override
+    {
+      this->instance = QString::fromStdString(instance.getName());
+    }
+
+    void visit(const CompositionInstance &) override
+    {
+      this->instance = "self";
+    }
+
+    void visit(const InstancePort &port) override
+    {
+      port.getInstance()->accept(*this);
+    }
+
+    QString instance{"<error>"};
+};
+
+
+
+
+
 ConnectionListModel::ConnectionListModel(Composition &aComposition, QObject *parent) :
   QAbstractListModel(parent),
   composition(aComposition)
@@ -74,15 +101,13 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
     return "<error>";
   }
 
-  const QPair<QString,QString> epname = endpointName(*port);
-
   switch (column) {
     case SRC_INST_INDEX:
     case DST_INST_INDEX:
-      return epname.first;
+      return instanceName(*port);
     case SRC_PORT_INDEX:
     case DST_PORT_INDEX:
-      return epname.second;
+      return QString::fromStdString(port->getName());
   }
 
   return "<error>";
@@ -93,11 +118,11 @@ Connection *ConnectionListModel::getConnection(uint row) const
   return *std::next(composition.getConnections().begin(), row);
 }
 
-QPair<QString,QString> ConnectionListModel::endpointName(const IPort &port) const
+QString ConnectionListModel::instanceName(const IPort &port) const
 {
   ConnectionEndpointNameVisitor visitor;
   port.accept(visitor);
-  return QPair<QString,QString>(visitor.instance, visitor.port);
+  return visitor.instance;
 }
 
 void ConnectionListModel::connectionAdded(Connection *)
@@ -112,19 +137,9 @@ void ConnectionListModel::connectionRemoved(Connection *)
 
 
 
-void ConnectionEndpointNameVisitor::visit(const Instance &instance)
-{
-  this->instance = QString::fromStdString(instance.getName());
-}
 
-void ConnectionEndpointNameVisitor::visit(const CompositionInstance &instance)
-{
-  this->instance = "self";
-}
 
-void ConnectionEndpointNameVisitor::visit(const InstancePort &port)
-{
-  port.getInstance()->accept(*this);
-  this->port = QString::fromStdString(port.getName());
-}
+
+
+
 

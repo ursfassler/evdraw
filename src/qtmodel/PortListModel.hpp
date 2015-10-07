@@ -10,12 +10,18 @@
 #include "NameTypeModel.hpp"
 #include "PortTypeModel.hpp"
 
+//TODO add tests
+
 class PortListModel :
     public NameTypeModel,
     private ComponentObserver
 {
     Q_OBJECT
   public:
+    PortListModel(const PortListModel&) = delete;
+    PortListModel &operator =(const PortListModel&) = delete;
+
+
     explicit PortListModel(Component &component, QObject *parent = 0);
     ~PortListModel();
 

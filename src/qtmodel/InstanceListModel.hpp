@@ -12,6 +12,7 @@
 #include "NameTypeModel.hpp"
 #include "ComponentListModel.hpp"
 
+//TODO add tests
 
 class InstanceListModel :
     public NameTypeModel,
@@ -20,6 +21,10 @@ class InstanceListModel :
 {
     Q_OBJECT
   public:
+    InstanceListModel(const InstanceListModel&) = delete;
+    InstanceListModel &operator =(const InstanceListModel&) = delete;
+
+
     explicit InstanceListModel(Composition &composition, Library &library, QObject *parent);
     ~InstanceListModel();
 

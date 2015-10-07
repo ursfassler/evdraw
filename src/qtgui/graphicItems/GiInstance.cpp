@@ -11,10 +11,9 @@
 #include <QFont>
 #include <QRectF>
 
-GiInstance::GiInstance(Instance *aModel, Composition *aComposition, QGraphicsItem *parent) :
+GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
-  composition(aComposition),
   instanceText(this),
   componentText(this)
 {
@@ -26,7 +25,7 @@ GiInstance::GiInstance(Instance *aModel, Composition *aComposition, QGraphicsIte
   updatePosition();
 
   updateText();
-  addPorts(composition);
+  addPorts();
 }
 
 GiInstance::~GiInstance()
@@ -70,7 +69,7 @@ void GiInstance::offsetChanged(const RelativePosition *)
 
 void GiInstance::portAdded(IPort *port)
 {
-  addPort(port, composition);
+  addPort(port);
 }
 
 void GiInstance::portDeleted(IPort *port)
@@ -106,18 +105,20 @@ QPointF GiInstance::calcTextPos(unsigned index, const QRectF &boundingRect) cons
   return QPointF(x,y);
 }
 
-void GiInstance::addPorts(Composition *composition)
+void GiInstance::addPorts()
 {
   for (InstancePort *port : model->getPorts()) {
-    addPort(port, composition);
+    addPort(port);
   }
 }
 
-void GiInstance::addPort(IPort *port, Composition *composition)
+void GiInstance::addPort(IPort *port)
 {
   InstancePort *ip = dynamic_cast<InstancePort*>(port);
-  GiInstancePort *gipo = new GiInstancePort(ip, composition, this);
+  GiInstancePort *gipo = new GiInstancePort(ip, this);
   ports[ip] = gipo;
+
+  connect(gipo, SIGNAL(startConnection(InstancePort*,Point)), this, SIGNAL(startConnection(InstancePort*,Point)));
 }
 
 void GiInstance::mouseMoveEvent(QGraphicsSceneMouseEvent *event)

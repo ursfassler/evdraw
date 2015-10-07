@@ -3,19 +3,14 @@
 
 #include "GiInstancePort.hpp"
 
-#include "GiConnectionCreation.hpp"
-
 #include <core/component/InstanceAppearance.hpp>
-#include <core/connection/ConnectionFactory.hpp>
-#include <core/connection/DrawPort.hpp>
 #include "convert.hpp"
 
 #include <QBrush>
 
-GiInstancePort::GiInstancePort(InstancePort *aModel, Composition *aSheet, QGraphicsItem *parent) :
+GiInstancePort::GiInstancePort(InstancePort *aModel, QGraphicsItem *parent) :
   QGraphicsRectItem(parent),
   model(aModel),
-  sheet(aSheet),
   label(this)
 {
   model->ObserverCollection<PositionObserver>::registerObserver(this);
@@ -50,8 +45,8 @@ void GiInstancePort::mousePressEvent(QGraphicsSceneMouseEvent *)
 void GiInstancePort::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
   event->accept();
-  DrawPort *end = new DrawPort(sceneToPu(event->scenePos()));
-  sheet->startConnectionConstruction(model, end);
+  const auto pos = sceneToPu(event->scenePos());
+  startConnection(model, pos);
 }
 
 void GiInstancePort::absolutePositionChanged(const RelativePosition *)

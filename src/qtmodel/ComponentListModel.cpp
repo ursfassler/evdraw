@@ -5,6 +5,25 @@
 
 #include "ComponentListModel.hpp"
 
+
+class ImplementationNameVisitor : public NullConstVisitor
+{
+  public:
+    void visit(const Composition &)
+    {
+      type = ImplementationType::Composition;
+    }
+
+    void visit(const NullImplementation &)
+    {
+      type = ImplementationType::Empty;
+    }
+
+    ImplementationType type{};
+};
+
+
+
 ComponentListModel::ComponentListModel(Library *aLibrary, QObject *parent) :
   NameTypeModel(parent),
   library(aLibrary),
@@ -102,15 +121,3 @@ ImplementationType ComponentListModel::getImplementationType(const Component *co
   component->getImplementation()->accept(visitor);
   return visitor.type;
 }
-
-
-void ImplementationNameVisitor::visit(const Composition &)
-{
-  type = ImplementationType::Composition;
-}
-
-void ImplementationNameVisitor::visit(const NullImplementation &)
-{
-  type = ImplementationType::Empty;
-}
-

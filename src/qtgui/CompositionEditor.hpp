@@ -5,8 +5,8 @@
 #define COMPOSITIONEDITOR_HPP
 
 #include "CompositionDraw.hpp"
-#include "model/InstanceListModel.hpp"
-#include "model/ConnectionListModel.hpp"
+#include <qtmodel/InstanceListModel.hpp>
+#include <qtmodel/ConnectionListModel.hpp>
 
 #include <core/component/Library.hpp>
 

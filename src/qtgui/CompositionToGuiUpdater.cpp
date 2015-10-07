@@ -5,9 +5,9 @@
 #include <core/connection/ConnectionFactory.hpp>
 
 
-CompositionToGuiUpdater::CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aSheet) :
+CompositionToGuiUpdater::CompositionToGuiUpdater(QGraphicsScene &aScene, Composition &aComposition) :
   scene(aScene),
-  composition(aSheet)
+  composition(aComposition)
 {
   composition.registerObserver(this);
 }
@@ -19,9 +19,11 @@ CompositionToGuiUpdater::~CompositionToGuiUpdater()
 
 void CompositionToGuiUpdater::instanceAdded(Instance *instance)
 {
-  GiInstance *giinstA = new GiInstance(instance, &composition, 0);
+  GiInstance *giinstA = new GiInstance(instance, 0);
   instances.insert(instance, giinstA);
   scene.addItem(giinstA);
+
+  connect(giinstA, SIGNAL(startConnection(InstancePort*,Point)), this, SLOT(startConnection(InstancePort*,Point)));
 }
 
 void CompositionToGuiUpdater::instanceRemoved(Instance *instance)
@@ -98,6 +100,12 @@ Connection *CompositionToGuiUpdater::findConnectionOf(QGraphicsItem *item) const
 Composition &CompositionToGuiUpdater::getComposition()
 {
   return composition;
+}
+
+void CompositionToGuiUpdater::startConnection(InstancePort *port, const Point &pos)
+{
+  DrawPort *end = new DrawPort(pos);
+  composition.startConnectionConstruction(port, end);
 }
 
 

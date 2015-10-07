@@ -5,24 +5,28 @@
 #define GIINSTANCEPORT_HPP
 
 #include <core/instance/InstancePort.hpp>
-#include <core/implementation/Composition.hpp>
 
+#include <QObject>
 #include <QGraphicsRectItem>
 #include <QGraphicsSimpleTextItem>
 #include <QGraphicsSceneMouseEvent>
 
 class GiInstancePort :
+    public QObject,
     public QGraphicsRectItem,
     protected PositionObserver,
     protected InstancePortObserver
 {
+    Q_OBJECT
+
   public:
-    explicit GiInstancePort(InstancePort *model, Composition *sheet, QGraphicsItem *parent);
+    explicit GiInstancePort(InstancePort *model, QGraphicsItem *parent);
     ~GiInstancePort();
 
     InstancePort *getModel() const;
 
   signals:
+    void startConnection(InstancePort *port, const Point &pos);
 
   public slots:
 
@@ -37,7 +41,6 @@ class GiInstancePort :
 
   private:
     InstancePort *model;
-    Composition *sheet;
     QGraphicsSimpleTextItem label;
 
     void setDisplayName(QString name);

@@ -4,7 +4,9 @@
 
 CONFIG -= console
 CONFIG -= app_bundle
-CONFIG -= qt
+#CONFIG -= qt
+
+QT += testlib
 
 TARGET = testapp
 
@@ -140,7 +142,18 @@ HEADERS += \
     core/instance/InstanceObserver.h \
     unittest/core/visitor/DefaultVisitorMock.h \
     unittest/core/visitor/VisitorMock.h \
-    unittest/core/connection/PortMock.hpp
+    unittest/core/connection/PortMock.hpp \
+    qtmodel/ComponentListModel.hpp \
+    qtmodel/ConnectionListModel.hpp \
+    qtmodel/ImplementationTypeModel.hpp \
+    qtmodel/InstanceListModel.hpp \
+    qtmodel/NameTypeModel.hpp \
+    qtmodel/PortListModel.hpp \
+    qtmodel/PortTypeModel.hpp \
+    unittest/qtmodel/PortTypeModelTest.hpp \
+    unittest/qtmodel/ImplementationTypeModelTest.h \
+    unittest/qtmodel/ConnectionListModelTest.h \
+    unittest/qtmodel/ComponentListModelTest.h
 
 SOURCES += \
     core/base/Base.cpp \
@@ -252,7 +265,18 @@ SOURCES += \
     core/instance/InstanceObserver.cpp \
     unittest/core/visitor/DefaultVisitorMock.cpp \
     unittest/core/visitor/VisitorMock.cpp \
-    unittest/core/connection/PortMock.cpp
+    unittest/core/connection/PortMock.cpp \
+    qtmodel/ComponentListModel.cpp \
+    qtmodel/ConnectionListModel.cpp \
+    qtmodel/ImplementationTypeModel.cpp \
+    qtmodel/InstanceListModel.cpp \
+    qtmodel/NameTypeModel.cpp \
+    qtmodel/PortListModel.cpp \
+    qtmodel/PortTypeModel.cpp \
+    unittest/qtmodel/PortTypeModelTest.cpp \
+    unittest/qtmodel/ImplementationTypeModelTest.cpp \
+    unittest/qtmodel/ConnectionListModelTest.cpp \
+    unittest/qtmodel/ComponentListModelTest.cpp
 
 DISTFILES += \
     ../README.md \

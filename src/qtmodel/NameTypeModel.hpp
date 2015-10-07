@@ -6,8 +6,9 @@
 
 #include <QObject>
 #include <QAbstractListModel>
-#include <QStyledItemDelegate>
 #include <QStringListModel>
+
+//TODO add tests
 
 class NameTypeModel : public QAbstractListModel
 {
