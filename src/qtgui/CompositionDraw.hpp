@@ -16,13 +16,11 @@
 #include <QGraphicsSimpleTextItem>
 
 class CompositionDraw :
-    public QGraphicsView,
-    private InstanceObserver
+    public QGraphicsView
 {
     Q_OBJECT
   public:
     explicit CompositionDraw(Composition &composition, QWidget *parent = 0);
-    ~CompositionDraw();
 
   signals:
     void addInstance(Point position, Composition &composition);
@@ -38,10 +36,6 @@ class CompositionDraw :
     GiSelfInstance selfInst;
     CompositionToGuiUpdater updater;
     Composition &composition;
-
-    void widthChanged() override;
-    void heightChanged() override;
-    void updateSceneRect();
 
 };
 
