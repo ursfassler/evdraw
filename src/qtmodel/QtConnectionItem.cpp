@@ -1,8 +1,9 @@
 // Copyright 2015 Urs Fässler, www.bitzgi.ch
 // SPDX-License-Identifier:	GPL-3.0+
 
-#include "ConnectionListModel.hpp"
+#include "QtConnectionItem.hpp"
 
+#include <core/visitor/NullConstVisitor.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
 
@@ -33,29 +34,13 @@ class ConnectionEndpointNameVisitor :
 
 
 
-ConnectionListModel::ConnectionListModel(List<Connection> &aConnections, QObject *parent) :
-  QAbstractListModel(parent),
-  connections(aConnections)
-{
-  connections.registerObserver(this);
-}
 
-ConnectionListModel::~ConnectionListModel()
-{
-  connections.unregisterObserver(this);
-}
-
-int ConnectionListModel::columnCount(const QModelIndex &) const
+int QtConnectionItem::columnCount() const
 {
   return COLUMN_COUNT;
 }
 
-int ConnectionListModel::rowCount(const QModelIndex &) const
-{
-  return connections.size();
-}
-
-QVariant ConnectionListModel::headerData(int section, Qt::Orientation, int role) const
+QVariant QtConnectionItem::headerData(int section, Qt::Orientation, int role) const
 {
   if (role != Qt::DisplayRole) {
     return QVariant();
@@ -75,26 +60,22 @@ QVariant ConnectionListModel::headerData(int section, Qt::Orientation, int role)
   return QVariant();
 }
 
-QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
+QVariant QtConnectionItem::data(const Connection *connection, int column, int role) const
 {
   if (role != Qt::DisplayRole) {
     return QVariant();
   }
-
-  const uint row = index.row();
-  const uint column = index.column();
-  const Connection *con = getConnection(row);
 
   IPort *port = nullptr;
 
   switch (column) {
     case SRC_INST_INDEX:
     case SRC_PORT_INDEX:
-      port = con->getStartPort();
+      port = connection->getStartPort();
       break;
     case DST_INST_INDEX:
     case DST_PORT_INDEX:
-      port = con->getEndPort();
+      port = connection->getEndPort();
       break;
   }
 
@@ -114,33 +95,23 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
   return "<error>";
 }
 
-Connection *ConnectionListModel::getConnection(uint row) const
-{
-  return connections[row];
-}
-
-QString ConnectionListModel::instanceName(const IPort &port) const
+QString QtConnectionItem::instanceName(const IPort &port) const
 {
   ConnectionEndpointNameVisitor visitor;
   port.accept(visitor);
   return visitor.instance;
 }
 
-void ConnectionListModel::added(Connection *)
+
+
+ConnectionListModel::ConnectionListModel(List<Connection> &aModel, QObject *parent) :
+  QtList<Connection>{aModel, ConnectionListModel::item(), parent}
 {
-  layoutChanged();
 }
 
-void ConnectionListModel::removed(Connection *)
+QtConnectionItem &ConnectionListModel::item()
 {
-  layoutChanged();
+  static QtConnectionItem item;
+  return item;
 }
-
-
-
-
-
-
-
-
 

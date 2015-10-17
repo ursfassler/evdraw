@@ -76,7 +76,7 @@ SOURCES += \
     graphicItems/MoveableLine.cpp \
     ../core/instance/InstanceObserver.cpp \
     ../qtmodel/ComponentListModel.cpp \
-    ../qtmodel/ConnectionListModel.cpp \
+    ../qtmodel/QtConnectionItem.cpp \
     ../qtmodel/ImplementationTypeModel.cpp \
     ../qtmodel/InstanceListModel.cpp \
     ../qtmodel/NameTypeModel.cpp \
@@ -150,7 +150,7 @@ HEADERS  += \
     graphicItems/MoveableLine.hpp \
     ../core/instance/InstanceObserver.h \
     ../qtmodel/ComponentListModel.hpp \
-    ../qtmodel/ConnectionListModel.hpp \
+    ../qtmodel/QtConnectionItem.hpp \
     ../qtmodel/ImplementationTypeModel.hpp \
     ../qtmodel/InstanceListModel.hpp \
     ../qtmodel/NameTypeModel.hpp \

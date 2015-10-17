@@ -141,16 +141,12 @@ HEADERS += \
     unittest/core/visitor/VisitorMock.h \
     unittest/core/connection/PortMock.hpp \
     qtmodel/ComponentListModel.hpp \
-    qtmodel/ConnectionListModel.hpp \
     qtmodel/ImplementationTypeModel.hpp \
     qtmodel/InstanceListModel.hpp \
     qtmodel/NameTypeModel.hpp \
     qtmodel/PortListModel.hpp \
     qtmodel/PortTypeModel.hpp \
     unittest/qtmodel/PortTypeModelTest.hpp \
-    unittest/qtmodel/ImplementationTypeModelTest.h \
-    unittest/qtmodel/ConnectionListModelTest.h \
-    unittest/qtmodel/ComponentListModelTest.h \
     unittest/core/util/stdlistTest.hpp \
     core/util/stdlist.hpp \
     unittest/core/util/ListTest.h \
@@ -158,7 +154,15 @@ HEADERS += \
     unittest/core/util/ListObserverMock.h \
     unittest/core/implementation/CompositionObserverMock.h \
     unittest/core/component/ComponentObserverMock.h \
-    unittest/core/util/DestructorCallCheck.h
+    unittest/core/util/DestructorCallCheck.h \
+    qtmodel/QtList.hpp \
+    qtmodel/IQtItem.hpp \
+    qtmodel/QtConnectionItem.hpp \
+    unittest/qtmodel/QtListTest.hpp \
+    unittest/qtmodel/ComponentListModelTest.hpp \
+    unittest/qtmodel/ImplementationTypeModelTest.hpp \
+    unittest/qtmodel/QtConnectionItemTest.hpp \
+    unittest/qtmodel/QtItemIntMock.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -270,7 +274,6 @@ SOURCES += \
     unittest/core/visitor/VisitorMock.cpp \
     unittest/core/connection/PortMock.cpp \
     qtmodel/ComponentListModel.cpp \
-    qtmodel/ConnectionListModel.cpp \
     qtmodel/ImplementationTypeModel.cpp \
     qtmodel/InstanceListModel.cpp \
     qtmodel/NameTypeModel.cpp \
@@ -278,11 +281,14 @@ SOURCES += \
     qtmodel/PortTypeModel.cpp \
     unittest/qtmodel/PortTypeModelTest.cpp \
     unittest/qtmodel/ImplementationTypeModelTest.cpp \
-    unittest/qtmodel/ConnectionListModelTest.cpp \
     unittest/qtmodel/ComponentListModelTest.cpp \
     unittest/core/util/stdlistTest.cpp \
     unittest/core/util/ListTest.cpp \
-    unittest/core/implementation/CompositionObserverMock.cpp
+    unittest/core/implementation/CompositionObserverMock.cpp \
+    qtmodel/QtConnectionItem.cpp \
+    unittest/qtmodel/QtListTest.cpp \
+    unittest/qtmodel/QtConnectionItemTest.cpp \
+    unittest/qtmodel/QtItemIntMock.cpp
 
 DISTFILES += \
     ../README.md \

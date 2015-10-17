@@ -6,7 +6,7 @@
 
 #include "CompositionDraw.hpp"
 #include <qtmodel/InstanceListModel.hpp>
-#include <qtmodel/ConnectionListModel.hpp>
+#include <qtmodel/QtConnectionItem.hpp>
 
 #include <core/component/Library.hpp>
 
@@ -30,9 +30,9 @@ class CompositionEditor : public QSplitter
     CompositionDraw draw;
 
     InstanceListModel   instances;
-    QTreeView       instanceView;
+    QTreeView           instanceView;
     ConnectionListModel connections;
-    QTreeView       connectionView;
+    QTreeView           connectionView;
 
 };
 
