@@ -65,9 +65,9 @@ class Connection final : public ObserverCollection<ConnectionObserver>, public V
     void addHorizontalSegment(HorizontalSegment *segment);
     void addVerticalSegment(VerticalSegment *segment);
 
-    std::vector<Endpoint *> points;
-    std::vector<HorizontalSegment *> horizontalSegments;
-    std::vector<VerticalSegment *>   verticalSegments;
+    std::vector<Endpoint *> points;   //TODO replace with List
+    std::vector<HorizontalSegment *> horizontalSegments; //TODO replace with List
+    std::vector<VerticalSegment *>   verticalSegments;   //TODO replace with List
 
   private:
     IPort *startPort;

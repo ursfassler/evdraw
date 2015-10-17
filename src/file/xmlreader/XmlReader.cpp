@@ -148,7 +148,7 @@ void Loader::componentExit()
   precondition(lib != nullptr);
   precondition(component != nullptr);
 
-  lib->addComponent(component);
+  lib->getComponents().add(component);
   component = nullptr;
 }
 
@@ -162,7 +162,7 @@ void Loader::portEnter(const TiXmlElement &element)
 
   ComponentPort *port = new ComponentPort(name, type);
 
-  component->addPort(port);
+  component->getPorts().add(port);
 }
 
 void Loader::compositionEnter(const TiXmlElement &element)
@@ -192,7 +192,7 @@ void Loader::instanceEnter(const TiXmlElement &element)
 
   InstanceParser parser(*lib, element);
   Instance *instance = InstanceFactory::produce(parser.component(), parser.name(), parser.position());
-  composition->addInstance(instance);
+  composition->getInstances().add(instance);
 }
 
 void Loader::connectionEnter(const TiXmlElement &element)
@@ -202,5 +202,5 @@ void Loader::connectionEnter(const TiXmlElement &element)
 
   ConnectionParser parser(*lib, element, *composition);
   Connection * connection = ConnectionFactory::produce(parser.startPort(), parser.endPort(), parser.path());
-  composition->addConnection(connection);
+  composition->getConnections().add(connection);
 }

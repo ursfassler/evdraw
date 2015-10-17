@@ -4,7 +4,7 @@
 #ifndef OBSERVED_HPP
 #define OBSERVED_HPP
 
-#include "list.hpp"
+#include "stdlist.hpp"
 #include "contract.hpp"
 
 #include <list>
@@ -17,6 +17,9 @@ template<class Observer>
 class ObserverCollection
 {
   public:
+    ObserverCollection(const ObserverCollection&) = delete;
+    ObserverCollection &operator =(const ObserverCollection&) = delete;
+
     ObserverCollection() :
       observers()
     {
@@ -24,6 +27,7 @@ class ObserverCollection
 
     virtual ~ObserverCollection()
     {
+      //TODO remove all observer
       precondition(observers.empty());
     }
 
@@ -43,6 +47,7 @@ class ObserverCollection
       precondition(!containsObserver(observer));
 
       observers.push_back(observer);
+      //TODO notify observer about registration
     }
 
     void unregisterObserver(Observer *observer)
@@ -51,6 +56,7 @@ class ObserverCollection
       precondition(containsObserver(observer));
 
       observers.remove(observer);
+      //TODO notify observer about unregistration
     }
 
   protected:

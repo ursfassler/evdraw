@@ -5,7 +5,7 @@
 
 #include "../connection/ConnectionFactory.hpp"
 #include "../instance/InstanceFactory.hpp"
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
 #include "../util/ChildRemover.hpp"
 #include "../connection/ConnectionWithPortSpecification.hpp"
 #include "../specification/OrSpecification.hpp"
@@ -15,15 +15,17 @@
 
 Composition::Composition(ICompositionInstance *aSelfInstance) :
   selfInstance{aSelfInstance},
-  instances{},
-  connections{}
+  instances{InstanceFactory::dispose},
+  connections{ConnectionFactory::dispose}
 {
   precondition(aSelfInstance != nullptr);
-  selfInstance->registerObserver(this);
+  selfInstance->getPorts().registerObserver(this);
+  instances.registerObserver(this);
 }
 
 Composition::~Composition()
 {
+  instances.unregisterObserver(this);
   precondition(connections.empty());
   precondition(connectionUnderConstruction == nullptr);
   precondition(instances.empty());
@@ -35,19 +37,22 @@ ICompositionInstance *Composition::getSelfInstance() const
   return selfInstance;
 }
 
-const std::list<Instance *> &Composition::getInstances() const
+const List<Instance> &Composition::getInstances() const
 {
   return instances;
 }
 
-void Composition::addInstance(Instance *instance)
+List<Instance> &Composition::getInstances()
 {
-  instance->ObserverCollection<InstanceObserver>::registerObserver(this);
-  instances.push_back(instance);
-  notify(&CompositionObserver::instanceAdded, instance);
+  return instances;
 }
 
-void Composition::deleteInstance(Instance *instance)
+void Composition::added(Instance *instance)
+{
+  instance->getPorts().registerObserver(this);
+}
+
+void Composition::removed(Instance *instance)
 {
   OrSpecification spec;
   for (IPort *port : instance->getPorts()) {
@@ -57,38 +62,25 @@ void Composition::deleteInstance(Instance *instance)
   ChildRemover remover(spec);
   accept(remover);
 
-  instances.remove(instance);
-  instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
-  notify(&CompositionObserver::instanceRemoved, instance);
-
-  InstanceFactory::dispose(instance);
+  instance->getPorts().unregisterObserver(this);
 }
 
 Instance *Composition::getInstance(const std::string &name) const
 {
-  auto predicate = [&](Instance *itr){
+  auto predicate = [&](const Instance *itr){
     return itr->getName() == name;
   };
-  return listGet<Instance*>(instances.begin(), instances.end(), predicate);
+  return instances.get(predicate);
 }
 
-const std::list<Connection *> &Composition::getConnections() const
+const List<Connection> &Composition::getConnections() const
 {
   return connections;
 }
 
-void Composition::addConnection(Connection *connection)
+List<Connection> &Composition::getConnections()
 {
-  connections.push_back(connection);
-  notify(&CompositionObserver::connectionAdded, connection);
-}
-
-void Composition::deleteConnection(Connection *connection)
-{
-  connections.remove(connection);
-  notify(&CompositionObserver::connectionRemoved, connection);
-
-  ConnectionFactory::dispose(connection);
+  return connections;
 }
 
 void Composition::startConnectionConstruction(IPort *startPort, IPort *endPort)
@@ -114,7 +106,7 @@ void Composition::finishConnectionConstruction(IPort *end)
 
   notify(&CompositionObserver::finishConnectionUnderConstruction, connection);
 
-  addConnection(connection);
+  connections.add(connection);
 
   postcondition(!hasConnectionUnderConstruction());
 }
@@ -129,7 +121,7 @@ Connection *Composition::getConnectionUnderConstruction() const
   return connectionUnderConstruction;
 }
 
-void Composition::portDeleted(IPort *port)
+void Composition::removed(InstancePort *port)
 {
   ConnectionWithPortSpecification spec(port);
   ChildRemover remover(spec);
@@ -152,22 +144,6 @@ void Composition::accept(ConstVisitor &visitor) const
 
 
 CompositionObserver::~CompositionObserver()
-{
-}
-
-void CompositionObserver::instanceAdded(Instance *)
-{
-}
-
-void CompositionObserver::instanceRemoved(Instance *)
-{
-}
-
-void CompositionObserver::connectionAdded(Connection *)
-{
-}
-
-void CompositionObserver::connectionRemoved(Connection *)
 {
 }
 

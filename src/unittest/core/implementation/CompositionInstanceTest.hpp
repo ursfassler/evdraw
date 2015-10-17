@@ -20,9 +20,6 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(setHeight_does_not_notifies_observers_when_new_value_is_the_same);
 
     CPPUNIT_TEST(name_change_of_component_notifies_observer);
-    CPPUNIT_TEST(add_port_notifies_observer);
-    CPPUNIT_TEST(delete_port_notifies_observer);
-    CPPUNIT_TEST(delete_port_works_with_2_ports);
 
     CPPUNIT_TEST(create_from_component_with_ports);
     CPPUNIT_TEST(syncs_with_new_ports_in_composition);
@@ -50,9 +47,6 @@ class CompositionInstanceTest: public CPPUNIT_NS::TestFixture
     void setHeight_does_not_notifies_observers_when_new_value_is_the_same();
 
     void name_change_of_component_notifies_observer();
-    void add_port_notifies_observer();
-    void delete_port_notifies_observer();
-    void delete_port_works_with_2_ports();
 
     void create_from_component_with_ports();
     void syncs_with_new_ports_in_composition();

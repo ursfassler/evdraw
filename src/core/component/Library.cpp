@@ -4,61 +4,47 @@
 #include "Library.hpp"
 
 #include "ComponentFactory.hpp"
-#include "../util/list.hpp"
 #include "../instance/InstanceOfSpecification.hpp"
 #include "../util/ChildRemover.hpp"
 
 #include <stdexcept>
 
 Library::Library() :
-  components()
+  components{ComponentFactory::dispose}
 {
+  components.registerObserver(this);
 }
 
 Library::~Library()
 {
-  while (!components.empty()) {
-    deleteComponent(components.back());
-  }
+  components.clear();
+  components.unregisterObserver(this);
   postcondition(components.empty());
 }
 
-void Library::addComponent(Component *component)
+void Library::removed(Component *component)
 {
-  components.push_back(component);
-  notify(&LibraryObserver::componentAdded, component);
-}
-
-void Library::deleteComponent(Component *component)
-{
-  std::vector<Component*>::iterator idx = std::find(components.begin(), components.end(), component);
-  precondition(idx != components.end());
-
   InstanceOfSpecification spec(component);
   ChildRemover remover(spec);
   this->accept(remover);
-
-  components.erase(idx);
-  notify(&LibraryObserver::componentDeleted, component);
-  ComponentFactory::dispose(component);
 }
 
-bool Library::contains(const Component *component) const
+const List<Component> &Library::getComponents() const
 {
-  return ::contains(components.begin(), components.end(), component);
+  return components;
 }
 
-const std::vector<Component *> Library::getComponents() const
+List<Component> &Library::getComponents()
 {
   return components;
 }
 
 Component *Library::getComponent(const std::string &name) const
 {
-  auto predicate = [&](Component *itr){
+  auto predicate = [&](const Component *itr){
     return itr->getName() == name;
   };
-  return listGet<Component*>(components.begin(), components.end(), predicate);
+  return components.get(predicate);
 }
 
 void Library::accept(Visitor &visitor)
@@ -71,15 +57,3 @@ void Library::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-
-LibraryObserver::~LibraryObserver()
-{
-}
-
-void LibraryObserver::componentAdded(Component *)
-{
-}
-
-void LibraryObserver::componentDeleted(Component *)
-{
-}

@@ -42,7 +42,8 @@ class HorizontallLine :
 
 class GiSelfInstance :
     public QGraphicsRectItem,
-    private InstanceObserver
+    private InstanceObserver,
+    private ListObserver<InstancePort>
 {
   public:
     GiSelfInstance(ICompositionInstance &instance, Composition &aComposition);
@@ -60,13 +61,13 @@ class GiSelfInstance :
     Composition &composition;
     QHash<IPort*,GiInstancePort*> ports;
 
-    void addPorts(const std::vector<InstancePort *> &ports);
+    void addPorts(const List<InstancePort> &ports);
     void addPort(IPort *port);
 
     void widthChanged() override;
     void heightChanged() override;
-    void portAdded(IPort *port) override;
-    void portDeleted(IPort *port) override;
+    void added(InstancePort *port) override;
+    void removed(InstancePort *port) override;
     void nameChanged(const IInstance *) override;
 
     void updateSize();

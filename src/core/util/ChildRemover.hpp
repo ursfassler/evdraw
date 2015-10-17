@@ -6,8 +6,7 @@
 
 #include "../specification/Specification.hpp"
 #include "../visitor/DefaultVisitor.hpp"
-
-#include <list>
+#include "../util/List.hpp"
 
 class ChildRemover : public DefaultVisitor
 {
@@ -23,17 +22,12 @@ class ChildRemover : public DefaultVisitor
     void deleteConnections(Composition &composition) const;
 
     template<class T>
-    std::list<T*> getSatisfied(const std::list<T*> &list) const
+    std::vector<T*> getSatisfied(const List<T> &list) const
     {
-      std::list<T*> removable;
-      for (T *itr : list)
-      {
-        if (specification.isSatisfiedBy(itr))
-        {
-          removable.push_back(itr);
-        }
-      }
-      return removable;
+      const auto predicate = [&](const T *instance) -> bool {
+        return specification.isSatisfiedBy(instance);
+      };
+      return list.getAll(predicate);
     }
 
 };

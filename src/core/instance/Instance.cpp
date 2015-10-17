@@ -2,7 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "Instance.hpp"
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
 #include "../util/error.hpp"
 #include "../component/InstanceAppearance.hpp"
 
@@ -14,6 +14,7 @@ Instance::Instance(const std::string &aName, const Point &aPosition, Component *
 {
   precondition(component != nullptr);
   component->registerObserver(this);
+  component->getPorts().registerObserver(this);
 }
 
 Instance::~Instance()
@@ -21,6 +22,7 @@ Instance::~Instance()
   precondition(!ObserverCollection<InstanceObserver>::hasObserver());
   precondition(!ObserverCollection<PositionObserver>::hasObserver());
 
+  component->getPorts().unregisterObserver(this);
   component->unregisterObserver(this);
 }
 
@@ -42,32 +44,22 @@ Component *Instance::getComponent() const
   return component;
 }
 
-void Instance::addPort(InstancePort *port)
+const List<InstancePort> &Instance::getPorts() const
 {
-  ports.push_back(port);
-  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portAdded, static_cast<IPort*>(port));
+  return ports;
 }
 
-void Instance::deletePort(InstancePort *port)
-{
-  const auto itr = std::find(ports.begin(), ports.end(), port);
-  precondition(itr != ports.end());
-  ports.erase(itr);
-  ObserverCollection<InstanceObserver>::notify(&InstanceObserver::portDeleted, static_cast<IPort*>(port));
-  delete port;
-}
-
-const std::vector<InstancePort *> &Instance::getPorts() const
+List<InstancePort> &Instance::getPorts()
 {
   return ports;
 }
 
 InstancePort *Instance::getPort(const std::string &name) const
 {
-  auto predicate = [&](InstancePort *itr){
+  auto predicate = [&](const InstancePort *itr){
     return itr->getName() == name;
   };
-  return listGet<InstancePort*>(ports.begin(), ports.end(), predicate);
+  return ports.get(predicate);
 }
 
 Side Instance::portSide(PortType type) const
@@ -103,21 +95,21 @@ void Instance::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-void Instance::portAdded(ComponentPort *port)
+void Instance::added(ComponentPort *port)
 {
   InstancePort *instPort = new InstancePort(this, port);
   instPort->replaceAnchor(this);
-  addPort(instPort);
+  ports.add(instPort);
 }
 
-void Instance::portDeleted(ComponentPort *port)
+void Instance::removed(ComponentPort *port)
 {
-  auto predicate = [&](InstancePort *itr){
+  auto predicate = [&](const InstancePort *itr){
     return itr->getCompPort() == port;
   };
-  auto idx = std::find_if(ports.begin(), ports.end(), predicate);
-  precondition(idx != ports.end());
-  deletePort(*idx);
+
+  const auto instancePort = ports.get(predicate);
+  ports.remove(instancePort);
 }
 
 void Instance::maxPortCountChanged()

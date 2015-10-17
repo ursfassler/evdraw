@@ -5,6 +5,7 @@
 #define COMPOSITION_HPP
 
 #include "CompositionInstance.hpp"
+#include "../util/List.hpp"
 #include "../instance/Instance.hpp"
 #include "../instance/InstancePort.hpp"
 #include "../connection/Connection.hpp"
@@ -18,10 +19,6 @@ class CompositionObserver
 {
   public:
     virtual ~CompositionObserver();
-    virtual void instanceAdded(Instance *instance);
-    virtual void instanceRemoved(Instance *instance);
-    virtual void connectionAdded(Connection *connection);
-    virtual void connectionRemoved(Connection *connection);
     virtual void addConnectionUnderConstruction(Connection *connection);
     virtual void finishConnectionUnderConstruction(Connection *connection);
 };
@@ -38,7 +35,8 @@ class Composition final :
     public IComposition,
     public IImplementation,
     public ObserverCollection<CompositionObserver>,
-    private InstanceObserver
+    private ListObserver<Instance>,
+    private ListObserver<InstancePort>
 {
   public:
     Composition(ICompositionInstance *selfInstance);
@@ -49,14 +47,12 @@ class Composition final :
 
     ICompositionInstance *getSelfInstance() const;
 
-    const std::list<Instance *> &getInstances() const;
-    void addInstance(Instance *instance);
-    void deleteInstance(Instance *instance);
+    const List<Instance> &getInstances() const;
+    List<Instance> &getInstances();
     Instance *getInstance(const std::string &name) const;
 
-    const std::list<Connection *> &getConnections() const;
-    void addConnection(Connection *connection);
-    void deleteConnection(Connection *connection);
+    const List<Connection> &getConnections() const;
+    List<Connection> &getConnections();
 
     void startConnectionConstruction(IPort *startPort, IPort *endPort);
     void finishConnectionConstruction(IPort *end);
@@ -69,12 +65,14 @@ class Composition final :
   private:
     Connection  *connectionUnderConstruction = nullptr;
     ICompositionInstance *selfInstance;
-    std::list<Instance *> instances;
-    std::list<Connection *> connections;
+    List<Instance> instances;
+    List<Connection> connections;
 
     void checkInvariant();
 
-    void portDeleted(IPort *port) override;
+    void removed(InstancePort *port) override;
+    void added(Instance *instance) override;
+    void removed(Instance* instance) override;
 
     friend CompositionFactory;
 

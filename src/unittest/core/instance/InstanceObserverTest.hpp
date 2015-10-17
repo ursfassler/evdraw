@@ -17,8 +17,6 @@ class InstanceObserverTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(destructorIsVirtual);
     CPPUNIT_TEST(inheritsObserverCollection);
 
-    CPPUNIT_TEST(notify_addPort);
-    CPPUNIT_TEST(notify_delPort);
     CPPUNIT_TEST(notify_height_changed_on_port_type_change);
     CPPUNIT_TEST(notify_height_changed_on_addPort);
     CPPUNIT_TEST(notify_height_changed_on_deletePort);
@@ -37,8 +35,6 @@ class InstanceObserverTest: public CPPUNIT_NS::TestFixture
     void destructorIsVirtual();
     void inheritsObserverCollection();
 
-    void notify_addPort();
-    void notify_delPort();
     void notify_height_changed_on_port_type_change();
     void notify_height_changed_on_addPort();
     void notify_height_changed_on_deletePort();

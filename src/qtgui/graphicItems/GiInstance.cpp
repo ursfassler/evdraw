@@ -19,6 +19,7 @@ GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
 {
   model->ObserverCollection<PositionObserver>::registerObserver(this);
   model->ObserverCollection<InstanceObserver>::registerObserver(this);
+  model->getPorts().registerObserver(this);
   setBrush(QBrush(QColor::fromRgb(0xf2, 0xf2, 0xff)));
 
   resize();
@@ -30,6 +31,7 @@ GiInstance::GiInstance(Instance *aModel, QGraphicsItem *parent) :
 
 GiInstance::~GiInstance()
 {
+  model->getPorts().unregisterObserver(this);
   model->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   model->ObserverCollection<PositionObserver>::unregisterObserver(this);
 }
@@ -67,12 +69,12 @@ void GiInstance::offsetChanged(const RelativePosition *)
   updatePosition();
 }
 
-void GiInstance::portAdded(IPort *port)
+void GiInstance::added(InstancePort *port)
 {
   addPort(port);
 }
 
-void GiInstance::portDeleted(IPort *port)
+void GiInstance::removed(InstancePort *port)
 {
   precondition(ports.contains(port));
 

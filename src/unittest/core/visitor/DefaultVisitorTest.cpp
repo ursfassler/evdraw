@@ -23,21 +23,21 @@ void DefaultVisitorTest::setUp()
 
   componentNullImpl = ComponentFactory::produce("componentNullImpl");
   slot = new ComponentPort("slot", PortType::Slot);
-  componentNullImpl->addPort(slot);
+  componentNullImpl->getPorts().add(slot);
   signal = new ComponentPort("signal", PortType::Signal);
-  componentNullImpl->addPort(signal);
-  library->addComponent(componentNullImpl);
+  componentNullImpl->getPorts().add(signal);
+  library->getComponents().add(componentNullImpl);
 
   compositionInstance = new CompositionInstanceMock();
   composition = new Composition(compositionInstance);
   instance = InstanceFactory::produce(componentNullImpl, "instance", Point(0,0));
   instanceSlot = instance->getPort("slot");
   instanceSignal = instance->getPort("signal");
-  composition->addInstance(instance);
+  composition->getInstances().add(instance);
   connection = ConnectionFactory::produce(instanceSignal, instanceSlot);
-  composition->addConnection(connection);
+  composition->getConnections().add(connection);
   componentComposition = new Component("componentComposition", composition);
-  library->addComponent(componentComposition);
+  library->getComponents().add(componentComposition);
 }
 
 void DefaultVisitorTest::tearDown()

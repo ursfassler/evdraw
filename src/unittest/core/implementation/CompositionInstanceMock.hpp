@@ -35,11 +35,15 @@ class CompositionInstanceMock :
       return 0;
     }
 
-    const std::vector<InstancePort *> &getPorts() const override
+    const List<InstancePort> &getPorts() const override
     {
-      static std::vector<InstancePort *> ports;
       return ports;
     }
+    List<InstancePort> &getPorts() override
+    {
+      return ports;
+    }
+    List<InstancePort> ports{};
 
     void accept(Visitor &visitor) override
     {

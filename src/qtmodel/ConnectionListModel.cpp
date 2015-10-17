@@ -4,6 +4,7 @@
 #include "ConnectionListModel.hpp"
 
 #include <core/instance/InstancePort.hpp>
+#include <core/instance/Instance.hpp>
 
 
 class ConnectionEndpointNameVisitor :
@@ -32,16 +33,16 @@ class ConnectionEndpointNameVisitor :
 
 
 
-ConnectionListModel::ConnectionListModel(Composition &aComposition, QObject *parent) :
+ConnectionListModel::ConnectionListModel(List<Connection> &aConnections, QObject *parent) :
   QAbstractListModel(parent),
-  composition(aComposition)
+  connections(aConnections)
 {
-  composition.registerObserver(this);
+  connections.registerObserver(this);
 }
 
 ConnectionListModel::~ConnectionListModel()
 {
-  composition.unregisterObserver(this);
+  connections.unregisterObserver(this);
 }
 
 int ConnectionListModel::columnCount(const QModelIndex &) const
@@ -51,7 +52,7 @@ int ConnectionListModel::columnCount(const QModelIndex &) const
 
 int ConnectionListModel::rowCount(const QModelIndex &) const
 {
-  return composition.getConnections().size();
+  return connections.size();
 }
 
 QVariant ConnectionListModel::headerData(int section, Qt::Orientation, int role) const
@@ -115,7 +116,7 @@ QVariant ConnectionListModel::data(const QModelIndex &index, int role) const
 
 Connection *ConnectionListModel::getConnection(uint row) const
 {
-  return *std::next(composition.getConnections().begin(), row);
+  return connections[row];
 }
 
 QString ConnectionListModel::instanceName(const IPort &port) const
@@ -125,12 +126,12 @@ QString ConnectionListModel::instanceName(const IPort &port) const
   return visitor.instance;
 }
 
-void ConnectionListModel::connectionAdded(Connection *)
+void ConnectionListModel::added(Connection *)
 {
   layoutChanged();
 }
 
-void ConnectionListModel::connectionRemoved(Connection *)
+void ConnectionListModel::removed(Connection *)
 {
   layoutChanged();
 }

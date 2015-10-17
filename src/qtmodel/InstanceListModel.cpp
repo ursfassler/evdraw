@@ -3,23 +3,23 @@
 
 #include "InstanceListModel.hpp"
 
-#include <core/util/list.hpp>
+#include <core/util/stdlist.hpp>
 
-InstanceListModel::InstanceListModel(Composition &aComposition, Library &aLibrary, QObject *parent) :
+InstanceListModel::InstanceListModel(List<Instance> &aInstances, List<Component> &aComponents, QObject *parent) :
   NameTypeModel(parent),
-  composition(aComposition),
-  typeModel(new ComponentListModel(&aLibrary))
+  composition(aInstances),
+  typeModel(new ComponentListModel(aComponents))
 {
   setNameEditable(true);
   composition.registerObserver(this);
-  for (Instance *instance : composition.getInstances()) {
+  for (Instance *instance : composition) {
     instance->ObserverCollection<InstanceObserver>::registerObserver(this);
   }
 }
 
 InstanceListModel::~InstanceListModel()
 {
-  for (Instance *instance : composition.getInstances()) {
+  for (Instance *instance : composition) {
     instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   }
   composition.unregisterObserver(this);
@@ -28,7 +28,7 @@ InstanceListModel::~InstanceListModel()
 
 int InstanceListModel::rowCount(const QModelIndex &) const
 {
-  return composition.getInstances().size();
+  return composition.size();
 }
 
 QString InstanceListModel::getName(uint row) const
@@ -57,16 +57,16 @@ QModelIndex InstanceListModel::getType(uint row) const
 
 Instance *InstanceListModel::getInstance(uint row) const
 {
-  return *std::next(composition.getInstances().begin(), row);
+  return composition[row];
 }
 
-void InstanceListModel::instanceAdded(Instance *instance)
+void InstanceListModel::added(Instance *instance)
 {
   layoutChanged();
   instance->ObserverCollection<InstanceObserver>::registerObserver(this);
 }
 
-void InstanceListModel::instanceRemoved(Instance *instance)
+void InstanceListModel::removed(Instance *instance)
 {
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(this);
   layoutChanged();
@@ -88,6 +88,5 @@ void InstanceListModel::componentNameChanged(const IInstance *instance)
 
 uint InstanceListModel::getRow(const IInstance *instance) const
 {
-  const auto &list = composition.getInstances();
-  return indexOf(list.begin(), list.end(), instance);
+  return composition.indexOf(instance);
 }

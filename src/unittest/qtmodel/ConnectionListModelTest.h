@@ -5,7 +5,8 @@
 #define CONNECTIONLISTMODELTEST_H
 
 #include <qtmodel/ConnectionListModel.hpp>
-#include <core/implementation/CompositionFactory.hpp>
+#include <core/connection/Connection.hpp>
+#include <core/util/List.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
@@ -45,7 +46,7 @@ class ConnectionListModelTest : public CPPUNIT_NS::TestFixture
     //TODO notify about canged values
 
   private:
-    Composition *composition = nullptr;
+    List<Connection> *list = nullptr;
     ConnectionListModel *testee = nullptr;
 
 };

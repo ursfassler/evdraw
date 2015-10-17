@@ -17,12 +17,12 @@ void ConnectionTestEnvironment::setUp()
   theInstPort1 = theInstance->getPort("thePort1");
   theInstPort2 = theInstance->getPort("thePort2");
   composition = new Composition(new CompositionInstanceMock());
-  composition->addInstance(theInstance);
+  composition->getInstances().add(theInstance);
   compB = new Component("CompB", composition);
 
   library = new Library();
-  library->addComponent(compA);
-  library->addComponent(compB);
+  library->getComponents().add(compA);
+  library->getComponents().add(compB);
 
   element = new TiXmlElement("");
 }

@@ -106,10 +106,10 @@ void XmlNodeWriterTest::writeComponentWithSlotsAndSignals()
 void XmlNodeWriterTest::writeComponentWithSlotsAndSignalsKeepsOrder()
 {
   Component *comp = ComponentFactory::produce("Component");
-  comp->addPort(new ComponentPort("in1", PortType::Slot));
-  comp->addPort(new ComponentPort("out1", PortType::Signal));
-  comp->addPort(new ComponentPort("out2", PortType::Signal));
-  comp->addPort(new ComponentPort("in2", PortType::Slot));
+  comp->getPorts().add(new ComponentPort("in1", PortType::Slot));
+  comp->getPorts().add(new ComponentPort("out1", PortType::Signal));
+  comp->getPorts().add(new ComponentPort("out2", PortType::Signal));
+  comp->getPorts().add(new ComponentPort("in2", PortType::Slot));
 
   comp->accept(*writer);
 
@@ -138,8 +138,8 @@ void XmlNodeWriterTest::writeComponentWithComposition()
 void XmlNodeWriterTest::writeLibraryWithComponents()
 {
   Library lib;
-  lib.addComponent(ComponentFactory::produce("comp1"));
-  lib.addComponent(ComponentFactory::produce("comp2"));
+  lib.getComponents().add(ComponentFactory::produce("comp1"));
+  lib.getComponents().add(ComponentFactory::produce("comp2"));
   lib.accept(*writer);
 
   CPPUNIT_ASSERT_EQUAL(std::string("evdraw"), name());
@@ -188,9 +188,9 @@ void XmlNodeWriterTest::writeCompositionWithInstances()
 {
   Component component("Component", new NullImplementation());
   Composition composition{new CompositionInstanceMock()};
-  composition.addInstance(new Instance("theInstance1", Point(0,0), &component));
-  composition.addInstance(new Instance("theInstance2", Point(0,0), &component));
-  composition.addInstance(new Instance("theInstance3", Point(0,0), &component));
+  composition.getInstances().add(new Instance("theInstance1", Point(0,0), &component));
+  composition.getInstances().add(new Instance("theInstance2", Point(0,0), &component));
+  composition.getInstances().add(new Instance("theInstance3", Point(0,0), &component));
 
   composition.accept(*writer);
 
@@ -214,7 +214,7 @@ void XmlNodeWriterTest::writeCompositionWithConnections()
   Instance *inst2 = InstanceFactory::produce(comp, "inst2", Point(0,0));
   Connection *con = ConnectionFactory::produce(inst1->getPorts().back(), inst2->getPorts().front());
   Composition *composition = new Composition(new CompositionInstanceMock());
-  composition->addConnection(con);
+  composition->getConnections().add(con);
 
   composition->accept(*writer);
 
@@ -271,7 +271,7 @@ void XmlNodeWriterTest::CompositionInstance_does_not_write_instance_in_port()
 {
   Component *component = ComponentFactory::produce("Component", {"in"}, {});
   CompositionInstance *instance = new CompositionInstance(component);
-  IPort *port = instance->getPorts().at(0);
+  IPort *port = instance->getPorts()[0];
 
   port->accept(*writer);
 

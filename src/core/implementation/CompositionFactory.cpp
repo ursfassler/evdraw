@@ -10,10 +10,10 @@
 void CompositionFactory::cleanup(Composition &composition)
 {
   precondition(composition.selfInstance != nullptr);
-  precondition(composition.selfInstance->containsObserver(&composition));
+  precondition(composition.selfInstance->getPorts().containsObserver(&composition));
 
   while (!composition.connections.empty()) {
-    composition.deleteConnection(composition.connections.back());
+    composition.getConnections().remove(composition.connections.back());
   }
 
   if (composition.connectionUnderConstruction != nullptr) {
@@ -22,10 +22,10 @@ void CompositionFactory::cleanup(Composition &composition)
   }
 
   while (!composition.instances.empty()) {
-    composition.deleteInstance(composition.instances.back());
+    composition.getInstances().remove(composition.instances.back());
   }
 
-  composition.selfInstance->unregisterObserver(&composition);
+  composition.selfInstance->getPorts().unregisterObserver(&composition);
   delete composition.selfInstance;
   composition.selfInstance = nullptr;
 

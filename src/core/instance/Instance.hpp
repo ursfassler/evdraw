@@ -22,7 +22,8 @@ class InstanceFactory;
 class Instance final :
     public virtual IInstance,
     public RelativePosition,
-    private ComponentObserver
+    private ComponentObserver,
+    private ListObserver<ComponentPort>
 {
   public:
     Instance(const std::string &name, const Point &aPosition, Component *aComponent);
@@ -34,7 +35,8 @@ class Instance final :
     void setName(const std::string &name);
     Component *getComponent() const;
 
-    const std::vector<InstancePort *> &getPorts() const;
+    const List<InstancePort> &getPorts() const;
+    List<InstancePort> &getPorts();
     InstancePort *getPort(const std::string &name) const;
 
     Side portSide(PortType type) const override;
@@ -49,15 +51,12 @@ class Instance final :
   private:
     std::string name;
     Component * const component;
-    std::vector<InstancePort*> ports;
+    List<InstancePort> ports;
 
-    void addPort(InstancePort *port);
-    void deletePort(InstancePort *port);
-
-    void portAdded(ComponentPort *port);
-    void portDeleted(ComponentPort *port);
-    void maxPortCountChanged();
-    void nameChanged(const std::string &name);
+    void added(ComponentPort *port) override;
+    void removed(ComponentPort *port) override;
+    void maxPortCountChanged() override;
+    void nameChanged(const std::string &name) override;
 
     friend InstanceFactory;
 

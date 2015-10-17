@@ -27,7 +27,7 @@ void ChildRemoverTest::compositionRemovesInstance()
   Component *component = ComponentFactory::produce("component");
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   Composition composition{new CompositionInstanceMock()};
-  composition.addInstance(instance);
+  composition.getInstances().add(instance);
 
   AlwaysSatisfiedSpecification alwaysTrue;
   ChildRemover remover(alwaysTrue);
@@ -46,7 +46,7 @@ void ChildRemoverTest::compositionRemovesConnection()
   PortMock portA;
   PortMock portB;
   Connection *connection = ConnectionFactory::produce(&portA, &portB);
-  composition.addConnection(connection);
+  composition.getConnections().add(connection);
 
   AlwaysSatisfiedSpecification alwaysTrue;
   ChildRemover remover(alwaysTrue);

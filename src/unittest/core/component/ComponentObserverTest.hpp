@@ -16,8 +16,6 @@ class ComponentObserverTest: public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(notify_nameChanged);
     CPPUNIT_TEST(do_not_notify_if_name_is_the_same);
-    CPPUNIT_TEST(notify_portAdded);
-    CPPUNIT_TEST(notify_portDeleted);
     CPPUNIT_TEST(notify_heightChanged_on_addPort);
     CPPUNIT_TEST(notify_heightChanged_on_deletePort);
     CPPUNIT_TEST(notify_heightChanged_on_portTypeChange);
@@ -30,8 +28,6 @@ class ComponentObserverTest: public CPPUNIT_NS::TestFixture
 
     void notify_nameChanged();
     void do_not_notify_if_name_is_the_same();
-    void notify_portAdded();
-    void notify_portDeleted();
     void notify_heightChanged_on_addPort();
     void notify_heightChanged_on_deletePort();
     void notify_heightChanged_on_portTypeChange();

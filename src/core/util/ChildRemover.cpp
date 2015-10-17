@@ -23,18 +23,18 @@ void ChildRemover::visit(Composition &composition)
 
 void ChildRemover::deleteInstances(Composition &composition) const
 {
-  std::list<Instance*> removable = getSatisfied(composition.getInstances());
+  const auto removable = getSatisfied(composition.getInstances());
   for (Instance *instance : removable)
   {
-    composition.deleteInstance(instance);
+    composition.getInstances().remove(instance);
   }
 }
 
 void ChildRemover::deleteConnections(Composition &composition) const
 {
-  std::list<Connection*> removable = getSatisfied(composition.getConnections());
+  const auto removable = getSatisfied(composition.getConnections());
   for (Connection *connection : removable)
   {
-    composition.deleteConnection(connection);
+    composition.getConnections().remove(connection);
   }
 }

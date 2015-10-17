@@ -34,7 +34,9 @@ class ConnectionItem final :
 
 class CompositionToGuiUpdater :
     public QObject,
-    private CompositionObserver
+    private CompositionObserver,
+    private ListObserver<Instance>,
+    private ListObserver<Connection>
 {
     Q_OBJECT
 
@@ -62,10 +64,10 @@ class CompositionToGuiUpdater :
     void addConnection(Connection *connection);
     Connection *findConnectionOf(QGraphicsItem *item) const;
 
-    void instanceAdded(Instance *instance) override;
-    void instanceRemoved(Instance *instance) override;
-    void connectionAdded(Connection *connection) override;
-    void connectionRemoved(Connection *connection) override;
+    void added(Instance *instance) override;
+    void removed(Instance *instance) override;
+    void added(Connection *connection) override;
+    void removed(Connection *connection) override;
     void addConnectionUnderConstruction(Connection *connection) override;
     void finishConnectionUnderConstruction(Connection *connection) override;
 

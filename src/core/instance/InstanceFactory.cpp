@@ -14,7 +14,7 @@ Instance *InstanceFactory::produce(Component *component, const std::string &name
   for (ComponentPort *compPort : component->getPorts()) {
     InstancePort *instPort = new InstancePort(instance, compPort);
     instPort->replaceAnchor(instance);
-    instance->addPort(instPort);
+    instance->ports.add(instPort);
   }
 
   return instance;
@@ -34,10 +34,7 @@ void InstanceFactory::dispose(Instance *instance)
   delete instance;
 }
 
-void InstanceFactory::cleanupPort(std::vector<InstancePort *> &ports)
+void InstanceFactory::cleanupPort(List<InstancePort> &ports)
 {
-  for (InstancePort *port : ports) {
-    delete port;
-  }
   ports.clear();
 }

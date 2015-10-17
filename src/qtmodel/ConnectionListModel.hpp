@@ -4,8 +4,9 @@
 #ifndef CONNECTIONLISTMODEL_HPP
 #define CONNECTIONLISTMODEL_HPP
 
-#include <core/implementation/Composition.hpp>
+#include <core/connection/Connection.hpp>
 #include <core/visitor/NullConstVisitor.hpp>
+#include <core/util/List.hpp>
 
 #include <QObject>
 #include <QAbstractListModel>
@@ -14,7 +15,7 @@
 //TODO update view when names changed
 class ConnectionListModel :
     public QAbstractListModel,
-    private CompositionObserver
+    private ListObserver<Connection>
 {
     Q_OBJECT
 
@@ -24,7 +25,7 @@ class ConnectionListModel :
 
 
     //TODO use connection list interface instead composition
-    explicit ConnectionListModel(Composition &composition, QObject *parent = 0);
+    explicit ConnectionListModel(List<Connection> &connections, QObject *parent = 0);
     ~ConnectionListModel();
 
     int columnCount(const QModelIndex &parent) const override;
@@ -39,13 +40,13 @@ class ConnectionListModel :
     static const uint DST_PORT_INDEX = 3;
     static const uint COLUMN_COUNT = 4;
 
-    Composition &composition;
+    List<Connection> &connections;
 
     Connection *getConnection(uint row) const;
     QString instanceName(const IPort &port) const;
 
-    void connectionAdded(Connection *connection) override;
-    void connectionRemoved(Connection *connection) override;
+    void added(Connection* value) override;
+    void removed(Connection* value) override;
 
 };
 

@@ -81,7 +81,8 @@ SOURCES += \
     ../qtmodel/InstanceListModel.cpp \
     ../qtmodel/NameTypeModel.cpp \
     ../qtmodel/PortListModel.cpp \
-    ../qtmodel/PortTypeModel.cpp
+    ../qtmodel/PortTypeModel.cpp \
+    view/ComponentEditor.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -113,7 +114,7 @@ HEADERS  += \
     ../core/types.hpp \
     ../core/util/ChildRemover.hpp \
     ../core/util/contract.hpp \
-    ../core/util/list.hpp \
+    ../core/util/List.hpp \
     ../core/util/Observer.hpp \
     ../core/visitor/ConstVisitor.hpp \
     ../core/visitor/DefaultVisitor.hpp \
@@ -154,7 +155,8 @@ HEADERS  += \
     ../qtmodel/InstanceListModel.hpp \
     ../qtmodel/NameTypeModel.hpp \
     ../qtmodel/PortListModel.hpp \
-    ../qtmodel/PortTypeModel.hpp
+    ../qtmodel/PortTypeModel.hpp \
+    view/ComponentEditor.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

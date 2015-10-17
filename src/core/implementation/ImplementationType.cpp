@@ -3,7 +3,9 @@
 
 #include "ImplementationType.hpp"
 
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
+
+#include <stdexcept>
 
 std::vector<ImplementationType> implementationTypeList()
 {

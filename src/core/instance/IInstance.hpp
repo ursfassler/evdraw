@@ -6,6 +6,7 @@
 
 #include "InstanceObserver.h"
 
+#include "../util/List.hpp"
 #include "../base/Position.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../types.hpp"
@@ -24,7 +25,7 @@ class IInstance :
     virtual Side connectorSide(PortType type) const = 0;
     virtual PaperUnit getWidth() const = 0;
     virtual PaperUnit getHeight() const = 0;
-    virtual const std::vector<InstancePort *> &getPorts() const = 0;
+    virtual const List<InstancePort> &getPorts() const = 0;
 
 };
 

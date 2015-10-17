@@ -17,12 +17,6 @@ class InstanceObserverMock :
     InstanceObserverMock(bool *destroyed = nullptr);
     ~InstanceObserverMock();
 
-    void portAdded(IPort *port) override;
-    std::vector<IPort*> addedPorts;
-
-    void portDeleted(IPort *port) override;
-    std::vector<IPort*> deletedPorts;
-
     void widthChanged() override;
     uint changedWidth = 0;
 
@@ -30,13 +24,13 @@ class InstanceObserverMock :
     uint changedHeight = 0;
 
     void nameChanged(const IInstance *instance) override;
-    std::vector<const IInstance *> nameChanged_instance;
+    std::vector<const IInstance *> nameChanged_instance{};
 
     void componentNameChanged(const IInstance *instance) override;
-    std::vector<const IInstance *> componentNameChanged_instance;
+    std::vector<const IInstance *> componentNameChanged_instance{};
 
   private:
-    bool * const destroyed;
+    bool * const destroyed = nullptr;
 
 };
 

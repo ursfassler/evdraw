@@ -42,7 +42,7 @@ void RizzlyPrintTest::onlyInstance()
   Component *component = ComponentFactory::produce("Component", {}, {});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
   Composition *composition = new Composition(new CompositionInstanceMock());
-  composition->addInstance(instance);
+  composition->getInstances().add(instance);
 
   printer.print(*composition);
 
@@ -63,8 +63,8 @@ void RizzlyPrintTest::connection()
   Connection *connection = ConnectionFactory::produce(instance->getPorts().front(), instance->getPorts().back());
 
   Composition *composition = new Composition(new CompositionInstanceMock());
-  composition->addInstance(instance);
-  composition->addConnection(connection);
+  composition->getInstances().add(instance);
+  composition->getConnections().add(connection);
 
   printer.print(*composition);
 

@@ -10,14 +10,18 @@ CompositionToGuiUpdater::CompositionToGuiUpdater(QGraphicsScene &aScene, Composi
   composition(aComposition)
 {
   composition.registerObserver(this);
+  composition.getConnections().registerObserver(this);
+  composition.getInstances().registerObserver(this);
 }
 
 CompositionToGuiUpdater::~CompositionToGuiUpdater()
 {
+  composition.getInstances().unregisterObserver(this);
+  composition.getConnections().unregisterObserver(this);
   composition.unregisterObserver(this);
 }
 
-void CompositionToGuiUpdater::instanceAdded(Instance *instance)
+void CompositionToGuiUpdater::added(Instance *instance)
 {
   GiInstance *giinstA = new GiInstance(instance, 0);
   instances.insert(instance, giinstA);
@@ -26,18 +30,18 @@ void CompositionToGuiUpdater::instanceAdded(Instance *instance)
   connect(giinstA, SIGNAL(startConnection(InstancePort*,Point)), this, SLOT(startConnection(InstancePort*,Point)));
 }
 
-void CompositionToGuiUpdater::instanceRemoved(Instance *instance)
+void CompositionToGuiUpdater::removed(Instance *instance)
 {
   GiInstance *inst = instances.take(instance);
   delete inst;
 }
 
-void CompositionToGuiUpdater::connectionAdded(Connection *connection)
+void CompositionToGuiUpdater::added(Connection *connection)
 {
   addConnection(connection);
 }
 
-void CompositionToGuiUpdater::connectionRemoved(Connection *connection)
+void CompositionToGuiUpdater::removed(Connection *connection)
 {
   ConnectionItem *item = connections.take(connection);
   delete item;
@@ -69,10 +73,10 @@ void CompositionToGuiUpdater::addConnection(Connection *connection)
 void CompositionToGuiUpdater::init()
 {
   for (Instance *inst : composition.getInstances()) {
-    instanceAdded(inst);
+    added(inst);
   }
   for (Connection *conn : composition.getConnections()) {
-    connectionAdded(conn);
+    added(conn);
   }
 }
 
@@ -80,7 +84,7 @@ void CompositionToGuiUpdater::removeFromModel(QGraphicsItem *item)
 {
   Connection *connection = findConnectionOf(item);
   if (connection != nullptr) {
-    composition.deleteConnection(connection);
+    composition.getConnections().remove(connection);
   }
 }
 

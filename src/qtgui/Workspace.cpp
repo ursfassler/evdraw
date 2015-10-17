@@ -32,15 +32,13 @@ Workspace::Workspace(QWidget *parent) :
   QVBoxLayout *leftLayout = new QVBoxLayout;
   leftLayout->addWidget(new QLabel("Components"));
   leftLayout->addWidget(&compView);
-  leftLayout->addWidget(new QLabel("Ports"));
-  leftLayout->addWidget(&portView);
+  leftLayout->addWidget(&componentEditor);
   leftBar->setLayout(leftLayout);
 
   this->addWidget(leftBar);
   this->addWidget(&drawTabs);
 
   compView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
-  portView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
 
   connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));
@@ -69,19 +67,18 @@ void Workspace::addComponent()
 
 void Workspace::addPort()
 {
-  portModel->addPort("lolo");
+  componentEditor.addPort();
+}
+
+void Workspace::delPort()
+{
+  componentEditor.delPort();
 }
 
 void Workspace::delComponent()
 {
   QModelIndex selected = compView.currentIndex();
   componentModel->deleteComponent(selected);
-}
-
-void Workspace::delPort()
-{
-  QModelIndex selected = portView.currentIndex();
-  portModel->delPort(selected);
 }
 
 void Workspace::newFile()
@@ -100,7 +97,7 @@ void Workspace::saveFile(const QString &filename)
 {
   Q_ASSERT(componentModel != nullptr);
 
-  XmlWriter::saveFile(filename.toStdString(), *componentModel->getLibrary());
+  XmlWriter::saveFile(filename.toStdString(), *library);
 }
 
 void Workspace::openComponent(const QModelIndex &index)
@@ -111,19 +108,13 @@ void Workspace::openComponent(const QModelIndex &index)
 
 void Workspace::showComponent(Component *component)
 {
-  if (portModel != nullptr) {
-    portModel->deleteLater();
-  }
-  portModel = new PortListModel(*component);
-  portView.setModel(portModel);
+  componentEditor.setModel(component);
 }
 
-void Workspace::componentDeleted(Component *component)
+void Workspace::removed(Component *component)
 {
-  if ((portModel != nullptr) && (portModel->getComponent() == component)) {
-    portView.setModel(nullptr);
-    delete portModel;
-    portModel = nullptr;
+  if (componentEditor.getModel() == component) {
+    componentEditor.setModel(nullptr);
   }
 }
 
@@ -144,7 +135,7 @@ void Workspace::addInstance(Point position, Composition &composition)
   QModelIndex idx = selected.first();
   Component *component = componentModel->getComponent(idx);
   Instance *inst = InstanceFactory::produce(component, "?", position);
-  composition.addInstance(inst);
+  composition.getInstances().add(inst);
 }
 
 void Workspace::removeLibrary()
@@ -155,17 +146,16 @@ void Workspace::removeLibrary()
     drawTabs.removeTab(0);
   }
 
-  if (portModel != nullptr) {
-    delete portModel;
-    portModel = nullptr;
-  }
+  componentEditor.setModel(nullptr);
 
   if (componentModel != nullptr) {
     compView.setModel(nullptr);
-    componentModel->getLibrary()->unregisterObserver(this);
+    library->getComponents().unregisterObserver(this);
     delete componentModel;
     componentModel = nullptr;
   }
+
+  delete library;
   library = nullptr;
 }
 
@@ -175,9 +165,9 @@ void Workspace::newLibrary(Library *library)
 
   precondition(componentModel == nullptr);
 
-  componentModel = new ComponentListModel(library);
+  componentModel = new ComponentListModel(library->getComponents());
   compView.setModel(componentModel);
-  library->registerObserver(this);
+  library->getComponents().registerObserver(this);
 
   this->library = library;
 }

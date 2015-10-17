@@ -13,9 +13,8 @@ InstanceMock::~InstanceMock()
   }
 }
 
-const std::vector<InstancePort *> &InstanceMock::getPorts() const
+const List<InstancePort> &InstanceMock::getPorts() const
 {
-  static const std::vector<InstancePort *> ports;
   return ports;
 }
 

@@ -7,7 +7,6 @@
 #include "../core/component/ComponentMock.hpp"
 
 #include <qtmodel/ConnectionListModel.hpp>
-#include <core/implementation/CompositionFactory.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
 
@@ -15,14 +14,14 @@
 
 void ConnectionListModelTest::setUp()
 {
-  composition = new Composition(new CompositionInstanceMock());
-  testee = new ConnectionListModel(*composition);
+  list = new List<Connection>();
+  testee = new ConnectionListModel(*list);
 }
 
 void ConnectionListModelTest::tearDown()
 {
   delete testee;
-  CompositionFactory::dispose(composition);
+  delete list;
 }
 
 
@@ -48,31 +47,21 @@ void ConnectionListModelTest::rowCount_matches_number_of_connections()
 {
   PortMock a;
   PortMock b;
-  Connection *con1 = new Connection(&a, &b);
-  Connection *con2 = new Connection(&a, &b);
-  Connection *con3 = new Connection(&a, &b);
-  composition->addConnection(con1);
-  composition->addConnection(con2);
-  composition->addConnection(con3);
+  list->add(new Connection{&a, &b});
+  list->add(new Connection{&a, &b});
+  list->add(new Connection{&a, &b});
 
   CPPUNIT_ASSERT_EQUAL(3, testee->rowCount());
-
-  composition->deleteConnection(con1);
-  composition->deleteConnection(con2);
-  composition->deleteConnection(con3);
 }
 
 void ConnectionListModelTest::data_returns_correct_port_names()
 {
   PortMock a{"a"};
   PortMock b{"b"};
-  Connection *con1 = new Connection(&a, &b);
-  composition->addConnection(con1);
+  list->add(new Connection{&a, &b});
 
   CPPUNIT_ASSERT_EQUAL(std::string("a"), testee->data(testee->index(0, 1)).toString().toStdString());
   CPPUNIT_ASSERT_EQUAL(std::string("b"), testee->data(testee->index(0, 3)).toString().toStdString());
-
-  composition->deleteConnection(con1);
 }
 
 void ConnectionListModelTest::data_returns_self_for_CompositionInstance()
@@ -82,13 +71,10 @@ void ConnectionListModelTest::data_returns_self_for_CompositionInstance()
   ComponentPort port{"", PortType::Slot};
   InstancePort a{&instance, &port};
   InstancePort b{&instance, &port};
-  Connection *con1 = new Connection(&a, &b);
-  composition->addConnection(con1);
+  list->add(new Connection{&a, &b});
 
   CPPUNIT_ASSERT_EQUAL(std::string("self"), testee->data(testee->index(0, 0)).toString().toStdString());
   CPPUNIT_ASSERT_EQUAL(std::string("self"), testee->data(testee->index(0, 2)).toString().toStdString());
-
-  composition->deleteConnection(con1);
 }
 
 void ConnectionListModelTest::data_returns_name_of_instance()
@@ -97,13 +83,11 @@ void ConnectionListModelTest::data_returns_name_of_instance()
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   InstancePort *a = instance->getPort("a");
   InstancePort *b = instance->getPort("b");
-  Connection *con1 = new Connection(a, b);
-  composition->addConnection(con1);
+  list->add(new Connection{a, b});
 
   CPPUNIT_ASSERT_EQUAL(std::string("inst"), testee->data(testee->index(0, 0)).toString().toStdString());
   CPPUNIT_ASSERT_EQUAL(std::string("inst"), testee->data(testee->index(0, 2)).toString().toStdString());
 
-  composition->deleteConnection(con1);
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
 }
@@ -114,15 +98,13 @@ void ConnectionListModelTest::reacts_on_added_connections()
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   InstancePort *a = instance->getPort("a");
   InstancePort *b = instance->getPort("b");
-  Connection *con1 = new Connection(a, b);
 
   QSignalSpy spy{testee, SIGNAL(layoutChanged())};
 
-  composition->addConnection(con1);
+  list->add(new Connection{a, b});
 
   CPPUNIT_ASSERT_EQUAL(1, spy.count());
 
-  composition->deleteConnection(con1);
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
 }
@@ -133,12 +115,12 @@ void ConnectionListModelTest::reacts_on_removed_connections()
   Instance *instance = InstanceFactory::produce(component, "inst", Point(0,0));
   InstancePort *a = instance->getPort("a");
   InstancePort *b = instance->getPort("b");
-  Connection *con1 = new Connection(a, b);
-  composition->addConnection(con1);
+  Connection *connection = new Connection{a, b};
+  list->add(connection);
 
   QSignalSpy spy{testee, SIGNAL(layoutChanged())};
 
-  composition->deleteConnection(con1);
+  list->remove(connection);
 
   CPPUNIT_ASSERT_EQUAL(1, spy.count());
 

@@ -4,7 +4,7 @@
 #include "ImplementationTypeTest.hpp"
 
 #include <core/implementation/ImplementationType.hpp>
-#include <core/util/list.hpp>
+#include <core/util/stdlist.hpp>
 
 #include <vector>
 #include <sstream>

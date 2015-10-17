@@ -7,25 +7,25 @@
 
 #include <string>
 
-PortListModel::PortListModel(Component &aComponent, QObject *parent) :
+PortListModel::PortListModel(List<ComponentPort> &aPorts, QObject *parent) :
   NameTypeModel(parent),
-  component(aComponent),
+  ports(aPorts),
   typeModel(new PortTypeModel())
 {
   setNameEditable(true);
   setTypeEditable(true);
-  component.registerObserver(this);
+  ports.registerObserver(this);
 }
 
 PortListModel::~PortListModel()
 {
-  component.unregisterObserver(this);
+  ports.unregisterObserver(this);
   delete typeModel;
 }
 
 int PortListModel::rowCount(const QModelIndex &) const
 {
-  return component.getPorts().size();
+  return ports.size();
 }
 
 void PortListModel::delPort(const QModelIndex &index)
@@ -33,26 +33,21 @@ void PortListModel::delPort(const QModelIndex &index)
   if (!index.isValid()) {
     return;
   }
-  ComponentPort *port = component.getPorts()[index.row()];
-  component.deletePort(port);
+  ComponentPort *port = ports[index.row()];
+  ports.remove(port);
 }
 
 void PortListModel::addPort(const QString &name)
 {
-  component.addPort(new ComponentPort(name.toStdString(), PortType::Slot));
+  ports.add(new ComponentPort(name.toStdString(), PortType::Slot));
 }
 
-const Component *PortListModel::getComponent() const
-{
-  return &component;
-}
-
-void PortListModel::portAdded(ComponentPort *)
+void PortListModel::added(ComponentPort *)
 {
   layoutChanged();
 }
 
-void PortListModel::portDeleted(ComponentPort *)
+void PortListModel::removed(ComponentPort *)
 {
   layoutChanged();
 }
@@ -92,7 +87,7 @@ bool PortListModel::setType(uint row, const QVariant &value)
     throw std::invalid_argument("type out of range");
   }
 
-  ComponentPort *port = component.getPorts()[row];
+  ComponentPort *port = ports[row];
   const PortType portType = portTypeFromUint(type);
   port->setType(portType);
   return true;
@@ -100,7 +95,7 @@ bool PortListModel::setType(uint row, const QVariant &value)
 
 ComponentPort *PortListModel::getPort(uint row) const
 {
-  return component.getPorts()[row];
+  return ports[row];
 }
 
 QString PortListModel::getPortTypeName(const ComponentPort *port) const

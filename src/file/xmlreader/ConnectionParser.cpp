@@ -4,7 +4,7 @@
 #include "ConnectionParser.hpp"
 
 #include <core/implementation/Composition.hpp>
-#include <core/util/list.hpp>
+#include <core/util/stdlist.hpp>
 
 #include <regex>
 
@@ -29,11 +29,10 @@ IInstance *ConnectionPortParser::instance() const
 IPort *ConnectionPortParser::port() const
 {
   const std::string portName = getAttribute("port");
-  const auto list = instance()->getPorts();
-  auto predicate = [&portName](InstancePort *itr){
+  auto predicate = [&portName](const InstancePort *itr){
     return itr->getName() == portName;
   };
-  return listGet<InstancePort*>(list.begin(), list.end(), predicate);
+  return instance()->getPorts().get(predicate);
 }
 
 

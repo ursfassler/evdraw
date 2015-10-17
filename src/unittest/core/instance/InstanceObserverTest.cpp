@@ -47,39 +47,6 @@ void InstanceObserverTest::inheritsObserverCollection()
   CPPUNIT_ASSERT(observerCollection != nullptr);
 }
 
-void InstanceObserverTest::notify_addPort()
-{
-  InstanceObserverMock observer;
-  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
-
-  component->addPort(new ComponentPort("sig", PortType::Signal));
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.addedPorts.size());
-  CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<IPort*>(instance->getPorts()[2]), observer.addedPorts[0]);
-
-  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
-}
-
-void InstanceObserverTest::notify_delPort()
-{
-  InstanceObserverMock observer;
-  instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
-
-  IPort *port = instance->getPorts()[0];
-  component->deletePort(component->getPorts()[0]);
-
-  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.deletedPorts.size());
-  CPPUNIT_ASSERT_EQUAL(port, observer.deletedPorts[0]);
-  CPPUNIT_ASSERT_EQUAL(size_t(1), instance->getPorts().size());
-
-  instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
-}
-
 void InstanceObserverTest::notify_height_changed_on_port_type_change()
 {
   InstanceObserverMock observer;
@@ -98,7 +65,7 @@ void InstanceObserverTest::notify_height_changed_on_addPort()
   InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
-  component->addPort(new ComponentPort("3", PortType::Signal));
+  component->getPorts().add(new ComponentPort("3", PortType::Signal));
 
   CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
 
@@ -110,9 +77,9 @@ void InstanceObserverTest::notify_height_changed_on_deletePort()
   InstanceObserverMock observer;
   instance->ObserverCollection<InstanceObserver>::registerObserver(&observer);
 
-  component->deletePort(component->getPorts()[0]);
+  component->getPorts().remove(component->getPorts()[0]);
   CPPUNIT_ASSERT_EQUAL(uint(0), observer.changedHeight);
-  component->deletePort(component->getPorts()[0]);
+  component->getPorts().remove(component->getPorts()[0]);
   CPPUNIT_ASSERT_EQUAL(uint(1), observer.changedHeight);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);

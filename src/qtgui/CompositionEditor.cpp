@@ -10,8 +10,8 @@
 CompositionEditor::CompositionEditor(Composition &composition, Library &library, QWidget *parent) :
   QSplitter(Qt::Horizontal, parent),
   draw(composition, this),
-  instances(composition, library, this),
-  connections(composition, this)
+  instances(composition.getInstances(), library.getComponents(), this),
+  connections(composition.getConnections(), this)
 {
   this->addWidget(&draw);
 

@@ -17,7 +17,7 @@ static void addPorts(Component *comp, const std::vector<std::string> &names, Por
 {
   for (const std::string &portName : names) {
     ComponentPort *port = new ComponentPort(portName, type);
-    comp->addPort(port);
+    comp->getPorts().add(port);
   }
 }
 
@@ -37,10 +37,7 @@ void ComponentFactory::cleanup(Component &component)
   ImplementationFactory::dispose(component.implementation);
   component.implementation = nullptr;
 
-  const std::vector<ComponentPort *> ports = component.getPorts();
-  for (ComponentPort *port : ports) {
-    component.deletePort(port);
-  }
+  component.getPorts().clear();
 
   postcondition(component.ports.empty());
   postcondition(component.implementation == nullptr);

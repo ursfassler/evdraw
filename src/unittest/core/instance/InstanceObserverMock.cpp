@@ -6,11 +6,7 @@
 
 
 InstanceObserverMock::InstanceObserverMock(bool *aDestroyed) :
-  addedPorts{},
-  deletedPorts{},
-  nameChanged_instance{},
-  componentNameChanged_instance{},
-  destroyed{aDestroyed}
+  destroyed(aDestroyed)
 {
 }
 
@@ -19,16 +15,6 @@ InstanceObserverMock::~InstanceObserverMock()
   if (destroyed != nullptr) {
     *destroyed = true;
   }
-}
-
-void InstanceObserverMock::portAdded(IPort *port)
-{
-  addedPorts.push_back(port);
-}
-
-void InstanceObserverMock::portDeleted(IPort *port)
-{
-  deletedPorts.push_back(port);
 }
 
 void InstanceObserverMock::widthChanged()

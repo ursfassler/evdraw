@@ -7,7 +7,8 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include <core/component/Library.hpp>
+#include <core/component/Component.hpp>
+#include <core/util/List.hpp>
 #include <qtmodel/ComponentListModel.hpp>
 
 class ComponentListModelTest : public CPPUNIT_NS::TestFixture
@@ -31,7 +32,7 @@ class ComponentListModelTest : public CPPUNIT_NS::TestFixture
     void rowCount_matches_number_of_components();
 
   private:
-    Library *library{nullptr};
+    List<Component> *list{nullptr};
     ComponentListModel *testee{nullptr};
 
 };

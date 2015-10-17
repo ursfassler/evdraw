@@ -76,7 +76,7 @@ void InstanceTest::getPortForNonExistingThrowsError()
 void InstanceTest::addPortWhenComponentPortIsAdded()
 {
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  component->addPort(new ComponentPort("newSlot", PortType::Slot));
+  component->getPorts().add(new ComponentPort("newSlot", PortType::Slot));
   CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(std::string("newSlot"), instance->getPorts().back()->getName());
 }
@@ -85,7 +85,7 @@ void InstanceTest::deletePortWhenComponentPortIsDeleted()
 {
   ComponentPort *compPort = component->getPorts()[0];
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
-  component->deletePort(compPort);
+  component->getPorts().remove(compPort);
   CPPUNIT_ASSERT_EQUAL(size_t(2), instance->getPorts().size());
 }
 
@@ -94,13 +94,13 @@ void InstanceTest::deletePortWhenComponentHasPortsWithSameName()
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
   InstancePort *port1 = instance->getPorts()[2];
   ComponentPort *sig = new ComponentPort("out1", PortType::Signal);
-  component->addPort(sig);
+  component->getPorts().add(sig);
   CPPUNIT_ASSERT_EQUAL(size_t(4), instance->getPorts().size());
   InstancePort *port2 = instance->getPorts()[3];
   CPPUNIT_ASSERT_EQUAL(std::string("out1"), port1->getName());
   CPPUNIT_ASSERT_EQUAL(std::string("out1"), port2->getName());
 
-  component->deletePort(sig);
+  component->getPorts().remove(sig);
   CPPUNIT_ASSERT_EQUAL(size_t(3), instance->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(port1, instance->getPorts()[2]);
 }
@@ -114,7 +114,7 @@ void InstanceTest::setName()
 void InstanceTest::updatePortPositionsOnPortDelete()
 {
   const Point pos0 = instance->getPort("in1")->getPosition();
-  component->deletePort(component->getPort("in1"));
+  component->getPorts().remove(component->getPort("in1"));
   CPPUNIT_ASSERT_EQUAL(pos0, instance->getPort("in2")->getPosition());
 }
 
@@ -141,23 +141,23 @@ void InstanceTest::height_depends_on_ports()
 
   PaperUnit height0 = instance->getHeight();
 
-  component->addPort(new ComponentPort("", PortType::Slot));
+  component->getPorts().add(new ComponentPort("", PortType::Slot));
   PaperUnit height1 = instance->getHeight();
   CPPUNIT_ASSERT(height1 > height0);
 
-  component->addPort(new ComponentPort("", PortType::Slot));
+  component->getPorts().add(new ComponentPort("", PortType::Slot));
   PaperUnit height2 = instance->getHeight();
   CPPUNIT_ASSERT(height2 > height1);
 
-  component->addPort(new ComponentPort("", PortType::Signal));
+  component->getPorts().add(new ComponentPort("", PortType::Signal));
   PaperUnit height2a = instance->getHeight();
   CPPUNIT_ASSERT_EQUAL(height2, height2a);
 
-  component->addPort(new ComponentPort("", PortType::Signal));
+  component->getPorts().add(new ComponentPort("", PortType::Signal));
   PaperUnit height2b = instance->getHeight();
   CPPUNIT_ASSERT_EQUAL(height2, height2b);
 
-  component->addPort(new ComponentPort("", PortType::Signal));
+  component->getPorts().add(new ComponentPort("", PortType::Signal));
   PaperUnit height3 = instance->getHeight();
   CPPUNIT_ASSERT(height3 > height2);
 

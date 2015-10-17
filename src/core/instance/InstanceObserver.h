@@ -13,8 +13,6 @@ class InstanceObserver
   public:
     virtual ~InstanceObserver();
 
-    virtual void portAdded(IPort *port);
-    virtual void portDeleted(IPort *port);
     virtual void nameChanged(const IInstance *instance);
     virtual void componentNameChanged(const IInstance *instance);
     virtual void widthChanged();

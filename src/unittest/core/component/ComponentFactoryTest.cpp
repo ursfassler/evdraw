@@ -51,7 +51,7 @@ void ComponentFactoryTest::cleanupComponentOnStack()
 {
   Component component("", new NullImplementation());
   ComponentPort *port = new ComponentPort("", PortType::Slot);
-  component.addPort(port);
+  component.getPorts().add(port);
 
   ComponentFactory::cleanup(component);
 }

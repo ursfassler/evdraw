@@ -25,10 +25,6 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(deleteInstancePort_removes_dependant_connections);
     CPPUNIT_TEST(delete_selfInstance_port_removes_dependant_connections);
 
-    CPPUNIT_TEST(notify_when_addInstance);
-    CPPUNIT_TEST(notify_when_addConnection);
-    CPPUNIT_TEST(notify_when_deleteInstance);
-    CPPUNIT_TEST(notify_when_deleteConnection);
     CPPUNIT_TEST(addConnectionUnderConstruction_notifies_observer);
     CPPUNIT_TEST(can_not_overwrite_connectionUnderConstruction);
 
@@ -53,10 +49,6 @@ class CompositionTest: public CPPUNIT_NS::TestFixture
     void deleteInstancePort_removes_dependant_connections();
     void delete_selfInstance_port_removes_dependant_connections();
 
-    void notify_when_addInstance();
-    void notify_when_addConnection();
-    void notify_when_deleteInstance();
-    void notify_when_deleteConnection();
     void addConnectionUnderConstruction_notifies_observer();
     void can_not_overwrite_connectionUnderConstruction();
 

@@ -18,12 +18,14 @@ class ICompositionInstance :
     virtual PaperUnit getHeight() const = 0;
     virtual void setHeight(PaperUnit value) = 0;
 
-    virtual const std::vector<InstancePort *> &getPorts() const = 0;
+    virtual const List<InstancePort> &getPorts() const = 0;
+    virtual List<InstancePort> &getPorts() = 0;
 };
 
 class CompositionInstance final :
     public ICompositionInstance,
-    private ComponentObserver
+    private ComponentObserver,
+    private ListObserver<ComponentPort>
 {
   public:
     CompositionInstance(const CompositionInstance&) = delete;
@@ -39,7 +41,8 @@ class CompositionInstance final :
     PaperUnit getHeight() const override final;
     void setHeight(PaperUnit value) override final;
 
-    const std::vector<InstancePort *> &getPorts() const override final;
+    const List<InstancePort> &getPorts() const override final;
+    List<InstancePort> &getPorts() override final;
 
     Side portSide(PortType type) const override final;
     Side connectorSide(PortType type) const override final;
@@ -51,11 +54,12 @@ class CompositionInstance final :
     IComponent * const component;
     PaperUnit width = 0;
     PaperUnit height = 0;
-    std::vector<InstancePort *> ports{};
+    List<InstancePort> ports;
 
-    void portAdded(ComponentPort *port) override;
-    void portDeleted(ComponentPort *port) override;
+    void added(ComponentPort *port) override;
+    void removed(ComponentPort* value) override;
     void nameChanged(const std::string &name) override;
+
 };
 
 #endif // COMPOSITIONINSTANCE_HPP

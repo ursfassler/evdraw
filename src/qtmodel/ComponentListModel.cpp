@@ -24,35 +24,34 @@ class ImplementationNameVisitor : public NullConstVisitor
 
 
 
-ComponentListModel::ComponentListModel(Library *aLibrary, QObject *parent) :
+ComponentListModel::ComponentListModel(List<Component> &aComponents, QObject *parent) :
   NameTypeModel(parent),
-  library(aLibrary),
+  components(aComponents),
   typeModel(new ImplementationTypeModel())
 {
   setNameEditable(true);
-  library->registerObserver(this);
+  components.registerObserver(this);
 }
 
 ComponentListModel::~ComponentListModel()
 {
-  library->unregisterObserver(this);
+  components.unregisterObserver(this);
   delete typeModel;
-  delete library;
 }
 
 int ComponentListModel::rowCount(const QModelIndex &) const
 {
-  return library->getComponents().size();
+  return components.size();
 }
 
 void ComponentListModel::addComponent(const QString &name)
 {
-  library->addComponent(ComponentFactory::produce(name.toStdString()));
+  components.add(ComponentFactory::produce(name.toStdString()));
 }
 
 Component *ComponentListModel::getComponent(const QModelIndex &index) const
 {
-  return library->getComponents()[index.row()];
+  return components[index.row()];
 }
 
 void ComponentListModel::deleteComponent(const QModelIndex &index)
@@ -60,28 +59,22 @@ void ComponentListModel::deleteComponent(const QModelIndex &index)
   if (!index.isValid()) {
     return;
   }
-  Component *component = library->getComponents()[index.row()];
-  library->deleteComponent(component);
+  Component *component = components[index.row()];
+  components.remove(component);
 }
 
 QModelIndex ComponentListModel::getIndex(Component *component) const
 {
-  const auto components = library->getComponents();
-  const uint row = indexOf(components.begin(), components.end(), component);
+  const uint row = components.indexOf(component);
   return index(row);
 }
 
-Library *ComponentListModel::getLibrary() const
-{
-  return library;
-}
-
-void ComponentListModel::componentAdded(Component *)
+void ComponentListModel::added(Component *)
 {
   layoutChanged();
 }
 
-void ComponentListModel::componentDeleted(Component *)
+void ComponentListModel::removed(Component *)
 {
   layoutChanged();
 }
@@ -112,7 +105,7 @@ QModelIndex ComponentListModel::getType(uint row) const
 
 Component *ComponentListModel::getComponent(uint row) const
 {
-  return library->getComponents()[row];
+  return components[row];
 }
 
 ImplementationType ComponentListModel::getImplementationType(const Component *component) const

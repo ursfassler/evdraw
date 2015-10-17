@@ -7,14 +7,6 @@ InstanceObserver::~InstanceObserver()
 {
 }
 
-void InstanceObserver::portAdded(IPort *)
-{
-}
-
-void InstanceObserver::portDeleted(IPort *)
-{
-}
-
 void InstanceObserver::nameChanged(const IInstance *)
 {
 }

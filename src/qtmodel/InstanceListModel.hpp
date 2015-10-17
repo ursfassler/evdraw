@@ -6,7 +6,7 @@
 
 #include <core/implementation/Composition.hpp>
 #include <core/instance/Instance.hpp>
-#include <core/component/Library.hpp>
+#include <core/component/Component.hpp>
 
 #include <QObject>
 #include "NameTypeModel.hpp"
@@ -16,7 +16,7 @@
 
 class InstanceListModel :
     public NameTypeModel,
-    private CompositionObserver,
+    private ListObserver<Instance>,
     private InstanceObserver
 {
     Q_OBJECT
@@ -24,8 +24,7 @@ class InstanceListModel :
     InstanceListModel(const InstanceListModel&) = delete;
     InstanceListModel &operator =(const InstanceListModel&) = delete;
 
-
-    explicit InstanceListModel(Composition &composition, Library &library, QObject *parent);
+    explicit InstanceListModel(List<Instance> &instances, List<Component> &components, QObject *parent);
     ~InstanceListModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
@@ -38,14 +37,14 @@ class InstanceListModel :
     QModelIndex getType(uint row) const;
 
   private:
-    Composition &composition;
+    List<Instance> &composition;
     ComponentListModel * const typeModel;
 
     Instance *getInstance(uint row) const;
     uint getRow(const IInstance *instance) const;
 
-    void instanceAdded(Instance *instance) override;
-    void instanceRemoved(Instance *instance) override;
+    void added(Instance *instance) override;
+    void removed(Instance *instance) override;
 
     void nameChanged(const IInstance *instance) override;
     void componentNameChanged(const IInstance *instance) override;

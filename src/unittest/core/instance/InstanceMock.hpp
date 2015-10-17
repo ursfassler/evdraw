@@ -2,6 +2,7 @@
 #define INSTANCEMOCK_HPP
 
 #include <core/instance/IInstance.hpp>
+#include <core/instance/InstancePort.hpp>
 
 class InstanceMock :
     public virtual IInstance
@@ -13,7 +14,7 @@ class InstanceMock :
     InstanceMock(bool *aDestroyed = nullptr);
     ~InstanceMock();
 
-    const std::vector<InstancePort *> &getPorts() const override;
+    const List<InstancePort> &getPorts() const override;
     Side portSide(PortType) const override;
     Side connectorSide(PortType) const override;
     PaperUnit getWidth() const override;
@@ -23,7 +24,8 @@ class InstanceMock :
     void accept(ConstVisitor &) const;
 
   private:
-    bool * const destroyed;
+    bool * const destroyed{nullptr};
+    List<InstancePort> ports{};
 
 };
 

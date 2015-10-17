@@ -5,7 +5,7 @@
 
 #include <core/component/PortType.hpp>
 #include <core/types.hpp>
-#include <core/util/list.hpp>
+#include <core/util/stdlist.hpp>
 
 #include <string>
 #include <sstream>

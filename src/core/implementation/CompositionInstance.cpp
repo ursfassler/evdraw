@@ -1,29 +1,29 @@
 #include "CompositionInstance.hpp"
 
 #include "../util/contract.hpp"
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
 #include "../util/error.hpp"
 
 CompositionInstance::CompositionInstance(IComponent *aComponent) :
-  component{aComponent}
+  component{aComponent},
+  ports{}
 {
   precondition(component != nullptr);
 
   for (ComponentPort * cport : aComponent->getPorts()) {
     InstancePort *iport = new InstancePort(this, cport);
-    ports.push_back(iport);
+    ports.add(iport);
   }
 
+  component->getPorts().registerObserver(this);
   component->registerObserver(this);
 }
 
 CompositionInstance::~CompositionInstance()
 {
   component->unregisterObserver(this);
+  component->getPorts().unregisterObserver(this);
 
-  for (InstancePort * port : ports) {
-    delete port;
-  }
   ports.clear();
 }
 
@@ -60,7 +60,12 @@ void CompositionInstance::setHeight(PaperUnit value)
   }
 }
 
-const std::vector<InstancePort *> &CompositionInstance::getPorts() const
+const List<InstancePort> &CompositionInstance::getPorts() const
+{
+  return ports;
+}
+
+List<InstancePort> &CompositionInstance::getPorts()
 {
   return ports;
 }
@@ -92,26 +97,19 @@ void CompositionInstance::accept(ConstVisitor &visitor) const
   visitor.visit(*this);
 }
 
-void CompositionInstance::portAdded(ComponentPort *port)
+void CompositionInstance::added(ComponentPort *port)
 {
   InstancePort *iport = new InstancePort(this, port);
-  ports.push_back(iport);
-  notify<IPort*>(&InstanceObserver::portAdded, iport);
+  ports.add(iport);
 }
 
-void CompositionInstance::portDeleted(ComponentPort *port)
+void CompositionInstance::removed(ComponentPort *port)
 {
-  auto predicate = [&](InstancePort *itr){
+  auto predicate = [&](const InstancePort *itr){
     return itr->getCompPort() == port;
   };
-  auto idx = std::find_if(ports.begin(), ports.end(), predicate);
-  precondition(idx != ports.end());
-
-  InstancePort *instPort = *idx;
-  ports.erase(idx);
-  notify<IPort*>(&InstanceObserver::portDeleted, instPort);
-
-  delete instPort;
+  InstancePort *instPort = ports.get(predicate);
+  ports.remove(instPort);
 }
 
 void CompositionInstance::nameChanged(const std::string &)

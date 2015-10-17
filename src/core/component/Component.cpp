@@ -3,63 +3,66 @@
 
 #include "Component.hpp"
 
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
 #include "../util/contract.hpp"
 #include "../util/error.hpp"
 
 #include <map>
 
 Component::Component(const std::string &aName, IImplementation *aImplementation) :
-  name(aName),
-  ports(),
-  implementation(aImplementation)
+  name{aName},
+  ports{},
+  implementation{aImplementation}
 {
+  ports.registerObserver(this);
 }
 
 Component::~Component()
 {
   precondition(implementation == nullptr);
+  ports.unregisterObserver(this);
 }
 
-void Component::addPort(ComponentPort *port)
+void Component::added(ComponentPort *port)
 {
-  const auto oldCount = maxPortCount();
-  ports.push_back(port);
   port->registerObserver(this);
   updateTopIndex();
-  notify(&ComponentObserver::portAdded, port);
-  if (maxPortCount() != oldCount) {
+
+  const auto count = maxPortCount();
+  if (count != oldCount) {
+    oldCount = count;
     notify(&ComponentObserver::maxPortCountChanged);
   }
 }
 
-void Component::deletePort(ComponentPort *port)
+void Component::removed(ComponentPort *port)
 {
-  std::vector<ComponentPort*>::iterator idx = std::find(ports.begin(), ports.end(), port);
-  precondition(idx != ports.end());
-
-  const auto oldCount = maxPortCount();
-  port->unregisterObserver(this);
-  ports.erase(idx);
   updateTopIndex();
-  notify(&ComponentObserver::portDeleted, port);
-  delete port;
-  if (maxPortCount() != oldCount) {
+  port->unregisterObserver(this);
+
+  const auto count = maxPortCount();
+  if (count != oldCount) {
     notify(&ComponentObserver::maxPortCountChanged);
+    oldCount = count;
   }
 }
 
-const std::vector<ComponentPort *> &Component::getPorts() const
+const List<ComponentPort> &Component::getPorts() const
+{
+  return ports;
+}
+
+List<ComponentPort> &Component::getPorts()
 {
   return ports;
 }
 
 ComponentPort *Component::getPort(const std::string &name) const
 {
-  auto predicate = [&](ComponentPort *itr){
+  auto predicate = [&](const ComponentPort *itr){
     return itr->getName() == name;
   };
-  return listGet<ComponentPort*>(ports.begin(), ports.end(), predicate);
+  return ports.get(predicate);
 }
 
 size_t Component::maxPortCount() const
@@ -148,14 +151,6 @@ Side Component::portSide(PortType type) const
 
 
 ComponentObserver::~ComponentObserver()
-{
-}
-
-void ComponentObserver::portAdded(ComponentPort *)
-{
-}
-
-void ComponentObserver::portDeleted(ComponentPort *)
 {
 }
 

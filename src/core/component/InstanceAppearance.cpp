@@ -3,7 +3,7 @@
 
 #include "InstanceAppearance.hpp"
 
-#include "../util/list.hpp"
+#include "../util/stdlist.hpp"
 
 PaperUnit InstanceAppearance::textHeight()
 {

@@ -7,36 +7,30 @@
 #include "Component.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../util/Observer.hpp"
+#include "../util/List.hpp"
 
 #include <vector>
 
-class LibraryObserver
-{
-  public:
-    virtual ~LibraryObserver();
-    virtual void componentAdded(Component *component);
-    virtual void componentDeleted(Component *component);
-};
-
 class Library final :
     public VisitorClient,
-    public ObserverCollection<LibraryObserver>
+    private ListObserver<Component>
 {
   public:
     Library();
     ~Library();
 
-    void addComponent(Component *component);
-    void deleteComponent(Component *component);
-    bool contains(const Component *component) const;
-    const std::vector<Component *> getComponents() const;
+    const List<Component> &getComponents() const;
+    List<Component> &getComponents();
     Component *getComponent(const std::string &name) const;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
   private:
-    std::vector<Component*> components;
+    List<Component> components;
+
+    void removed(Component* value) override;
+
 };
 
 #endif // LIBRARY_HPP

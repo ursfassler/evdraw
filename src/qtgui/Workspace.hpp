@@ -4,6 +4,8 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
+#include "view/ComponentEditor.hpp"
+
 #include <qtmodel/ComponentListModel.hpp>
 #include <qtmodel/PortListModel.hpp>
 
@@ -18,7 +20,7 @@
 
 class Workspace :
     public QSplitter,
-    private LibraryObserver
+    private ListObserver<Component>
 {
     Q_OBJECT
   public:
@@ -49,14 +51,13 @@ class Workspace :
     Library *library = nullptr;
     ComponentListModel *componentModel = nullptr;
     QTreeView compView;
-    PortListModel *portModel = nullptr;
-    QTreeView portView;
+    ComponentEditor componentEditor;
     QTabWidget drawTabs;
 
     void removeLibrary();
     void newLibrary(Library *library);
     void showComponent(Component *component);
-    void componentDeleted(Component *component);
+    void removed(Component *component) override;
 };
 
 class ImplementationOpener : public NullVisitor

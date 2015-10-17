@@ -47,6 +47,7 @@ GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aCo
   composition{aComposition}
 {
   instance.registerObserver(this);
+  instance.getPorts().registerObserver(this);
 
   updateSize();
 
@@ -61,10 +62,11 @@ GiSelfInstance::GiSelfInstance(ICompositionInstance &aInstance, Composition &aCo
 
 GiSelfInstance::~GiSelfInstance()
 {
+  instance.getPorts().unregisterObserver(this);
   instance.unregisterObserver(this);
 }
 
-void GiSelfInstance::addPorts(const std::vector<InstancePort *> &ports)
+void GiSelfInstance::addPorts(const List<InstancePort> &ports)
 {
   for (InstancePort *port : ports) {
     addPort(port);
@@ -88,12 +90,12 @@ void GiSelfInstance::heightChanged()
   updateSize();
 }
 
-void GiSelfInstance::portAdded(IPort *port)
+void GiSelfInstance::added(InstancePort *port)
 {
   addPort(port);
 }
 
-void GiSelfInstance::portDeleted(IPort *port)
+void GiSelfInstance::removed(InstancePort *port)
 {
   precondition(ports.contains(port));
 

@@ -7,6 +7,7 @@
 #include "ComponentPort.hpp"
 #include "IImplementation.hpp"
 #include "../types.hpp"
+#include "../util/List.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../util/Observer.hpp"
 
@@ -20,8 +21,6 @@ class ComponentObserver
   public:
     virtual ~ComponentObserver();
 
-    virtual void portAdded(ComponentPort *port);
-    virtual void portDeleted(ComponentPort *port);
     virtual void maxPortCountChanged();
     virtual void nameChanged(const std::string &name);
 };
@@ -35,7 +34,8 @@ class IComponent:
 
     virtual const std::string &getName() const = 0;
 
-    virtual const std::vector<ComponentPort *> &getPorts() const = 0;
+    virtual const List<ComponentPort> &getPorts() const = 0;
+    virtual List<ComponentPort> &getPorts() = 0;
     virtual Side portSide(PortType type) const = 0;
 
 };
@@ -43,8 +43,8 @@ class IComponent:
 class Component final :
     public IComponent,
     public VisitorClient,
-//    public ObserverCollection<ComponentObserver>,
-    private ComponentPortObserver
+    private ComponentPortObserver,
+    private ListObserver<ComponentPort>
 {
   public:
     Component(const std::string &name, IImplementation *implementation);
@@ -53,9 +53,8 @@ class Component final :
     Component(const Component &) = delete;
     Component operator=(const Component &) = delete;
 
-    void addPort(ComponentPort *port);
-    void deletePort(ComponentPort *port);
-    const std::vector<ComponentPort *> &getPorts() const override;
+    const List<ComponentPort> &getPorts() const override;
+    List<ComponentPort> &getPorts() override;
     ComponentPort *getPort(const std::string &name) const;
 
     Side portSide(PortType type) const override final;
@@ -73,13 +72,17 @@ class Component final :
 
   private:
     std::string name;
-    std::vector<ComponentPort *> ports;
+    List<ComponentPort> ports;
+    size_t oldCount = 0;
 
     IImplementation *implementation;
 
     void updateTopIndex();
 
-    void typeChanged(PortType);
+    void typeChanged(PortType) override;
+
+    void added(ComponentPort* port) override;
+    void removed(ComponentPort* port) override;
 
     friend ComponentFactory;
 

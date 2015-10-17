@@ -18,7 +18,8 @@ class GiInstance final :
     public QObject,
     public QGraphicsRectItem,
     private PositionObserver,
-    private InstanceObserver
+    private InstanceObserver,
+    private ListObserver<InstancePort>
 {
     Q_OBJECT
 
@@ -50,8 +51,8 @@ class GiInstance final :
     void absolutePositionChanged(const RelativePosition *sender) override;
     void offsetChanged(const RelativePosition *sender) override;
 
-    void portAdded(IPort *port) override;
-    void portDeleted(IPort *port) override;
+    void added(InstancePort *port) override;
+    void removed(InstancePort *port) override;
     void nameChanged(const IInstance *) override;
     void componentNameChanged(const IInstance *) override;
     void heightChanged() override;

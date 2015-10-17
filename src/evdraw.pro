@@ -46,7 +46,6 @@ HEADERS += \
     core/types.hpp \
     core/util/ChildRemover.hpp \
     core/util/contract.hpp \
-    core/util/list.hpp \
     core/util/Observer.hpp \
     core/visitor/ConstVisitor.hpp \
     core/visitor/DefaultVisitor.hpp \
@@ -70,7 +69,6 @@ HEADERS += \
     unittest/core/component/ComponentPortTest.hpp \
     unittest/core/component/ComponentTest.hpp \
     unittest/core/component/InstanceAppearanceTest.hpp \
-    unittest/core/component/LibraryObserverTest.hpp \
     unittest/core/component/LibraryTest.hpp \
     unittest/core/connection/ConnectionFactoryTest.hpp \
     unittest/core/connection/ConnectionTest.hpp \
@@ -95,7 +93,6 @@ HEADERS += \
     unittest/core/util/ChildRemoverTest.hpp \
     unittest/core/util/contractTest.hpp \
     unittest/core/util/DefaultSpecificationTest.hpp \
-    unittest/core/util/listTest.hpp \
     unittest/core/util/ObserverTest.hpp \
     unittest/core/util/OrSpecificationTest.hpp \
     unittest/core/util/SpecificationTest.hpp \
@@ -153,7 +150,15 @@ HEADERS += \
     unittest/qtmodel/PortTypeModelTest.hpp \
     unittest/qtmodel/ImplementationTypeModelTest.h \
     unittest/qtmodel/ConnectionListModelTest.h \
-    unittest/qtmodel/ComponentListModelTest.h
+    unittest/qtmodel/ComponentListModelTest.h \
+    unittest/core/util/stdlistTest.hpp \
+    core/util/stdlist.hpp \
+    unittest/core/util/ListTest.h \
+    core/util/List.hpp \
+    unittest/core/util/ListObserverMock.h \
+    unittest/core/implementation/CompositionObserverMock.h \
+    unittest/core/component/ComponentObserverMock.h \
+    unittest/core/util/DestructorCallCheck.h
 
 SOURCES += \
     core/base/Base.cpp \
@@ -201,7 +206,6 @@ SOURCES += \
     unittest/core/component/ComponentPortTest.cpp \
     unittest/core/component/ComponentTest.cpp \
     unittest/core/component/InstanceAppearanceTest.cpp \
-    unittest/core/component/LibraryObserverTest.cpp \
     unittest/core/component/LibraryTest.cpp \
     unittest/core/connection/ConnectionFactoryTest.cpp \
     unittest/core/connection/ConnectionTest.cpp \
@@ -224,7 +228,6 @@ SOURCES += \
     unittest/core/TypesTest.cpp \
     unittest/core/util/ChildRemoverTest.cpp \
     unittest/core/util/contractTest.cpp \
-    unittest/core/util/listTest.cpp \
     unittest/core/util/ObserverTest.cpp \
     unittest/core/visitor/ConstVisitorTest.cpp \
     unittest/core/visitor/DefaultVisitorTest.cpp \
@@ -276,7 +279,10 @@ SOURCES += \
     unittest/qtmodel/PortTypeModelTest.cpp \
     unittest/qtmodel/ImplementationTypeModelTest.cpp \
     unittest/qtmodel/ConnectionListModelTest.cpp \
-    unittest/qtmodel/ComponentListModelTest.cpp
+    unittest/qtmodel/ComponentListModelTest.cpp \
+    unittest/core/util/stdlistTest.cpp \
+    unittest/core/util/ListTest.cpp \
+    unittest/core/implementation/CompositionObserverMock.cpp
 
 DISTFILES += \
     ../README.md \
