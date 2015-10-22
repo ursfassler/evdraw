@@ -32,6 +32,11 @@ Composition::~Composition()
   precondition(selfInstance == nullptr);
 }
 
+ImplementationType Composition::getType() const
+{
+  return ImplementationType::Composition;
+}
+
 ICompositionInstance *Composition::getSelfInstance() const
 {
   return selfInstance;

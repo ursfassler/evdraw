@@ -18,7 +18,7 @@ void InstanceParserTest::create()
 
 void InstanceParserTest::component()
 {
-  Component *comp = ComponentFactory::produce("TheComponent");
+  IComponent *comp = ComponentFactory::produce("TheComponent");
   Library library;
   library.getComponents().add(comp);
 

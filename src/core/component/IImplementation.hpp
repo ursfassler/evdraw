@@ -6,11 +6,15 @@
 
 #include "../visitor/VisitorClient.hpp"
 
+#include "../implementation/ImplementationType.hpp"
+
 class IImplementation :
     public VisitorClient
 {
   public:
     virtual ~IImplementation() {}
+
+    virtual ImplementationType getType() const = 0;
 };
 
 #endif

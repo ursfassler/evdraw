@@ -19,6 +19,7 @@ class QtConnectionItemTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(has_four_columns);
     CPPUNIT_TEST(column_header_are_srcInst_srcPort_dstInst_dstPort);
+    CPPUNIT_TEST(is_not_editable);
 
     CPPUNIT_TEST(data_returns_correct_port_names);
     CPPUNIT_TEST(data_returns_self_for_CompositionInstance);
@@ -31,6 +32,7 @@ class QtConnectionItemTest : public CPPUNIT_NS::TestFixture
 
     void has_four_columns();
     void column_header_are_srcInst_srcPort_dstInst_dstPort();
+    void is_not_editable();
 
     void data_returns_correct_port_names();
     void data_returns_self_for_CompositionInstance();

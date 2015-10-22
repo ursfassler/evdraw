@@ -13,23 +13,23 @@
 
 class Library final :
     public VisitorClient,
-    private ListObserver<Component>
+    private ListObserver<IComponent>
 {
   public:
     Library();
     ~Library();
 
-    const List<Component> &getComponents() const;
-    List<Component> &getComponents();
-    Component *getComponent(const std::string &name) const;
+    const List<IComponent> &getComponents() const;
+    List<IComponent> &getComponents();
+    IComponent *getComponent(const std::string &name) const;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
   private:
-    List<Component> components;
+    List<IComponent> components;
 
-    void removed(Component* value) override;
+    void removed(IComponent* value) override;
 
 };
 

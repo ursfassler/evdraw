@@ -34,6 +34,16 @@ void QtConnectionItemTest::column_header_are_srcInst_srcPort_dstInst_dstPort()
   CPPUNIT_ASSERT_EQUAL(std::string("dst port"), testee.headerData(3, Qt::Horizontal, Qt::DisplayRole).toString().toStdString());
 }
 
+void QtConnectionItemTest::is_not_editable()
+{
+  const QtConnectionItem testee;
+
+  CPPUNIT_ASSERT_EQUAL(false, testee.editable(0));
+  CPPUNIT_ASSERT_EQUAL(false, testee.editable(1));
+  CPPUNIT_ASSERT_EQUAL(false, testee.editable(2));
+  CPPUNIT_ASSERT_EQUAL(false, testee.editable(3));
+}
+
 void QtConnectionItemTest::data_returns_correct_port_names()
 {
   PortMock a{"a"};

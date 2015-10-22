@@ -63,7 +63,7 @@ void DefaultVisitor::visit(NullImplementation &)
 
 void DefaultVisitor::visit(Library &library)
 {
-  for (Component *component : library.getComponents())
+  for (IComponent *component : library.getComponents())
   {
     component->accept(*this);
   }

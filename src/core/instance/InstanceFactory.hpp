@@ -15,7 +15,7 @@
 class InstanceFactory
 {
   public:
-    static Instance *produce(Component *component, const std::string &name, const Point &position);
+    static Instance *produce(IComponent *component, const std::string &name, const Point &position);
     static void cleanup(Instance &instance);
     static void dispose(Instance *instance);
 

@@ -48,6 +48,17 @@ class QtList :
       return list.size();
     }
 
+    Qt::ItemFlags flags(const QModelIndex &index) const override
+    {
+      Qt::ItemFlags flags = QAbstractListModel::flags(index);
+
+      if (item.editable(index.column())) {
+        flags |= Qt::ItemIsEditable;
+      }
+
+      return flags;
+    }
+
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override
     {
       return item.headerData(section, orientation, role);
@@ -60,6 +71,25 @@ class QtList :
       const auto column = index.column();
 
       return item.data(con, column, role);
+    }
+
+    bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole)
+    {
+      if (role != Qt::EditRole) {
+        return false;
+      }
+
+      const auto row = index.row();
+      const auto con = list[row];
+      const auto column = index.column();
+
+      return item.setData(con, column, value);
+    }
+
+    QModelIndex getIndex(const T* item) const
+    {
+      const auto idx = list.indexOf(item);
+      return index(idx);
     }
 
   private:

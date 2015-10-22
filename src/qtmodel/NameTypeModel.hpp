@@ -8,7 +8,7 @@
 #include <QAbstractListModel>
 #include <QStringListModel>
 
-//TODO add tests
+//TODO remove
 
 class NameTypeModel : public QAbstractListModel
 {

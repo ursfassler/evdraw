@@ -63,7 +63,6 @@ HEADERS += \
     file/xmlwriter/XmlWriter.hpp \
     unittest/core/base/BaseTest.hpp \
     unittest/core/base/PositionTest.hpp \
-    unittest/core/component/AbstractImplementationTest.hpp \
     unittest/core/component/ComponentFactoryTest.hpp \
     unittest/core/component/ComponentObserverTest.hpp \
     unittest/core/component/ComponentPortTest.hpp \
@@ -140,7 +139,6 @@ HEADERS += \
     unittest/core/visitor/DefaultVisitorMock.h \
     unittest/core/visitor/VisitorMock.h \
     unittest/core/connection/PortMock.hpp \
-    qtmodel/ComponentListModel.hpp \
     qtmodel/ImplementationTypeModel.hpp \
     qtmodel/InstanceListModel.hpp \
     qtmodel/NameTypeModel.hpp \
@@ -159,10 +157,17 @@ HEADERS += \
     qtmodel/IQtItem.hpp \
     qtmodel/QtConnectionItem.hpp \
     unittest/qtmodel/QtListTest.hpp \
-    unittest/qtmodel/ComponentListModelTest.hpp \
     unittest/qtmodel/ImplementationTypeModelTest.hpp \
     unittest/qtmodel/QtConnectionItemTest.hpp \
-    unittest/qtmodel/QtItemIntMock.hpp
+    unittest/qtmodel/QtItemIntMock.hpp \
+    qtmodel/QtNameTypeItem.hpp \
+    unittest/qtmodel/QtNameTypeItemTest.hpp \
+    qtmodel/INameTypeItem.hpp \
+    unittest/qtmodel/NameTypeItemMock.hpp \
+    unittest/qthelper.hpp \
+    unittest/qtmodel/ComponentItemTest.hpp \
+    qtmodel/ComponentItem.hpp \
+    unittest/core/implementation/ImplementationMock.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -204,7 +209,6 @@ SOURCES += \
     file/xmlwriter/XmlWriter.cpp \
     unittest/core/base/BaseTest.cpp \
     unittest/core/base/PositionTest.cpp \
-    unittest/core/component/AbstractImplementationTest.cpp \
     unittest/core/component/ComponentFactoryTest.cpp \
     unittest/core/component/ComponentObserverTest.cpp \
     unittest/core/component/ComponentPortTest.cpp \
@@ -273,7 +277,6 @@ SOURCES += \
     unittest/core/visitor/DefaultVisitorMock.cpp \
     unittest/core/visitor/VisitorMock.cpp \
     unittest/core/connection/PortMock.cpp \
-    qtmodel/ComponentListModel.cpp \
     qtmodel/ImplementationTypeModel.cpp \
     qtmodel/InstanceListModel.cpp \
     qtmodel/NameTypeModel.cpp \
@@ -281,14 +284,18 @@ SOURCES += \
     qtmodel/PortTypeModel.cpp \
     unittest/qtmodel/PortTypeModelTest.cpp \
     unittest/qtmodel/ImplementationTypeModelTest.cpp \
-    unittest/qtmodel/ComponentListModelTest.cpp \
     unittest/core/util/stdlistTest.cpp \
     unittest/core/util/ListTest.cpp \
     unittest/core/implementation/CompositionObserverMock.cpp \
     qtmodel/QtConnectionItem.cpp \
     unittest/qtmodel/QtListTest.cpp \
     unittest/qtmodel/QtConnectionItemTest.cpp \
-    unittest/qtmodel/QtItemIntMock.cpp
+    unittest/qtmodel/QtItemIntMock.cpp \
+    unittest/qtmodel/QtNameTypeItemTest.cpp \
+    unittest/qthelper.cpp \
+    unittest/qtmodel/ComponentItemTest.cpp \
+    qtmodel/ComponentItem.cpp \
+    unittest/core/implementation/ImplementationMock.cpp
 
 DISTFILES += \
     ../README.md \

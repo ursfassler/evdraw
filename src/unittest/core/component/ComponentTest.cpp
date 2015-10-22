@@ -3,6 +3,8 @@
 
 #include "ComponentTest.hpp"
 
+#include "../implementation/ImplementationMock.hpp"
+
 #include <core/component/Component.hpp>
 #include <core/component/ComponentPort.hpp>
 #include <core/component/ComponentFactory.hpp>
@@ -228,29 +230,10 @@ void ComponentTest::constructWithOwnImplementation()
   ComponentFactory::cleanup(component);
 }
 
-class DeleteTest : public IImplementation
-{
-  public:
-    DeleteTest(bool &aDeleted) :
-      deleted(aDeleted)
-    {
-    }
-
-    ~DeleteTest()
-    {
-      deleted = true;
-    }
-
-    void accept(Visitor &) {}
-    void accept(ConstVisitor &) const {}
-
-    bool &deleted;
-};
-
 void ComponentTest::componentDeletesImplementationWhenDeleted()
 {
   bool deleted = false;
-  DeleteTest *test = new DeleteTest(deleted);
+  ImplementationMock *test = new ImplementationMock(&deleted);
   Component *comp = new Component("", test);
   ComponentFactory::dispose(comp);
   CPPUNIT_ASSERT(deleted);
@@ -271,7 +254,7 @@ void ComponentTest::setImplementation()
 void ComponentTest::setImplementationDeletesOldOne()
 {
   bool deleted = false;
-  DeleteTest *test = new DeleteTest(deleted);
+  ImplementationMock *test = new ImplementationMock(&deleted);
   Component comp("", test);
 
   comp.setImplementation(new NullImplementation());

@@ -13,8 +13,10 @@ class IQtItem
     virtual ~IQtItem() = default;
 
     virtual int columnCount() const = 0;
+    virtual bool editable(int column) const = 0;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const = 0;
     virtual QVariant data(const T *item, int column, int role) const = 0;
+    virtual bool setData(T *item, int column, const QVariant &value) = 0;
 };
 
 

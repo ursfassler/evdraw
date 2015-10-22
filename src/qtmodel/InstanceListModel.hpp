@@ -10,9 +10,9 @@
 
 #include <QObject>
 #include "NameTypeModel.hpp"
-#include "ComponentListModel.hpp"
+#include "ComponentItem.hpp"
 
-//TODO add tests
+//TODO use QtList instead from NameTypeModel
 
 class InstanceListModel :
     public NameTypeModel,
@@ -24,7 +24,7 @@ class InstanceListModel :
     InstanceListModel(const InstanceListModel&) = delete;
     InstanceListModel &operator =(const InstanceListModel&) = delete;
 
-    explicit InstanceListModel(List<Instance> &instances, List<Component> &components, QObject *parent);
+    explicit InstanceListModel(List<Instance> &instances, List<IComponent> &components, QObject *parent);
     ~InstanceListModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

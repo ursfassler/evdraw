@@ -32,18 +32,20 @@ Component *ComponentFactory::produce(const std::string &name, const std::vector<
   return comp;
 }
 
-void ComponentFactory::cleanup(Component &component)
+void ComponentFactory::cleanup(IComponent &icomponent)
 {
+  Component &component = *dynamic_cast<Component*>(&icomponent);  //TODO make it clean
+
   ImplementationFactory::dispose(component.implementation);
   component.implementation = nullptr;
 
   component.getPorts().clear();
 
-  postcondition(component.ports.empty());
-  postcondition(component.implementation == nullptr);
+  postcondition(component.getPorts().empty());
+  postcondition(component.getImplementation() == nullptr);
 }
 
-void ComponentFactory::dispose(Component *component)
+void ComponentFactory::dispose(IComponent *component)
 {
   precondition(component != nullptr);
 

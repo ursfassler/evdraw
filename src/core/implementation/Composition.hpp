@@ -45,6 +45,8 @@ class Composition final :
     Composition(const Composition &) = delete;
     bool operator=(const Composition &) = delete;
 
+    ImplementationType getType() const override final;
+
     ICompositionInstance *getSelfInstance() const;
 
     const List<Instance> &getInstances() const;
@@ -59,8 +61,8 @@ class Composition final :
     bool hasConnectionUnderConstruction() const;
     Connection *getConnectionUnderConstruction() const;
 
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
+    void accept(Visitor &visitor) override final;
+    void accept(ConstVisitor &visitor) const override final;
 
   private:
     Connection  *connectionUnderConstruction = nullptr;

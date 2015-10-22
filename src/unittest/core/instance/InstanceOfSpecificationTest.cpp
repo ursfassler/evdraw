@@ -34,7 +34,7 @@ void InstanceOfSpecificationTest::copyConstructor()
   InstanceOfSpecification ios1(component);
   InstanceOfSpecification ios2(ios1);
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Component*>(component), ios2.component);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const IComponent*>(component), ios2.component);
 }
 
 void InstanceOfSpecificationTest::assignOperator()
@@ -44,7 +44,7 @@ void InstanceOfSpecificationTest::assignOperator()
 
   ios2 = ios1;
 
-  CPPUNIT_ASSERT_EQUAL(static_cast<const Component*>(component), ios2.component);
+  CPPUNIT_ASSERT_EQUAL(static_cast<const IComponent*>(component), ios2.component);
 }
 
 void InstanceOfSpecificationTest::satisfied()

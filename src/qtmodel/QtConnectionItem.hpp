@@ -5,7 +5,6 @@
 #define QTCONNECTIONITEM_HPP
 
 #include "IQtItem.hpp"
-#include "QtList.hpp"
 
 #include <core/connection/Connection.hpp>
 
@@ -17,8 +16,10 @@ class QtConnectionItem final :
 {
   public:
     int columnCount() const override;
+    bool editable(int column) const override;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const Connection *connection, int column, int role) const override;
+    bool setData(Connection *item, int column, const QVariant &value) override final;
 
   private:
     static const uint SRC_INST_INDEX = 0;
@@ -29,6 +30,8 @@ class QtConnectionItem final :
 
     QString instanceName(const IPort &port) const;
 };
+
+#include "QtList.hpp"
 
 //TODO remove
 class ConnectionListModel :

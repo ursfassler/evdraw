@@ -26,6 +26,7 @@ class ComponentObserver
 };
 
 class IComponent:
+    public VisitorClient,
     //TODO move ObserverCollection out of interface
     public ObserverCollection<ComponentObserver>
 {
@@ -33,16 +34,20 @@ class IComponent:
     virtual ~IComponent(){}
 
     virtual const std::string &getName() const = 0;
+    virtual void setName(const std::string &value) = 0;
 
     virtual const List<ComponentPort> &getPorts() const = 0;
     virtual List<ComponentPort> &getPorts() = 0;
     virtual Side portSide(PortType type) const = 0;
 
+    virtual size_t maxPortCount() const = 0;
+
+    virtual IImplementation *getImplementation() const = 0;
+
 };
 
 class Component final :
     public IComponent,
-    public VisitorClient,
     private ComponentPortObserver,
     private ListObserver<ComponentPort>
 {
@@ -53,21 +58,21 @@ class Component final :
     Component(const Component &) = delete;
     Component operator=(const Component &) = delete;
 
-    const List<ComponentPort> &getPorts() const override;
-    List<ComponentPort> &getPorts() override;
+    const List<ComponentPort> &getPorts() const override final;
+    List<ComponentPort> &getPorts() override final;
     ComponentPort *getPort(const std::string &name) const;
 
     Side portSide(PortType type) const override final;
 
-    size_t maxPortCount() const;
+    size_t maxPortCount() const override final;
 
-    const std::string &getName() const override;
-    void setName(const std::string &value);
+    const std::string &getName() const override final;
+    void setName(const std::string &value) override final;
 
     void accept(Visitor &visitor);
     void accept(ConstVisitor &visitor) const;
 
-    IImplementation *getImplementation() const;
+    IImplementation *getImplementation() const override final;
     void setImplementation(IImplementation *value);
 
   private:

@@ -26,7 +26,7 @@ void InstanceTest::produce()
 {
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
   CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance->getOffset());
-  CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
+  CPPUNIT_ASSERT_EQUAL(dynamic_cast<IComponent*>(component), instance->getComponent());
   CPPUNIT_ASSERT(dynamic_cast<IInstance*>(instance) != nullptr);
 }
 

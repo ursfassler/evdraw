@@ -10,6 +10,11 @@ class ComponentMock: public IComponent
     {
       return name;
     }
+    void setName(const std::string &value) override
+    {
+      name = value;
+    }
+    std::string name{};
 
     const List<ComponentPort> &getPorts() const override
     {
@@ -20,14 +25,33 @@ class ComponentMock: public IComponent
     {
       return ports;
     }
+    List<ComponentPort> ports{};
 
     Side portSide(PortType) const override
     {
       return Side::Left;
     }
 
-    const std::string name{};
-    List<ComponentPort> ports{};
+    size_t maxPortCount() const override
+    {
+      return {};
+    }
+
+    IImplementation *getImplementation() const override
+    {
+      return implementation;
+    }
+    IImplementation *implementation{};
+
+
+    void accept(Visitor &) override
+    {
+    }
+
+    void accept(ConstVisitor &) const override
+    {
+    }
+
 };
 
 #endif // COMPONENTMOCK

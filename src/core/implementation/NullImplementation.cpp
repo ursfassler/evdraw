@@ -9,6 +9,11 @@ NullImplementation::NullImplementation()
 {
 }
 
+ImplementationType NullImplementation::getType() const
+{
+  return ImplementationType::Empty;
+}
+
 void NullImplementation::accept(Visitor &visitor)
 {
   visitor.visit(*this);

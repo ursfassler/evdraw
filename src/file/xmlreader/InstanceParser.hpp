@@ -15,7 +15,7 @@ class InstanceParser final : protected BaseParser
   public:
     InstanceParser(const Library &library, const TiXmlElement &element);
 
-    Component *component() const;
+    IComponent *component() const;
     std::string name() const;
     Point position() const;
 

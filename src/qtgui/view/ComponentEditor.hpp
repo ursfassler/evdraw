@@ -18,8 +18,8 @@ class ComponentEditor : public QWidget
     explicit ComponentEditor(QWidget *parent = 0);
     ~ComponentEditor() override;
 
-    void setModel(Component *component);
-    Component *getModel() const;
+    void setModel(IComponent *component);
+    IComponent *getModel() const;
 
   signals:
 
@@ -28,7 +28,7 @@ class ComponentEditor : public QWidget
     void delPort();
 
   private:
-    Component *model{nullptr};
+    IComponent *model{nullptr};
 
     PortListModel *portModel = nullptr;
     QTreeView portView;

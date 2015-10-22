@@ -22,26 +22,26 @@ Library::~Library()
   postcondition(components.empty());
 }
 
-void Library::removed(Component *component)
+void Library::removed(IComponent *component)
 {
   InstanceOfSpecification spec(component);
   ChildRemover remover(spec);
   this->accept(remover);
 }
 
-const List<Component> &Library::getComponents() const
+const List<IComponent> &Library::getComponents() const
 {
   return components;
 }
 
-List<Component> &Library::getComponents()
+List<IComponent> &Library::getComponents()
 {
   return components;
 }
 
-Component *Library::getComponent(const std::string &name) const
+IComponent *Library::getComponent(const std::string &name) const
 {
-  auto predicate = [&](const Component *itr){
+  auto predicate = [&](const IComponent *itr){
     return itr->getName() == name;
   };
   return components.get(predicate);

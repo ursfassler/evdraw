@@ -37,7 +37,7 @@ void InstanceFactoryTest::cleanupRemovesInput()
 
 void InstanceFactoryTest::produceSimple()
 {
-  Component *component = ComponentFactory::produce("Component");
+  IComponent *component = ComponentFactory::produce("Component");
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
@@ -50,7 +50,7 @@ void InstanceFactoryTest::produceSimple()
 
 void InstanceFactoryTest::produceWithPorts()
 {
-  Component *component = ComponentFactory::produce("Component", {"in1", "in2", "in3"}, {"out1", "out2"});
+  IComponent *component = ComponentFactory::produce("Component", {"in1", "in2", "in3"}, {"out1", "out2"});
   Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
   CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());

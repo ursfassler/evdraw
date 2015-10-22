@@ -1,0 +1,51 @@
+// Copyright 2015 Urs Fässler, www.bitzgi.ch
+// SPDX-License-Identifier:	GPL-3.0+
+
+#ifndef COMPONENTITEM_HPP
+#define COMPONENTITEM_HPP
+
+#include "INameTypeItem.hpp"
+
+#include "../core/component/Component.hpp"
+#include "ImplementationTypeModel.hpp"
+
+//TODO send event when name or type changed
+class ComponentItem final :
+    public INameTypeItem<IComponent>
+{
+  public:
+    ComponentItem();
+
+    bool isNameEditable() const override final;
+    bool isTypeEditable() const override final;
+
+    QAbstractListModel *getTypeModel() override final;
+
+    std::string getName(const IComponent* item) const override final;
+    void setName(IComponent* item, const std::string &value) override final;
+    unsigned getType(const IComponent* item) const override final;
+    void setType(IComponent* item, unsigned value) override final;
+
+  private:
+    ImplementationTypeModel typeModel{};
+
+};
+
+
+#include "QtList.hpp"
+#include "QtNameTypeItem.hpp"
+
+//TODO remove
+class ComponentListModel :
+    public QtList<IComponent>
+{
+  public:
+    ComponentListModel(List<IComponent> &aModel, QObject *parent = 0);
+
+    static QtNameTypeItem<IComponent> &item();
+
+};
+
+
+
+#endif // COMPONENTITEM_HPP

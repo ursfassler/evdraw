@@ -26,14 +26,14 @@ class Instance final :
     private ListObserver<ComponentPort>
 {
   public:
-    Instance(const std::string &name, const Point &aPosition, Component *aComponent);
+    Instance(const std::string &name, const Point &aPosition, IComponent *aComponent);
     Instance(const Instance &copy) = delete;
     Instance & operator=(const Instance &) = delete;
     ~Instance();
 
     const std::string &getName() const;
     void setName(const std::string &name);
-    Component *getComponent() const;
+    IComponent *getComponent() const;
 
     const List<InstancePort> &getPorts() const;
     List<InstancePort> &getPorts();
@@ -50,7 +50,7 @@ class Instance final :
 
   private:
     std::string name;
-    Component * const component;
+    IComponent * const component;
     List<InstancePort> ports;
 
     void added(ComponentPort *port) override;

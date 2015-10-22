@@ -27,7 +27,7 @@ ComponentEditor::~ComponentEditor()
   }
 }
 
-void ComponentEditor::setModel(Component *component)
+void ComponentEditor::setModel(IComponent *component)
 {
   if (component == nullptr) {
     if (portModel != nullptr) {
@@ -46,7 +46,7 @@ void ComponentEditor::setModel(Component *component)
   model = component;
 }
 
-Component *ComponentEditor::getModel() const
+IComponent *ComponentEditor::getModel() const
 {
   return model;
 }

@@ -5,7 +5,7 @@
 
 #include "../util/contract.hpp"
 
-Instance *InstanceFactory::produce(Component *component, const std::string &name, const Point &position)
+Instance *InstanceFactory::produce(IComponent *component, const std::string &name, const Point &position)
 {
   precondition(component != nullptr);
 

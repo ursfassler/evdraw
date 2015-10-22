@@ -62,7 +62,7 @@ Library *Workspace::getLibrary() const
 
 void Workspace::addComponent()
 {
-  componentModel->addComponent("lulu");
+  library->getComponents().add(ComponentFactory::produce("lulu"));
 }
 
 void Workspace::addPort()
@@ -78,7 +78,8 @@ void Workspace::delPort()
 void Workspace::delComponent()
 {
   QModelIndex selected = compView.currentIndex();
-  componentModel->deleteComponent(selected);
+  const auto component = library->getComponents()[selected.row()];
+  library->getComponents().remove(component);
 }
 
 void Workspace::newFile()
@@ -102,16 +103,16 @@ void Workspace::saveFile(const QString &filename)
 
 void Workspace::openComponent(const QModelIndex &index)
 {
-  Component *comp = componentModel->getComponent(index);
+  auto comp = library->getComponents()[index.row()];
   showComponent(comp);
 }
 
-void Workspace::showComponent(Component *component)
+void Workspace::showComponent(IComponent *component)
 {
   componentEditor.setModel(component);
 }
 
-void Workspace::removed(Component *component)
+void Workspace::removed(IComponent *component)
 {
   if (componentEditor.getModel() == component) {
     componentEditor.setModel(nullptr);
@@ -120,7 +121,7 @@ void Workspace::removed(Component *component)
 
 void Workspace::openImplementation(const QModelIndex &index)
 {
-  Component *comp = componentModel->getComponent(index);
+  auto comp = library->getComponents()[index.row()];
   ImplementationOpener opener(drawTabs, this, QString::fromStdString(comp->getName()));
   comp->getImplementation()->accept(opener);
 }
@@ -133,7 +134,7 @@ void Workspace::addInstance(Point position, Composition &composition)
   }
 
   QModelIndex idx = selected.first();
-  Component *component = componentModel->getComponent(idx);
+  auto component = library->getComponents()[idx.row()];
   Instance *inst = InstanceFactory::produce(component, "?", position);
   composition.getInstances().add(inst);
 }

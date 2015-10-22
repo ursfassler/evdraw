@@ -40,6 +40,11 @@ int QtConnectionItem::columnCount() const
   return COLUMN_COUNT;
 }
 
+bool QtConnectionItem::editable(int) const
+{
+  return false;
+}
+
 QVariant QtConnectionItem::headerData(int section, Qt::Orientation, int role) const
 {
   if (role != Qt::DisplayRole) {
@@ -93,6 +98,11 @@ QVariant QtConnectionItem::data(const Connection *connection, int column, int ro
   }
 
   return "<error>";
+}
+
+bool QtConnectionItem::setData(Connection *, int, const QVariant &)
+{
+  return false;
 }
 
 QString QtConnectionItem::instanceName(const IPort &port) const

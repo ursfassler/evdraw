@@ -33,7 +33,7 @@ void XmlReaderTest::parseSimple()
 
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *comp = lib->getComponents().front();
+  IComponent *comp = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(std::string("Component"), comp->getName());
   CPPUNIT_ASSERT_EQUAL(size_t(0), comp->getPorts().size());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
@@ -72,7 +72,7 @@ void XmlReaderTest::componentWithSlot()
 
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *comp = lib->getComponents().front();
+  IComponent *comp = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(std::string("in"), comp->getPorts()[0]->getName());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
@@ -93,7 +93,7 @@ void XmlReaderTest::componentWithSignal()
 
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *comp = lib->getComponents().front();
+  IComponent *comp = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(size_t(1), comp->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(std::string("out"), comp->getPorts()[0]->getName());
   CPPUNIT_ASSERT(dynamic_cast<NullImplementation*>(comp->getImplementation()) != nullptr);
@@ -117,7 +117,7 @@ void XmlReaderTest::componentWithSignalAndSlotKeepsOrder()
 
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *comp = lib->getComponents().front();
+  IComponent *comp = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(size_t(4), comp->getPorts().size());
   CPPUNIT_ASSERT_EQUAL(std::string("out1"), comp->getPorts()[0]->getName());
   CPPUNIT_ASSERT_EQUAL(std::string("in1"), comp->getPorts()[1]->getName());
@@ -140,7 +140,7 @@ void XmlReaderTest::compositionEmpty()
 
   CPPUNIT_ASSERT(lib != nullptr);
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *comp = lib->getComponents().front();
+  IComponent *comp = lib->getComponents().front();
   Composition *composition = dynamic_cast<Composition*>(comp->getImplementation());
   CPPUNIT_ASSERT(composition != nullptr);
   ICompositionInstance *selfInst = composition->getSelfInstance();
@@ -167,9 +167,9 @@ void XmlReaderTest::compositionWithInstance()
   CPPUNIT_ASSERT(lib != nullptr);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), lib->getComponents().size());
-  Component *empty = lib->getComponents().front();
+  IComponent *empty = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(std::string("empty"), empty->getName());
-  Component *full = lib->getComponents().back();
+  IComponent *full = lib->getComponents().back();
   CPPUNIT_ASSERT_EQUAL(std::string("full"), full->getName());
 
   Composition *composition = dynamic_cast<Composition*>(full->getImplementation());
@@ -207,9 +207,9 @@ void XmlReaderTest::compositionWithConnection()
   CPPUNIT_ASSERT(lib != nullptr);
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), lib->getComponents().size());
-  Component *empty = lib->getComponents().front();
+  IComponent *empty = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(std::string("empty"), empty->getName());
-  Component *full = lib->getComponents().back();
+  IComponent *full = lib->getComponents().back();
   CPPUNIT_ASSERT_EQUAL(std::string("full"), full->getName());
 
   Composition *composition = dynamic_cast<Composition*>(full->getImplementation());
@@ -248,7 +248,7 @@ void XmlReaderTest::CompositionInstance_with_connection()
   CPPUNIT_ASSERT(lib != nullptr);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), lib->getComponents().size());
-  Component *empty = lib->getComponents().front();
+  IComponent *empty = lib->getComponents().front();
   CPPUNIT_ASSERT_EQUAL(std::string("test"), empty->getName());
 
   Composition *composition = dynamic_cast<Composition*>(empty->getImplementation());

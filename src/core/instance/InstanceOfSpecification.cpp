@@ -5,7 +5,7 @@
 
 #include "Instance.hpp"
 
-InstanceOfSpecification::InstanceOfSpecification(const Component *aComponent) :
+InstanceOfSpecification::InstanceOfSpecification(const IComponent *aComponent) :
   component(aComponent)
 {
 }

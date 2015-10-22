@@ -6,7 +6,7 @@
 #include "../util/error.hpp"
 #include "../component/InstanceAppearance.hpp"
 
-Instance::Instance(const std::string &aName, const Point &aPosition, Component *aComponent) :
+Instance::Instance(const std::string &aName, const Point &aPosition, IComponent *aComponent) :
   RelativePosition{aPosition},
   name{aName},
   component{aComponent},
@@ -39,7 +39,7 @@ void Instance::setName(const std::string &name)
   }
 }
 
-Component *Instance::getComponent() const
+IComponent *Instance::getComponent() const
 {
   return component;
 }

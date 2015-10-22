@@ -6,7 +6,7 @@
 
 #include "view/ComponentEditor.hpp"
 
-#include <qtmodel/ComponentListModel.hpp>
+#include <qtmodel/ComponentItem.hpp>
 #include <qtmodel/PortListModel.hpp>
 
 #include <core/visitor/NullVisitor.hpp>
@@ -20,7 +20,7 @@
 
 class Workspace :
     public QSplitter,
-    private ListObserver<Component>
+    private ListObserver<IComponent>
 {
     Q_OBJECT
   public:
@@ -56,8 +56,8 @@ class Workspace :
 
     void removeLibrary();
     void newLibrary(Library *library);
-    void showComponent(Component *component);
-    void removed(Component *component) override;
+    void showComponent(IComponent *component);
+    void removed(IComponent *component) override;
 };
 
 class ImplementationOpener : public NullVisitor

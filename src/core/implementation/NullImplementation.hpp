@@ -6,13 +6,16 @@
 
 #include "../component/IImplementation.hpp"
 
-class NullImplementation : public IImplementation
+class NullImplementation final :
+    public IImplementation
 {
   public:
     NullImplementation();
 
-    void accept(Visitor &visitor);
-    virtual void accept(ConstVisitor &visitor) const;
+    ImplementationType getType() const override final;
+
+    void accept(Visitor &visitor) override final;
+    virtual void accept(ConstVisitor &visitor) const override final;
 };
 
 #endif // NULLIMPLEMENTATION_HPP

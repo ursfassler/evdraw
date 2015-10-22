@@ -3,6 +3,7 @@
 
 #include "LibraryTest.hpp"
 #include "../implementation/CompositionInstanceMock.hpp"
+#include "../implementation/ImplementationMock.hpp"
 
 #include <core/component/Library.hpp>
 #include <core/component/Component.hpp>
@@ -26,29 +27,10 @@ void LibraryTest::addComponent()
   CPPUNIT_ASSERT(lib.getComponents().contains(comp));
 }
 
-class Implementation : public IImplementation
-{
-  public:
-    Implementation(bool &aDestructorCalled) :
-      destructorCalled(aDestructorCalled)
-    {
-    }
-
-    ~Implementation()
-    {
-      destructorCalled = true;
-    }
-
-    void accept(Visitor &) {}
-    void accept(ConstVisitor &) const {}
-
-    bool &destructorCalled;
-};
-
 void LibraryTest::deleteComponent()
 {
   bool deleted = false;
-  Implementation *impl = new Implementation(deleted);
+  ImplementationMock *impl = new ImplementationMock(&deleted);
   Component *comp = new Component("comp", impl);
   Library lib;
   lib.getComponents().add(comp);
@@ -80,7 +62,7 @@ void LibraryTest::deletsComponentsWhenDeleted()
 {
   Library *lib = new Library();
   bool deleted = false;
-  Implementation *impl = new Implementation(deleted);
+  ImplementationMock *impl = new ImplementationMock(&deleted);
   Component *comp = new Component("comp", impl);
   lib->getComponents().add(comp);
   delete lib;
@@ -90,17 +72,17 @@ void LibraryTest::deletsComponentsWhenDeleted()
 
 void LibraryTest::getComponent()
 {
-  Component *comp = ComponentFactory::produce("comp");
+  IComponent *comp = ComponentFactory::produce("comp");
   Library lib;
   lib.getComponents().add(comp);
 
-  Component *ret = lib.getComponent("comp");
+  IComponent *ret = lib.getComponent("comp");
   CPPUNIT_ASSERT_EQUAL(comp, ret);
 }
 
 void LibraryTest::getCorrectComponent()
 {
-  Component *comp = ComponentFactory::produce("comp3");
+  IComponent *comp = ComponentFactory::produce("comp3");
   Library lib;
   lib.getComponents().add(ComponentFactory::produce("comp1"));
   lib.getComponents().add(ComponentFactory::produce("comp2"));
@@ -109,7 +91,7 @@ void LibraryTest::getCorrectComponent()
   lib.getComponents().add(ComponentFactory::produce("comp5"));
   lib.getComponents().add(ComponentFactory::produce("comp6"));
 
-  Component *ret = lib.getComponent("comp3");
+  IComponent *ret = lib.getComponent("comp3");
   CPPUNIT_ASSERT_EQUAL(comp, ret);
 }
 

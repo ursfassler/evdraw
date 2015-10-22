@@ -75,14 +75,14 @@ SOURCES += \
     graphicItems/GiSelfInstance.cpp \
     graphicItems/MoveableLine.cpp \
     ../core/instance/InstanceObserver.cpp \
-    ../qtmodel/ComponentListModel.cpp \
     ../qtmodel/QtConnectionItem.cpp \
     ../qtmodel/ImplementationTypeModel.cpp \
     ../qtmodel/InstanceListModel.cpp \
     ../qtmodel/NameTypeModel.cpp \
     ../qtmodel/PortListModel.cpp \
     ../qtmodel/PortTypeModel.cpp \
-    view/ComponentEditor.cpp
+    view/ComponentEditor.cpp \
+    ../qtmodel/ComponentItem.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -149,14 +149,17 @@ HEADERS  += \
     graphicItems/GiSelfInstance.hpp \
     graphicItems/MoveableLine.hpp \
     ../core/instance/InstanceObserver.h \
-    ../qtmodel/ComponentListModel.hpp \
     ../qtmodel/QtConnectionItem.hpp \
     ../qtmodel/ImplementationTypeModel.hpp \
     ../qtmodel/InstanceListModel.hpp \
     ../qtmodel/NameTypeModel.hpp \
     ../qtmodel/PortListModel.hpp \
     ../qtmodel/PortTypeModel.hpp \
-    view/ComponentEditor.hpp
+    view/ComponentEditor.hpp \
+    ../qtmodel/INameTypeItem.hpp \
+    ../qtmodel/ComponentItem.hpp \
+    ../qtmodel/QtNameTypeItem.hpp \
+    ../qtmodel/IQtItem.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

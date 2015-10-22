@@ -5,7 +5,7 @@
 
 #include <core/util/stdlist.hpp>
 
-InstanceListModel::InstanceListModel(List<Instance> &aInstances, List<Component> &aComponents, QObject *parent) :
+InstanceListModel::InstanceListModel(List<Instance> &aInstances, List<IComponent> &aComponents, QObject *parent) :
   NameTypeModel(parent),
   composition(aInstances),
   typeModel(new ComponentListModel(aComponents))

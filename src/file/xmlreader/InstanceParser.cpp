@@ -8,7 +8,7 @@ InstanceParser::InstanceParser(const Library &library, const TiXmlElement &eleme
 {
 }
 
-Component *InstanceParser::component() const
+IComponent *InstanceParser::component() const
 {
   const std::string componentName = getAttribute("component");
   return library.getComponent(componentName);

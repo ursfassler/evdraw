@@ -13,7 +13,7 @@ class InstanceOfSpecificationTest;
 class InstanceOfSpecification : public DefaultSpecification
 {
   public:
-    InstanceOfSpecification(const Component *component);
+    InstanceOfSpecification(const IComponent *component);
     InstanceOfSpecification(const InstanceOfSpecification &copy);
 
     InstanceOfSpecification &operator=(const InstanceOfSpecification &right);
@@ -21,7 +21,7 @@ class InstanceOfSpecification : public DefaultSpecification
     bool isSatisfiedBy(const Base *candidate) const;
 
   private:
-    const Component *component;
+    const IComponent *component;
 
     friend InstanceOfSpecificationTest;
 

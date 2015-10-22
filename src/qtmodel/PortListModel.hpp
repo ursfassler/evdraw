@@ -11,7 +11,7 @@
 #include "NameTypeModel.hpp"
 #include "PortTypeModel.hpp"
 
-//TODO add tests
+//TODO use QtList instead from NameTypeModel
 
 class PortListModel :
     public NameTypeModel,

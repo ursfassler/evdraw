@@ -10,6 +10,12 @@ int QtItemIntMock::columnCount() const
   return columnCount_return;
 }
 
+bool QtItemIntMock::editable(int column) const
+{
+  editable_column = column;
+  return editable_return;
+}
+
 QVariant QtItemIntMock::headerData(int section, Qt::Orientation orientation, int role) const
 {
   (void)section;
@@ -28,4 +34,14 @@ QVariant QtItemIntMock::data(const int *item, int column, int role) const
 
   data_called++;
   return data_return;
+}
+
+bool QtItemIntMock::setData(int *item, int column, const QVariant &value)
+{
+  (void)item;
+  (void)column;
+  (void)value;
+
+  setData_called++;
+  return setData_return;
 }

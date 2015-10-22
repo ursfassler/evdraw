@@ -148,7 +148,7 @@ void XmlNodeWriter::visit(const Library &library)
   parent->LinkEndChild(element);
   XmlNodeWriter writer(element);
 
-  for (Component *comp : library.getComponents()) {
+  for (IComponent *comp : library.getComponents()) {
     comp->accept(writer);
   }
 }
