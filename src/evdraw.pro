@@ -11,9 +11,28 @@ QT += testlib
 TARGET = testapp
 
 #QMAKE_CXX = clang
-QMAKE_CXXFLAGS = -g -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
+QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
+QMAKE_CXXFLAGS_DEBUG += --coverage
 
 LIBS += -ltinyxml -lcppunit
+CONFIG(debug, debug|release) {
+    LIBS += -lgcov
+}
+
+doc.target = doc
+doc.commands = doxygen $$PWD/../Doxyfile
+doc.depends =
+QMAKE_EXTRA_TARGETS += doc
+
+coverage.target = coverage
+coverage.commands = \
+    ./testapp; \
+    rm moc_*.gcda; \
+    lcov --directory . --base-directory $$PWD --no-external --capture --output-file coverage.info; \
+    lcov --remove coverage.info "unittest/*" -o coverage.info; \
+    genhtml --title "evdraw" coverage.info -o $$PWD/../coverage/
+coverage.depends = testapp
+QMAKE_EXTRA_TARGETS += coverage
 
 INCLUDEPATH += .
 
@@ -88,13 +107,9 @@ HEADERS += \
     unittest/core/specification/OrSpecificationTest.hpp \
     unittest/core/specification/SpecificationTest.hpp \
     unittest/core/TypesTest.hpp \
-    unittest/core/util/AlwaysSatisfiedSpecificationTest.hpp \
     unittest/core/util/ChildRemoverTest.hpp \
     unittest/core/util/contractTest.hpp \
-    unittest/core/util/DefaultSpecificationTest.hpp \
     unittest/core/util/ObserverTest.hpp \
-    unittest/core/util/OrSpecificationTest.hpp \
-    unittest/core/util/SpecificationTest.hpp \
     unittest/core/visitor/ConstVisitorTest.hpp \
     unittest/core/visitor/DefaultVisitorTest.hpp \
     unittest/core/visitor/NullConstVisitorTest.hpp \
@@ -299,5 +314,6 @@ SOURCES += \
 
 DISTFILES += \
     ../README.md \
-    ../COPYING
+    ../COPYING \
+    ../Doxyfile
 

@@ -1,0 +1,6 @@
+*.pro.user*
+build-*-Debug/
+build-*-Release/
+doxy/
+coverage/
+
