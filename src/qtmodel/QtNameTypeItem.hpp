@@ -9,12 +9,33 @@
 
 template<class T>
 class QtNameTypeItem :
-    public IQtItem<T>
+    public AQtItem<T>
 {
   public:
-    QtNameTypeItem(INameTypeItem<T> &aModel) :
+    QtNameTypeItem(const QtNameTypeItem&) = delete;
+    QtNameTypeItem &operator =(const QtNameTypeItem&) = delete;
+
+
+    QtNameTypeItem(INameTypeItem<T> *aModel) :
       model(aModel)
     {
+      aModel->addNameListener([this](T* item){this->notify(item, NAME_INDEX);});
+      aModel->addTypeListener([this](T* item){this->notify(item, TYPE_INDEX);});
+    }
+
+    virtual ~QtNameTypeItem()
+    {
+      delete model;
+    }
+
+    void added(T *item) override final
+    {
+      model->added(item);
+    }
+
+    void removed(T *item) override final
+    {
+      model->removed(item);
     }
 
     int columnCount() const override final
@@ -26,9 +47,9 @@ class QtNameTypeItem :
     {
       switch (column) {
         case NAME_INDEX:
-          return model.isNameEditable();
+          return model->isNameEditable();
         case TYPE_INDEX:
-          return model.isTypeEditable();
+          return model->isTypeEditable();
       }
 
       return {};
@@ -57,13 +78,13 @@ class QtNameTypeItem :
           switch (role) {
             case Qt::DisplayRole:
             case Qt::EditRole:
-              return QString::fromStdString(model.getName(item));
+              return QString::fromStdString(model->getName(item));
             default:
               return {};
           }
         case TYPE_INDEX:
-          const auto typeIndex = model.getType(item);
-          const auto *typeModel = model.getTypeModel();
+          const auto typeIndex = model->getType(item);
+          const auto *typeModel = model->getTypeModel();
           const auto index = typeModel->index(typeIndex);
           return typeModel->data(index, role);
       }
@@ -75,7 +96,7 @@ class QtNameTypeItem :
       switch (column) {
         case NAME_INDEX: {
             if (value.type() == QVariant::String) {
-              model.setName(item, value.toString().toStdString());
+              model->setName(item, value.toString().toStdString());
               return true;
             }
             break;
@@ -85,7 +106,7 @@ class QtNameTypeItem :
               bool ok = false;
               const auto uintValue = value.toInt(&ok);
               if (ok && (uintValue >= 0)) {
-                model.setType(item, uintValue);
+                model->setType(item, uintValue);
                 return true;
               }
             }
@@ -96,13 +117,13 @@ class QtNameTypeItem :
       return false;
     }
 
-
-  private:
     static const uint NAME_INDEX = 0;
     static const uint TYPE_INDEX = 1;
+
+  private:
     static const uint COLUMN_COUNT = 2;
 
-    INameTypeItem<T> &model;
+    INameTypeItem<T> * const model;
 };
 
 #endif // QTNAMETYPEITEM_HPP

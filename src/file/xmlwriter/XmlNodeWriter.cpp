@@ -60,7 +60,7 @@ void XmlNodeWriter::visit(const Component &component)
 
   element->SetAttribute("name", component.getName());
 
-  for (ComponentPort *inst : component.getPorts()) {
+  for (auto *inst : component.getPorts()) {
     inst->accept(writer);
   }
 
@@ -109,7 +109,7 @@ std::string XmlNodeWriter::buildPath(const std::vector<PaperUnit> &path) const
 {
   std::string ret("");
   bool first = true;
-  for (PaperUnit pos : path) {
+  for (auto pos : path) {
     if (first) {
       first = false;
     } else {
@@ -130,10 +130,10 @@ void XmlNodeWriter::visit(const Composition &composition)
   parent->LinkEndChild(element);
   XmlNodeWriter writer(element);
 
-  for (Instance *inst : composition.getInstances()) {
+  for (auto *inst : composition.getInstances()) {
     inst->accept(writer);
   }
-  for (Connection *con : composition.getConnections()) {
+  for (auto *con : composition.getConnections()) {
     con->accept(writer);
   }
 }
@@ -148,7 +148,7 @@ void XmlNodeWriter::visit(const Library &library)
   parent->LinkEndChild(element);
   XmlNodeWriter writer(element);
 
-  for (IComponent *comp : library.getComponents()) {
+  for (auto *comp : library.getComponents()) {
     comp->accept(writer);
   }
 }

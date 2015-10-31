@@ -1,26 +1,14 @@
+// Copyright 2015 Urs Fässler, www.bitzgi.ch
+// SPDX-License-Identifier:	GPL-3.0+
+
 #ifndef COMPOSITIONINSTANCE_HPP
 #define COMPOSITIONINSTANCE_HPP
+
+#include "ICompositionInstance.hpp"
 
 #include "../component/Component.hpp"
 #include "../instance/InstancePort.hpp"
 #include "../instance/InstanceObserver.h"
-
-class ICompositionInstance :
-    public virtual IInstance
-{
-  public:
-    virtual ~ICompositionInstance(){}
-
-    virtual IComponent *getComponent() const = 0;
-
-    virtual PaperUnit getWidth() const = 0;
-    virtual void setWidth(PaperUnit value) = 0;
-    virtual PaperUnit getHeight() const = 0;
-    virtual void setHeight(PaperUnit value) = 0;
-
-    virtual const List<InstancePort> &getPorts() const = 0;
-    virtual List<InstancePort> &getPorts() = 0;
-};
 
 class CompositionInstance final :
     public ICompositionInstance,

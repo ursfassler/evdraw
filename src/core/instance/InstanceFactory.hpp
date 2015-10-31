@@ -16,8 +16,8 @@ class InstanceFactory
 {
   public:
     static Instance *produce(IComponent *component, const std::string &name, const Point &position);
-    static void cleanup(Instance &instance);
-    static void dispose(Instance *instance);
+    static void cleanup(IComponentInstance &instance);
+    static void dispose(IComponentInstance *instance);
 
   private:
     static void cleanupPort(List<InstancePort> &ports);

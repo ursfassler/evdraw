@@ -23,11 +23,11 @@ class InstanceObserverMock :
     void heightChanged() override;
     uint changedHeight = 0;
 
-    void nameChanged(const IInstance *instance) override;
-    std::vector<const IInstance *> nameChanged_instance{};
+    void nameChanged(IInstance *instance) override;
+    std::vector<IInstance *> nameChanged_instance{};
 
-    void componentNameChanged(const IInstance *instance) override;
-    std::vector<const IInstance *> componentNameChanged_instance{};
+    void componentNameChanged(IInstance *instance) override;
+    std::vector<IInstance *> componentNameChanged_instance{};
 
   private:
     bool * const destroyed = nullptr;

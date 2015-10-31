@@ -14,19 +14,19 @@ Instance *InstanceFactory::produce(IComponent *component, const std::string &nam
   for (ComponentPort *compPort : component->getPorts()) {
     InstancePort *instPort = new InstancePort(instance, compPort);
     instPort->replaceAnchor(instance);
-    instance->ports.add(instPort);
+    instance->getPorts().add(instPort);
   }
 
   return instance;
 }
 
-void InstanceFactory::cleanup(Instance &instance)
+void InstanceFactory::cleanup(IComponentInstance &instance)
 {
-  cleanupPort(instance.ports);
-  postcondition(instance.ports.empty());
+  cleanupPort(instance.getPorts());
+  postcondition(instance.getPorts().empty());
 }
 
-void InstanceFactory::dispose(Instance *instance)
+void InstanceFactory::dispose(IComponentInstance *instance)
 {
   precondition(instance != nullptr);
 

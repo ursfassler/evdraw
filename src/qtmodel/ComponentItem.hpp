@@ -11,7 +11,7 @@
 
 //TODO send event when name or type changed
 class ComponentItem final :
-    public INameTypeItem<IComponent>
+    public ANameTypeItem<IComponent>
 {
   public:
     ComponentItem();
@@ -25,6 +25,9 @@ class ComponentItem final :
     void setName(IComponent* item, const std::string &value) override final;
     unsigned getType(const IComponent* item) const override final;
     void setType(IComponent* item, unsigned value) override final;
+
+    void added(IComponent* item) override final;
+    void removed(IComponent* item) override final;
 
   private:
     ImplementationTypeModel typeModel{};
@@ -42,7 +45,7 @@ class ComponentListModel :
   public:
     ComponentListModel(List<IComponent> &aModel, QObject *parent = 0);
 
-    static QtNameTypeItem<IComponent> &item();
+    static QtNameTypeItem<IComponent> *item();
 
 };
 

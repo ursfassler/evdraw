@@ -45,3 +45,18 @@ bool QtItemIntMock::setData(int *item, int column, const QVariant &value)
   setData_called++;
   return setData_return;
 }
+
+void QtItemIntMock::change(int *item, int column)
+{
+  notify(item, column);
+}
+
+void QtItemIntMock::added(int *item)
+{
+  added_item.push_back(item);
+}
+
+void QtItemIntMock::removed(int *item)
+{
+  removed_item.push_back(item);
+}

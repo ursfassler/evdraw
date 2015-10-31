@@ -7,11 +7,11 @@ InstanceObserver::~InstanceObserver()
 {
 }
 
-void InstanceObserver::nameChanged(const IInstance *)
+void InstanceObserver::nameChanged(IInstance *)
 {
 }
 
-void InstanceObserver::componentNameChanged(const IInstance *)
+void InstanceObserver::componentNameChanged(IInstance *)
 {
 }
 

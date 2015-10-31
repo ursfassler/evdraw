@@ -84,12 +84,12 @@ void GiInstance::removed(InstancePort *port)
   postcondition(!childItems().contains(inst));
 }
 
-void GiInstance::nameChanged(const IInstance *)
+void GiInstance::nameChanged(IInstance *)
 {
   updateText();
 }
 
-void GiInstance::componentNameChanged(const IInstance *)
+void GiInstance::componentNameChanged(IInstance *)
 {
   updateText();
 }

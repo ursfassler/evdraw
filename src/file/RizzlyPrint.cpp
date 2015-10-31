@@ -76,10 +76,10 @@ void RizzlyPrint::visit(const Connection &connection)
 
 void RizzlyPrint::visit(const Composition &composition)
 {
-  for (const Instance *inst : composition.getInstances()) {
+  for (const auto *inst : composition.getInstances()) {
     inst->accept(*this);
   }
-  for (const Connection *con : composition.getConnections()) {
+  for (const auto *con : composition.getConnections()) {
     con->accept(*this);
   }
 }

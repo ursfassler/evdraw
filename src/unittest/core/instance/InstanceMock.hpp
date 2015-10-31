@@ -15,6 +15,7 @@ class InstanceMock :
     ~InstanceMock();
 
     const List<InstancePort> &getPorts() const override;
+    List<InstancePort> &getPorts() override;
     Side portSide(PortType) const override;
     Side connectorSide(PortType) const override;
     PaperUnit getWidth() const override;

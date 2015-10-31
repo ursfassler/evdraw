@@ -30,7 +30,7 @@ void DefaultVisitor::visit(Instance &instance)
 
 void DefaultVisitor::visit(CompositionInstance &instance)
 {
-  for (IPort *port : instance.getPorts())
+  for (auto *port : instance.getPorts())
   {
     port->accept(*this);
   }
@@ -47,7 +47,7 @@ void DefaultVisitor::visit(Connection &)
 void DefaultVisitor::visit(Composition &composition)
 {
   composition.getSelfInstance()->accept(*this);
-  for (Instance *instance : composition.getInstances())
+  for (auto *instance : composition.getInstances())
   {
     instance->accept(*this);
   }
@@ -63,7 +63,7 @@ void DefaultVisitor::visit(NullImplementation &)
 
 void DefaultVisitor::visit(Library &library)
 {
-  for (IComponent *component : library.getComponents())
+  for (auto *component : library.getComponents())
   {
     component->accept(*this);
   }

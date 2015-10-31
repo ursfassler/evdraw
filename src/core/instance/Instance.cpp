@@ -35,7 +35,7 @@ void Instance::setName(const std::string &name)
 {
   if (this->name != name) {
     this->name = name;
-    ObserverCollection<InstanceObserver>::notify<const IInstance*>(&InstanceObserver::nameChanged, this);
+    ObserverCollection<InstanceObserver>::notify<IInstance*>(&InstanceObserver::nameChanged, this);
   }
 }
 
@@ -119,5 +119,5 @@ void Instance::maxPortCountChanged()
 
 void Instance::nameChanged(const std::string &)
 {
-  ObserverCollection<InstanceObserver>::notify<const IInstance*>(&InstanceObserver::componentNameChanged, this);
+  ObserverCollection<InstanceObserver>::notify<IInstance*>(&InstanceObserver::componentNameChanged, this);
 }

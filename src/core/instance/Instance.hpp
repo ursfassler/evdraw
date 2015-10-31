@@ -8,7 +8,7 @@
 #include "../util/Observer.hpp"
 #include "../Point.hpp"
 
-#include "IInstance.hpp"
+#include "IComponentInstance.hpp"
 #include "InstanceObserver.h"
 #include "InstancePort.hpp"
 #include "../visitor/VisitorClient.hpp"
@@ -16,11 +16,8 @@
 #include <string>
 #include <vector>
 
-class InstanceFactory;
-
-
 class Instance final :
-    public virtual IInstance,
+    public virtual IComponentInstance,
     public RelativePosition,
     private ComponentObserver,
     private ListObserver<ComponentPort>
@@ -31,12 +28,12 @@ class Instance final :
     Instance & operator=(const Instance &) = delete;
     ~Instance();
 
-    const std::string &getName() const;
-    void setName(const std::string &name);
-    IComponent *getComponent() const;
+    const std::string &getName() const override final;
+    void setName(const std::string &name) override final;
+    IComponent *getComponent() const override final;
 
-    const List<InstancePort> &getPorts() const;
-    List<InstancePort> &getPorts();
+    const List<InstancePort> &getPorts() const override final;
+    List<InstancePort> &getPorts() override final;
     InstancePort *getPort(const std::string &name) const;
 
     Side portSide(PortType type) const override;
@@ -57,8 +54,6 @@ class Instance final :
     void removed(ComponentPort *port) override;
     void maxPortCountChanged() override;
     void nameChanged(const std::string &name) override;
-
-    friend InstanceFactory;
 
 };
 

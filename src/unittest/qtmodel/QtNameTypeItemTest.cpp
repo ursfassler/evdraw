@@ -16,13 +16,12 @@ void QtNameTypeItemTest::setUp()
   typeModel = new QStringListModel({"one", "two", "three"});
   item = new NameTypeItemMock<int>();
   item->typeModel = typeModel;
-  testee = new QtNameTypeItem<int>(*item);
+  testee = new QtNameTypeItem<int>(item);
 }
 
 void QtNameTypeItemTest::tearDown()
 {
   delete testee;
-  delete item;
   delete typeModel;
 }
 
@@ -30,6 +29,19 @@ void QtNameTypeItemTest::tearDown()
 void QtNameTypeItemTest::inherits_IQtItem()
 {
   CPPUNIT_ASSERT(dynamic_cast<IQtItem<int>*>(testee) != nullptr);
+}
+
+void QtNameTypeItemTest::forwards_list_change_events()
+{
+  int a;
+
+  testee->added(&a);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), item->added_item.size());
+  CPPUNIT_ASSERT_EQUAL(&a, item->added_item[0]);
+
+  testee->removed(&a);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), item->removed_item.size());
+  CPPUNIT_ASSERT_EQUAL(&a, item->removed_item[0]);
 }
 
 void QtNameTypeItemTest::has_two_columns()
@@ -105,4 +117,40 @@ void QtNameTypeItemTest::change_type()
 
   CPPUNIT_ASSERT_EQUAL(true, testee->setData(nullptr, 1, 42));
   CPPUNIT_ASSERT_EQUAL(unsigned(42), item->type);
+}
+
+void QtNameTypeItemTest::notify_about_name_change()
+{
+  int *calledItem{nullptr};
+  int calledColumn{-1};
+  const auto listener = [&calledItem, &calledColumn](int *item, int column)
+  {
+    calledItem = item;
+    calledColumn = column;
+  };
+  testee->addListener(listener);
+  int content{};
+
+  item->nameChanged(&content);
+
+  CPPUNIT_ASSERT_EQUAL(&content, calledItem);
+  CPPUNIT_ASSERT_EQUAL(0, calledColumn);
+}
+
+void QtNameTypeItemTest::notify_about_type_change()
+{
+  int *calledItem{nullptr};
+  int calledColumn{-1};
+  const auto listener = [&calledItem, &calledColumn](int *item, int column)
+  {
+    calledItem = item;
+    calledColumn = column;
+  };
+  testee->addListener(listener);
+  int content{};
+
+  item->typeChanged(&content);
+
+  CPPUNIT_ASSERT_EQUAL(&content, calledItem);
+  CPPUNIT_ASSERT_EQUAL(1, calledColumn);
 }

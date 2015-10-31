@@ -13,8 +13,8 @@ class InstanceObserver
   public:
     virtual ~InstanceObserver();
 
-    virtual void nameChanged(const IInstance *instance);
-    virtual void componentNameChanged(const IInstance *instance);
+    virtual void nameChanged(IInstance *instance);
+    virtual void componentNameChanged(IInstance *instance);
     virtual void widthChanged();
     virtual void heightChanged();
 };

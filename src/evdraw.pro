@@ -155,7 +155,6 @@ HEADERS += \
     unittest/core/visitor/VisitorMock.h \
     unittest/core/connection/PortMock.hpp \
     qtmodel/ImplementationTypeModel.hpp \
-    qtmodel/InstanceListModel.hpp \
     qtmodel/NameTypeModel.hpp \
     qtmodel/PortListModel.hpp \
     qtmodel/PortTypeModel.hpp \
@@ -182,7 +181,15 @@ HEADERS += \
     unittest/qthelper.hpp \
     unittest/qtmodel/ComponentItemTest.hpp \
     qtmodel/ComponentItem.hpp \
-    unittest/core/implementation/ImplementationMock.hpp
+    unittest/core/implementation/ImplementationMock.hpp \
+    unittest/qtmodel/InstanceItemTest.hpp \
+    qtmodel/InstanceItem.hpp \
+    core/implementation/ICompositionInstance.hpp \
+    core/component/IComponent.hpp \
+    core/component/ComponentObserver.hpp \
+    core/instance/IComponentInstance.hpp \
+    unittest/core/instance/ComponentInstanceMock.hpp \
+    core/implementation/IComposition.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -293,7 +300,6 @@ SOURCES += \
     unittest/core/visitor/VisitorMock.cpp \
     unittest/core/connection/PortMock.cpp \
     qtmodel/ImplementationTypeModel.cpp \
-    qtmodel/InstanceListModel.cpp \
     qtmodel/NameTypeModel.cpp \
     qtmodel/PortListModel.cpp \
     qtmodel/PortTypeModel.cpp \
@@ -310,7 +316,11 @@ SOURCES += \
     unittest/qthelper.cpp \
     unittest/qtmodel/ComponentItemTest.cpp \
     qtmodel/ComponentItem.cpp \
-    unittest/core/implementation/ImplementationMock.cpp
+    unittest/core/implementation/ImplementationMock.cpp \
+    unittest/qtmodel/InstanceItemTest.cpp \
+    qtmodel/InstanceItem.cpp \
+    core/component/ComponentObserver.cpp \
+    unittest/core/instance/ComponentInstanceMock.cpp
 
 DISTFILES += \
     ../README.md \

@@ -4,13 +4,16 @@
 #include "CompositionEditor.hpp"
 #include "view/ComboboxItemDelegate.hpp"
 
+#include <qtmodel/NameTypeModel.hpp>
+
 #include <QVBoxLayout>
 #include <QLabel>
 
 CompositionEditor::CompositionEditor(Composition &composition, Library &library, QWidget *parent) :
   QSplitter(Qt::Horizontal, parent),
   draw(composition, this),
-  instances(composition.getInstances(), library.getComponents(), this),
+  componentModel{library.getComponents(), this},
+  instances(composition.getInstances(), &componentModel, this),
   connections(composition.getConnections(), this)
 {
   this->addWidget(&draw);
@@ -25,7 +28,7 @@ CompositionEditor::CompositionEditor(Composition &composition, Library &library,
   rightPanel->setLayout(layout);
   this->addWidget(rightPanel);
 
-  instanceView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  instanceView.setItemDelegateForColumn(QtNameTypeItem<IComponentInstance>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
   instanceView.setModel(&instances);
   connectionView.setModel(&connections);
 

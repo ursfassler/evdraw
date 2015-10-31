@@ -18,6 +18,7 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( QtNameTypeItemTest );
 
     CPPUNIT_TEST(inherits_IQtItem);
+    CPPUNIT_TEST(forwards_list_change_events);
 
     CPPUNIT_TEST(has_two_columns);
     CPPUNIT_TEST(header_caption_is_name_and_type);
@@ -32,6 +33,9 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(need_number_for_new_type);
     CPPUNIT_TEST(change_type);
 
+    CPPUNIT_TEST(notify_about_name_change);
+    CPPUNIT_TEST(notify_about_type_change);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -39,6 +43,7 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     void tearDown();
 
     void inherits_IQtItem();
+    void forwards_list_change_events();
 
     void has_two_columns();
     void header_caption_is_name_and_type();
@@ -53,7 +58,8 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     void need_number_for_new_type();
     void change_type();
 
-    //TODO notify about canged values
+    void notify_about_name_change();
+    void notify_about_type_change();
 
   private:
     QStringListModel *typeModel = nullptr;

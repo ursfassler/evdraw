@@ -92,7 +92,7 @@ void InstanceObserverTest::notify_setName()
 
   instance->setName("new name");
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.nameChanged_instance.size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<const IInstance*>(instance), observer.nameChanged_instance[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<IInstance*>(instance), observer.nameChanged_instance[0]);
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);
 }
@@ -115,7 +115,7 @@ void InstanceObserverTest::notify_on_component_name_change()
 
   component->setName("new name");
   CPPUNIT_ASSERT_EQUAL(size_t(1), observer.componentNameChanged_instance.size());
-  CPPUNIT_ASSERT_EQUAL(static_cast<const IInstance*>(instance), observer.componentNameChanged_instance[0]);
+  CPPUNIT_ASSERT_EQUAL(static_cast<IInstance*>(instance), observer.componentNameChanged_instance[0]);
   CPPUNIT_ASSERT_EQUAL(std::string("new name"), instance->getComponent()->getName());
 
   instance->ObserverCollection<InstanceObserver>::unregisterObserver(&observer);

@@ -68,7 +68,7 @@ class GiSelfInstance :
     void heightChanged() override;
     void added(InstancePort *port) override;
     void removed(InstancePort *port) override;
-    void nameChanged(const IInstance *) override;
+    void nameChanged(IInstance *) override;
 
     void updateSize();
     void updateText();

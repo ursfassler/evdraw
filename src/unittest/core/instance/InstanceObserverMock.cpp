@@ -27,12 +27,12 @@ void InstanceObserverMock::heightChanged()
   changedHeight++;
 }
 
-void InstanceObserverMock::nameChanged(const IInstance *instance)
+void InstanceObserverMock::nameChanged(IInstance *instance)
 {
   nameChanged_instance.push_back(instance);
 }
 
-void InstanceObserverMock::componentNameChanged(const IInstance *instance)
+void InstanceObserverMock::componentNameChanged(IInstance *instance)
 {
   componentNameChanged_instance.push_back(instance);
 }

@@ -30,7 +30,7 @@ void CompositionTest::addInstance()
 {
   Composition *composition = new Composition(new CompositionInstanceMock());
   Component *component = ComponentFactory::produce("Component", {}, {});
-  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+  IComponentInstance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
   composition->getInstances().add(instance);
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getInstances().size());
@@ -67,7 +67,7 @@ void CompositionTest::getInstance()
 {
   Composition *composition = new Composition(new CompositionInstanceMock());
   Component *component = ComponentFactory::produce("Component", {}, {});
-  Instance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
+  IComponentInstance *instance = InstanceFactory::produce(component, "instance", Point(0,0));
 
   composition->getInstances().add(instance);
   CPPUNIT_ASSERT_EQUAL(instance, composition->getInstance("instance"));

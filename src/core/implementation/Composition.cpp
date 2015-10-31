@@ -42,22 +42,22 @@ ICompositionInstance *Composition::getSelfInstance() const
   return selfInstance;
 }
 
-const List<Instance> &Composition::getInstances() const
+const List<IComponentInstance> &Composition::getInstances() const
 {
   return instances;
 }
 
-List<Instance> &Composition::getInstances()
+List<IComponentInstance> &Composition::getInstances()
 {
   return instances;
 }
 
-void Composition::added(Instance *instance)
+void Composition::added(IComponentInstance *instance)
 {
   instance->getPorts().registerObserver(this);
 }
 
-void Composition::removed(Instance *instance)
+void Composition::removed(IComponentInstance *instance)
 {
   OrSpecification spec;
   for (IPort *port : instance->getPorts()) {
@@ -70,9 +70,9 @@ void Composition::removed(Instance *instance)
   instance->getPorts().unregisterObserver(this);
 }
 
-Instance *Composition::getInstance(const std::string &name) const
+IComponentInstance *Composition::getInstance(const std::string &name) const
 {
-  auto predicate = [&](const Instance *itr){
+  auto predicate = [&](const IComponentInstance *itr){
     return itr->getName() == name;
   };
   return instances.get(predicate);

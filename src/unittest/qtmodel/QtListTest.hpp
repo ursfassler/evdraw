@@ -17,6 +17,7 @@ class QtListTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( QtListTest );
 
     CPPUNIT_TEST(inherits_QAbstractListModel);
+    CPPUNIT_TEST(registers_existing_items_from_list);
 
     CPPUNIT_TEST(get_rowCount_from_list);
     CPPUNIT_TEST(get_columnCount_from_item);
@@ -31,6 +32,8 @@ class QtListTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(reacts_on_added_items);
     CPPUNIT_TEST(reacts_on_removed_items);
 
+    CPPUNIT_TEST(get_notified_on_column_change);
+
     CPPUNIT_TEST_SUITE_END();
 
   public:
@@ -38,6 +41,7 @@ class QtListTest : public CPPUNIT_NS::TestFixture
     void tearDown();
 
     void inherits_QAbstractListModel();
+    void registers_existing_items_from_list();
 
     void get_rowCount_from_list();
     void get_columnCount_from_item();
@@ -51,6 +55,8 @@ class QtListTest : public CPPUNIT_NS::TestFixture
 
     void reacts_on_added_items();
     void reacts_on_removed_items();
+
+    void get_notified_on_column_change();
 
   private:
     List<int> *list = nullptr;

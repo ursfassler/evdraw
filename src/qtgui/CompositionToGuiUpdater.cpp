@@ -21,18 +21,26 @@ CompositionToGuiUpdater::~CompositionToGuiUpdater()
   composition.unregisterObserver(this);
 }
 
-void CompositionToGuiUpdater::added(Instance *instance)
+void CompositionToGuiUpdater::added(IComponentInstance *instance)
 {
-  GiInstance *giinstA = new GiInstance(instance, 0);
-  instances.insert(instance, giinstA);
+  //TODO remove cast
+  Instance *inst = dynamic_cast<Instance*>(instance);
+  precondition(inst != nullptr);
+
+  auto *giinstA = new GiInstance(inst, 0);
+  instances.insert(inst, giinstA);
   scene.addItem(giinstA);
 
   connect(giinstA, SIGNAL(startConnection(InstancePort*,Point)), this, SLOT(startConnection(InstancePort*,Point)));
 }
 
-void CompositionToGuiUpdater::removed(Instance *instance)
+void CompositionToGuiUpdater::removed(IComponentInstance *instance)
 {
-  GiInstance *inst = instances.take(instance);
+  //TODO remove cast
+  Instance *cainst = dynamic_cast<Instance*>(instance);
+  precondition(cainst != nullptr);
+
+  auto *inst = instances.take(cainst);
   delete inst;
 }
 
@@ -72,10 +80,10 @@ void CompositionToGuiUpdater::addConnection(Connection *connection)
 
 void CompositionToGuiUpdater::init()
 {
-  for (Instance *inst : composition.getInstances()) {
+  for (auto *inst : composition.getInstances()) {
     added(inst);
   }
-  for (Connection *conn : composition.getConnections()) {
+  for (auto *conn : composition.getConnections()) {
     added(conn);
   }
 }

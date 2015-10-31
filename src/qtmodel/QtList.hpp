@@ -24,23 +24,28 @@ class QtList :
     QtList &operator =(const QtList&) = delete;
 
 
-    explicit QtList(List<T> &aModel, IQtItem<T> &aItem, QObject *parent = 0) :
+    explicit QtList(List<T> &aModel, IQtItem<T> *aItemModel, QObject *parent = 0) :
       QAbstractListModel{parent},
-      item{aItem},
+      itemModel{aItemModel},
       list{aModel}
     {
+      aItemModel->addListener(changed);
       list.registerObserver(this);
+      for (auto itr : aModel) {
+        aItemModel->added(itr);
+      }
     }
 
     ~QtList() override
     {
       list.unregisterObserver(this);
+      delete itemModel;
     }
 
 
     int columnCount(const QModelIndex & = QModelIndex()) const override
     {
-      return item.columnCount();
+      return itemModel->columnCount();
     }
 
     int rowCount(const QModelIndex & = QModelIndex()) const override
@@ -52,7 +57,7 @@ class QtList :
     {
       Qt::ItemFlags flags = QAbstractListModel::flags(index);
 
-      if (item.editable(index.column())) {
+      if (itemModel->editable(index.column())) {
         flags |= Qt::ItemIsEditable;
       }
 
@@ -61,7 +66,7 @@ class QtList :
 
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override
     {
-      return item.headerData(section, orientation, role);
+      return itemModel->headerData(section, orientation, role);
     }
 
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override
@@ -70,7 +75,7 @@ class QtList :
       const auto con = list[row];
       const auto column = index.column();
 
-      return item.data(con, column, role);
+      return itemModel->data(con, column, role);
     }
 
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole)
@@ -83,7 +88,7 @@ class QtList :
       const auto con = list[row];
       const auto column = index.column();
 
-      return item.setData(con, column, value);
+      return itemModel->setData(con, column, value);
     }
 
     QModelIndex getIndex(const T* item) const
@@ -93,18 +98,28 @@ class QtList :
     }
 
   private:
-    IQtItem<T> &item;
+    IQtItem<T> *itemModel;
     List<T> &list;
 
-    void added(T*) override
+    void added(T *item) override
     {
+      itemModel->added(item);
       layoutChanged();
     }
 
-    void removed(T*) override
+    void removed(T *item) override
     {
+      itemModel->removed(item);
       layoutChanged();
     }
+
+    const ChangeListener<T> changed =
+        [this](T *item, int column)
+    {
+      const auto row = list.indexOf(item);
+      const auto idx = index(row, column);
+      dataChanged(idx, idx);
+    };
 
 };
 

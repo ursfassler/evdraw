@@ -5,9 +5,10 @@
 #define QTITEMINTMOCK_HPP
 
 #include <qtmodel/IQtItem.hpp>
+#include <vector>
 
 class QtItemIntMock :
-    public IQtItem<int>
+    public AQtItem<int>
 {
   public:
     int columnCount() const override;
@@ -30,7 +31,13 @@ class QtItemIntMock :
     unsigned setData_called{0};
     bool setData_return{};
 
+    void change(int *item, int column);
 
+    void added(int *item) override;
+    std::vector<int*> added_item{};
+
+    void removed(int *item) override;
+    std::vector<int*> removed_item{};
 
 };
 

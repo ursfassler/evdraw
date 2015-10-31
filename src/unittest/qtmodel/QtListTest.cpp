@@ -9,13 +9,12 @@ void QtListTest::setUp()
 {
   list = new List<int>();
   item = new QtItemIntMock();
-  testee = new QtList<int>(*list, *item);
+  testee = new QtList<int>(*list, item);
 }
 
 void QtListTest::tearDown()
 {
   delete testee;
-  delete item;
   delete list;
 }
 
@@ -23,6 +22,16 @@ void QtListTest::tearDown()
 void QtListTest::inherits_QAbstractListModel()
 {
   CPPUNIT_ASSERT(dynamic_cast<QAbstractListModel*>(testee) != nullptr);
+}
+
+void QtListTest::registers_existing_items_from_list()
+{
+  List<int> list{new int, new int};
+  QtItemIntMock *item = new QtItemIntMock();
+
+  QtList<int> testee{list, item};
+
+  CPPUNIT_ASSERT_EQUAL(size_t(2), item->added_item.size());
 }
 
 void QtListTest::get_rowCount_from_list()
@@ -105,20 +114,53 @@ void QtListTest::set_data_to_item()
 void QtListTest::reacts_on_added_items()
 {
   QSignalSpy spy{testee, SIGNAL(layoutChanged())};
+  int *a = new int;
 
-  list->add(new int);
+  list->add(a);
 
   CPPUNIT_ASSERT_EQUAL(1, spy.count());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), item->added_item.size());
+  CPPUNIT_ASSERT_EQUAL(a, item->added_item[0]);
 }
 
 void QtListTest::reacts_on_removed_items()
 {
-  int* item = new int;
-  list->add(item);
+  int* a = new int;
+  list->add(a);
 
   QSignalSpy spy{testee, SIGNAL(layoutChanged())};
 
-  list->remove(item);
+  list->remove(a);
 
   CPPUNIT_ASSERT_EQUAL(1, spy.count());
+  CPPUNIT_ASSERT_EQUAL(size_t(1), item->removed_item.size());
+  CPPUNIT_ASSERT_EQUAL(a, item->removed_item[0]);
+}
+
+void QtListTest::get_notified_on_column_change()
+{
+  QSignalSpy spy{testee, SIGNAL(dataChanged(QModelIndex,QModelIndex))};
+
+  int *a = new int();
+  int *b = new int();
+  int *c = new int();
+  list->add(a);
+  list->add(b);
+  list->add(c);
+
+  item->columnCount_return = 10;
+
+  item->change(b, 5);
+
+  CPPUNIT_ASSERT_EQUAL(1, spy.count());
+  const auto args = spy[0];
+  CPPUNIT_ASSERT_EQUAL(2, args.size());
+  CPPUNIT_ASSERT(args[0].canConvert<QModelIndex>());
+  CPPUNIT_ASSERT(args[1].canConvert<QModelIndex>());
+  const QModelIndex topLeft = args[0].toModelIndex();
+  const QModelIndex bottomRight = args[1].toModelIndex();
+  CPPUNIT_ASSERT_EQUAL(1, topLeft.row());
+  CPPUNIT_ASSERT_EQUAL(5, topLeft.column());
+  CPPUNIT_ASSERT_EQUAL(static_cast<const QAbstractItemModel*>(testee), topLeft.model());
+  CPPUNIT_ASSERT(topLeft == bottomRight);
 }

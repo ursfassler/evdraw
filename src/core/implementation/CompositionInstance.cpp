@@ -114,5 +114,5 @@ void CompositionInstance::removed(ComponentPort *port)
 
 void CompositionInstance::nameChanged(const std::string &)
 {
-  notify<const IInstance *>(&InstanceObserver::nameChanged, this);
+  notify<IInstance *>(&InstanceObserver::nameChanged, this);
 }

@@ -44,6 +44,14 @@ void ComponentItem::setType(IComponent *, unsigned)
 {
 }
 
+void ComponentItem::added(IComponent *)
+{
+}
+
+void ComponentItem::removed(IComponent *)
+{
+}
+
 
 
 
@@ -53,10 +61,8 @@ ComponentListModel::ComponentListModel(List<IComponent> &aModel, QObject *parent
 {
 }
 
-QtNameTypeItem<IComponent> &ComponentListModel::item()
+QtNameTypeItem<IComponent> *ComponentListModel::item()
 {
-  static ComponentItem comp;
-  static QtNameTypeItem<IComponent> item{comp};
-  return item;
+  return new QtNameTypeItem<IComponent>(new ComponentItem());
 }
 

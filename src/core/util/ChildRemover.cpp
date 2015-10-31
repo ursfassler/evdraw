@@ -24,7 +24,7 @@ void ChildRemover::visit(Composition &composition)
 void ChildRemover::deleteInstances(Composition &composition) const
 {
   const auto removable = getSatisfied(composition.getInstances());
-  for (Instance *instance : removable)
+  for (auto *instance : removable)
   {
     composition.getInstances().remove(instance);
   }

@@ -105,7 +105,7 @@ void GiSelfInstance::removed(InstancePort *port)
   postcondition(!childItems().contains(inst));
 }
 
-void GiSelfInstance::nameChanged(const IInstance *)
+void GiSelfInstance::nameChanged(IInstance *)
 {
   updateText();
 }

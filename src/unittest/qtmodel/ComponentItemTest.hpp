@@ -43,6 +43,8 @@ class ComponentItemTest : public CPPUNIT_NS::TestFixture
 
     void has_a_type_model();
 
+    //TODO notify on name change
+
   private:
     ImplementationMock implementation{};
     ComponentMock component{};

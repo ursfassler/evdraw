@@ -18,6 +18,11 @@ const List<InstancePort> &InstanceMock::getPorts() const
   return ports;
 }
 
+List<InstancePort> &InstanceMock::getPorts()
+{
+  return ports;
+}
+
 Side InstanceMock::portSide(PortType) const
 {
   return Side::Left;

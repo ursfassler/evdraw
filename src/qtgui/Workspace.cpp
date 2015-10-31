@@ -38,7 +38,7 @@ Workspace::Workspace(QWidget *parent) :
   this->addWidget(leftBar);
   this->addWidget(&drawTabs);
 
-  compView.setItemDelegateForColumn(InstanceListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  compView.setItemDelegateForColumn(QtNameTypeItem<IComponent>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
 
   connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));

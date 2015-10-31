@@ -10,7 +10,7 @@
 
 template<class T>
 class NameTypeItemMock :
-    public INameTypeItem<T>
+    public ANameTypeItem<T>
 {
   public:
     QAbstractListModel *typeModel{nullptr};
@@ -46,12 +46,33 @@ class NameTypeItemMock :
     {
       return nameEditable;
     }
+    void nameChanged(T* item)
+    {
+      this->notifyNameChange(item);
+    }
 
     bool typeEditable{};
     bool isTypeEditable() const override
     {
       return typeEditable;
     }
+    void typeChanged(T* item)
+    {
+      this->notifyTypeChange(item);
+    }
+
+    std::vector<T*> added_item{};
+    void added(T *item) override
+    {
+      added_item.push_back(item);
+    }
+
+    std::vector<T*> removed_item{};
+    void removed(T *item) override
+    {
+      removed_item.push_back(item);
+    }
+
 };
 
 #endif // NAMETYPEITEMMOCK_HPP

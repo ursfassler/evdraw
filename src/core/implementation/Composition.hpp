@@ -4,6 +4,7 @@
 #ifndef COMPOSITION_HPP
 #define COMPOSITION_HPP
 
+#include "IComposition.hpp"
 #include "CompositionInstance.hpp"
 #include "../util/List.hpp"
 #include "../instance/Instance.hpp"
@@ -23,19 +24,13 @@ class CompositionObserver
     virtual void finishConnectionUnderConstruction(Connection *connection);
 };
 
-class IComposition
-{
-  public:
-    virtual ~IComposition(){}
-};
-
 class CompositionFactory;
 
 class Composition final :
     public IComposition,
     public IImplementation,
     public ObserverCollection<CompositionObserver>,
-    private ListObserver<Instance>,
+    private ListObserver<IComponentInstance>,
     private ListObserver<InstancePort>
 {
   public:
@@ -49,9 +44,9 @@ class Composition final :
 
     ICompositionInstance *getSelfInstance() const;
 
-    const List<Instance> &getInstances() const;
-    List<Instance> &getInstances();
-    Instance *getInstance(const std::string &name) const;
+    const List<IComponentInstance> &getInstances() const;
+    List<IComponentInstance> &getInstances();
+    IComponentInstance *getInstance(const std::string &name) const;
 
     const List<Connection> &getConnections() const;
     List<Connection> &getConnections();
@@ -67,14 +62,14 @@ class Composition final :
   private:
     Connection  *connectionUnderConstruction = nullptr;
     ICompositionInstance *selfInstance;
-    List<Instance> instances;
+    List<IComponentInstance> instances;
     List<Connection> connections;
 
     void checkInvariant();
 
     void removed(InstancePort *port) override;
-    void added(Instance *instance) override;
-    void removed(Instance* instance) override;
+    void added(IComponentInstance *instance) override;
+    void removed(IComponentInstance* instance) override;
 
     friend CompositionFactory;
 

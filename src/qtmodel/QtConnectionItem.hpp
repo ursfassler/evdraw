@@ -12,7 +12,7 @@
 //TODO update view when names changed
 
 class QtConnectionItem final :
-    public IQtItem<Connection>
+    public AQtItem<Connection>
 {
   public:
     int columnCount() const override;
@@ -20,6 +20,9 @@ class QtConnectionItem final :
     QVariant headerData(int section, Qt::Orientation orientation, int role) const override;
     QVariant data(const Connection *connection, int column, int role) const override;
     bool setData(Connection *item, int column, const QVariant &value) override final;
+
+    void added(Connection *item) override final;
+    void removed(Connection *item) override final;
 
   private:
     static const uint SRC_INST_INDEX = 0;
@@ -40,7 +43,7 @@ class ConnectionListModel :
   public:
     ConnectionListModel(List<Connection> &aModel, QObject *parent = 0);
 
-    static QtConnectionItem &item();
+    static QtConnectionItem *item();
 
 };
 

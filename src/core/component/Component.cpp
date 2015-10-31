@@ -147,17 +147,3 @@ Side Component::portSide(PortType type) const
 
   unreachableCode();
 }
-
-
-
-ComponentObserver::~ComponentObserver()
-{
-}
-
-void ComponentObserver::maxPortCountChanged()
-{
-}
-
-void ComponentObserver::nameChanged(const std::string &)
-{
-}

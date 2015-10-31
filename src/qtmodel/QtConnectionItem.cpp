@@ -105,6 +105,14 @@ bool QtConnectionItem::setData(Connection *, int, const QVariant &)
   return false;
 }
 
+void QtConnectionItem::added(Connection *)
+{
+}
+
+void QtConnectionItem::removed(Connection *)
+{
+}
+
 QString QtConnectionItem::instanceName(const IPort &port) const
 {
   ConnectionEndpointNameVisitor visitor;
@@ -119,9 +127,8 @@ ConnectionListModel::ConnectionListModel(List<Connection> &aModel, QObject *pare
 {
 }
 
-QtConnectionItem &ConnectionListModel::item()
+QtConnectionItem *ConnectionListModel::item()
 {
-  static QtConnectionItem item;
-  return item;
+  return new QtConnectionItem();
 }
 
