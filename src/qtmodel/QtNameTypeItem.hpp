@@ -117,6 +117,11 @@ class QtNameTypeItem :
       return false;
     }
 
+    const INameTypeItem<T> *getModel() const
+    {
+      return model;
+    }
+
     static const uint NAME_INDEX = 0;
     static const uint TYPE_INDEX = 1;
 
@@ -125,5 +130,6 @@ class QtNameTypeItem :
 
     INameTypeItem<T> * const model;
 };
+
 
 #endif // QTNAMETYPEITEM_HPP

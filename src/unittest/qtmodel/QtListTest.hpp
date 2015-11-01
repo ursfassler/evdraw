@@ -18,6 +18,7 @@ class QtListTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(inherits_QAbstractListModel);
     CPPUNIT_TEST(registers_existing_items_from_list);
+    CPPUNIT_TEST(can_get_itemModel);
 
     CPPUNIT_TEST(get_rowCount_from_list);
     CPPUNIT_TEST(get_columnCount_from_item);
@@ -42,6 +43,7 @@ class QtListTest : public CPPUNIT_NS::TestFixture
 
     void inherits_QAbstractListModel();
     void registers_existing_items_from_list();
+    void can_get_itemModel();
 
     void get_rowCount_from_list();
     void get_columnCount_from_item();

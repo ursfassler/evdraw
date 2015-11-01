@@ -78,15 +78,15 @@ void InstancePort::topIndexChanged(size_t)
   updateOffset();
 }
 
-void InstancePort::typeChanged(PortType)
+void InstancePort::typeChanged(ComponentPort *)
 {
   updateOffset();
   updateConnectorOffset();
 }
 
-void InstancePort::nameChanged(const std::string &name)
+void InstancePort::nameChanged(ComponentPort *port)
 {
-  ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, name);
+  ObserverCollection<InstancePortObserver>::notify<const std::string &>(&InstancePortObserver::nameChanged, port->getName());
 }
 
 void InstancePort::widthChanged()

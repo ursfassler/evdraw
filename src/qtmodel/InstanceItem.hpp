@@ -23,7 +23,7 @@ class InstanceItem final :
     bool isNameEditable() const override final;
     bool isTypeEditable() const override final;
 
-    QAbstractListModel *getTypeModel() override final;
+    QAbstractListModel *getTypeModel() const override final;
 
     std::string getName(const IComponentInstance* item) const override final;
     void setName(IComponentInstance* item, const std::string &value) override final;

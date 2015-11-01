@@ -18,6 +18,7 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( QtNameTypeItemTest );
 
     CPPUNIT_TEST(inherits_IQtItem);
+    CPPUNIT_TEST(can_get_model);
     CPPUNIT_TEST(forwards_list_change_events);
 
     CPPUNIT_TEST(has_two_columns);
@@ -46,6 +47,7 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
     void tearDown();
 
     void inherits_IQtItem();
+    void can_get_model();
     void forwards_list_change_events();
 
     void has_two_columns();

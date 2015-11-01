@@ -1,13 +1,15 @@
 #ifndef INAMETYPEITEM
 #define INAMETYPEITEM
 
+#include "../core/util/contract.hpp"
+
 #include <QAbstractListModel>
 #include <functional>
 #include <vector>
 
 template <typename T>
 using ChangeNameTypeListener = typename std::function<void(T *item)>;
-
+//TODO make item const
 
 template<class T>
 class INameTypeItem
@@ -18,7 +20,7 @@ class INameTypeItem
     virtual bool isNameEditable() const = 0;
     virtual bool isTypeEditable() const = 0;
 
-    virtual QAbstractListModel *getTypeModel() = 0;
+    virtual QAbstractListModel *getTypeModel() const = 0;
 
     virtual std::string getName(const T* item) const = 0;
     virtual void setName(T* item, const std::string &value) = 0;
@@ -68,6 +70,8 @@ class ANameTypeItem :
       }
     }
 };
+
+
 
 
 #endif // INAMETYPEITEM

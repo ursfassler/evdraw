@@ -77,13 +77,13 @@ SOURCES += \
     ../core/instance/InstanceObserver.cpp \
     ../qtmodel/QtConnectionItem.cpp \
     ../qtmodel/ImplementationTypeModel.cpp \
-    ../qtmodel/NameTypeModel.cpp \
-    ../qtmodel/PortListModel.cpp \
     ../qtmodel/PortTypeModel.cpp \
     view/ComponentEditor.cpp \
     ../qtmodel/ComponentItem.cpp \
     ../core/component/ComponentObserver.cpp \
-    ../qtmodel/InstanceItem.cpp
+    ../qtmodel/InstanceItem.cpp \
+    ../core/component/ComponentPortObserver.cpp \
+    ../qtmodel/PortItem.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -152,15 +152,20 @@ HEADERS  += \
     ../core/instance/InstanceObserver.h \
     ../qtmodel/QtConnectionItem.hpp \
     ../qtmodel/ImplementationTypeModel.hpp \
-    ../qtmodel/NameTypeModel.hpp \
-    ../qtmodel/PortListModel.hpp \
     ../qtmodel/PortTypeModel.hpp \
     view/ComponentEditor.hpp \
     ../qtmodel/INameTypeItem.hpp \
     ../qtmodel/ComponentItem.hpp \
     ../qtmodel/QtNameTypeItem.hpp \
     ../qtmodel/IQtItem.hpp \
-    ../qtmodel/InstanceItem.hpp
+    ../qtmodel/InstanceItem.hpp \
+    ../core/component/ComponentObserver.hpp \
+    ../core/component/ComponentPortObserver.hpp \
+    ../core/component/IComponent.hpp \
+    ../core/component/IImplementation.hpp \
+    ../qtmodel/PortItem.hpp \
+    ../qtmodel/QtList.hpp \
+    view/modelfromtype.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

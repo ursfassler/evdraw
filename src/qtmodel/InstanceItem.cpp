@@ -46,7 +46,7 @@ void InstanceItem::componentNameChanged(IInstance *instance)
   notifyTypeChange(inst);
 }
 
-QAbstractListModel *InstanceItem::getTypeModel()
+QAbstractListModel *InstanceItem::getTypeModel() const
 {
   return typeModel;
 }

@@ -14,7 +14,7 @@ class NameTypeItemMock :
 {
   public:
     QAbstractListModel *typeModel{nullptr};
-    QAbstractListModel *getTypeModel() override
+    QAbstractListModel *getTypeModel() const override
     {
       return typeModel;
     }

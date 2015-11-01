@@ -34,6 +34,11 @@ void QtListTest::registers_existing_items_from_list()
   CPPUNIT_ASSERT_EQUAL(size_t(2), item->added_item.size());
 }
 
+void QtListTest::can_get_itemModel()
+{
+  CPPUNIT_ASSERT(testee->getItemModel() != nullptr);
+}
+
 void QtListTest::get_rowCount_from_list()
 {
   list->add(new int);

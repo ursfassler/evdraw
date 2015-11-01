@@ -62,8 +62,8 @@ class InstancePort :
     Point connectorOffset(Side side) const;
 
     void topIndexChanged(size_t index) override;
-    void typeChanged(PortType) override;
-    void nameChanged(const std::string &name) override;
+    void typeChanged(ComponentPort *port) override;
+    void nameChanged(ComponentPort *port) override;
 
     void widthChanged() override;
 };

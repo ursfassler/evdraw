@@ -16,6 +16,7 @@ enum class PortType
 
 std::vector<PortType> portTypeList();
 PortType portTypeFromUint(uint type);
+uint uintFromPortType(PortType type);
 std::string toString(PortType type);
 PortType portTypeFromString(const std::string &value);
 std::ostream &operator <<(std::ostream &stream, PortType type);

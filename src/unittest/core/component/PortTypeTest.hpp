@@ -27,6 +27,7 @@ class PortTypeTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(portTypeFromUint_matches_portTypeList_index);
     CPPUNIT_TEST(undefined_portTypeFromUint_throws_exception);
+    CPPUNIT_TEST(uintFromPortType_matches_portTypeList_index);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -47,6 +48,7 @@ class PortTypeTest : public CPPUNIT_NS::TestFixture
 
     void portTypeFromUint_matches_portTypeList_index();
     void undefined_portTypeFromUint_throws_exception();
+    void uintFromPortType_matches_portTypeList_index();
 
 };
 

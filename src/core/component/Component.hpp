@@ -56,7 +56,7 @@ class Component final :
 
     void updateTopIndex();
 
-    void typeChanged(PortType) override;
+    void typeChanged(ComponentPort *port) override;
 
     void added(ComponentPort* port) override;
     void removed(ComponentPort* port) override;

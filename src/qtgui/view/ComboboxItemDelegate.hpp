@@ -5,8 +5,10 @@
 #define COMBOBOXITEMDELEGATE_HPP
 
 #include <QStyledItemDelegate>
+#include <functional>
 
-typedef QAbstractListModel* (*ModelFromIndex)(const QModelIndex &index);
+
+typedef std::function<QAbstractListModel*(const QModelIndex &index)> ModelFromIndex;
 
 class ComboboxItemDelegate : public QStyledItemDelegate
 {

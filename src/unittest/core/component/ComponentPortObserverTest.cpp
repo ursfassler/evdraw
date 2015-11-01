@@ -2,6 +2,7 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "ComponentPortObserverTest.hpp"
+#include "ComponentPortObserverMock.hpp"
 
 #include <core/component/Component.hpp>
 #include <core/util/Observer.hpp>
@@ -39,40 +40,10 @@ void ComponentPortObserverTest::inherits_ObserverCollection()
   CPPUNIT_ASSERT(observerCollection != nullptr);
 }
 
-class ComponentPortTestObserver : public ComponentPortObserver
-{
-  public:
-    ComponentPortTestObserver() :
-      newIndex(),
-      newName(),
-      newType()
-    {
-    }
-
-    void topIndexChanged(size_t index)
-    {
-      newIndex.push_back(index);
-    }
-
-    void nameChanged(const std::string &name)
-    {
-      newName.push_back(name);
-    }
-
-    void typeChanged(PortType type)
-    {
-      newType.push_back(type);
-    }
-
-    std::vector<size_t> newIndex;
-    std::vector<std::string> newName;
-    std::vector<PortType> newType;
-};
-
 void ComponentPortObserverTest::get_informed_on_topIndex_change()
 {
   ComponentPort port("", PortType::Signal);
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setTopIndex(42);
@@ -88,7 +59,7 @@ void ComponentPortObserverTest::do_not_inform_if_topIndex_is_the_same()
   ComponentPort port("", PortType::Signal);
   port.setTopIndex(42);
 
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setTopIndex(42);
@@ -101,13 +72,13 @@ void ComponentPortObserverTest::do_not_inform_if_topIndex_is_the_same()
 void ComponentPortObserverTest::get_informed_on_name_change()
 {
   ComponentPort port("", PortType::Signal);
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setName("new name");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newName.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("new name"), observer.newName[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.nameChanged_port.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<const ComponentPort*>(&port), observer.nameChanged_port[0]);
 
   port.unregisterObserver(&observer);
 }
@@ -117,12 +88,12 @@ void ComponentPortObserverTest::do_not_inform_if_name_is_the_same()
   ComponentPort port("old name", PortType::Signal);
   port.setTopIndex(42);
 
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setName("old name");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newName.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.nameChanged_port.size());
 
   port.unregisterObserver(&observer);
 }
@@ -130,13 +101,13 @@ void ComponentPortObserverTest::do_not_inform_if_name_is_the_same()
 void ComponentPortObserverTest::get_informed_on_type_change()
 {
   ComponentPort port("", PortType::Signal);
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setType(PortType::Slot);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newType.size());
-  CPPUNIT_ASSERT_EQUAL(PortType::Slot, observer.newType[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.typeChanged_port.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<const ComponentPort*>(&port), observer.typeChanged_port[0]);
 
   port.unregisterObserver(&observer);
 }
@@ -144,12 +115,12 @@ void ComponentPortObserverTest::get_informed_on_type_change()
 void ComponentPortObserverTest::do_not_inform_if_type_is_the_same()
 {
   ComponentPort port("", PortType::Signal);
-  ComponentPortTestObserver observer;
+  ComponentPortObserverMock observer;
   port.registerObserver(&observer);
 
   port.setType(PortType::Signal);
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newType.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.typeChanged_port.size());
 
   port.unregisterObserver(&observer);
 }

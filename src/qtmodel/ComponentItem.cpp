@@ -5,8 +5,14 @@
 
 #include "../core/implementation/ImplementationType.hpp"
 
-ComponentItem::ComponentItem()
+ComponentItem::ComponentItem() :
+  typeModel{new ImplementationTypeModel()}
 {
+}
+
+ComponentItem::~ComponentItem()
+{
+  delete typeModel;
 }
 
 bool ComponentItem::isNameEditable() const
@@ -19,9 +25,9 @@ bool ComponentItem::isTypeEditable() const
   return false;
 }
 
-QAbstractListModel *ComponentItem::getTypeModel()
+QAbstractListModel *ComponentItem::getTypeModel() const
 {
-  return &typeModel;
+  return typeModel;
 }
 
 std::string ComponentItem::getName(const IComponent *item) const

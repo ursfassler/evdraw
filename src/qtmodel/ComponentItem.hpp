@@ -14,12 +14,17 @@ class ComponentItem final :
     private ComponentObserver
 {
   public:
+    ComponentItem(const ComponentItem &) = delete;
+    ComponentItem &operator =(const ComponentItem &) =delete;
+
+
     ComponentItem();
+    ~ComponentItem();
 
     bool isNameEditable() const override final;
     bool isTypeEditable() const override final;
 
-    QAbstractListModel *getTypeModel() override final;
+    QAbstractListModel *getTypeModel() const override final;
 
     std::string getName(const IComponent* item) const override final;
     void setName(IComponent* item, const std::string &value) override final;
@@ -30,7 +35,7 @@ class ComponentItem final :
     void removed(IComponent* item) override final;
 
   private:
-    ImplementationTypeModel typeModel{};
+    ImplementationTypeModel * const typeModel;
 
     void nameChanged(IComponent *) override final;
 

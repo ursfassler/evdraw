@@ -5,6 +5,7 @@
 
 #include "CompositionEditor.hpp"
 #include "view/ComboboxItemDelegate.hpp"
+#include "view/modelfromtype.hpp"
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>
@@ -38,7 +39,7 @@ Workspace::Workspace(QWidget *parent) :
   this->addWidget(leftBar);
   this->addWidget(&drawTabs);
 
-  compView.setItemDelegateForColumn(QtNameTypeItem<IComponent>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  compView.setItemDelegateForColumn(QtNameTypeItem<IComponent>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex<IComponent>)); //FIXME memory leak
 
   connect(&compView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(openImplementation(QModelIndex)));
   connect(&compView, SIGNAL(clicked(QModelIndex)), this, SLOT(openComponent(QModelIndex)));

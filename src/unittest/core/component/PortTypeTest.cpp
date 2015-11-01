@@ -86,3 +86,12 @@ void PortTypeTest::undefined_portTypeFromUint_throws_exception()
 {
   CPPUNIT_ASSERT_THROW(portTypeFromUint(10000000), std::out_of_range);
 }
+
+void PortTypeTest::uintFromPortType_matches_portTypeList_index()
+{
+  for (uint idx = 0; idx < portTypeList().size(); idx++) {
+    auto type = portTypeList()[idx];
+    CPPUNIT_ASSERT_EQUAL(idx, uintFromPortType(type));
+  }
+}
+

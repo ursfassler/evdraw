@@ -23,7 +23,7 @@ void ComponentPort::setName(const std::string &name)
 {
   if (this->name != name) {
     this->name = name;
-    notify<const std::string &>(&ComponentPortObserver::nameChanged, name);
+    notify(&ComponentPortObserver::nameChanged, this);
   }
 }
 
@@ -49,7 +49,7 @@ void ComponentPort::setType(PortType value)
 {
   if (type != value) {
     type = value;
-    notify(&ComponentPortObserver::typeChanged, type);
+    notify(&ComponentPortObserver::typeChanged, this);
   }
 }
 
@@ -64,18 +64,3 @@ void ComponentPort::accept(ConstVisitor &visitor) const
 }
 
 
-ComponentPortObserver::~ComponentPortObserver()
-{
-}
-
-void ComponentPortObserver::topIndexChanged(size_t)
-{
-}
-
-void ComponentPortObserver::nameChanged(const std::string &)
-{
-}
-
-void ComponentPortObserver::typeChanged(PortType)
-{
-}

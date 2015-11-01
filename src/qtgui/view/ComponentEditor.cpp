@@ -4,6 +4,7 @@
 #include "ComponentEditor.hpp"
 
 #include "ComboboxItemDelegate.hpp"
+#include "modelfromtype.hpp"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -16,7 +17,7 @@ ComponentEditor::ComponentEditor(QWidget *parent) :
   layout->addWidget(&portView);
   this->setLayout(layout);
 
-  portView.setItemDelegateForColumn(PortListModel::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  portView.setItemDelegateForColumn(QtNameTypeItem<ComponentPort>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex<ComponentPort>)); //FIXME memory leak
 }
 
 ComponentEditor::~ComponentEditor()
@@ -53,11 +54,12 @@ IComponent *ComponentEditor::getModel() const
 
 void ComponentEditor::addPort()
 {
-  portModel->addPort("lolo");
+  model->getPorts().add(new ComponentPort("lolo", PortType::Slot));
 }
 
 void ComponentEditor::delPort()
 {
   QModelIndex selected = portView.currentIndex();
-  portModel->delPort(selected);
+  const auto port = model->getPorts()[selected.row()];
+  model->getPorts().remove(port);
 }

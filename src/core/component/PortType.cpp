@@ -50,3 +50,15 @@ PortType portTypeFromString(const std::string &value)
 
   throw std::invalid_argument("Unknown port type: " + value);
 }
+
+uint uintFromPortType(PortType type)
+{
+  uint idx;
+  for (idx = 0; idx < portTypeList().size(); idx++) {
+    if (type == portTypeList()[idx]) {
+      return idx;
+    }
+  }
+
+  throw std::invalid_argument("Unknown port type: " + std::to_string(int(type)));
+}

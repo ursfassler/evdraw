@@ -129,7 +129,7 @@ void Component::updateTopIndex()
   }
 }
 
-void Component::typeChanged(PortType)
+void Component::typeChanged(ComponentPort *)
 {
   updateTopIndex();
   //TODO do only notify if height really changed

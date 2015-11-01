@@ -97,6 +97,11 @@ class QtList :
       return index(idx);
     }
 
+    const IQtItem<T> *getItemModel() const
+    {
+      return itemModel;
+    }
+
   private:
     IQtItem<T> *itemModel;
     List<T> &list;

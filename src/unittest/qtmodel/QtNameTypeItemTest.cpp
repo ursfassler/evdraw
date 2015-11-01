@@ -31,6 +31,11 @@ void QtNameTypeItemTest::inherits_IQtItem()
   CPPUNIT_ASSERT(dynamic_cast<IQtItem<int>*>(testee) != nullptr);
 }
 
+void QtNameTypeItemTest::can_get_model()
+{
+  CPPUNIT_ASSERT_EQUAL(static_cast<const INameTypeItem<int>*>(item), testee->getModel());
+}
+
 void QtNameTypeItemTest::forwards_list_change_events()
 {
   int a;

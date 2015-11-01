@@ -5,22 +5,13 @@
 #define COMPONENTPORT_HPP
 
 #include "PortType.hpp"
+#include "ComponentPortObserver.hpp"
 #include "../types.hpp"
 #include "../visitor/VisitorClient.hpp"
 #include "../util/Observer.hpp"
 
 #include <string>
 
-class ComponentPortObserver
-{
-  public:
-    virtual ~ComponentPortObserver();
-
-    virtual void topIndexChanged(size_t index);
-    virtual void nameChanged(const std::string &name);
-    virtual void typeChanged(PortType type);
-
-};
 
 class ComponentPort final :
   public VisitorClient,

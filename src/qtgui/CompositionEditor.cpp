@@ -3,8 +3,7 @@
 
 #include "CompositionEditor.hpp"
 #include "view/ComboboxItemDelegate.hpp"
-
-#include <qtmodel/NameTypeModel.hpp>
+#include "view/modelfromtype.hpp"
 
 #include <QVBoxLayout>
 #include <QLabel>
@@ -28,7 +27,7 @@ CompositionEditor::CompositionEditor(Composition &composition, Library &library,
   rightPanel->setLayout(layout);
   this->addWidget(rightPanel);
 
-  instanceView.setItemDelegateForColumn(QtNameTypeItem<IComponentInstance>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex)); //FIXME memory leak
+  instanceView.setItemDelegateForColumn(QtNameTypeItem<IComponentInstance>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex<IComponentInstance>)); //FIXME memory leak
   instanceView.setModel(&instances);
   connectionView.setModel(&connections);
 

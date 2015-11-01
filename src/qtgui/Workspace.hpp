@@ -7,7 +7,7 @@
 #include "view/ComponentEditor.hpp"
 
 #include <qtmodel/ComponentItem.hpp>
-#include <qtmodel/PortListModel.hpp>
+#include <qtmodel/PortItem.hpp>
 
 #include <core/visitor/NullVisitor.hpp>
 #include <core/Point.hpp>
