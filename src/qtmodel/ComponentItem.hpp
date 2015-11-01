@@ -9,9 +9,9 @@
 #include "../core/component/Component.hpp"
 #include "ImplementationTypeModel.hpp"
 
-//TODO send event when name or type changed
 class ComponentItem final :
-    public ANameTypeItem<IComponent>
+    public ANameTypeItem<IComponent>,
+    private ComponentObserver
 {
   public:
     ComponentItem();
@@ -31,6 +31,8 @@ class ComponentItem final :
 
   private:
     ImplementationTypeModel typeModel{};
+
+    void nameChanged(IComponent *) override final;
 
 };
 

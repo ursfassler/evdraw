@@ -53,7 +53,7 @@ class Instance final :
     void added(ComponentPort *port) override;
     void removed(ComponentPort *port) override;
     void maxPortCountChanged() override;
-    void nameChanged(const std::string &name) override;
+    void nameChanged(IComponent *item) override;
 
 };
 

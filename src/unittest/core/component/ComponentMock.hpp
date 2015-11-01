@@ -43,6 +43,10 @@ class ComponentMock: public IComponent
     }
     IImplementation *implementation{};
 
+    void notify_nameChange()
+    {
+      notify<IComponent*>(&ComponentObserver::nameChanged, this);
+    }
 
     void accept(Visitor &) override
     {

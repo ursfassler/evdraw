@@ -16,8 +16,8 @@ class ComponentInstanceMock :
     void setName(const std::string &value) override final;
     std::string name{};
 
-    void notify_name_change();
-    void notify_type_change();
+    void notify_nameChange();
+    void notify_typeChange();
 
     IComponent *getComponent() const override final;
     IComponent *component{};

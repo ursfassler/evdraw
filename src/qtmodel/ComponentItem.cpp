@@ -44,12 +44,19 @@ void ComponentItem::setType(IComponent *, unsigned)
 {
 }
 
-void ComponentItem::added(IComponent *)
+void ComponentItem::added(IComponent *item)
 {
+  item->registerObserver(this);
 }
 
-void ComponentItem::removed(IComponent *)
+void ComponentItem::removed(IComponent *item)
 {
+  item->unregisterObserver(this);
+}
+
+void ComponentItem::nameChanged(IComponent *item)
+{
+  notifyNameChange(item);
 }
 
 

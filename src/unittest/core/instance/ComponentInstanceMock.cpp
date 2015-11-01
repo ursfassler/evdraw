@@ -13,12 +13,12 @@ void ComponentInstanceMock::setName(const std::string &value)
   name = value;
 }
 
-void ComponentInstanceMock::notify_name_change()
+void ComponentInstanceMock::notify_nameChange()
 {
   notify<IInstance*>(&InstanceObserver::nameChanged, this);
 }
 
-void ComponentInstanceMock::notify_type_change()
+void ComponentInstanceMock::notify_typeChange()
 {
   notify<IInstance*>(&InstanceObserver::componentNameChanged, this);
 }

@@ -88,7 +88,7 @@ void Component::setName(const std::string &value)
 {
   if (name != value) {
     name = value;
-    notify<const std::string &>(&ComponentObserver::nameChanged, value);
+    notify<IComponent*>(&ComponentObserver::nameChanged, this);
   }
 }
 

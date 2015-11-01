@@ -71,7 +71,7 @@ void InstanceItemTest::notify_name_change()
     changedName = item;
   });
 
-  instance.notify_name_change();
+  instance.notify_nameChange();
 
   CPPUNIT_ASSERT_EQUAL(static_cast<IInstance*>(&instance), changedName);
 }
@@ -84,7 +84,7 @@ void InstanceItemTest::notify_type_change()
     changedType = item;
   });
 
-  instance.notify_type_change();
+  instance.notify_typeChange();
 
   CPPUNIT_ASSERT_EQUAL(static_cast<IInstance*>(&instance), changedType);
 }

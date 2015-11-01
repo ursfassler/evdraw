@@ -6,13 +6,15 @@
 
 #include <string>
 
+class IComponent;
+
 class ComponentObserver
 {
   public:
     virtual ~ComponentObserver() = default;
 
     virtual void maxPortCountChanged();
-    virtual void nameChanged(const std::string &name);
+    virtual void nameChanged(IComponent* item);
 };
 
 #endif // COMPONENTOBSERVER_HPP

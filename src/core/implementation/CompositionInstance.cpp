@@ -112,7 +112,7 @@ void CompositionInstance::removed(ComponentPort *port)
   ports.remove(instPort);
 }
 
-void CompositionInstance::nameChanged(const std::string &)
+void CompositionInstance::nameChanged(IComponent *)
 {
   notify<IInstance *>(&InstanceObserver::nameChanged, this);
 }

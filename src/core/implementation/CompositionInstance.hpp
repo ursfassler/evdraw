@@ -46,7 +46,7 @@ class CompositionInstance final :
 
     void added(ComponentPort *port) override;
     void removed(ComponentPort* value) override;
-    void nameChanged(const std::string &name) override;
+    void nameChanged(IComponent* item) override;
 
 };
 

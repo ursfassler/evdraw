@@ -53,8 +53,8 @@ void ComponentObserverTest::notify_nameChanged()
 
   component.setName("new name");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.newName.size());
-  CPPUNIT_ASSERT_EQUAL(std::string("new name"), observer.newName[0]);
+  CPPUNIT_ASSERT_EQUAL(size_t(1), observer.nameChanged_item.size());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IComponent*>(&component), observer.nameChanged_item[0]);
 
   component.unregisterObserver(&observer);
   ComponentFactory::cleanup(component);
@@ -68,7 +68,7 @@ void ComponentObserverTest::do_not_notify_if_name_is_the_same()
 
   component.setName("theName");
 
-  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.newName.size());
+  CPPUNIT_ASSERT_EQUAL(size_t(0), observer.nameChanged_item.size());
 
   component.unregisterObserver(&observer);
   ComponentFactory::cleanup(component);

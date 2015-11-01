@@ -9,18 +9,18 @@
 class ComponentObserverMock : public ComponentObserver
 {
   public:
+    unsigned changedHeights{0};
     void maxPortCountChanged() override
     {
       changedHeights++;
     }
 
-    void nameChanged(const std::string &name) override
+    std::vector<IComponent*> nameChanged_item{};
+    void nameChanged(IComponent *item) override
     {
-      newName.push_back(name);
+      nameChanged_item.push_back(item);
     }
 
-    unsigned changedHeights{0};
-    std::vector<std::string> newName{};
 };
 
 

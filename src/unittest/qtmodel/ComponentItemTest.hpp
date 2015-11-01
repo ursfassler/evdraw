@@ -24,6 +24,7 @@ class ComponentItemTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(read_type);
 
     CPPUNIT_TEST(change_name);
+    CPPUNIT_TEST(get_notified_on_name_change);
 
     CPPUNIT_TEST(has_a_type_model);
 
@@ -31,6 +32,7 @@ class ComponentItemTest : public CPPUNIT_NS::TestFixture
 
   public:
     void setUp();
+    void tearDown();
 
     void inherits_INameTypeItem();
 
@@ -40,10 +42,9 @@ class ComponentItemTest : public CPPUNIT_NS::TestFixture
     void read_type();
 
     void change_name();
+    void get_notified_on_name_change();
 
     void has_a_type_model();
-
-    //TODO notify on name change
 
   private:
     ImplementationMock implementation{};

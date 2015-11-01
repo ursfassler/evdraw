@@ -7,6 +7,6 @@ void ComponentObserver::maxPortCountChanged()
 {
 }
 
-void ComponentObserver::nameChanged(const std::string &)
+void ComponentObserver::nameChanged(IComponent *)
 {
 }

@@ -10,6 +10,12 @@
 void ComponentItemTest::setUp()
 {
   component.implementation = &implementation;
+  testee.added(&component);
+}
+
+void ComponentItemTest::tearDown()
+{
+  testee.removed(&component);
 }
 
 void ComponentItemTest::inherits_INameTypeItem()
@@ -45,6 +51,20 @@ void ComponentItemTest::change_name()
   testee.setName(&component, "a new name");
 
   CPPUNIT_ASSERT_EQUAL(std::string("a new name"), component.name);
+}
+
+void ComponentItemTest::get_notified_on_name_change()
+{
+  IComponent *changedNameItem{nullptr};
+  const auto listener = [&changedNameItem](IComponent *item)
+  {
+    changedNameItem = item;
+  };
+  testee.addNameListener(listener);
+
+  component.notify_nameChange();
+
+  CPPUNIT_ASSERT_EQUAL(static_cast<IComponent*>(&component), changedNameItem);
 }
 
 void ComponentItemTest::has_a_type_model()

@@ -117,7 +117,7 @@ void Instance::maxPortCountChanged()
   ObserverCollection<InstanceObserver>::notify(&InstanceObserver::heightChanged);
 }
 
-void Instance::nameChanged(const std::string &)
+void Instance::nameChanged(IComponent *)
 {
   ObserverCollection<InstanceObserver>::notify<IInstance*>(&InstanceObserver::componentNameChanged, this);
 }
