@@ -6,6 +6,7 @@
 #include <core/visitor/NullConstVisitor.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
+#include "../core/util/error.hpp"
 
 
 class ConnectionEndpointNameVisitor :
@@ -48,7 +49,7 @@ bool QtConnectionItem::editable(int) const
 QVariant QtConnectionItem::headerData(int section, Qt::Orientation, int role) const
 {
   if (role != Qt::DisplayRole) {
-    return QVariant();
+    return {};
   }
 
   switch (section) {
@@ -62,32 +63,39 @@ QVariant QtConnectionItem::headerData(int section, Qt::Orientation, int role) co
       return "dst port";
   }
 
-  return QVariant();
+  return {};
 }
 
 QVariant QtConnectionItem::data(const Connection *connection, int column, int role) const
 {
   if (role != Qt::DisplayRole) {
-    return QVariant();
+    return {};
   }
 
-  IPort *port = nullptr;
+  const IPort *port = portOfColumn(connection, column);
+  if (port == nullptr) {
+    return {};
+  }
 
+  return portName(port, column);
+}
+
+IPort *QtConnectionItem::portOfColumn(const Connection *connection, int column) const
+{
   switch (column) {
     case SRC_INST_INDEX:
     case SRC_PORT_INDEX:
-      port = connection->getStartPort();
-      break;
+      return connection->getStartPort();
     case DST_INST_INDEX:
     case DST_PORT_INDEX:
-      port = connection->getEndPort();
-      break;
+      return connection->getEndPort();
   }
 
-  if (port == nullptr) {
-    return "<error>";
-  }
+  return nullptr;
+}
 
+QVariant QtConnectionItem::portName(const IPort *port, int column) const
+{
   switch (column) {
     case SRC_INST_INDEX:
     case DST_INST_INDEX:
@@ -97,8 +105,16 @@ QVariant QtConnectionItem::data(const Connection *connection, int column, int ro
       return QString::fromStdString(port->getName());
   }
 
-  return "<error>";
+  return {};
 }
+
+QString QtConnectionItem::instanceName(const IPort &port) const
+{
+  ConnectionEndpointNameVisitor visitor;
+  port.accept(visitor);
+  return visitor.instance;
+}
+
 
 bool QtConnectionItem::setData(Connection *, int, const QVariant &)
 {
@@ -111,13 +127,6 @@ void QtConnectionItem::added(Connection *)
 
 void QtConnectionItem::removed(Connection *)
 {
-}
-
-QString QtConnectionItem::instanceName(const IPort &port) const
-{
-  ConnectionEndpointNameVisitor visitor;
-  port.accept(visitor);
-  return visitor.instance;
 }
 
 

@@ -52,7 +52,7 @@ class QtNameTypeItem :
           return model->isTypeEditable();
       }
 
-      return {};
+      return false;
     }
 
     QVariant headerData(int section, Qt::Orientation, int role) const override final

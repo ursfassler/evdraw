@@ -22,10 +22,13 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
 
     CPPUNIT_TEST(has_two_columns);
     CPPUNIT_TEST(header_caption_is_name_and_type);
+    CPPUNIT_TEST(return_sane_data_for_undefined_header_requests);
     CPPUNIT_TEST(may_be_editable);
+    CPPUNIT_TEST(undefined_is_not_editable);
 
     CPPUNIT_TEST(get_display_data);
     CPPUNIT_TEST(get_edit_data);
+    CPPUNIT_TEST(return_sane_data_for_undefined_data_requests);
 
     CPPUNIT_TEST(need_string_for_new_name);
     CPPUNIT_TEST(change_name);
@@ -47,10 +50,13 @@ class QtNameTypeItemTest : public CPPUNIT_NS::TestFixture
 
     void has_two_columns();
     void header_caption_is_name_and_type();
+    void return_sane_data_for_undefined_header_requests();
     void may_be_editable();
+    void undefined_is_not_editable();
 
     void get_display_data();
     void get_edit_data();
+    void return_sane_data_for_undefined_data_requests();
 
     void need_string_for_new_name();
     void change_name();

@@ -55,6 +55,13 @@ void QtNameTypeItemTest::header_caption_is_name_and_type()
   CPPUNIT_ASSERT_EQUAL(std::string("type"), testee->headerData(1, Qt::Horizontal, Qt::DisplayRole).toString().toStdString());
 }
 
+void QtNameTypeItemTest::return_sane_data_for_undefined_header_requests()
+{
+  CPPUNIT_ASSERT(QVariant{} == testee->headerData(0, Qt::Horizontal, Qt::EditRole));
+  CPPUNIT_ASSERT(QVariant{} == testee->headerData(57, Qt::Horizontal, Qt::DisplayRole));
+}
+
+
 void QtNameTypeItemTest::may_be_editable()
 {
   item->nameEditable = true;
@@ -66,6 +73,12 @@ void QtNameTypeItemTest::may_be_editable()
   item->typeEditable = false;
   CPPUNIT_ASSERT_EQUAL(false, testee->editable(0));
   CPPUNIT_ASSERT_EQUAL(false, testee->editable(1));
+}
+
+void QtNameTypeItemTest::undefined_is_not_editable()
+{
+  CPPUNIT_ASSERT_EQUAL(false, testee->editable(-10));
+  CPPUNIT_ASSERT_EQUAL(false, testee->editable(125));
 }
 
 void QtNameTypeItemTest::get_display_data()
@@ -84,6 +97,12 @@ void QtNameTypeItemTest::get_edit_data()
 
   CPPUNIT_ASSERT_EQUAL(item->name, testee->data(nullptr, 0, Qt::EditRole).toString().toStdString());
   CPPUNIT_ASSERT_EQUAL(std::string("two"), testee->data(nullptr, 1, Qt::EditRole).toString().toStdString());
+}
+
+void QtNameTypeItemTest::return_sane_data_for_undefined_data_requests()
+{
+  CPPUNIT_ASSERT(QVariant{} == testee->data(nullptr, 55, Qt::EditRole));
+  CPPUNIT_ASSERT(QVariant{} == testee->data(nullptr, 0, Qt::BackgroundRole));
 }
 
 void QtNameTypeItemTest::need_string_for_new_name()

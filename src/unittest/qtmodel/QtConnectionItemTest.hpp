@@ -20,10 +20,12 @@ class QtConnectionItemTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(has_four_columns);
     CPPUNIT_TEST(column_header_are_srcInst_srcPort_dstInst_dstPort);
     CPPUNIT_TEST(is_not_editable);
+    CPPUNIT_TEST(return_sane_data_for_undefined_header_requests);
 
     CPPUNIT_TEST(data_returns_correct_port_names);
     CPPUNIT_TEST(data_returns_self_for_CompositionInstance);
     CPPUNIT_TEST(data_returns_name_of_instance);
+    CPPUNIT_TEST(return_sane_data_for_undefined_data_requests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -33,10 +35,12 @@ class QtConnectionItemTest : public CPPUNIT_NS::TestFixture
     void has_four_columns();
     void column_header_are_srcInst_srcPort_dstInst_dstPort();
     void is_not_editable();
+    void return_sane_data_for_undefined_header_requests();
 
     void data_returns_correct_port_names();
     void data_returns_self_for_CompositionInstance();
     void data_returns_name_of_instance();
+    void return_sane_data_for_undefined_data_requests();
 
     //TODO notify about canged values
 

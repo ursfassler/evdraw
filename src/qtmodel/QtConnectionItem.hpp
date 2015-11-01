@@ -32,6 +32,8 @@ class QtConnectionItem final :
     static const uint COLUMN_COUNT = 4;
 
     QString instanceName(const IPort &port) const;
+    IPort *portOfColumn(const Connection *connection, int column) const;
+    QVariant portName(const IPort *port, int column) const;
 };
 
 #include "QtList.hpp"
