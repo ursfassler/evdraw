@@ -152,13 +152,16 @@ void Workspace::removeLibrary()
 
   if (componentModel != nullptr) {
     compView.setModel(nullptr);
-    library->getComponents().unregisterObserver(this);
     delete componentModel;
     componentModel = nullptr;
   }
 
-  delete library;
-  library = nullptr;
+  if (library != nullptr) {
+    library->getComponents().unregisterObserver(this);
+
+    delete library;
+    library = nullptr;
+  }
 }
 
 void Workspace::newLibrary(Library *library)
