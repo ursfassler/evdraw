@@ -4,35 +4,37 @@
 
 CONFIG -= console
 CONFIG -= app_bundle
-#CONFIG -= qt
+CONFIG += warn_on
 
 QT += testlib
 
 TARGET = testapp
 
-#QMAKE_CXX = clang
 QMAKE_CXXFLAGS += -std=c++11 -Wall -Wextra -pedantic -Weffc++ -Werror
-QMAKE_CXXFLAGS_DEBUG += --coverage
 
 LIBS += -ltinyxml -lcppunit
-CONFIG(debug, debug|release) {
-    LIBS += -lgcov
+
+!contains(QMAKE_COMPILER, clang) {
+    CONFIG(debug, debug|release) {
+        LIBS += -lgcov
+        QMAKE_CXXFLAGS += --coverage
+    }
+
+    coverage.target = coverage
+    coverage.commands = \
+        ./testapp; \
+        rm moc_*.gcda; \
+        lcov --directory . --base-directory $$PWD --no-external --capture --output-file coverage.info; \
+        lcov --remove coverage.info "unittest/*" -o coverage.info; \
+        genhtml --title "evdraw" coverage.info -o $$PWD/../coverage/
+    coverage.depends = testapp
+    QMAKE_EXTRA_TARGETS += coverage
 }
 
 doc.target = doc
 doc.commands = doxygen $$PWD/../Doxyfile
 doc.depends =
 QMAKE_EXTRA_TARGETS += doc
-
-coverage.target = coverage
-coverage.commands = \
-    ./testapp; \
-    rm moc_*.gcda; \
-    lcov --directory . --base-directory $$PWD --no-external --capture --output-file coverage.info; \
-    lcov --remove coverage.info "unittest/*" -o coverage.info; \
-    genhtml --title "evdraw" coverage.info -o $$PWD/../coverage/
-coverage.depends = testapp
-QMAKE_EXTRA_TARGETS += coverage
 
 INCLUDEPATH += .
 

@@ -4,6 +4,8 @@
 #ifndef VISITORTEST_HPP
 #define VISITORTEST_HPP
 
+#include "../../testtypes.hpp"
+
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 

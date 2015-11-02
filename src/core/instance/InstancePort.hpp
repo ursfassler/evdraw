@@ -64,6 +64,7 @@ class InstancePort :
     void topIndexChanged(size_t index) override;
     void typeChanged(ComponentPort *port) override;
     void nameChanged(ComponentPort *port) override;
+    void nameChanged(IInstance *) override {}
 
     void widthChanged() override;
 };

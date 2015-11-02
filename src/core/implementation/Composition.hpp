@@ -67,6 +67,7 @@ class Composition final :
 
     void checkInvariant();
 
+    void added(InstancePort *) override {}
     void removed(InstancePort *port) override;
     void added(IComponentInstance *instance) override;
     void removed(IComponentInstance* instance) override;
