@@ -10,7 +10,7 @@
 
 Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort)
 {
-  const PaperUnit center = (startPort->getPosition().x + endPort->getPosition().x) / 2;
+  const PaperUnit center = (startPort->getPosition().getAbsolutePosition().x + endPort->getPosition().getAbsolutePosition().x) / 2;
 
   std::vector<PaperUnit> path;
   path.push_back(center);
@@ -20,8 +20,8 @@ Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort)
 
 Connection *ConnectionFactory::produceConstruction(IPort *startPort, IPort *endPort)
 {
-  const Point start = startPort->getPosition();
-  const Point end = endPort->getPosition();
+  const Point start = startPort->getPosition().getAbsolutePosition();
+  const Point end = endPort->getPosition().getAbsolutePosition();
   const Point middle = Point(end.x, start.y);
 
   std::vector<Endpoint *> pointlist;
@@ -37,11 +37,11 @@ Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort, const s
   precondition(path.size() >= 1);
 
   std::vector<PaperUnit> fullpath;
-  fullpath.push_back(startPort->getPosition().x);
-  fullpath.push_back(startPort->getPosition().y);
+  fullpath.push_back(startPort->getPosition().getAbsolutePosition().x);
+  fullpath.push_back(startPort->getPosition().getAbsolutePosition().y);
   fullpath.insert(fullpath.end(), path.begin(), path.end());
-  fullpath.push_back(endPort->getPosition().y);
-  fullpath.push_back(endPort->getPosition().x);
+  fullpath.push_back(endPort->getPosition().getAbsolutePosition().y);
+  fullpath.push_back(endPort->getPosition().getAbsolutePosition().x);
 
   return produce(startPort, endPort, createPointList(fullpath));
 }
@@ -55,8 +55,8 @@ Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort, const s
   con->points.assign(points.begin(), points.end());
   addSegments(con);
 
-  con->getStartPort()->addConnectionPoint(con->points.front());
-  con->getEndPort()->addConnectionPoint(con->points.back());
+  con->getStartPort()->addConnectionPoint(&con->points.front()->getPosition());
+  con->getEndPort()->addConnectionPoint(&con->points.back()->getPosition());
 
   con->checkInvariants();
 
@@ -66,8 +66,8 @@ Connection *ConnectionFactory::produce(IPort *startPort, IPort *endPort, const s
 void ConnectionFactory::cleanup(Connection &connection)
 {
   if (!connection.getPoints().empty()) {
-    connection.getStartPort()->removeConnectionPoint(connection.getPoints().front());
-    connection.getEndPort()->removeConnectionPoint(connection.getPoints().back());
+    connection.getStartPort()->removeConnectionPoint(&connection.getPoints().front()->getPosition());
+    connection.getEndPort()->removeConnectionPoint(&connection.getPoints().back()->getPosition());
   }
 
   for (HorizontalSegment *seg : connection.horizontalSegments) {

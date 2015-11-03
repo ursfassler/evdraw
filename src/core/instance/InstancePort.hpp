@@ -25,7 +25,6 @@ class InstancePortObserver
 
 class InstancePort :
     public IPort,
-    public RelativePosition,
     public ObserverCollection<InstancePortObserver>,
     private ComponentPortObserver,
     private InstanceObserver
@@ -40,7 +39,7 @@ class InstancePort :
     ComponentPort *getCompPort() const;
     Connector &getConnector();
     std::string getName() const override;
-    Point getPosition() const override;
+    RelativePosition &getPosition() override;
     IInstance *getInstance() const;
     PortType getType() const;
 
@@ -55,6 +54,7 @@ class InstancePort :
   private:
     IInstance * const owner;
     ComponentPort * const compPort;
+    RelativePosition position;
     Connector connector;
 
     Point calcOffset(const ComponentPort *compPort) const;

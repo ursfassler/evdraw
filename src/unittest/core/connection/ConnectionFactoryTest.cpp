@@ -21,7 +21,7 @@ void ConnectionFactoryTest::createMinimalPointList()
   std::vector<Endpoint *> list = ConnectionFactory::createPointList({1, 2});
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), list.size());
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getPosition().getOffset());
 
   delete list[0];
 }
@@ -31,10 +31,10 @@ void ConnectionFactoryTest::createSimplePointList()
   std::vector<Endpoint *> list = ConnectionFactory::createPointList({1, 2, 3, 4, 5});
 
   CPPUNIT_ASSERT_EQUAL(size_t(4), list.size());
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(3,2), list[1]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(3,4), list[2]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(5,4), list[3]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), list[0]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(3,2), list[1]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(3,4), list[2]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(5,4), list[3]->getPosition().getOffset());
 
   delete list[0];
   delete list[1];
@@ -74,8 +74,8 @@ void ConnectionFactoryTest::createConnection()
   CPPUNIT_ASSERT_EQUAL(30, connection->getVerticalSegment().front()->getX());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&startPort), connection->getStartPort());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<IPort*>(&endPort), connection->getEndPort());
-  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
-  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
+  CPPUNIT_ASSERT(startPort.ports.find(&connection->getPoints().front()->getPosition()) != startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(&connection->getPoints().back()->getPosition()) != endPort.ports.end());
 
   ConnectionFactory::dispose(connection);
 }
@@ -87,12 +87,12 @@ void ConnectionFactoryTest::createPathConnection()
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort, {-5, 4, 1});
 
   CPPUNIT_ASSERT_EQUAL(size_t(6), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point( -5, 3), connection->getPoints()[1]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point( -5, 4), connection->getPoints()[2]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(  1, 4), connection->getPoints()[3]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(  1,-2), connection->getPoints()[4]->getOffset());
-  CPPUNIT_ASSERT_EQUAL(Point(  7,-2), connection->getPoints()[5]->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(-10, 3), connection->getPoints()[0]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 3), connection->getPoints()[1]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point( -5, 4), connection->getPoints()[2]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  1, 4), connection->getPoints()[3]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  1,-2), connection->getPoints()[4]->getPosition().getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(  7,-2), connection->getPoints()[5]->getPosition().getOffset());
 
   CPPUNIT_ASSERT_EQUAL(size_t(2), connection->getVerticalSegment().size());
   CPPUNIT_ASSERT_EQUAL(-5, connection->getVerticalSegment()[0]->getX());
@@ -128,9 +128,9 @@ void ConnectionFactoryTest::constructionPlaceIntermediatePointAtSanePositions()
   Connection *connection = ConnectionFactory::produceConstruction(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,40), connection->getPoints()[2]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,40), connection->getPoints()[2]->getPosition().getAbsolutePosition());
 
   ConnectionFactory::dispose(connection);
 }
@@ -143,8 +143,8 @@ void ConnectionFactoryTest::connectionIsRegisteredAtStartPort()
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), startPort.ports.size());
-  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().front()) != startPort.ports.end());
-  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().front()) == endPort.ports.end());
+  CPPUNIT_ASSERT(startPort.ports.find(&connection->getPoints().front()->getPosition()) != startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(&connection->getPoints().front()->getPosition()) == endPort.ports.end());
 
   ConnectionFactory::dispose(connection);
 }
@@ -156,8 +156,8 @@ void ConnectionFactoryTest::connectionIsRegisteredAtEndPort()
   Connection *connection = ConnectionFactory::produce(&startPort, &endPort);
 
   CPPUNIT_ASSERT_EQUAL(size_t(1), endPort.ports.size());
-  CPPUNIT_ASSERT(startPort.ports.find(connection->getPoints().back()) == startPort.ports.end());
-  CPPUNIT_ASSERT(endPort.ports.find(connection->getPoints().back()) != endPort.ports.end());
+  CPPUNIT_ASSERT(startPort.ports.find(&connection->getPoints().back()->getPosition()) == startPort.ports.end());
+  CPPUNIT_ASSERT(endPort.ports.find(&connection->getPoints().back()->getPosition()) != endPort.ports.end());
 
   ConnectionFactory::dispose(connection);
 }

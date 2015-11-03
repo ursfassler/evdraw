@@ -7,16 +7,20 @@
 #include "IPort.hpp"
 #include "../base/Position.hpp"
 
-class DrawPort : public IPort, public RelativePosition
+class DrawPort final :
+    public IPort
 {
   public:
     DrawPort(const Point &offset);
-    void addConnectionPoint(RelativePosition *point);
-    void removeConnectionPoint(RelativePosition *point);
-    std::string getName() const;
-    Point getPosition() const;
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
+    void addConnectionPoint(RelativePosition *point) override;
+    void removeConnectionPoint(RelativePosition *point) override;
+    std::string getName() const override;
+    RelativePosition &getPosition() override;
+    void accept(Visitor &visitor) override;
+    void accept(ConstVisitor &visitor) const override;
+
+  private:
+    RelativePosition position;
 };
 
 #endif // DRAWPORT_HPP

@@ -30,12 +30,6 @@ void DrawPortTest::inheritsAbstractPort()
   CPPUNIT_ASSERT(dynamic_cast<IPort*>(&port) != nullptr);
 }
 
-void DrawPortTest::inheritsPosition()
-{
-  DrawPort port(Point(0,0));
-  CPPUNIT_ASSERT(dynamic_cast<Position*>(&port) != nullptr);
-}
-
 void DrawPortTest::getAnchorPosition()
 {
   DrawPort port(Point(10,20));
@@ -53,12 +47,12 @@ void DrawPortTest::getInformedByPositionChange()
   RelativePosition point(Point(0,0));
   port.addConnectionPoint(&point);
   Observer observer;
-  port.registerObserver(&observer);
-  port.setAbsolutePosition(Point(10,20));
+  port.getPosition().registerObserver(&observer);
+  port.getPosition().setAbsolutePosition(Point(10,20));
 
   CPPUNIT_ASSERT(observer.absolutePositionSender != nullptr);
 
-  port.unregisterObserver(&observer);
+  port.getPosition().unregisterObserver(&observer);
   port.removeConnectionPoint(&point);
 }
 

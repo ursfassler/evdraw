@@ -8,17 +8,19 @@
 
 #include "../types.hpp"
 
-class Connector final : public RelativePosition
+class Connector final
 {
   public:
     Connector(const Point &offset);
     ~Connector();
 
+    RelativePosition &getPosition();
     void addPoint(RelativePosition *point);
     void removePoint(RelativePosition *point);
     const std::vector<RelativePosition *> &getPoints() const;
 
   private:
+    RelativePosition position;
     std::vector<RelativePosition*> points;
 
     void updateConnectionPosition() const;

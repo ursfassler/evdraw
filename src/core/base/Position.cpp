@@ -3,16 +3,6 @@
 
 #include "Position.hpp"
 
-Position::Position() :
-  ObserverCollection()
-{
-}
-
-Position::~Position()
-{
-}
-
-
 Point ZeroPosition::getAbsolutePosition() const
 {
   return Point(0,0);
@@ -42,7 +32,7 @@ void RelativePosition::removeAnchor()
   replaceAnchor(ZeroPosition::singleton());
 }
 
-void RelativePosition::replaceAnchor(Position *newAnchor)
+void RelativePosition::replaceAnchor(IPosition *newAnchor)
 {
   precondition(newAnchor != nullptr);
 
@@ -57,7 +47,7 @@ void RelativePosition::replaceAnchor(Position *newAnchor)
   }
 }
 
-Position *RelativePosition::getAnchor() const
+IPosition *RelativePosition::getAnchor() const
 {
   return anchor;
 }

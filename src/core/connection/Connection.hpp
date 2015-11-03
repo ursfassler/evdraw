@@ -35,7 +35,9 @@ class ConnectionObserver
     }
 };
 
-class Connection final : public ObserverCollection<ConnectionObserver>, public VisitorClient
+class Connection final :
+    public ObserverCollection<ConnectionObserver>,
+    public VisitorClient
 {
   public:
     Connection(IPort *startPort, IPort *endPort);

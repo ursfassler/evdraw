@@ -74,8 +74,8 @@ void XmlNodeWriter::visit(const Instance &instance)
 
   element->SetAttribute("name", instance.getName());
   element->SetAttribute("component", instance.getComponent()->getName());
-  element->SetAttribute("x", instance.getAbsolutePosition().x);
-  element->SetAttribute("y", instance.getAbsolutePosition().y);
+  element->SetAttribute("x", instance.getPosition().getAbsolutePosition().x);
+  element->SetAttribute("y", instance.getPosition().getAbsolutePosition().y);
 }
 
 void XmlNodeWriter::visit(const CompositionInstance &)

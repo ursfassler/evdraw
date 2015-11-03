@@ -4,40 +4,25 @@
 #include "EndpointTest.hpp"
 
 
-void EndpointTest::inheritsFromPositionable()
+void EndpointTest::has_position()
 {
-  Endpoint pp(Point(1, 2));
+  const Endpoint pp(Point(1, 2));
 
-  CPPUNIT_ASSERT(dynamic_cast<RelativePosition*>(&pp) != nullptr);
+  CPPUNIT_ASSERT_EQUAL(Point(1,2), pp.getPosition().getAbsolutePosition());
 }
 
-void EndpointTest::isMovableWhenNotHaveAnchor()
+void EndpointTest::is_movable_when_not_have_anchor()
 {
   Endpoint pp(Point(1, 2));
   CPPUNIT_ASSERT(pp.freeMovable());
 }
 
-void EndpointTest::isNotMovableWhenHaveAnchor()
+void EndpointTest::is_not_movable_when_have_anchor()
 {
   RelativePosition p(Point(0,0));
   Endpoint pp(Point(1, 2));
-  pp.replaceAnchor(&p);
+  pp.getPosition().replaceAnchor(&p);
   CPPUNIT_ASSERT(!pp.freeMovable());
-}
-
-void EndpointTest::initialPortPointPosition()
-{
-  Endpoint point(Point(1, 2));
-  CPPUNIT_ASSERT_EQUAL(Point(1,2), point.getOffset());
-}
-
-void EndpointTest::setPosition()
-{
-  Endpoint point(Point(0, 0));
-
-  point.setOffset(Point(42,57));
-
-  CPPUNIT_ASSERT_EQUAL(Point(42,57), point.getOffset());
 }
 
 class EpObserver : public PositionObserver
@@ -54,16 +39,3 @@ class EpObserver : public PositionObserver
 
     RelativePosition const *lastSender = nullptr;
 };
-
-void EndpointTest::notifyListenerOnPosChange()
-{
-  Endpoint ep(Point(0, 0));
-  EpObserver observer;
-
-  ep.registerObserver(&observer);
-
-  ep.setOffset(Point(42,57));
-  CPPUNIT_ASSERT_EQUAL(dynamic_cast<const RelativePosition*>(&ep), observer.lastSender);
-
-  ep.unregisterObserver(&observer);
-}

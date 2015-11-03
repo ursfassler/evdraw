@@ -4,18 +4,28 @@
 #include "Endpoint.hpp"
 
 Endpoint::Endpoint(const Point &aPosition) :
-  RelativePosition(aPosition)
+  position{aPosition}
 {
 }
 
 bool Endpoint::freeMovable() const
 {
-  return !hasAnchor();
+  return !position.hasAnchor();
+}
+
+RelativePosition &Endpoint::getPosition()
+{
+  return position;
+}
+
+const RelativePosition &Endpoint::getPosition() const
+{
+  return position;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint)
 {
-  stream << endpoint.getAbsolutePosition();
+  stream << endpoint.getPosition().getAbsolutePosition();
   return stream;
 }
 

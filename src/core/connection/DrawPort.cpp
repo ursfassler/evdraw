@@ -4,7 +4,7 @@
 #include "DrawPort.hpp"
 
 DrawPort::DrawPort(const Point &offset) :
-  RelativePosition(offset)
+  position{offset}
 {
 }
 
@@ -12,16 +12,16 @@ void DrawPort::addConnectionPoint(RelativePosition *point)
 {
   precondition(!point->hasAnchor());
 
-  point->replaceAnchor(this);
+  point->replaceAnchor(&this->getPosition());
 
   postcondition(point->hasAnchor());
-  postcondition(point->getAnchor() == this);
+  postcondition(point->getAnchor() == &this->getPosition());
 }
 
 void DrawPort::removeConnectionPoint(RelativePosition *point)
 {
   precondition(point->hasAnchor());
-  precondition(point->getAnchor() == this);
+  precondition(point->getAnchor() == &this->getPosition());
 
   point->removeAnchor();
 
@@ -33,9 +33,9 @@ std::string DrawPort::getName() const
   return "";
 }
 
-Point DrawPort::getPosition() const
+RelativePosition &DrawPort::getPosition()
 {
-  return getAbsolutePosition();
+  return position;
 }
 
 void DrawPort::accept(Visitor &)

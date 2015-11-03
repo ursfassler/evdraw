@@ -12,7 +12,6 @@ class DrawPortTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST_SUITE( DrawPortTest );
 
     CPPUNIT_TEST(inheritsAbstractPort);
-    CPPUNIT_TEST(inheritsPosition);
 
     CPPUNIT_TEST(getAnchorPosition);
     CPPUNIT_TEST(getInformedByPositionChange);
@@ -23,7 +22,6 @@ class DrawPortTest : public CPPUNIT_NS::TestFixture
 
   public:
     void inheritsAbstractPort();
-    void inheritsPosition();
 
     void getAnchorPosition();
     void getInformedByPositionChange();

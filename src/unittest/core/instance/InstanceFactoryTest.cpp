@@ -42,7 +42,7 @@ void InstanceFactoryTest::produceSimple()
 
   CPPUNIT_ASSERT_EQUAL(component, instance->getComponent());
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
-  CPPUNIT_ASSERT_EQUAL(Point(0,0), instance->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(0,0), instance->getPosition().getAbsolutePosition());
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -91,8 +91,8 @@ void InstanceFactoryTest::rightConnectorIsAtCorrectPosition()
 
   InstancePort *port = dynamic_cast<InstancePort*>(instance->getPorts()[0]);
   CPPUNIT_ASSERT(port != nullptr);
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::connectorOffset(), port->getConnector().getAbsolutePosition().x);
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getAbsolutePosition().y);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::connectorOffset(), port->getConnector().getPosition().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getPosition().getAbsolutePosition().y);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);
@@ -105,8 +105,8 @@ void InstanceFactoryTest::leftConnectorIsAtCorrectPosition()
 
   InstancePort *port = dynamic_cast<InstancePort*>(instance->getPorts()[0]);
   CPPUNIT_ASSERT(port != nullptr);
-  CPPUNIT_ASSERT_EQUAL(-InstanceAppearance::connectorOffset(), port->getConnector().getAbsolutePosition().x);
-  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getAbsolutePosition().y);
+  CPPUNIT_ASSERT_EQUAL(-InstanceAppearance::connectorOffset(), port->getConnector().getPosition().getAbsolutePosition().x);
+  CPPUNIT_ASSERT_EQUAL(InstanceAppearance::portVerticalOffset(0), port->getConnector().getPosition().getAbsolutePosition().y);
 
   InstanceFactory::dispose(instance);
   ComponentFactory::dispose(component);

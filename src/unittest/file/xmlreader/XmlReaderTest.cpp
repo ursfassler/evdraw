@@ -179,9 +179,7 @@ void XmlReaderTest::compositionWithInstance()
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
   CPPUNIT_ASSERT_EQUAL(empty, instance->getComponent());
 
-  //TODO remove cast
-  const Position *pos = dynamic_cast<const Position*>(instance);
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), pos->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), instance->getPosition().getAbsolutePosition());
 
   delete lib;
 }
@@ -224,8 +222,8 @@ void XmlReaderTest::compositionWithConnection()
   CPPUNIT_ASSERT_EQUAL(size_t(1), composition->getConnections().size());
   Connection *con = composition->getConnections().front();
   CPPUNIT_ASSERT_EQUAL(size_t(6), con->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(100,-135), con->getPoints()[2]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(-120,-135), con->getPoints()[3]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(100,-135), con->getPoints()[2]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(-120,-135), con->getPoints()[3]->getPosition().getAbsolutePosition());
 
   delete lib;
 }

@@ -12,15 +12,18 @@ class ComponentInstanceMock :
     public InstanceMock
 {
   public:
+    std::string name{};
     const std::string &getName() const override final;
     void setName(const std::string &value) override final;
-    std::string name{};
 
     void notify_nameChange();
     void notify_typeChange();
 
     IComponent *getComponent() const override final;
     IComponent *component{};
+
+    RelativePosition position{Point{0,0}};
+    RelativePosition &getPosition() override final;
 
 };
 

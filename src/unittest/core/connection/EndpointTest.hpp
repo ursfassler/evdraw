@@ -13,28 +13,16 @@ class EndpointTest : public CPPUNIT_NS::TestFixture
 {
     CPPUNIT_TEST_SUITE( EndpointTest );
 
-    CPPUNIT_TEST(inheritsFromPositionable);
-    CPPUNIT_TEST(isMovableWhenNotHaveAnchor);
-    CPPUNIT_TEST(isNotMovableWhenHaveAnchor);
-
-    CPPUNIT_TEST(initialPortPointPosition);
-
-    CPPUNIT_TEST(setPosition);
-
-    CPPUNIT_TEST(notifyListenerOnPosChange);
+    CPPUNIT_TEST(has_position);
+    CPPUNIT_TEST(is_movable_when_not_have_anchor);
+    CPPUNIT_TEST(is_not_movable_when_have_anchor);
 
     CPPUNIT_TEST_SUITE_END();
 
   public:
-    void inheritsFromPositionable();
-    void isMovableWhenNotHaveAnchor();
-    void isNotMovableWhenHaveAnchor();
-
-    void initialPortPointPosition();
-
-    void setPosition();
-
-    void notifyListenerOnPosChange();
+    void has_position();
+    void is_movable_when_not_have_anchor();
+    void is_not_movable_when_have_anchor();
 
 };
 

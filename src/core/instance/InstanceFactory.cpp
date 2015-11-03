@@ -13,7 +13,7 @@ Instance *InstanceFactory::produce(IComponent *component, const std::string &nam
 
   for (ComponentPort *compPort : component->getPorts()) {
     InstancePort *instPort = new InstancePort(instance, compPort);
-    instPort->replaceAnchor(instance);
+    instPort->getPosition().replaceAnchor(&instance->getPosition());
     instance->getPorts().add(instPort);
   }
 

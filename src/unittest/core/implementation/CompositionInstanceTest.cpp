@@ -1,3 +1,6 @@
+// Copyright 2015 Urs Fässler, www.bitzgi.ch
+// SPDX-License-Identifier:	GPL-3.0+
+
 #include "CompositionInstanceTest.hpp"
 #include "../component/ComponentMock.hpp"
 #include "../instance/InstanceObserverMock.h"
@@ -134,9 +137,9 @@ void CompositionInstanceTest::change_of_width_updates_port_positions()
   CompositionInstance *testee = new CompositionInstance(component);
   InstancePort *port = testee->getPorts()[0];
 
-  const auto oldPos = port->getAbsolutePosition().x;
+  const auto oldPos = port->getPosition().getAbsolutePosition().x;
   testee->setWidth(100);
-  const auto newPos = port->getAbsolutePosition().x;
+  const auto newPos = port->getPosition().getAbsolutePosition().x;
 
   CPPUNIT_ASSERT(newPos > oldPos);
 

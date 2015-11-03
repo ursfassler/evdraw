@@ -10,16 +10,16 @@
 #include <stdexcept>
 
 InstancePort::InstancePort(IInstance *aInstance, ComponentPort *aCompPort) :
-  RelativePosition(Point(0,0)),
   owner(aInstance),
   compPort(aCompPort),
+  position{Point(0,0)},
   connector(Point(0,0))
 {
   precondition(aInstance != nullptr);
   precondition(aCompPort != nullptr);
 
-  connector.replaceAnchor(this);
-  setOffset(calcOffset(compPort));
+  connector.getPosition().replaceAnchor(&position);
+  position.setOffset(calcOffset(compPort));
   updateConnectorOffset();
 
   compPort->registerObserver(this);
@@ -48,9 +48,9 @@ std::string InstancePort::getName() const
   return compPort->getName();
 }
 
-Point InstancePort::getPosition() const
+RelativePosition &InstancePort::getPosition()
 {
-  return getAbsolutePosition();
+  return position;
 }
 
 IInstance *InstancePort::getInstance() const
@@ -107,14 +107,14 @@ Point InstancePort::calcOffset(const ComponentPort *compPort) const
 void InstancePort::updateOffset()
 {
   const Point offset = calcOffset(compPort);
-  setOffset(offset);
+  position.setOffset(offset);
 }
 
 void InstancePort::updateConnectorOffset()
 {
   const Side side = getInstance()->connectorSide(compPort->getType());;
   const Point conOfs = connectorOffset(side);
-  connector.setOffset(conOfs);
+  connector.getPosition().setOffset(conOfs);
 }
 
 Point InstancePort::connectorOffset(Side side) const

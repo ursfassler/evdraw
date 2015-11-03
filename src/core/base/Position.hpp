@@ -18,27 +18,29 @@ class PositionObserver
     virtual void offsetChanged(const RelativePosition *sender) = 0;
 };
 
-class Position : public ObserverCollection<PositionObserver>
+//TODO move observer aout of interface
+class IPosition :
+    public ObserverCollection<PositionObserver>
 {
   public:
-    Position();
-    virtual ~Position();
+    virtual ~IPosition() = default;
     virtual Point getAbsolutePosition() const = 0;
 
 };
 
-class ZeroPosition : public Position
+class ZeroPosition final :
+    public IPosition
 {
   public:
-    Point getAbsolutePosition() const;
+    Point getAbsolutePosition() const override final;
 
     static ZeroPosition *singleton();
 
 };
 
-class RelativePosition :
-    public Position,
-    public PositionObserver
+class RelativePosition final :
+    public IPosition,
+    private PositionObserver
 {
   public:
     RelativePosition(const Point &offset);
@@ -48,22 +50,22 @@ class RelativePosition :
     RelativePosition(const RelativePosition &) = delete;
     RelativePosition operator=(const RelativePosition &) = delete;
 
-    void replaceAnchor(Position *newAnchor);
+    void replaceAnchor(IPosition *newAnchor);
     void removeAnchor();
-    Position *getAnchor() const;
+    IPosition *getAnchor() const;
     bool hasAnchor() const;
 
-    virtual const Point &getOffset() const;
-    virtual void setOffset(const Point &value);
-    virtual Point getAbsolutePosition() const;
-    virtual void setAbsolutePosition(const Point &value);
-
-    virtual void absolutePositionChanged(const RelativePosition *sender);
-    virtual void offsetChanged(const RelativePosition *sender);
+    const Point &getOffset() const;
+    void setOffset(const Point &value);
+    Point getAbsolutePosition() const override final;
+    void setAbsolutePosition(const Point &value);
 
   private:
-    Position *anchor;
+    IPosition *anchor;
     Point offset;
+
+    void absolutePositionChanged(const RelativePosition *sender) override final;
+    void offsetChanged(const RelativePosition *sender) override final;
 };
 
 #endif

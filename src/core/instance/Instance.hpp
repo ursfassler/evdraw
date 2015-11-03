@@ -18,7 +18,6 @@
 
 class Instance final :
     public virtual IComponentInstance,
-    public RelativePosition,
     private ComponentObserver,
     private ListObserver<ComponentPort>
 {
@@ -31,6 +30,9 @@ class Instance final :
     const std::string &getName() const override final;
     void setName(const std::string &name) override final;
     IComponent *getComponent() const override final;
+
+    RelativePosition &getPosition() override final;
+    const RelativePosition &getPosition() const;
 
     const List<InstancePort> &getPorts() const override final;
     List<InstancePort> &getPorts() override final;
@@ -48,6 +50,7 @@ class Instance final :
   private:
     std::string name;
     IComponent * const component;
+    RelativePosition position;
     List<InstancePort> ports;
 
     void added(ComponentPort *port) override;

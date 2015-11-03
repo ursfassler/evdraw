@@ -15,7 +15,7 @@ void ConnectorFactoryTest::cleanup_removes_points()
   ConnectorFactory::cleanup(connector);
 
   CPPUNIT_ASSERT_EQUAL(size_t(0), connector.getPoints().size());
-  CPPUNIT_ASSERT(&connector != pp.getAnchor());
+  CPPUNIT_ASSERT(&connector.getPosition() != pp.getAnchor());
 }
 
 void ConnectorFactoryTest::dispose_removes_points()
@@ -27,5 +27,5 @@ void ConnectorFactoryTest::dispose_removes_points()
 
   ConnectorFactory::dispose(connector);
 
-  CPPUNIT_ASSERT(connector != pp.getAnchor());
+  CPPUNIT_ASSERT(&connector->getPosition() != pp.getAnchor());
 }

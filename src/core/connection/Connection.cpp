@@ -28,9 +28,9 @@ IPort *Connection::getStartPort() const
 
 void Connection::replaceStartPort(IPort *port)
 {
-  startPort->removeConnectionPoint(points.front());
+  startPort->removeConnectionPoint(&points.front()->getPosition());
   startPort = port;
-  startPort->addConnectionPoint(points.front());
+  startPort->addConnectionPoint(&points.front()->getPosition());
 }
 
 IPort *Connection::getEndPort() const
@@ -40,9 +40,9 @@ IPort *Connection::getEndPort() const
 
 void Connection::replaceEndPort(IPort *port)
 {
-  endPort->removeConnectionPoint(points.back());
+  endPort->removeConnectionPoint(&points.back()->getPosition());
   endPort = port;
-  endPort->addConnectionPoint(points.back());
+  endPort->addConnectionPoint(&points.back()->getPosition());
 }
 
 void Connection::checkInvariants() const
@@ -146,7 +146,7 @@ void Connection::insertHorizontalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size());
 
-  Endpoint *ip = new Endpoint(points.back()->getAbsolutePosition());
+  Endpoint *ip = new Endpoint(points.back()->getPosition().getAbsolutePosition());
   HorizontalSegment *hs = new HorizontalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getVerticalSegment().back()->setEnd(ip);
@@ -160,7 +160,7 @@ void Connection::insertVerticalSegment()
 {
   precondition(getHorizontalSegment().size() == getVerticalSegment().size()+1);
 
-  Endpoint *ip = new Endpoint(points.back()->getAbsolutePosition());
+  Endpoint *ip = new Endpoint(points.back()->getPosition().getAbsolutePosition());
   VerticalSegment *vs = new VerticalSegment(ip, points.back());
   points.insert(points.end()-1, ip);
   getHorizontalSegment().back()->setEnd(ip);

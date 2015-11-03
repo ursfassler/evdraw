@@ -25,27 +25,28 @@ void InstanceTest::tearDown()
 void InstanceTest::produce()
 {
   CPPUNIT_ASSERT_EQUAL(std::string("instance"), instance->getName());
-  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(3, 7), instance->getPosition().getOffset());
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<IComponent*>(component), instance->getComponent());
   CPPUNIT_ASSERT(dynamic_cast<IInstance*>(instance) != nullptr);
 }
 
 void InstanceTest::setPosition()
 {
-  CPPUNIT_ASSERT_EQUAL(Point( 3,  7), instance->getOffset());
-  instance->setOffset(Point(57, 42));
-  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance->getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point( 3,  7), instance->getPosition().getOffset());
+  instance->getPosition().setOffset(Point(57, 42));
+  CPPUNIT_ASSERT_EQUAL(Point(57, 42), instance->getPosition().getOffset());
 }
 
 void InstanceTest::updatePositionOnIndexChange()
 {
   component->getPorts()[0]->setTopIndex(1);
-  CPPUNIT_ASSERT_EQUAL(instance->getPorts()[1]->getPosition(), instance->getPorts()[0]->getPosition());
+  CPPUNIT_ASSERT_EQUAL(instance->getPorts()[1]->getPosition().getAbsolutePosition(), instance->getPorts()[0]->getPosition().getAbsolutePosition());
 }
 
-void InstanceTest::inheritsPosition()
+void InstanceTest::has_position()
 {
-  CPPUNIT_ASSERT(dynamic_cast<Position*>(instance) != nullptr);
+  const auto &position = instance->getPosition();
+  CPPUNIT_ASSERT_EQUAL(Point(3,7), position.getAbsolutePosition());
 }
 
 void InstanceTest::inheritsBase()
@@ -113,9 +114,9 @@ void InstanceTest::setName()
 
 void InstanceTest::updatePortPositionsOnPortDelete()
 {
-  const Point pos0 = instance->getPort("in1")->getPosition();
+  const Point pos0 = instance->getPort("in1")->getPosition().getAbsolutePosition();
   component->getPorts().remove(component->getPort("in1"));
-  CPPUNIT_ASSERT_EQUAL(pos0, instance->getPort("in2")->getPosition());
+  CPPUNIT_ASSERT_EQUAL(pos0, instance->getPort("in2")->getPosition().getAbsolutePosition());
 }
 
 void InstanceTest::connector_side_of_slot_is_left()

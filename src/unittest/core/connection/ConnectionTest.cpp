@@ -122,26 +122,26 @@ void ConnectionTest::insertSegmentAtSanePosition()
   Connection *connection = ConnectionFactory::produceConstruction(&a, &b);
 
   CPPUNIT_ASSERT_EQUAL(size_t(3), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getPosition().getAbsolutePosition());
 
   connection->insertSegmentAtEnd();
 
   CPPUNIT_ASSERT_EQUAL(size_t(4), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getPosition().getAbsolutePosition());
 
   connection->insertSegmentAtEnd();
 
   CPPUNIT_ASSERT_EQUAL(size_t(5), connection->getPoints().size());
-  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getAbsolutePosition());
-  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[4]->getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(10,20), connection->getPoints()[0]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,20), connection->getPoints()[1]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[2]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[3]->getPosition().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(Point(30,50), connection->getPoints()[4]->getPosition().getAbsolutePosition());
 
   ConnectionFactory::dispose(connection);
 }

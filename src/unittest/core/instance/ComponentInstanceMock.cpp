@@ -28,3 +28,8 @@ IComponent *ComponentInstanceMock::getComponent() const
   return component;
 }
 
+RelativePosition &ComponentInstanceMock::getPosition()
+{
+  return position;
+}
+

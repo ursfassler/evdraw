@@ -15,16 +15,16 @@ class PortMock :
     PortMock(const Point &position);
     PortMock(const std::string &name);
 
-    virtual void addConnectionPoint(RelativePosition *port);
-    virtual void removeConnectionPoint(RelativePosition *port);
-    virtual std::string getName() const;
-    Point getPosition() const;
-    void accept(Visitor &visitor);
-    void accept(ConstVisitor &visitor) const;
+    virtual void addConnectionPoint(RelativePosition *port) override;
+    virtual void removeConnectionPoint(RelativePosition *port) override;
+    virtual std::string getName() const override;
+    RelativePosition &getPosition() override;
+    void accept(Visitor &visitor) override;
+    void accept(ConstVisitor &visitor) const override;
 
     std::set<RelativePosition*> ports{};
     std::string name{""};
-    Point position{0,0};
+    RelativePosition position{Point{0,0}};
 };
 
 #endif // PORTMOCK_H

@@ -20,10 +20,10 @@ void InstancePortTest::createPort()
   InstancePort *port = new InstancePort(inst, cport);
 
   CPPUNIT_ASSERT_EQUAL(std::string("bla"), port->getCompPort()->getName());
-  CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
-  CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getOffset().y);
+  CPPUNIT_ASSERT(port->getConnector().getPosition().getOffset().x < 0);
+  CPPUNIT_ASSERT_EQUAL(0, port->getConnector().getPosition().getOffset().y);
   CPPUNIT_ASSERT_EQUAL(dynamic_cast<IInstance*>(inst), port->getInstance());
-  CPPUNIT_ASSERT(!port->hasAnchor());
+  CPPUNIT_ASSERT(!port->getPosition().hasAnchor());
 
   delete port;
   InstanceFactory::dispose(inst);
@@ -38,13 +38,13 @@ void InstancePortTest::offset()
   InstancePort *port2 = inst->getPorts()[1];
   InstancePort *port3 = inst->getPorts()[2];
 
-  CPPUNIT_ASSERT(port1->getOffset().x < 0);
-  CPPUNIT_ASSERT(port1->getOffset().y > 0);
-  CPPUNIT_ASSERT(port3->getOffset().x > 0);
+  CPPUNIT_ASSERT(port1->getPosition().getOffset().x < 0);
+  CPPUNIT_ASSERT(port1->getPosition().getOffset().y > 0);
+  CPPUNIT_ASSERT(port3->getPosition().getOffset().x > 0);
 
-  CPPUNIT_ASSERT_EQUAL(port2->getOffset().x, port1->getOffset().x);
-  CPPUNIT_ASSERT(port2->getOffset().y > port1->getOffset().y);
-  CPPUNIT_ASSERT_EQUAL(port1->getOffset().y, port3->getOffset().y);
+  CPPUNIT_ASSERT_EQUAL(port2->getPosition().getOffset().x, port1->getPosition().getOffset().x);
+  CPPUNIT_ASSERT(port2->getPosition().getOffset().y > port1->getPosition().getOffset().y);
+  CPPUNIT_ASSERT_EQUAL(port1->getPosition().getOffset().y, port3->getPosition().getOffset().y);
 
   InstanceFactory::dispose(inst);
   ComponentFactory::dispose(comp);
@@ -58,8 +58,8 @@ void InstancePortTest::absolutePosition()
   Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
   InstancePort *port = new InstancePort(inst, cport);
 
-  CPPUNIT_ASSERT(port->getAbsolutePosition().x < 0);
-  CPPUNIT_ASSERT(port->getAbsolutePosition().y > 0);
+  CPPUNIT_ASSERT(port->getPosition().getAbsolutePosition().x < 0);
+  CPPUNIT_ASSERT(port->getPosition().getAbsolutePosition().y > 0);
 
   delete port;
   InstanceFactory::dispose(inst);
@@ -71,12 +71,12 @@ void InstancePortTest::position_change_notification_notifies_connector()
   Component *comp = ComponentFactory::produce("", {"left"}, {});
   Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
   InstancePort *port = new InstancePort(inst, comp->getPorts()[0]);
-  port->replaceAnchor(inst);
+  port->getPosition().replaceAnchor(&inst->getPosition());
 
-  Point pos = port->getConnector().getAbsolutePosition();
-  inst->setOffset(Point(10,20));
+  Point pos = port->getConnector().getPosition().getAbsolutePosition();
+  inst->getPosition().setOffset(Point(10,20));
 
-  CPPUNIT_ASSERT_EQUAL(pos+Point(10,20), port->getConnector().getAbsolutePosition());
+  CPPUNIT_ASSERT_EQUAL(pos+Point(10,20), port->getConnector().getPosition().getAbsolutePosition());
 
   delete port;
   InstanceFactory::dispose(inst);
@@ -116,9 +116,9 @@ void InstancePortTest::type_change_changes_position()
   ComponentPort *compPort = comp->getPorts()[0];
   InstancePort *port = new InstancePort(inst, compPort);
 
-  CPPUNIT_ASSERT(port->getOffset().x < 0);
+  CPPUNIT_ASSERT(port->getPosition().getOffset().x < 0);
   compPort->setType(PortType::Signal);
-  CPPUNIT_ASSERT(port->getOffset().x > 0);
+  CPPUNIT_ASSERT(port->getPosition().getOffset().x > 0);
 
   delete port;
   InstanceFactory::dispose(inst);
@@ -131,9 +131,9 @@ void InstancePortTest::type_change_notifies_connector()
   Instance *inst = InstanceFactory::produce(comp, "", Point(0, 0));
   InstancePort *port = new InstancePort(inst, comp->getPorts()[0]);
 
-  CPPUNIT_ASSERT(port->getConnector().getOffset().x < 0);
+  CPPUNIT_ASSERT(port->getConnector().getPosition().getOffset().x < 0);
   port->getCompPort()->setType(PortType::Signal);
-  CPPUNIT_ASSERT(port->getConnector().getOffset().x > 0);
+  CPPUNIT_ASSERT(port->getConnector().getPosition().getOffset().x > 0);
 
   delete port;
   InstanceFactory::dispose(inst);

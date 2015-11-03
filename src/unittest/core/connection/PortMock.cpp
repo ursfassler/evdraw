@@ -29,7 +29,7 @@ std::string PortMock::getName() const
   return name;
 }
 
-Point PortMock::getPosition() const
+RelativePosition &PortMock::getPosition()
 {
   return position;
 }

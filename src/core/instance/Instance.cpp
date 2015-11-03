@@ -7,9 +7,9 @@
 #include "../component/InstanceAppearance.hpp"
 
 Instance::Instance(const std::string &aName, const Point &aPosition, IComponent *aComponent) :
-  RelativePosition{aPosition},
   name{aName},
   component{aComponent},
+  position{aPosition},
   ports{}
 {
   precondition(component != nullptr);
@@ -20,7 +20,6 @@ Instance::Instance(const std::string &aName, const Point &aPosition, IComponent 
 Instance::~Instance()
 {
   precondition(!ObserverCollection<InstanceObserver>::hasObserver());
-  precondition(!ObserverCollection<PositionObserver>::hasObserver());
 
   component->getPorts().unregisterObserver(this);
   component->unregisterObserver(this);
@@ -42,6 +41,16 @@ void Instance::setName(const std::string &name)
 IComponent *Instance::getComponent() const
 {
   return component;
+}
+
+RelativePosition &Instance::getPosition()
+{
+  return position;
+}
+
+const RelativePosition &Instance::getPosition() const
+{
+  return position;
 }
 
 const List<InstancePort> &Instance::getPorts() const
@@ -98,7 +107,7 @@ void Instance::accept(ConstVisitor &visitor) const
 void Instance::added(ComponentPort *port)
 {
   InstancePort *instPort = new InstancePort(this, port);
-  instPort->replaceAnchor(this);
+  instPort->getPosition().replaceAnchor(&position);
   ports.add(instPort);
 }
 

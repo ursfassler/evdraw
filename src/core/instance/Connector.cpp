@@ -6,8 +6,8 @@
 #include "../component/InstanceAppearance.hpp"
 
 Connector::Connector(const Point &aOffset) :
-  RelativePosition(aOffset),
-  points()
+  position{aOffset},
+  points{}
 {
 }
 
@@ -16,10 +16,15 @@ Connector::~Connector()
   precondition(points.empty());
 }
 
+RelativePosition &Connector::getPosition()
+{
+  return position;
+}
+
 void Connector::addPoint(RelativePosition *point)
 {
   points.push_back(point);
-  point->replaceAnchor(this);
+  point->replaceAnchor(&position);
   updateConnectionPosition();
 }
 

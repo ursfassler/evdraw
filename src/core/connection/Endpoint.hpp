@@ -11,12 +11,19 @@
 #include "../Point.hpp"
 #include "../base/Position.hpp"
 
-class Endpoint final : public RelativePosition
+class Endpoint final
 {
   public:
     Endpoint(const Point &position);
 
     bool freeMovable() const;
+
+    RelativePosition &getPosition();
+    const RelativePosition &getPosition() const;
+
+  private:
+    RelativePosition  position;
+
 };
 
 std::ostream &operator<<(std::ostream &stream, const Endpoint &endpoint);

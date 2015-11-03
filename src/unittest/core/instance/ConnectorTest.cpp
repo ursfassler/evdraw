@@ -12,7 +12,7 @@
 void ConnectorTest::create()
 {
   Connector connector(Point(42, 57));
-  CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getPosition().getOffset());
   CPPUNIT_ASSERT(connector.getPoints().empty());
 
   ConnectorFactory::cleanup(connector);
@@ -26,7 +26,7 @@ void ConnectorTest::addPortPoint()
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(size_t(1), connector.getPoints().size());
   CPPUNIT_ASSERT_EQUAL(&pp, connector.getPoints()[0]);
-  CPPUNIT_ASSERT_EQUAL(static_cast<Position*>(&connector), pp.getAnchor());
+  CPPUNIT_ASSERT_EQUAL(static_cast<IPosition*>(&connector.getPosition()), pp.getAnchor());
 
   ConnectorFactory::cleanup(connector);
 }
@@ -112,10 +112,10 @@ void ConnectorTest::removePortPointUpdatesPosition()
 void ConnectorTest::setNewOffset()
 {
   Connector connector(Point(23, 13));
-  CPPUNIT_ASSERT_EQUAL(Point(23, 13), connector.getOffset());
+  CPPUNIT_ASSERT_EQUAL(Point(23, 13), connector.getPosition().getOffset());
 
-  connector.setOffset(Point(42, 57));
-  CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getOffset());
+  connector.getPosition().setOffset(Point(42, 57));
+  CPPUNIT_ASSERT_EQUAL(Point(42, 57), connector.getPosition().getOffset());
 
   ConnectorFactory::cleanup(connector);
 }
@@ -127,7 +127,7 @@ void ConnectorTest::setOffsetUpdatesPortPoint()
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(Point(0,0), pp.getAbsolutePosition());
 
-  connector.setOffset(Point(-4,15));
+  connector.getPosition().setOffset(Point(-4,15));
   CPPUNIT_ASSERT_EQUAL(Point(-4,15), pp.getAbsolutePosition());
 
   ConnectorFactory::cleanup(connector);
@@ -137,7 +137,7 @@ void ConnectorTest::notificationUpdatesPortPoint()
 {
   RelativePosition base(Point(0,0));
   Connector connector(Point(0,0));
-  connector.replaceAnchor(&base);
+  connector.getPosition().replaceAnchor(&base);
   RelativePosition pp(Point(0,0));
   connector.addPoint(&pp);
   CPPUNIT_ASSERT_EQUAL(Point(0,0), pp.getAbsolutePosition());

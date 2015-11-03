@@ -7,6 +7,7 @@
 #include "IInstance.hpp"
 
 #include "../component/IComponent.hpp"
+#include "../base/Position.hpp"
 
 #include <string>
 
@@ -17,6 +18,7 @@ class IComponentInstance :
     virtual const std::string &getName() const = 0;
     virtual void setName(const std::string &value) = 0;
     virtual IComponent *getComponent() const = 0;
+    virtual RelativePosition &getPosition() = 0;
 };
 
 #endif // ICOMPONENTINSTANCE

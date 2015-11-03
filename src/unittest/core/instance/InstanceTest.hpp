@@ -17,7 +17,7 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     CPPUNIT_TEST(produce);
     CPPUNIT_TEST(setPosition);
     CPPUNIT_TEST(updatePositionOnIndexChange);
-    CPPUNIT_TEST(inheritsPosition);
+    CPPUNIT_TEST(has_position);
     CPPUNIT_TEST(inheritsBase);
 
     CPPUNIT_TEST(getPortWithExisting);
@@ -46,7 +46,7 @@ class InstanceTest : public CPPUNIT_NS::TestFixture
     void produce();
     void setPosition();
     void updatePositionOnIndexChange();
-    void inheritsPosition();
+    void has_position();
     void inheritsBase();
 
     void getPortWithExisting();
