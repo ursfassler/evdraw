@@ -13,8 +13,8 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, QGraphicsItem *parent) :
   model(aModel),
   label(this)
 {
-  model->ObserverCollection<PositionObserver>::registerObserver(this);
-  model->ObserverCollection<InstancePortObserver>::registerObserver(this);
+  model->getPosition().registerObserver(this);
+  model->registerObserver(this);
 
   setBrush(QBrush(QColor::fromRgb(0xff, 0xfa, 0x99)));
 
@@ -22,15 +22,15 @@ GiInstancePort::GiInstancePort(InstancePort *aModel, QGraphicsItem *parent) :
   Point bottomRight =  InstanceAppearance::portDimension() / 2;
 
   setRect(QRectF(puToScene(topLeft), puToScene(bottomRight)));
-  setPos(puToScene(model->getOffset()));
+  setPos(puToScene(model->getPosition().getOffset()));
 
   setDisplayName(QString::fromStdString(model->getName()));
 }
 
 GiInstancePort::~GiInstancePort()
 {
-  model->ObserverCollection<InstancePortObserver>::unregisterObserver(this);
-  model->ObserverCollection<PositionObserver>::unregisterObserver(this);
+  model->unregisterObserver(this);
+  model->getPosition().unregisterObserver(this);
 }
 
 InstancePort *GiInstancePort::getModel() const
@@ -56,7 +56,7 @@ void GiInstancePort::absolutePositionChanged(const RelativePosition *)
 
 void GiInstancePort::offsetChanged(const RelativePosition *)
 {
-  setPos(puToScene(model->getOffset()));
+  setPos(puToScene(model->getPosition().getOffset()));
 }
 
 void GiInstancePort::nameChanged(const std::string &name)

@@ -17,7 +17,7 @@ GiConnectionCreation::GiConnectionCreation(Connection *aConnection, Composition 
   sheet(aSheet)
 {
   setRect(-5,-5,10,10);
-  setPos(puToScene(port->getAbsolutePosition()));
+  setPos(puToScene(port->getPosition().getAbsolutePosition()));
   grabMouse();
 }
 
@@ -28,7 +28,7 @@ GiConnectionCreation::~GiConnectionCreation()
 
 void GiConnectionCreation::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
-  port->setAbsolutePosition(sceneToPu(event->scenePos()));
+  port->getPosition().setAbsolutePosition(sceneToPu(event->scenePos()));
   setPos(event->scenePos());
   event->accept();
 }
