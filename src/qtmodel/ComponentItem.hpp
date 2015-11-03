@@ -41,21 +41,4 @@ class ComponentItem final :
 
 };
 
-
-#include "QtList.hpp"
-#include "QtNameTypeItem.hpp"
-
-//TODO remove
-class ComponentListModel :
-    public QtList<IComponent>
-{
-  public:
-    ComponentListModel(List<IComponent> &aModel, QObject *parent = 0);
-
-    static QtNameTypeItem<IComponent> *item();
-
-};
-
-
-
 #endif // COMPONENTITEM_HPP

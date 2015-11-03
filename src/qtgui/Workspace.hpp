@@ -6,9 +6,6 @@
 
 #include "view/ComponentEditor.hpp"
 
-#include <qtmodel/ComponentItem.hpp>
-#include <qtmodel/PortItem.hpp>
-
 #include <core/visitor/NullVisitor.hpp>
 #include <core/Point.hpp>
 
@@ -49,7 +46,7 @@ class Workspace :
 
   private:
     Library *library = nullptr;
-    ComponentListModel *componentModel = nullptr;
+    QtList<IComponent> *componentModel = nullptr;
     QTreeView compView;
     ComponentEditor componentEditor;
     QTabWidget drawTabs;

@@ -41,21 +41,4 @@ class PortItem final :
     PortTypeModel * const typeModel;
 };
 
-
-
-#include "QtList.hpp"
-#include "QtNameTypeItem.hpp"
-
-//TODO remove
-class PortListModel :
-    public QtList<ComponentPort>
-{
-  public:
-    PortListModel(List<ComponentPort> &aModel, QObject *parent = 0);
-
-    static QtNameTypeItem<ComponentPort> *item();
-
-};
-
-
 #endif // PORTITEM_HPP

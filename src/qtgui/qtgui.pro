@@ -83,7 +83,8 @@ SOURCES += \
     ../core/component/ComponentObserver.cpp \
     ../qtmodel/InstanceItem.cpp \
     ../core/component/ComponentPortObserver.cpp \
-    ../qtmodel/PortItem.cpp
+    ../qtmodel/PortItem.cpp \
+    ../qtmodel/QtListFactory.cpp
 
 HEADERS  += \
     CompositionToGuiUpdater.hpp \
@@ -165,7 +166,8 @@ HEADERS  += \
     ../core/component/IImplementation.hpp \
     ../qtmodel/PortItem.hpp \
     ../qtmodel/QtList.hpp \
-    view/modelfromtype.hpp
+    view/modelfromtype.hpp \
+    ../qtmodel/QtListFactory.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

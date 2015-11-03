@@ -67,15 +67,3 @@ void PortItem::typeChanged(ComponentPort *port)
 {
   notifyTypeChange(port);
 }
-
-
-
-PortListModel::PortListModel(List<ComponentPort> &aModel, QObject *parent) :
-  QtList<ComponentPort>{aModel, PortListModel::item(), parent}
-{
-}
-
-QtNameTypeItem<ComponentPort> *PortListModel::item()
-{
-  return new QtNameTypeItem<ComponentPort>(new PortItem());
-}

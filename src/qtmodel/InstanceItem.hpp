@@ -40,18 +40,4 @@ class InstanceItem final :
     void componentNameChanged(IInstance *instance) override final;
 };
 
-
-#include "QtList.hpp"
-#include "QtNameTypeItem.hpp"
-
-//TODO remove
-class InstanceListModel :
-    public QtList<IComponentInstance>
-{
-  public:
-    InstanceListModel(List<IComponentInstance> &aModel, QtList<IComponent> *typeModel, QObject *parent = 0);
-
-    static QtNameTypeItem<IComponentInstance> *item(QtList<IComponent> *typeModel);
-
-};
 #endif // INSTANCEITEM_HPP

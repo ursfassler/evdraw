@@ -36,17 +36,4 @@ class QtConnectionItem final :
     QVariant portName(const IPort *port, int column) const;
 };
 
-#include "QtList.hpp"
-
-//TODO remove
-class ConnectionListModel :
-    public QtList<Connection>
-{
-  public:
-    ConnectionListModel(List<Connection> &aModel, QObject *parent = 0);
-
-    static QtConnectionItem *item();
-
-};
-
 #endif

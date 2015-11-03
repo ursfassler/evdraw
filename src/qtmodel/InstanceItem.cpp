@@ -71,15 +71,3 @@ void InstanceItem::setName(IComponentInstance *item, const std::string &value)
 {
   item->setName(value);
 }
-
-
-
-InstanceListModel::InstanceListModel(List<IComponentInstance> &aModel, QtList<IComponent> *typeModel, QObject *parent) :
-  QtList<IComponentInstance>{aModel, InstanceListModel::item(typeModel), parent}
-{
-}
-
-QtNameTypeItem<IComponentInstance> *InstanceListModel::item(QtList<IComponent> *typeModel)
-{
-  return new QtNameTypeItem<IComponentInstance>(new InstanceItem(typeModel));
-}

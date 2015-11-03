@@ -64,18 +64,3 @@ void ComponentItem::nameChanged(IComponent *item)
 {
   notifyNameChange(item);
 }
-
-
-
-
-
-ComponentListModel::ComponentListModel(List<IComponent> &aModel, QObject *parent) :
-  QtList<IComponent>{aModel, ComponentListModel::item(), parent}
-{
-}
-
-QtNameTypeItem<IComponent> *ComponentListModel::item()
-{
-  return new QtNameTypeItem<IComponent>(new ComponentItem());
-}
-

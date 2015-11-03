@@ -5,10 +5,9 @@
 #define COMPOSITIONEDITOR_HPP
 
 #include "CompositionDraw.hpp"
-#include <qtmodel/InstanceItem.hpp>
-#include <qtmodel/QtConnectionItem.hpp>
-#include <qtmodel/ComponentItem.hpp>
 
+#include <qtmodel/QtList.hpp>
+#include <core/component/IComponent.hpp>
 #include <core/component/Library.hpp>
 
 #include <QWidget>
@@ -30,11 +29,11 @@ class CompositionEditor : public QSplitter
   private:
     CompositionDraw draw;
 
-    ComponentListModel  componentModel;
-    InstanceListModel   instances;
-    QTreeView           instanceView;
-    ConnectionListModel connections;
-    QTreeView           connectionView;
+    QtList<IComponent> * const componentModel;
+    QtList<IComponentInstance> * const instances;
+    QTreeView instanceView;
+    QtList<Connection> * const connections;
+    QTreeView connectionView;
 
 };
 

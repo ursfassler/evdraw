@@ -17,6 +17,8 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/implementation/Composition.hpp>
 
+#include <qtmodel/QtListFactory.hpp>
+
 #include <file/xmlreader/XmlReader.hpp>
 #include <file/xmlwriter/XmlWriter.hpp>
 
@@ -170,7 +172,7 @@ void Workspace::newLibrary(Library *library)
 
   precondition(componentModel == nullptr);
 
-  componentModel = new ComponentListModel(library->getComponents());
+  componentModel = QtListFactory::createComponentList(library->getComponents());
   compView.setModel(componentModel);
   library->getComponents().registerObserver(this);
 

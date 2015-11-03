@@ -1,3 +1,6 @@
+// Copyright 2015 Urs Fässler, www.bitzgi.ch
+// SPDX-License-Identifier:	GPL-3.0+
+
 #ifndef ICOMPONENT
 #define ICOMPONENT
 
@@ -6,6 +9,7 @@
 
 #include "../util/List.hpp"
 #include "../types.hpp"
+#include "PortType.hpp"
 
 #include <string>
 

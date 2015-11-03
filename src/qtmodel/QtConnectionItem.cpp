@@ -128,16 +128,3 @@ void QtConnectionItem::added(Connection *)
 void QtConnectionItem::removed(Connection *)
 {
 }
-
-
-
-ConnectionListModel::ConnectionListModel(List<Connection> &aModel, QObject *parent) :
-  QtList<Connection>{aModel, ConnectionListModel::item(), parent}
-{
-}
-
-QtConnectionItem *ConnectionListModel::item()
-{
-  return new QtConnectionItem();
-}
-

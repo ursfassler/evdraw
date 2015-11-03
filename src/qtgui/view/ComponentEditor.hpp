@@ -4,9 +4,10 @@
 #ifndef COMPONENTEDITOR_H
 #define COMPONENTEDITOR_H
 
-#include <qtmodel/PortItem.hpp>
+#include <qtmodel/QtList.hpp>
 
 #include <core/component/Component.hpp>
+#include <core/component/ComponentPort.hpp>
 
 #include <QWidget>
 #include <QTreeView>
@@ -30,7 +31,7 @@ class ComponentEditor : public QWidget
   private:
     IComponent *model{nullptr};
 
-    PortListModel *portModel = nullptr;
+    QtList<ComponentPort> *portModel = nullptr;
     QTreeView portView;
 
 };

@@ -193,7 +193,9 @@ HEADERS += \
     unittest/qtmodel/PortItemTest.hpp \
     qtmodel/PortItem.hpp \
     core/component/ComponentPortObserver.hpp \
-    unittest/core/component/ComponentPortObserverMock.hpp
+    unittest/core/component/ComponentPortObserverMock.hpp \
+    unittest/qtmodel/QtListFactoryTest.hpp \
+    qtmodel/QtListFactory.hpp
 
 SOURCES += \
     core/base/Base.cpp \
@@ -325,7 +327,9 @@ SOURCES += \
     unittest/core/instance/ComponentInstanceMock.cpp \
     unittest/qtmodel/PortItemTest.cpp \
     qtmodel/PortItem.cpp \
-    core/component/ComponentPortObserver.cpp
+    core/component/ComponentPortObserver.cpp \
+    unittest/qtmodel/QtListFactoryTest.cpp \
+    qtmodel/QtListFactory.cpp
 
 DISTFILES += \
     ../README.md \

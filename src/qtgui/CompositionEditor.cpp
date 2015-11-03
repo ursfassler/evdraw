@@ -5,15 +5,17 @@
 #include "view/ComboboxItemDelegate.hpp"
 #include "view/modelfromtype.hpp"
 
+#include <qtmodel/QtListFactory.hpp>
+
 #include <QVBoxLayout>
 #include <QLabel>
 
 CompositionEditor::CompositionEditor(Composition &composition, Library &library, QWidget *parent) :
-  QSplitter(Qt::Horizontal, parent),
-  draw(composition, this),
-  componentModel{library.getComponents(), this},
-  instances(composition.getInstances(), &componentModel, this),
-  connections(composition.getConnections(), this)
+  QSplitter{Qt::Horizontal, parent},
+  draw{composition, this},
+  componentModel{QtListFactory::createComponentList(library.getComponents(), this)},
+  instances{QtListFactory::createInstanceList(composition.getInstances(), componentModel, this)},
+  connections{QtListFactory::createConnectionList(composition.getConnections(), this)}
 {
   this->addWidget(&draw);
 
@@ -28,8 +30,8 @@ CompositionEditor::CompositionEditor(Composition &composition, Library &library,
   this->addWidget(rightPanel);
 
   instanceView.setItemDelegateForColumn(QtNameTypeItem<IComponentInstance>::TYPE_INDEX, new ComboboxItemDelegate(modelFromTypeIndex<IComponentInstance>)); //FIXME memory leak
-  instanceView.setModel(&instances);
-  connectionView.setModel(&connections);
+  instanceView.setModel(instances);
+  connectionView.setModel(connections);
 
   connect(&draw, SIGNAL(addInstance(Point,Composition&)), this, SIGNAL(addInstance(Point,Composition&)));
 }
@@ -38,5 +40,8 @@ CompositionEditor::~CompositionEditor()
 {
   connectionView.setModel(nullptr);
   instanceView.setModel(nullptr);
+  delete instances;
+  delete componentModel;
+  delete connections;
 }
 

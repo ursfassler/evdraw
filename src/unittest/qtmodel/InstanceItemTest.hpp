@@ -10,6 +10,7 @@
 #include <qtmodel/QtList.hpp>
 #include <qtmodel/ComponentItem.hpp>
 #include <qtmodel/InstanceItem.hpp>
+#include <qtmodel/QtNameTypeItem.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

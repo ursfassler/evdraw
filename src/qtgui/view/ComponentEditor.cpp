@@ -6,6 +6,8 @@
 #include "ComboboxItemDelegate.hpp"
 #include "modelfromtype.hpp"
 
+#include <qtmodel/QtListFactory.hpp>
+
 #include <QVBoxLayout>
 #include <QLabel>
 
@@ -40,7 +42,7 @@ void ComponentEditor::setModel(IComponent *component)
     if (portModel != nullptr) {
       portModel->deleteLater();
     }
-    portModel = new PortListModel(component->getPorts());
+    portModel = QtListFactory::createPortList(component->getPorts(), this);
     portView.setModel(portModel);
   }
 
