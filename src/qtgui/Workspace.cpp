@@ -3,9 +3,9 @@
 
 #include "Workspace.hpp"
 
-#include "CompositionEditor.hpp"
-#include "view/ComboboxItemDelegate.hpp"
-#include "view/modelfromtype.hpp"
+#include <qt/component/CompositionEditor.hpp>
+#include <qt/component/ComboboxItemDelegate.hpp>
+#include <qt/component/modelfromtype.hpp>
 
 #include <core/connection/Connection.hpp>
 #include <core/connection/ConnectionFactory.hpp>

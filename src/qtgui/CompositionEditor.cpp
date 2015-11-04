@@ -2,8 +2,8 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "CompositionEditor.hpp"
-#include "view/ComboboxItemDelegate.hpp"
-#include "view/modelfromtype.hpp"
+#include <qt/component/ComboboxItemDelegate.hpp>
+#include <qt/component/modelfromtype.hpp>
 
 #include <qt/model/QtListFactory.hpp>
 

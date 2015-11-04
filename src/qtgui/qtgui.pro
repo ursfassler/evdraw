@@ -18,7 +18,6 @@ INCLUDEPATH += ../
 
 SOURCES += \
     CompositionDraw.cpp \
-    CompositionEditor.cpp \
     CompositionToGuiUpdater.cpp \
     ../core/base/Base.cpp \
     ../core/base/Position.cpp \
@@ -82,13 +81,13 @@ SOURCES += \
     ../qt/model/PortTypeModel.cpp \
     ../qt/model/QtConnectionItem.cpp \
     ../qt/model/QtListFactory.cpp \
-    view/ComboboxItemDelegate.cpp \
-    view/ComponentEditor.cpp \
-    Workspace.cpp
+    Workspace.cpp \
+    ../qt/component/ComboboxItemDelegate.cpp \
+    ../qt/component/ComponentEditor.cpp \
+    ../qt/component/CompositionEditor.cpp
 
 HEADERS  += \
     CompositionDraw.hpp \
-    CompositionEditor.hpp \
     CompositionToGuiUpdater.hpp \
     ../core/base/Base.hpp \
     ../core/base/Position.hpp \
@@ -164,10 +163,11 @@ HEADERS  += \
     ../qt/model/QtListFactory.hpp \
     ../qt/model/QtList.hpp \
     ../qt/model/QtNameTypeItem.hpp \
-    view/ComboboxItemDelegate.hpp \
-    view/ComponentEditor.hpp \
-    view/modelfromtype.hpp \
-    Workspace.hpp
+    Workspace.hpp \
+    ../qt/component/ComboboxItemDelegate.hpp \
+    ../qt/component/ComponentEditor.hpp \
+    ../qt/component/CompositionEditor.hpp \
+    ../qt/component/modelfromtype.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

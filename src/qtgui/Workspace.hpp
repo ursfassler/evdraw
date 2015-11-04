@@ -4,7 +4,7 @@
 #ifndef WORKSPACE_HPP
 #define WORKSPACE_HPP
 
-#include "view/ComponentEditor.hpp"
+#include <qt/component/ComponentEditor.hpp>
 
 #include <core/visitor/NullVisitor.hpp>
 #include <core/Point.hpp>
