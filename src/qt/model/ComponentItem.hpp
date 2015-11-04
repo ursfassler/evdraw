@@ -6,8 +6,9 @@
 
 #include "INameTypeItem.hpp"
 
-#include "../core/component/Component.hpp"
 #include "ImplementationTypeModel.hpp"
+
+#include <core/component/Component.hpp>
 
 class ComponentItem final :
     public ANameTypeItem<IComponent>,

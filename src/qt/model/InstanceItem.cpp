@@ -2,7 +2,8 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "InstanceItem.hpp"
-#include "../core/util/contract.hpp"
+
+#include <core/util/contract.hpp>
 
 InstanceItem::InstanceItem(QtList<IComponent> *aTypeModel) :
   typeModel{aTypeModel}

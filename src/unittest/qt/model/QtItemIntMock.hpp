@@ -4,7 +4,7 @@
 #ifndef QTITEMINTMOCK_HPP
 #define QTITEMINTMOCK_HPP
 
-#include <qtmodel/IQtItem.hpp>
+#include <qt/model/IQtItem.hpp>
 #include <vector>
 
 class QtItemIntMock :

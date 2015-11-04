@@ -17,7 +17,7 @@
 #include <core/instance/InstanceFactory.hpp>
 #include <core/implementation/Composition.hpp>
 
-#include <qtmodel/QtListFactory.hpp>
+#include <qt/model/QtListFactory.hpp>
 
 #include <file/xmlreader/XmlReader.hpp>
 #include <file/xmlwriter/XmlWriter.hpp>

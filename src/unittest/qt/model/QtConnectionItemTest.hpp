@@ -4,7 +4,7 @@
 #ifndef QTCONNECTIONITEMTEST_H
 #define QTCONNECTIONITEMTEST_H
 
-#include <qtmodel/QtConnectionItem.hpp>
+#include <qt/model/QtConnectionItem.hpp>
 #include <core/connection/Connection.hpp>
 #include <core/util/List.hpp>
 

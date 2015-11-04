@@ -4,7 +4,7 @@
 #ifndef NAMETYPEITEMMOCK_HPP
 #define NAMETYPEITEMMOCK_HPP
 
-#include <qtmodel/INameTypeItem.hpp>
+#include <qt/model/INameTypeItem.hpp>
 
 #include <QVariant>
 

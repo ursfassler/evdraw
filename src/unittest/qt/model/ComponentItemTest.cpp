@@ -3,7 +3,7 @@
 
 #include "ComponentItemTest.hpp"
 
-#include <qtmodel/INameTypeItem.hpp>
+#include <qt/model/INameTypeItem.hpp>
 #include <core/component/Component.hpp>
 #include <core/implementation/ImplementationType.hpp>
 

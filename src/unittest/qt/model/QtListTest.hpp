@@ -6,7 +6,7 @@
 
 #include "QtItemIntMock.hpp"
 
-#include <qtmodel/QtList.hpp>
+#include <qt/model/QtList.hpp>
 #include <core/util/List.hpp>
 
 #include <cppunit/TestFixture.h>

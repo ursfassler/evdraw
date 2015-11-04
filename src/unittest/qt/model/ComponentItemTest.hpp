@@ -4,10 +4,10 @@
 #ifndef COMPONENTITEMTEST_HPP
 #define COMPONENTITEMTEST_HPP
 
-#include "../core/component/ComponentMock.hpp"
-#include "../core/implementation/ImplementationMock.hpp"
+#include "../../core/component/ComponentMock.hpp"
+#include "../../core/implementation/ImplementationMock.hpp"
 
-#include <qtmodel/ComponentItem.hpp>
+#include "qt/model/ComponentItem.hpp"
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

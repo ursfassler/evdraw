@@ -6,7 +6,7 @@
 #include <core/visitor/NullConstVisitor.hpp>
 #include <core/instance/InstancePort.hpp>
 #include <core/instance/Instance.hpp>
-#include "../core/util/error.hpp"
+#include <core/util/error.hpp>
 
 
 class ConnectionEndpointNameVisitor :

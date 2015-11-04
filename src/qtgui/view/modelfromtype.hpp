@@ -1,8 +1,8 @@
 #ifndef MODELFROMTYPE
 #define MODELFROMTYPE
 
-#include <qtmodel/QtList.hpp>
-#include <qtmodel/QtNameTypeItem.hpp>
+#include <qt/model/QtList.hpp>
+#include <qt/model/QtNameTypeItem.hpp>
 
 #include <QAbstractListModel>
 

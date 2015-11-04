@@ -3,7 +3,7 @@
 
 #include "PortTypeModelTest.hpp"
 
-#include <qtmodel/PortTypeModel.hpp>
+#include <qt/model/PortTypeModel.hpp>
 #include <core/component/PortType.hpp>
 
 void PortTypeModelTest::inherits_QAbstractListModel()

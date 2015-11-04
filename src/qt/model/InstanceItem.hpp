@@ -6,8 +6,8 @@
 
 #include "INameTypeItem.hpp"
 #include "QtList.hpp"
-#include "../core/instance/IComponentInstance.hpp"
-#include "../core/component/IComponent.hpp"
+#include <core/instance/IComponentInstance.hpp>
+#include <core/component/IComponent.hpp>
 
 class InstanceItem final :
     public ANameTypeItem<IComponentInstance>,

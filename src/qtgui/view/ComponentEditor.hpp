@@ -4,7 +4,7 @@
 #ifndef COMPONENTEDITOR_H
 #define COMPONENTEDITOR_H
 
-#include <qtmodel/QtList.hpp>
+#include <qt/model/QtList.hpp>
 
 #include <core/component/Component.hpp>
 #include <core/component/ComponentPort.hpp>

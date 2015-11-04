@@ -4,7 +4,7 @@
 #ifndef INAMETYPEITEM
 #define INAMETYPEITEM
 
-#include "../core/util/contract.hpp"
+#include <core/util/contract.hpp>
 
 #include <QAbstractListModel>
 #include <functional>

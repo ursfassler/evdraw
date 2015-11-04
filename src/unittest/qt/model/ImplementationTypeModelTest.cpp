@@ -3,7 +3,7 @@
 
 #include "ImplementationTypeModelTest.hpp"
 
-#include <qtmodel/ImplementationTypeModel.hpp>
+#include <qt/model/ImplementationTypeModel.hpp>
 #include <core/implementation/ImplementationType.hpp>
 
 void ImplementationTypeModelTest::inherits_QAbstractListModel()

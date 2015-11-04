@@ -6,8 +6,8 @@
 #include "NameTypeItemMock.hpp"
 #include "../qthelper.hpp"
 
-#include <qtmodel/QtNameTypeItem.hpp>
-#include <qtmodel/IQtItem.hpp>
+#include <qt/model/QtNameTypeItem.hpp>
+#include <qt/model/IQtItem.hpp>
 
 #include <QStringListModel>
 

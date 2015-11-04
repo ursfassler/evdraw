@@ -6,10 +6,10 @@
 
 #include "QtList.hpp"
 
-#include "../core/component/IComponent.hpp"
-#include "../core/component/ComponentPort.hpp"
-#include "../core/instance/IComponentInstance.hpp"
-#include "../core/connection/Connection.hpp"
+#include <core/component/IComponent.hpp>
+#include <core/component/ComponentPort.hpp>
+#include <core/instance/IComponentInstance.hpp>
+#include <core/connection/Connection.hpp>
 
 namespace QtListFactory
 {

@@ -4,13 +4,13 @@
 #ifndef INSTANCEITEMTEST_HPP
 #define INSTANCEITEMTEST_HPP
 
-#include "../core/instance/ComponentInstanceMock.hpp"
-#include "../core/component/ComponentMock.hpp"
+#include "../../core/instance/ComponentInstanceMock.hpp"
+#include "../../core/component/ComponentMock.hpp"
 
-#include <qtmodel/QtList.hpp>
-#include <qtmodel/ComponentItem.hpp>
-#include <qtmodel/InstanceItem.hpp>
-#include <qtmodel/QtNameTypeItem.hpp>
+#include <qt/model/QtList.hpp>
+#include <qt/model/ComponentItem.hpp>
+#include <qt/model/InstanceItem.hpp>
+#include <qt/model/QtNameTypeItem.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

@@ -3,7 +3,7 @@
 
 #include "InstanceItemTest.hpp"
 
-#include <qtmodel/INameTypeItem.hpp>
+#include <qt/model/INameTypeItem.hpp>
 #include <core/instance/IComponentInstance.hpp>
 
 void InstanceItemTest::setUp()

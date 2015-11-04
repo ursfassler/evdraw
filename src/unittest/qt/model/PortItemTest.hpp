@@ -6,7 +6,7 @@
 
 #include <core/component/ComponentPort.hpp>
 
-#include <qtmodel/PortItem.hpp>
+#include <qt/model/PortItem.hpp>
 
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>

@@ -3,7 +3,7 @@
 
 #include "PortItemTest.hpp"
 
-#include <qtmodel/INameTypeItem.hpp>
+#include <qt/model/INameTypeItem.hpp>
 #include <core/component/ComponentPort.hpp>
 
 void PortItemTest::setUp()

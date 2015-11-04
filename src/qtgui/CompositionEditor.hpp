@@ -6,7 +6,7 @@
 
 #include "CompositionDraw.hpp"
 
-#include <qtmodel/QtList.hpp>
+#include <qt/model/QtList.hpp>
 #include <core/component/IComponent.hpp>
 #include <core/component/Library.hpp>
 

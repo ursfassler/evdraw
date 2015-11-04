@@ -2,11 +2,11 @@
 // SPDX-License-Identifier:	GPL-3.0+
 
 #include "QtConnectionItemTest.hpp"
-#include "../core/implementation/CompositionInstanceMock.hpp"
-#include "../core/connection/PortMock.hpp"
-#include "../core/component/ComponentMock.hpp"
+#include "../../core/implementation/CompositionInstanceMock.hpp"
+#include "../../core/connection/PortMock.hpp"
+#include "../../core/component/ComponentMock.hpp"
 
-#include <qtmodel/QtConnectionItem.hpp>
+#include <qt/model/QtConnectionItem.hpp>
 #include <core/component/ComponentFactory.hpp>
 #include <core/instance/InstanceFactory.hpp>
 

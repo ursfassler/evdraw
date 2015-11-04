@@ -3,7 +3,7 @@
 
 #include "ComponentItem.hpp"
 
-#include "../core/implementation/ImplementationType.hpp"
+#include <core/implementation/ImplementationType.hpp>
 
 ComponentItem::ComponentItem() :
   typeModel{new ImplementationTypeModel()}

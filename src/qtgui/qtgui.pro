@@ -17,14 +17,19 @@ INCLUDEPATH += ../
 
 
 SOURCES += \
+    CompositionDraw.cpp \
+    CompositionEditor.cpp \
     CompositionToGuiUpdater.cpp \
     ../core/base/Base.cpp \
     ../core/base/Position.cpp \
     ../core/component/Component.cpp \
     ../core/component/ComponentFactory.cpp \
+    ../core/component/ComponentObserver.cpp \
     ../core/component/ComponentPort.cpp \
+    ../core/component/ComponentPortObserver.cpp \
     ../core/component/InstanceAppearance.cpp \
     ../core/component/Library.cpp \
+    ../core/component/PortType.cpp \
     ../core/connection/Connection.cpp \
     ../core/connection/ConnectionFactory.cpp \
     ../core/connection/ConnectionWithPortSpecification.cpp \
@@ -32,10 +37,16 @@ SOURCES += \
     ../core/connection/Endpoint.cpp \
     ../core/connection/Segment.cpp \
     ../core/implementation/Composition.cpp \
+    ../core/implementation/CompositionFactory.cpp \
+    ../core/implementation/CompositionInstance.cpp \
+    ../core/implementation/ImplementationFactory.cpp \
+    ../core/implementation/ImplementationType.cpp \
     ../core/implementation/NullImplementation.cpp \
     ../core/instance/Connector.cpp \
+    ../core/instance/ConnectorFactory.cpp \
     ../core/instance/Instance.cpp \
     ../core/instance/InstanceFactory.cpp \
+    ../core/instance/InstanceObserver.cpp \
     ../core/instance/InstanceOfSpecification.cpp \
     ../core/instance/InstancePort.cpp \
     ../core/Point.cpp \
@@ -54,58 +65,60 @@ SOURCES += \
     ../file/xmlreader/XmlReader.cpp \
     ../file/xmlwriter/XmlNodeWriter.cpp \
     ../file/xmlwriter/XmlWriter.cpp \
-    CompositionDraw.cpp \
-    CompositionEditor.cpp \
     graphicItems/CompositionScene.cpp \
     graphicItems/convert.cpp \
     graphicItems/GiConnectionCreation.cpp \
     graphicItems/GiInstance.cpp \
     graphicItems/GiInstancePort.cpp \
     graphicItems/GiSegment.cpp \
-    main.cpp\
-    MainWindow.cpp \
-    Workspace.cpp \
-    ../core/component/PortType.cpp \
-    ../core/implementation/ImplementationType.cpp \
-    view/ComboboxItemDelegate.cpp \
-    ../core/instance/ConnectorFactory.cpp \
-    ../core/implementation/CompositionInstance.cpp \
-    ../core/implementation/CompositionFactory.cpp \
-    ../core/implementation/ImplementationFactory.cpp \
     graphicItems/GiSelfInstance.cpp \
     graphicItems/MoveableLine.cpp \
-    ../core/instance/InstanceObserver.cpp \
-    ../qtmodel/QtConnectionItem.cpp \
-    ../qtmodel/ImplementationTypeModel.cpp \
-    ../qtmodel/PortTypeModel.cpp \
+    main.cpp\
+    MainWindow.cpp \
+    ../qt/model/ComponentItem.cpp \
+    ../qt/model/ImplementationTypeModel.cpp \
+    ../qt/model/InstanceItem.cpp \
+    ../qt/model/PortItem.cpp \
+    ../qt/model/PortTypeModel.cpp \
+    ../qt/model/QtConnectionItem.cpp \
+    ../qt/model/QtListFactory.cpp \
+    view/ComboboxItemDelegate.cpp \
     view/ComponentEditor.cpp \
-    ../qtmodel/ComponentItem.cpp \
-    ../core/component/ComponentObserver.cpp \
-    ../qtmodel/InstanceItem.cpp \
-    ../core/component/ComponentPortObserver.cpp \
-    ../qtmodel/PortItem.cpp \
-    ../qtmodel/QtListFactory.cpp
+    Workspace.cpp
 
 HEADERS  += \
+    CompositionDraw.hpp \
+    CompositionEditor.hpp \
     CompositionToGuiUpdater.hpp \
     ../core/base/Base.hpp \
     ../core/base/Position.hpp \
     ../core/component/ComponentFactory.hpp \
     ../core/component/Component.hpp \
+    ../core/component/ComponentObserver.hpp \
     ../core/component/ComponentPort.hpp \
+    ../core/component/ComponentPortObserver.hpp \
+    ../core/component/IComponent.hpp \
+    ../core/component/IImplementation.hpp \
     ../core/component/InstanceAppearance.hpp \
     ../core/component/Library.hpp \
+    ../core/component/PortType.hpp \
     ../core/connection/ConnectionFactory.hpp \
     ../core/connection/Connection.hpp \
     ../core/connection/ConnectionWithPortSpecification.hpp \
     ../core/connection/DrawPort.hpp \
     ../core/connection/Endpoint.hpp \
     ../core/connection/Segment.hpp \
+    ../core/implementation/CompositionFactory.hpp \
     ../core/implementation/Composition.hpp \
+    ../core/implementation/CompositionInstance.hpp \
+    ../core/implementation/ImplementationFactory.hpp \
+    ../core/implementation/ImplementationType.hpp \
     ../core/implementation/NullImplementation.hpp \
+    ../core/instance/ConnectorFactory.hpp \
     ../core/instance/Connector.hpp \
     ../core/instance/InstanceFactory.hpp \
     ../core/instance/Instance.hpp \
+    ../core/instance/InstanceObserver.h \
     ../core/instance/InstanceOfSpecification.hpp \
     ../core/instance/InstancePort.hpp \
     ../core/Point.hpp \
@@ -131,43 +144,30 @@ HEADERS  += \
     ../file/xmlreader/XmlReader.hpp \
     ../file/xmlwriter/XmlNodeWriter.hpp \
     ../file/xmlwriter/XmlWriter.hpp \
-    CompositionDraw.hpp \
-    CompositionEditor.hpp \
     graphicItems/CompositionScene.hpp \
     graphicItems/convert.hpp \
     graphicItems/GiConnectionCreation.hpp \
     graphicItems/GiInstance.hpp \
     graphicItems/GiInstancePort.hpp \
     graphicItems/GiSegment.hpp \
-    MainWindow.hpp \
-    Workspace.hpp \
-    ../core/component/PortType.hpp \
-    ../core/implementation/ImplementationType.hpp \
-    view/ComboboxItemDelegate.hpp \
-    ../core/instance/ConnectorFactory.hpp \
-    ../core/implementation/CompositionInstance.hpp \
-    ../core/implementation/CompositionFactory.hpp \
-    ../core/implementation/ImplementationFactory.hpp \
     graphicItems/GiSelfInstance.hpp \
     graphicItems/MoveableLine.hpp \
-    ../core/instance/InstanceObserver.h \
-    ../qtmodel/QtConnectionItem.hpp \
-    ../qtmodel/ImplementationTypeModel.hpp \
-    ../qtmodel/PortTypeModel.hpp \
+    MainWindow.hpp \
+    ../qt/model/ComponentItem.hpp \
+    ../qt/model/ImplementationTypeModel.hpp \
+    ../qt/model/INameTypeItem.hpp \
+    ../qt/model/InstanceItem.hpp \
+    ../qt/model/IQtItem.hpp \
+    ../qt/model/PortItem.hpp \
+    ../qt/model/PortTypeModel.hpp \
+    ../qt/model/QtConnectionItem.hpp \
+    ../qt/model/QtListFactory.hpp \
+    ../qt/model/QtList.hpp \
+    ../qt/model/QtNameTypeItem.hpp \
+    view/ComboboxItemDelegate.hpp \
     view/ComponentEditor.hpp \
-    ../qtmodel/INameTypeItem.hpp \
-    ../qtmodel/ComponentItem.hpp \
-    ../qtmodel/QtNameTypeItem.hpp \
-    ../qtmodel/IQtItem.hpp \
-    ../qtmodel/InstanceItem.hpp \
-    ../core/component/ComponentObserver.hpp \
-    ../core/component/ComponentPortObserver.hpp \
-    ../core/component/IComponent.hpp \
-    ../core/component/IImplementation.hpp \
-    ../qtmodel/PortItem.hpp \
-    ../qtmodel/QtList.hpp \
     view/modelfromtype.hpp \
-    ../qtmodel/QtListFactory.hpp
+    Workspace.hpp
 
 OTHER_FILES += \
     drawings/test1.evd

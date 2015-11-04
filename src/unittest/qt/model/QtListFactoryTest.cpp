@@ -3,8 +3,8 @@
 
 #include "QtListFactoryTest.hpp"
 
-#include <qtmodel/QtListFactory.hpp>
-#include <qtmodel/QtList.hpp>
+#include <qt/model/QtListFactory.hpp>
+#include <qt/model/QtList.hpp>
 #include <core/component/IComponent.hpp>
 #include <core/instance/IComponentInstance.hpp>
 

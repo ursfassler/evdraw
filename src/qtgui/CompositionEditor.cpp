@@ -5,7 +5,7 @@
 #include "view/ComboboxItemDelegate.hpp"
 #include "view/modelfromtype.hpp"
 
-#include <qtmodel/QtListFactory.hpp>
+#include <qt/model/QtListFactory.hpp>
 
 #include <QVBoxLayout>
 #include <QLabel>
